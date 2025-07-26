@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -47,7 +48,7 @@ export default function SettingsPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="sticky top-0 z-10 flex items-center p-4 border-b bg-background/80 backdrop-blur-sm">
-        <Link href="/" legacyBehavior>
+        <Link href="/" passHref>
           <Button variant="ghost" size="icon" aria-label="Back">
             <ArrowLeft className="h-6 w-6" />
           </Button>

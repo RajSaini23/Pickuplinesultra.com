@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { ArrowLeft, Heart, Bookmark, Copy, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,7 +26,7 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-10 flex items-center p-4 border-b bg-background/80 backdrop-blur-sm">
-        <Link href="/" legacyBehavior>
+        <Link href="/" passHref>
           <Button variant="ghost" size="icon" aria-label="Back">
             <ArrowLeft className="h-6 w-6" />
           </Button>
