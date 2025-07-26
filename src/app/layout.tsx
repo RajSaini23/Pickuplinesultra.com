@@ -6,12 +6,12 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Ecstatic',
-  description: 'Discover the logic of love.',
+  description: 'Your Emotion. Our Expression.',
   manifest: '/manifest.json',
 };
 
 export const viewport: Viewport = {
-  themeColor: '#2D63ED',
+  themeColor: '#2A2A3A',
 }
 
 export default function RootLayout({
