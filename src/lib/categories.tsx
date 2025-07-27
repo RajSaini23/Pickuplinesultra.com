@@ -1,5 +1,5 @@
 
-import { Heart, Gem, Smile, Cloud, Sparkles, Frown, HeartCrack, FlaskConical, Brain } from 'lucide-react';
+import { Heart, Gem, Smile, Cloud, Sparkles, Frown, HeartCrack, FlaskConical, Brain, Cake, MoreHorizontal, Zap, Flame } from 'lucide-react';
 
 export type Category = {
   name: string;
@@ -19,6 +19,11 @@ export const categories: Category[] = [
     { name: 'Breakup', slug: 'breakup', color: '#5A6872', description: 'For the times of heartbreak.' },
     { name: 'Toxic', slug: 'toxic', color: '#84cc16', description: 'When things get complicated.' },
     { name: 'Clever', slug: 'clever', color: '#22d3ee', description: 'Witty and smart expressions.' },
+    { name: 'Comedy', slug: 'comedy', color: '#F57C00', description: 'For a good laugh.' },
+    { name: 'Birthday', slug: 'birthday', color: '#009688', description: 'Celebrating another year of life.' },
+    { name: 'Flirty', slug: 'flirty', color: '#EC407A', description: 'A little bit of playful charm.' },
+    { name: 'Bold', slug: 'bold', color: '#FF5722', description: 'For the daring and confident.' },
+    { name: 'Seductive', slug: 'seductive', color: '#D32F2F', description: 'For those moments of allure.' },
 ];
 
 export const CategoryIcon = ({ slug, className }: { slug: string, className?: string }) => {
@@ -43,6 +48,16 @@ export const CategoryIcon = ({ slug, className }: { slug: string, className?: st
       return <FlaskConical className={className} />;
     case 'clever':
       return <Brain className={className} />;
+    case 'comedy':
+      return <Smile className={className} />;
+    case 'birthday':
+      return <Cake className={className} />;
+    case 'flirty':
+      return <MoreHorizontal className={className} />;
+    case 'bold':
+      return <Zap className={className} />;
+    case 'seductive':
+      return <Flame className={className} />;
     default:
       return <span></span>;
   }
