@@ -1,5 +1,5 @@
 
-import { Heart, Gem, Smile, Cloud, Sparkles, Frown, HeartCrack, FlaskConical, Brain, Cake, MoreHorizontal, Zap, Flame, HeartPulse, HeartHandshake, Headphones, Plane, Eye, Meh, Edit, ThumbsDown, Image, Skull, Clapperboard, Music2, CalendarHeart, Glasses } from 'lucide-react';
+import { Heart, Gem, Smile, Cloud, Sparkles, Frown, HeartCrack, FlaskConical, Brain, Cake, MoreHorizontal, Zap, Flame, HeartPulse, HeartHandshake, Headphones, Plane, Eye, Meh, Edit, ThumbsDown, Image, Skull, Clapperboard, Music2, CalendarHeart, Glasses, PartyPopper, SunMoon } from 'lucide-react';
 
 export type Category = {
   name: string;
@@ -39,6 +39,9 @@ export const categories: Category[] = [
     { name: 'Movie Lines', slug: 'movie-lines', color: '#d4a237', description: 'Iconic lines from the big screen.' },
     { name: 'Song Lyrics', slug: 'song-lyrics', color: '#C2185B', description: 'Lyrics that speak to the heart.' },
     { name: 'Anniversary', slug: 'anniversary', color: '#f57f51', description: 'Celebrating milestones together.' },
+    { name: 'Festive', slug: 'festive', color: '#facc15', description: 'For festive occasions.' },
+    { name: 'Valentine\'s Day', slug: 'valentines-day', color: '#ec4899', description: 'For the day of love.' },
+    { name: 'Good Morning / Night', slug: 'good-morning-night', color: '#3b82f6', description: 'Greetings for the day and night.' },
 ];
 
 export const CategoryIcon = ({ slug, className }: { slug: string, className?: string }) => {
@@ -103,6 +106,12 @@ export const CategoryIcon = ({ slug, className }: { slug: string, className?: st
       return <Music2 className={className} />;
     case 'anniversary':
       return <CalendarHeart className={className} />;
+    case 'festive':
+      return <PartyPopper className={className} />;
+    case 'valentines-day':
+      return <Heart className={className} />;
+    case 'good-morning-night':
+      return <SunMoon className={className} />;
     default:
       return <span></span>;
   }
