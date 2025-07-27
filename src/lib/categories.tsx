@@ -1,5 +1,5 @@
 
-import { Heart, Gem, Smile, Cloud, Sparkles, Frown, HeartCrack, FlaskConical, Brain, Cake, MoreHorizontal, Zap, Flame, HeartPulse, HeartHandshake, Headphones, Plane, Eye, Meh, Edit, ThumbsDown, Image } from 'lucide-react';
+import { Heart, Gem, Smile, Cloud, Sparkles, Frown, HeartCrack, FlaskConical, Brain, Cake, MoreHorizontal, Zap, Flame, HeartPulse, HeartHandshake, Headphones, Plane, Eye, Meh, Edit, ThumbsDown, Image, Skull, Clapperboard, Music2, CalendarHeart, Glasses } from 'lucide-react';
 
 export type Category = {
   name: string;
@@ -34,6 +34,11 @@ export const categories: Category[] = [
     { name: 'Wordplay', slug: 'wordplay', color: '#1ABC9C', description: 'Clever twists of language.' },
     { name: 'Worst Lines', slug: 'worst-lines', color: '#7F8C8D', description: 'Lines so bad, they\'re good.' },
     { name: 'Meme', slug: 'meme', color: '#E91E63', description: 'Internet culture in a line.' },
+    { name: 'Nerdy', slug: 'nerdy', color: '#2196F3', description: 'For the intellectuals.' },
+    { name: 'Dark Humor', slug: 'dark-humor', color: '#375a5f', description: 'For those with a wicked sense of humor.' },
+    { name: 'Movie Lines', slug: 'movie-lines', color: '#d4a237', description: 'Iconic lines from the big screen.' },
+    { name: 'Song Lyrics', slug: 'song-lyrics', color: '#C2185B', description: 'Lyrics that speak to the heart.' },
+    { name: 'Anniversary', slug: 'anniversary', color: '#f57f51', description: 'Celebrating milestones together.' },
 ];
 
 export const CategoryIcon = ({ slug, className }: { slug: string, className?: string }) => {
@@ -88,6 +93,16 @@ export const CategoryIcon = ({ slug, className }: { slug: string, className?: st
       return <ThumbsDown className={className} />;
     case 'meme':
       return <Image className={className} />;
+    case 'nerdy':
+      return <Glasses className={className} />;
+    case 'dark-humor':
+      return <Skull className={className} />;
+    case 'movie-lines':
+      return <Clapperboard className={className} />;
+    case 'song-lyrics':
+      return <Music2 className={className} />;
+    case 'anniversary':
+      return <CalendarHeart className={className} />;
     default:
       return <span></span>;
   }
