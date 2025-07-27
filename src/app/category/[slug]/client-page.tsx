@@ -25,7 +25,7 @@ const AdCard = () => (
     </Card>
 );
 
-export function CategoryClientPage({ category, quotes }: { category: Category, quotes: Quote[] }) {
+export function CategoryClientPage({ category, quotes }: { category: Omit<Category, 'icon'>, quotes: Quote[] }) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
@@ -67,7 +67,7 @@ export function CategoryClientPage({ category, quotes }: { category: Category, q
 
   return (
     <div className="flex flex-col h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-10 grid grid-cols-3 items-center p-4 border-b bg-card">
+       <header className="sticky top-0 z-10 grid grid-cols-3 items-center p-4 border-b bg-card">
         <div className="flex justify-start">
           <Link href="/" passHref>
             <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">

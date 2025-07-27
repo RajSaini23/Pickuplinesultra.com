@@ -4,12 +4,15 @@ import { CategoryClientPage } from './client-page';
 import { notFound } from 'next/navigation';
 
 export default function CategoryPage({ params }: { params: { slug: string } }) {
-  const category = getCategory(params.slug);
+  const categoryData = getCategory(params.slug);
   const categoryQuotes = getQuotesForCategory(params.slug);
 
-  if (!category) {
+  if (!categoryData) {
     notFound();
   }
+
+  // We are creating a new object without the `icon` property to pass to the client component.
+  const { icon, ...category } = categoryData;
 
   return <CategoryClientPage category={category} quotes={categoryQuotes} />;
 }
