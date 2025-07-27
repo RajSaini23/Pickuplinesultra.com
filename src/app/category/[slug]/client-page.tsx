@@ -3,7 +3,8 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Heart, Bookmark, Copy, Share2, BookmarkCheck } from 'lucide-react';
+import { ArrowLeft, Heart, Bookmark, Copy, Share2, BookmarkCheck, HeartCrack } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -23,6 +24,7 @@ const AdCard = () => (
 export function CategoryClientPage({ category, quotes }: { category: Omit<Category, 'icon'>, quotes: Quote[] }) {
   const { toast } = useToast();
   const { bookmarkedIds, addBookmark, removeBookmark } = useBookmarks();
+  const [likedQuotes, setLikedQuotes] = React.useState<Set<number>>(new Set());
 
   const allItems = React.useMemo(() => {
     const items = [];
@@ -74,9 +76,17 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     navigator.clipboard.writeText(text);
     toast({ title: "Copied!", description: "Quote copied to clipboard." });
   };
-
-  const handleLike = () => {
-    toast({ title: "Liked!", description: "You liked this quote." });
+  
+  const handleLikeToggle = (quoteId: number) => {
+    setLikedQuotes(prev => {
+      const newLiked = new Set(prev);
+      if (newLiked.has(quoteId)) {
+        newLiked.delete(quoteId);
+      } else {
+        newLiked.add(quoteId);
+      }
+      return newLiked;
+    });
   };
 
   const handleShare = async () => {
@@ -102,10 +112,10 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     }
   };
 
-  const ActionButton = ({ icon: Icon, label, onClick }: { icon: React.ElementType, label: string, onClick?: () => void }) => (
+  const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
     <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
        <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={onClick}>
-          <Icon className="h-6 w-6 text-muted-foreground" />
+          {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
        </Button>
        <span className="text-sm font-medium text-muted-foreground">{label}</span>
     </div>
@@ -136,16 +146,26 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
         className="flex-grow flex flex-col items-center p-4 pt-6 gap-4 overflow-y-auto"
         style={{ scrollBehavior: 'smooth' }}
       >
-        {allItems.map((item, index) => (
-            <div key={index} className="w-full max-w-sm">
-                { 'ad' in item ? (
-                    <AdCard />
-                ) : (
+        {allItems.map((item, index) => {
+            if ('ad' in item) {
+                return (
+                    <div key={index} className="w-full max-w-sm">
+                        <AdCard />
+                    </div>
+                );
+            }
+            
+            const quote = item as Quote;
+            const isLiked = likedQuotes.has(quote.id);
+            const isBookmarked = bookmarkedIds.includes(quote.id);
+
+            return (
+              <div key={index} className="w-full max-w-sm">
                 <Card className="shadow-lg h-[68vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden">
                     <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
-                        <div className="text-7xl">{(item as Quote).emoji}</div>
+                        <div className="text-7xl">{quote.emoji}</div>
                         <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
-                            {(item as Quote).hinglish}
+                            {quote.hinglish}
                         </p>
                     </div>
                     <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
@@ -154,21 +174,37 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                     <div className="mt-auto px-4 pb-1">
                       <Separator className="mb-2" />
                       <div className="flex items-center justify-around">
-                          <ActionButton icon={Heart} label="Like" onClick={handleLike} />
-                           <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
-                                <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={() => handleBookmarkToggle(item as Quote)}>
-                                    {bookmarkedIds.includes((item as Quote).id) ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
-                                </Button>
-                                <span className="text-sm font-medium text-muted-foreground">{bookmarkedIds.includes((item as Quote).id) ? 'Saved' : 'Save'}</span>
-                            </div>
-                          <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy((item as Quote).hinglish)} />
+                          <ActionButton label={isLiked ? "Liked" : "Like"} onClick={() => handleLikeToggle(quote.id)}>
+                            <motion.div
+                              key={isLiked ? 'liked' : 'unliked'}
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
+                              exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
+                            >
+                              {isLiked ? (
+                                <motion.div
+                                  initial={{ scale: 0.8 }}
+                                  animate={{ scale: [1, 1.2, 1] }}
+                                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                                >
+                                  <Heart className="h-6 w-6 text-red-500 fill-red-500" />
+                                </motion.div>
+                              ) : (
+                                <Heart className="h-6 w-6 text-muted-foreground" />
+                              )}
+                            </motion.div>
+                          </ActionButton>
+                          <ActionButton label={isBookmarked ? 'Saved' : 'Save'} onClick={() => handleBookmarkToggle(quote)}>
+                            {isBookmarked ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
+                          </ActionButton>
+                          <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
                           <ActionButton icon={Share2} label="Share" onClick={handleShare} />
                       </div>
                     </div>
                 </Card>
-                )}
-            </div>
-        ))}
+              </div>
+            );
+        })}
       </main>
     </div>
   );

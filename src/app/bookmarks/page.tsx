@@ -4,7 +4,8 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, BookmarkX, Heart, Share2, Copy } from 'lucide-react';
+import { ArrowLeft, BookmarkX, Heart, Share2, Copy, HeartCrack } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useBookmarks } from '@/context/bookmark-context';
 import { quotes as allQuotes } from '@/data';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 export default function BookmarksPage() {
   const { bookmarkedIds, removeBookmark } = useBookmarks();
   const [bookmarkedQuotes, setBookmarkedQuotes] = React.useState<any[]>([]);
+  const [likedQuotes, setLikedQuotes] = React.useState<Set<number>>(new Set());
   const { toast } = useToast();
 
   React.useEffect(() => {
@@ -26,11 +28,19 @@ export default function BookmarksPage() {
     navigator.clipboard.writeText(text);
     toast({ title: "Copied!", description: "Quote copied to clipboard." });
   };
-
-  const handleLike = () => {
-    toast({ title: "Liked!", description: "You liked this quote." });
-  };
   
+  const handleLikeToggle = (quoteId: number) => {
+    setLikedQuotes(prev => {
+      const newLiked = new Set(prev);
+      if (newLiked.has(quoteId)) {
+        newLiked.delete(quoteId);
+      } else {
+        newLiked.add(quoteId);
+      }
+      return newLiked;
+    });
+  };
+
   const handleShare = async () => {
     const shareData = {
       title: 'Ecstatic',
@@ -54,11 +64,10 @@ export default function BookmarksPage() {
     }
   };
 
-
-  const ActionButton = ({ icon: Icon, label, onClick }: { icon: React.ElementType, label: string, onClick?: () => void }) => (
+  const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
     <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
        <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={onClick}>
-          <Icon className="h-6 w-6 text-muted-foreground" />
+          {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
        </Button>
        <span className="text-sm font-medium text-muted-foreground">{label}</span>
     </div>
@@ -90,28 +99,50 @@ export default function BookmarksPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {bookmarkedQuotes.map((quote) => (
-                <Card key={quote.id} className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden">
-                  <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
-                      <div className="text-6xl">{quote.emoji}</div>
-                      <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
-                          {quote.hinglish}
-                      </p>
-                  </div>
-                  <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
-                      - Ecstatic
-                  </div>
-                  <div className="mt-auto">
-                    <Separator />
-                    <div className="flex items-center justify-around py-2">
-                        <ActionButton icon={Heart} label="Like" onClick={handleLike} />
-                        <ActionButton icon={BookmarkX} label="Remove" onClick={() => removeBookmark(quote.id)} />
-                        <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
-                        <ActionButton icon={Share2} label="Share" onClick={handleShare} />
+              {bookmarkedQuotes.map((quote) => {
+                const isLiked = likedQuotes.has(quote.id);
+                return (
+                  <Card key={quote.id} className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden">
+                    <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
+                        <div className="text-6xl">{quote.emoji}</div>
+                        <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
+                            {quote.hinglish}
+                        </p>
                     </div>
-                  </div>
-                </Card>
-              ))}
+                    <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
+                        - Ecstatic
+                    </div>
+                    <div className="mt-auto">
+                      <Separator />
+                      <div className="flex items-center justify-around py-2">
+                          <ActionButton label={isLiked ? "Liked" : "Like"} onClick={() => handleLikeToggle(quote.id)}>
+                            <motion.div
+                              key={isLiked ? 'liked' : 'unliked'}
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
+                              exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
+                            >
+                              {isLiked ? (
+                                <motion.div
+                                  initial={{ scale: 0.8 }}
+                                  animate={{ scale: [1, 1.2, 1] }}
+                                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                                >
+                                  <Heart className="h-6 w-6 text-red-500 fill-red-500" />
+                                </motion.div>
+                              ) : (
+                                <Heart className="h-6 w-6 text-muted-foreground" />
+                              )}
+                            </motion.div>
+                          </ActionButton>
+                          <ActionButton icon={BookmarkX} label="Remove" onClick={() => removeBookmark(quote.id)} />
+                          <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
+                          <ActionButton icon={Share2} label="Share" onClick={handleShare} />
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })}
             </div>
           )}
         </div>
