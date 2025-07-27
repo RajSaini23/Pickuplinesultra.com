@@ -1,6 +1,7 @@
 
 "use client";
 
+import * as React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Heart, Bookmark, Copy, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,8 @@ import { categories } from '@/lib/categories.tsx';
 import { quotes } from '@/lib/quotes';
 import SplitText from '@/components/ui/split-text';
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
+export default function CategoryPage({ params: paramsProp }: { params: { slug: string } }) {
+  const params = React.use(paramsProp);
   const category = categories.find((c) => c.slug === params.slug);
   const categoryQuotes = quotes.filter((q) => q.category === params.slug);
 
