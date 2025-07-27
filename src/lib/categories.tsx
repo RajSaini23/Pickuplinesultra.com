@@ -9,7 +9,7 @@ export type Category = {
 };
 
 export const categories: Category[] = [
-    { name: 'Cute', slug: 'cute', color: '#ff8a65', description: 'For all things sweet and adorable.' },
+    { name: 'Cute', slug: 'cute', color: '#ffb74d', description: 'For all things sweet and adorable.' },
     { name: 'Crush', slug: 'crush', color: '#f06292', description: 'When you have that special someone in mind.' },
     { name: 'Proposal', slug: 'proposal', color: '#4fc3f7', description: 'Ready to pop the big question?' },
     { name: 'Romantic', slug: 'romantic', color: '#e57373', description: 'For the lovers and dreamers.' },
