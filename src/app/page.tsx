@@ -2,7 +2,8 @@
 "use client";
 
 import Link from 'next/link';
-import { Menu, Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Settings, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardTitle, CardDescription } from '@/components/ui/card';
@@ -61,9 +62,21 @@ const AppLogo = () => (
 
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [isNavigating, setIsNavigating] = React.useState(false);
+  const router = useRouter();
+
   const filteredCategories = categories.filter(category =>
     category.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleSettingsClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsNavigating(true);
+
+    setTimeout(() => {
+      router.push('/settings');
+    }, 500); // Duration of the animation
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-muted/30 text-foreground">
@@ -79,11 +92,15 @@ export default function Dashboard() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <Link href="/settings">
-          <Button variant="ghost" size="icon" aria-label="Settings" className="text-white hover:bg-white/20">
-            <Menu className="h-7 w-7" />
-          </Button>
-        </Link>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          aria-label="Settings" 
+          className="text-white hover:bg-white/20"
+          onClick={handleSettingsClick}
+        >
+          <Settings className={`h-7 w-7 transition-transform duration-500 ease-in-out ${isNavigating ? 'rotate-180' : ''}`} />
+        </Button>
       </header>
 
       <div className="bg-primary px-4 md:px-6 pb-8">
