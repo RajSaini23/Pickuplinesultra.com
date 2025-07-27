@@ -42,6 +42,7 @@ export const categories: Category[] = [
     { name: 'Festive', slug: 'festive', color: '#facc15', description: 'For festive occasions.' },
     { name: 'Valentine\'s Day', slug: 'valentines-day', color: '#ec4899', description: 'For the day of love.' },
     { name: 'Good Morning / Night', slug: 'good-morning-night', color: '#3b82f6', description: 'Greetings for the day and night.' },
+    { name: 'Situational Love', slug: 'situational-love', color: '#d35400', description: 'For life\'s many situations.' },
 ];
 
 export const CategoryIcon = ({ slug, className }: { slug: string, className?: string }) => {
@@ -112,6 +113,22 @@ export const CategoryIcon = ({ slug, className }: { slug: string, className?: st
       return <Heart className={className} />;
     case 'good-morning-night':
       return <SunMoon className={className} />;
+    case 'situational-love':
+      return (
+        <svg
+          className={className}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M8 4v16" />
+          <path d="M12 4v16" />
+          <path d="M16 4l-1.5 16" />
+        </svg>
+      );
     default:
       return <span></span>;
   }
