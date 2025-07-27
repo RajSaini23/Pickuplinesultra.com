@@ -1,19 +1,10 @@
 
 import Link from 'next/link';
-import { Cog, Search, Smile, Heart, Gem, MessageSquare, Flame, Laugh } from 'lucide-react';
+import { Cog, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardTitle, CardDescription } from '@/components/ui/card';
-import { categories } from '@/lib/categories';
-
-const iconMap: { [key: string]: React.ReactNode } = {
-  cute: <Smile className="h-8 w-8 text-white" />,
-  crush: <Heart className="h-8 w-8 text-white" />,
-  proposal: <Gem className="h-8 w-8 text-white" />,
-  romantic: <Heart className="h-8 w-8 text-white" />,
-  motivational: <Flame className="h-8 w-8 text-white" />,
-  funny: <Laugh className="h-8 w-8 text-white" />,
-};
+import { categories, CategoryIcon } from '@/lib/categories.tsx';
 
 export default function Dashboard() {
   return (
@@ -39,7 +30,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           {categories.map((category) => (
             <Link href={`/category/${category.slug}`} key={category.slug} className="group">
               <Card 
@@ -48,7 +39,7 @@ export default function Dashboard() {
               >
                 <div className="flex items-center p-4 h-full">
                   <div className="flex items-center justify-center w-16 h-16 rounded-xl bg-white/20 flex-shrink-0">
-                    {iconMap[category.slug] || <span></span>}
+                    <CategoryIcon slug={category.slug} className="h-8 w-8 text-white" />
                   </div>
                   <div className="ml-5">
                     <CardTitle className="font-bold text-lg text-white">{category.name}</CardTitle>
