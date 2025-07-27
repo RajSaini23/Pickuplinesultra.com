@@ -80,7 +80,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             <h1 className="text-2xl font-bold font-headline truncate">{category.name}</h1>
         </div>
         <div className="flex-1 flex justify-end text-sm font-medium text-muted-foreground tabular-nums">
-           {current > 0 && count > 0 ? `${current} / ${count}`: ''}
+           {api ? `${api.selectedScrollSnap() + 1} / ${api.scrollSnapList().length}` : ''}
         </div>
       </header>
 
@@ -91,15 +91,16 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             orientation="vertical"
             opts={{
                 loop: false,
-                align: "center",
+                align: 'start', // Align to start instead of center
+                dragFree: true, // This enables the free-scrolling behavior!
                 duration: 25,
             }}
         >
             <CarouselContent className="h-full -mt-4">
                  {allItems.map((item, index) => (
-                    <CarouselItem key={index} className="pt-4 md:basis-1/2 lg:basis-1/3">
+                    <CarouselItem key={index} className="pt-4 basis-auto">
                          <div className="h-full p-1 flex items-center justify-center">
-                            <div className="w-full max-w-sm h-[95%]">
+                            <div className="w-full max-w-sm h-[95vh] min-h-[600px] md:h-[calc(95vh-2rem)]">
                                 { 'ad' in item ? (
                                     <AdCard />
                                 ) : (
