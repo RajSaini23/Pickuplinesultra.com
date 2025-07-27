@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Cog, Search, Smile, Heart, Gem, MessageSquare, Flame, Laugh } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -6,18 +7,12 @@ import { Card, CardTitle, CardDescription } from '@/components/ui/card';
 import { categories } from '@/lib/categories';
 
 const iconMap: { [key: string]: React.ReactNode } = {
-  cute: <Smile className="h-10 w-10 text-white" />,
-  crush: <Heart className="h-10 w-10 text-white" />,
-  proposal: <Gem className="h-10 w-10 text-white" />,
-  romantic: <Heart className="h-10 w-10 text-white" />,
-  motivational: <Flame className="h-10 w-10 text-white" />,
-  funny: <Laugh className="h-10 w-10 text-white" />,
-  shayari: <MessageSquare className="h-10 w-10 text-white" />,
-  'desi-swag': (
-    <span role="img" aria-label="sunglasses" className="text-4xl">
-      😎
-    </span>
-  ),
+  cute: <Smile className="h-8 w-8 text-white" />,
+  crush: <Heart className="h-8 w-8 text-white" />,
+  proposal: <Gem className="h-8 w-8 text-white" />,
+  romantic: <Heart className="h-8 w-8 text-white" />,
+  motivational: <Flame className="h-8 w-8 text-white" />,
+  funny: <Laugh className="h-8 w-8 text-white" />,
 };
 
 export default function Dashboard() {
@@ -48,16 +43,16 @@ export default function Dashboard() {
           {categories.map((category) => (
             <Link href={`/category/${category.slug}`} key={category.slug} className="group">
               <Card 
-                className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 rounded-2xl border-none"
-                style={{ '--category-color': category.color, '--category-color-light': category.colorLight } as React.CSSProperties}
+                className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 rounded-2xl border-none shadow-md h-24"
+                style={{ backgroundColor: category.color } as React.CSSProperties}
               >
-                <div className="flex items-center p-3 bg-[var(--category-color)]">
-                  <div className="flex items-center justify-center w-20 h-20 rounded-2xl bg-[var(--category-color-light)] flex-shrink-0">
+                <div className="flex items-center p-4 h-full">
+                  <div className="flex items-center justify-center w-16 h-16 rounded-xl bg-white/20 flex-shrink-0">
                     {iconMap[category.slug] || <span></span>}
                   </div>
                   <div className="ml-5">
-                    <CardTitle className="font-bold text-2xl text-white tracking-wide">{category.name}</CardTitle>
-                    <CardDescription className="text-white/80 font-medium uppercase text-xs tracking-wider">Category</CardDescription>
+                    <CardTitle className="font-bold text-lg text-white">{category.name}</CardTitle>
+                    <CardDescription className="text-sm text-white/80 tracking-wider">Category</CardDescription>
                   </div>
                 </div>
               </Card>
