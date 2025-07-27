@@ -70,6 +70,38 @@ export default function SettingsPage() {
     }
     toast({ title: "Theme Updated", description: `Theme set to ${t.charAt(0).toUpperCase() + t.slice(1)}` });
   };
+  
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Ecstatic',
+      text: 'Check out Ecstatic - Your Emotion. Our Expression.',
+      url: window.location.origin,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        toast({ title: "Thanks for sharing!" });
+      } else {
+        throw new Error('Web Share API not supported');
+      }
+    } catch (err) {
+      // Fallback for browsers that do not support the Web Share API
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        toast({
+          title: "Link Copied!",
+          description: "The app URL has been copied to your clipboard.",
+        });
+      } catch (copyErr) {
+        toast({
+          title: "Error",
+          description: "Could not share or copy the link.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
 
   const Section = ({ title, icon, children }: { title: string, icon: React.ElementType, children: React.ReactNode }) => {
     const isOpen = openSection === title;
@@ -190,7 +222,7 @@ export default function SettingsPage() {
           <Section title="Share the App" icon={Share2}>
             <div className="flex flex-col items-center text-center py-4">
                 <p className="text-muted-foreground mb-4 mt-2 px-4">Enjoying Ecstatic? Share the love with your friends!</p>
-                <MotionButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <MotionButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleShare}>
                     <Share2 className="mr-2 h-4 w-4" /> Share Now
                 </MotionButton>
             </div>
