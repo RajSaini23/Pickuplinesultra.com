@@ -34,7 +34,7 @@ export default function Dashboard() {
           {categories.map((category) => (
             <Link href={`/category/${category.slug}`} key={category.slug} className="group">
               <Card 
-                className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 rounded-2xl border-none shadow-md h-24"
+                className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24"
                 style={{ backgroundColor: category.color } as React.CSSProperties}
               >
                 <div className="flex items-center p-4 h-full">
