@@ -47,7 +47,7 @@ const AppLogo = () => (
     <text 
       x="50%" 
       y="50%" 
-      dominantBaseline="middle" 
+      dominantBaseline="central" 
       textAnchor="middle" 
       fontSize="100" 
       fill="#00BFFF"
