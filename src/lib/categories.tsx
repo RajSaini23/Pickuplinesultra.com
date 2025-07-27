@@ -1,5 +1,5 @@
 
-import { Heart, Gem, Smile, Cloud, Sparkles, Frown, HeartCrack, FlaskConical, Brain, Cake, MoreHorizontal, Zap, Flame, HeartPulse, HeartHandshake, Headphones, Plane, Eye } from 'lucide-react';
+import { Heart, Gem, Smile, Cloud, Sparkles, Frown, HeartCrack, FlaskConical, Brain, Cake, MoreHorizontal, Zap, Flame, HeartPulse, HeartHandshake, Headphones, Plane, Eye, Meh, Edit, ThumbsDown, Image } from 'lucide-react';
 
 export type Category = {
   name: string;
@@ -29,6 +29,11 @@ export const categories: Category[] = [
     { name: 'Commitment', slug: 'commitment', color: '#4a8baf', description: 'For long-term promises.' },
     { name: 'Long Distance', slug: 'long-distance', color: '#31d059', description: 'Bridging the miles.' },
     { name: 'Jealousy', slug: 'jealousy', color: '#f59e0b', description: 'The green-eyed monster.' },
+    { name: 'Self-love', slug: 'self-love', color: '#EC407A', description: 'Embracing your own worth.' },
+    { name: 'Sarcasm', slug: 'sarcasm', color: '#8E44AD', description: 'For when you\'re feeling witty.' },
+    { name: 'Wordplay', slug: 'wordplay', color: '#1ABC9C', description: 'Clever twists of language.' },
+    { name: 'Worst Lines', slug: 'worst-lines', color: '#7F8C8D', description: 'Lines so bad, they\'re good.' },
+    { name: 'Meme', slug: 'meme', color: '#E91E63', description: 'Internet culture in a line.' },
 ];
 
 export const CategoryIcon = ({ slug, className }: { slug: string, className?: string }) => {
@@ -73,6 +78,16 @@ export const CategoryIcon = ({ slug, className }: { slug: string, className?: st
       return <Plane className={className} />;
     case 'jealousy':
       return <Eye className={className} />;
+    case 'self-love':
+      return <Sparkles className={className} />;
+    case 'sarcasm':
+      return <Meh className={className} />;
+    case 'wordplay':
+      return <Edit className={className} />;
+    case 'worst-lines':
+      return <ThumbsDown className={className} />;
+    case 'meme':
+      return <Image className={className} />;
     default:
       return <span></span>;
   }
