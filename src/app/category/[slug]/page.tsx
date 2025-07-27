@@ -30,13 +30,16 @@ export default function CategoryPage({ params: paramsProp }: { params: { slug: s
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-10 flex items-center p-4 border-b bg-background/80 backdrop-blur-sm">
-        <Link href="/">
-          <Button variant="ghost" size="icon" className="active:scale-95">
-             <ArrowLeft className="h-6 w-6" />
-          </Button>
-        </Link>
-        <h1 className="text-2xl font-bold font-headline ml-4">{category.name}</h1>
+      <header className="sticky top-0 z-10 flex items-center justify-center p-4 border-b bg-card">
+        <div className="absolute left-4">
+          <Link href="/" passHref>
+            <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
+              <ArrowLeft className="h-5 w-5" />
+              <span>Back</span>
+            </Button>
+          </Link>
+        </div>
+        <h1 className="text-2xl font-bold font-headline">{category.name}</h1>
       </header>
 
       <main className="flex-grow p-4 md:p-6">
