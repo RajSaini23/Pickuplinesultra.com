@@ -132,13 +132,13 @@ export default function BookmarksPage() {
                       </div>
                     )}
                     <div ref={cardContentRef} className="flex-grow flex flex-col">
-                      <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
+                      <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px] bg-card">
                           <div className="text-6xl">{quote.emoji}</div>
                           <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
                               {quote.hinglish}
                           </p>
                       </div>
-                      <a href={window.location.origin} target="_blank" rel="noopener noreferrer" className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic cursor-pointer">
+                      <a href={typeof window !== 'undefined' ? window.location.origin : ''} target="_blank" rel="noopener noreferrer" className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic cursor-pointer bg-card">
                           - Ecstatic
                       </a>
                     </div>
