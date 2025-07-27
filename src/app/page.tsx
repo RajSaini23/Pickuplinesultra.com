@@ -112,15 +112,16 @@ export default function Dashboard() {
           {filteredCategories.map((category) => (
             <Link href={`/category/${category.slug}`} key={category.slug} className="group">
               <Card 
-                className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24 bg-card"
+                className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24"
+                style={{ backgroundColor: category.color }}
               >
                 <div className="flex items-center p-4 h-full">
-                  <div className="flex items-center justify-center w-16 h-16 rounded-xl flex-shrink-0" style={{ backgroundColor: category.color }}>
+                  <div className="flex items-center justify-center w-16 h-16 rounded-xl flex-shrink-0 bg-white/20">
                     <CategoryIcon slug={category.slug} className="h-8 w-8 text-white" />
                   </div>
                   <div className="ml-5">
-                    <CardTitle className="font-bold text-lg text-card-foreground">{category.name}</CardTitle>
-                    <CardDescription className="text-sm text-muted-foreground tracking-wider opacity-80">Category</CardDescription>
+                    <CardTitle className="font-bold text-lg text-white">{category.name}</CardTitle>
+                    <CardDescription className="text-sm text-white/80 tracking-wider">Category</CardDescription>
                   </div>
                 </div>
               </Card>

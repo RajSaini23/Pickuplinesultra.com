@@ -9,11 +9,11 @@ export type Category = {
 };
 
 export const categories: Category[] = [
-    { name: 'Romantic', slug: 'romantic', color: '#ef5350', description: 'For the lovers and dreamers.' },
-    { name: 'Cute', slug: 'cute', color: '#ffb74d', description: 'For all things sweet and adorable.' },
-    { name: 'Crush', slug: 'crush', color: '#ec407a', description: 'When you have that special someone in mind.' },
-    { name: 'Proposal', slug: 'proposal', color: '#29b6f6', description: 'Ready to pop the big question?' },
-    { name: 'Dreamy', slug: 'dreamy', color: '#7e57c2', description: 'Lost in thoughts and dreams.' },
+    { name: 'Romantic', slug: 'romantic', color: '#F44336', description: 'For the lovers and dreamers.' },
+    { name: 'Cute', slug: 'cute', color: '#FF9800', description: 'For all things sweet and adorable.' },
+    { name: 'Crush', slug: 'crush', color: '#E91E63', description: 'When you have that special someone in mind.' },
+    { name: 'Proposal', slug: 'proposal', color: '#03A9F4', description: 'Ready to pop the big question?' },
+    { name: 'Dreamy', slug: 'dreamy', color: '#673AB7', description: 'Lost in thoughts and dreams.' },
 ];
 
 export const CategoryIcon = ({ slug, className }: { slug: string, className?: string }) => {
