@@ -8,12 +8,54 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { getCategory, getQuotesForCategory } from '@/data';
-import SplitText from '@/components/ui/split-text';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
-export default function CategoryPage({ params: paramsProp }: { params: { slug: string } }) {
-  const params = React.use(paramsProp);
+const AdCard = () => (
+    <Card className="flex h-full items-center justify-center bg-muted/50">
+      <CardContent className="p-6">
+        <span className="text-sm font-semibold text-muted-foreground">Ad</span>
+      </CardContent>
+    </Card>
+);
+
+export default function CategoryPage({ params }: { params: { slug: string } }) {
   const category = getCategory(params.slug);
   const categoryQuotes = getQuotesForCategory(params.slug);
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [current, setCurrent] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
+  const quotesWithAds = React.useMemo(() => {
+    const items = [];
+    for (let i = 0; i < categoryQuotes.length; i++) {
+      items.push(categoryQuotes[i]);
+      if ((i + 1) % 3 === 0) {
+        items.push({ ad: true });
+      }
+    }
+    return items;
+  }, [categoryQuotes]);
+
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
+
 
   if (!category) {
     return (
@@ -27,8 +69,17 @@ export default function CategoryPage({ params: paramsProp }: { params: { slug: s
     );
   }
 
+  const ActionButton = ({ icon: Icon, label }: { icon: React.ElementType, label: string }) => (
+    <div className="flex flex-col items-center gap-1.5">
+       <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full hover:bg-muted active:scale-95">
+          <Icon className="h-6 w-6 text-muted-foreground" />
+       </Button>
+       <span className="text-xs font-medium text-muted-foreground">{label}</span>
+    </div>
+  );
+
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <div className="flex flex-col h-screen bg-background text-foreground">
       <header className="sticky top-0 z-10 grid grid-cols-3 items-center p-4 border-b bg-card">
         <div className="flex justify-start">
           <Link href="/" passHref>
@@ -38,46 +89,49 @@ export default function CategoryPage({ params: paramsProp }: { params: { slug: s
             </Button>
           </Link>
         </div>
-        <div className="col-span-1 flex justify-center">
-          <h1 className="text-2xl font-bold font-headline truncate">{category.name}</h1>
+        <div className="text-center">
+            <h1 className="text-2xl font-bold font-headline truncate">{category.name}</h1>
         </div>
-        <div className="col-span-1"></div>
+        <div className="flex justify-end text-sm font-medium text-muted-foreground">
+           {current} / {count}
+        </div>
       </header>
 
-      <main className="flex-grow p-4 md:p-6">
-        <div className="space-y-6 max-w-2xl mx-auto">
-          {categoryQuotes.map((quote) => (
-            <Card key={quote.id} className="shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl active:scale-[0.98] active:shadow-md">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="flex-grow">
-                     <SplitText 
-                       text={quote.hinglish} 
-                       className="font-headline text-2xl mb-2 font-semibold" 
-                       splitType="words"
-                     />
-                    <p className="text-muted-foreground italic">"{quote.english}"</p>
-                  </div>
-                </div>
-                <Separator className="my-4" />
-                <div className="flex items-center justify-end space-x-1 text-muted-foreground">
-                  <Button variant="ghost" size="icon" className="hover:text-rose-500 hover:bg-rose-500/10 rounded-full active:scale-95">
-                    <Heart className="h-5 w-5" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="hover:text-amber-500 hover:bg-amber-500/10 rounded-full active:scale-95">
-                    <Bookmark className="h-5 w-5" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="hover:text-sky-500 hover:bg-sky-500/10 rounded-full active:scale-95">
-                    <Copy className="h-5 w-5" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="hover:text-emerald-500 hover:bg-emerald-500/10 rounded-full active:scale-95">
-                    <Share2 className="h-5 w-5" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+      <main className="flex-grow flex flex-col items-center justify-center p-4 md:p-6">
+        <Carousel setApi={setApi} className="w-full max-w-sm h-[80vh] flex items-center justify-center">
+            <CarouselContent className="h-[90%]">
+                 {quotesWithAds.map((item, index) => (
+                    <CarouselItem key={index}>
+                         <div className="h-full p-1">
+                            { 'ad' in item ? (
+                                <AdCard />
+                            ) : (
+                            <Card className="shadow-lg h-full flex flex-col">
+                                <CardContent className="p-6 flex-grow flex flex-col items-center justify-center text-center gap-6">
+                                    <div className="text-6xl">{item.emoji}</div>
+                                    <p className="font-headline text-3xl font-semibold leading-snug">
+                                        {item.hinglish}
+                                    </p>
+                                </CardContent>
+                                <div className="relative p-6 pt-2">
+                                    <p className="text-end text-sm text-muted-foreground/50 italic">Love Logic</p>
+                                    <Separator className="my-4" />
+                                    <div className="flex items-center justify-around">
+                                        <ActionButton icon={Heart} label="Like" />
+                                        <ActionButton icon={Bookmark} label="Save" />
+                                        <ActionButton icon={Copy} label="Copy" />
+                                        <ActionButton icon={Share2} label="Share" />
+                                    </div>
+                                </div>
+                            </Card>
+                            )}
+                         </div>
+                    </CarouselItem>
+                ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-[-20px]" />
+            <CarouselNext className="right-[-20px]" />
+        </Carousel>
       </main>
     </div>
   );
