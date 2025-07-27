@@ -30,7 +30,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           {categories.map((category) => (
             <Link href={`/category/${category.slug}`} key={category.slug} className="group">
               <Card 
