@@ -1,37 +1,65 @@
 
 "use client";
 
-import Link from 'next/link';
 import * as React from 'react';
+import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import { ArrowLeft, MessageSquare, LifeBuoy, Sun, Moon, Laptop } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Lottie from 'lottie-react';
+import {
+  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Check
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import { useToast } from '@/hooks/use-toast';
 
-const SettingsRow = ({ icon, title, subtitle, action }: { icon: React.ReactNode, title: string, subtitle: string, action?: React.ReactNode }) => (
-  <div className="p-4">
-    <div className="flex items-center">
-      <div className="flex items-center gap-4">
-        {icon}
-        <div>
-          <h3 className="font-semibold">{title}</h3>
-          <p className="text-sm text-muted-foreground">{subtitle}</p>
-        </div>
-      </div>
-      <div className="ml-auto">
-        {action}
-      </div>
-    </div>
-  </div>
-);
+import shareAnimation from '@/data/share-animation.json';
+
+const MotionCard = motion(Card);
+const MotionButton = motion(Button);
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+    },
+  },
+};
+
+const GlowIcon = ({ icon: Icon, ...props }: { icon: React.ElementType, [key: string]: any }) => {
+  return <Icon {...props} style={{ filter: 'drop-shadow(0 0 5px hsl(var(--primary)))' }} />;
+};
 
 export default function SettingsPage() {
   const { setTheme: setNextTheme } = useTheme();
+  const { toast } = useToast();
   const [preferredTheme, setPreferredTheme] = React.useState('auto');
+  const [openSection, setOpenSection] = React.useState<string | null>(null);
+  const [notifications, setNotifications] = React.useState({
+    newQuotes: true,
+    appUpdates: true,
+    promotions: false,
+  });
 
   React.useEffect(() => {
-    setPreferredTheme(localStorage.getItem('theme-preference') || 'auto');
+    const savedTheme = localStorage.getItem('theme-preference') || 'auto';
+    setPreferredTheme(savedTheme);
   }, []);
 
   const changeTheme = (t: 'light' | 'dark' | 'auto') => {
@@ -43,65 +71,135 @@ export default function SettingsPage() {
     } else {
       setNextTheme(t);
     }
+    toast({ title: "Theme Updated", description: `Theme set to ${t.charAt(0).toUpperCase() + t.slice(1)}` });
   };
 
+  const Section = ({ title, icon, children }: { title: string, icon: React.ElementType, children: React.ReactNode }) => {
+    const isOpen = openSection === title;
+    return (
+      <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
+        <button
+          className="w-full flex items-center justify-between p-5 text-left"
+          onClick={() => setOpenSection(isOpen ? null : title)}
+        >
+          <div className="flex items-center gap-4">
+            <GlowIcon icon={icon} className="h-7 w-7 text-primary" />
+            <span className="text-lg font-semibold">{title}</span>
+          </div>
+          <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
+            <ChevronRight className="h-6 w-6 text-muted-foreground" />
+          </motion.div>
+        </button>
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="px-5"
+            >
+              <Separator className="mb-4 bg-border/40"/>
+              {children}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </MotionCard>
+    );
+  };
+  
+  const SettingsRow = ({ title, children }: { title: string, children: React.ReactNode }) => (
+    <div className="flex items-center justify-between py-3.5">
+      <p className="font-medium text-foreground/80">{title}</p>
+      {children}
+    </div>
+  );
+
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-0 z-10 flex items-center p-4 border-b bg-background/80 backdrop-blur-sm">
+    <div className="flex flex-col min-h-dvh bg-background">
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm"
+      >
         <Link href="/" passHref>
           <Button variant="ghost" size="icon" aria-label="Back">
             <ArrowLeft className="h-6 w-6" />
           </Button>
         </Link>
-        <h1 className="text-2xl font-bold font-headline ml-2">Settings</h1>
-      </header>
+        <h1 className="text-2xl font-bold font-headline ml-4">Settings</h1>
+      </motion.header>
+
       <main className="flex-grow p-4 md:p-6">
-        <div className="max-w-2xl mx-auto space-y-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Appearance</CardTitle>
-              <CardDescription>Customize the look and feel of the app.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <p className="font-medium">Theme</p>
-                <div className="flex items-center gap-2 ml-auto">
-                  <Button variant={preferredTheme === 'light' ? 'default' : 'outline'} size="icon" onClick={() => changeTheme('light')} aria-label="Light theme">
-                    <Sun className="h-5 w-5" />
-                  </Button>
-                  <Button variant={preferredTheme === 'dark' ? 'default' : 'outline'} size="icon" onClick={() => changeTheme('dark')} aria-label="Dark theme">
-                    <Moon className="h-5 w-5" />
-                  </Button>
-                  <Button variant={preferredTheme === 'auto' ? 'default' : 'outline'} size="icon" onClick={() => changeTheme('auto')} aria-label="Auto theme">
-                    <Laptop className="h-5 w-5" />
-                  </Button>
-                </div>
+        <motion.div
+          className="max-w-2xl mx-auto space-y-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <Section title="Personalization" icon={Palette}>
+            <SettingsRow title="Theme">
+              <div className="flex items-center gap-2">
+                {([['light', Sun], ['dark', Moon], ['auto', Laptop]] as const).map(([theme, Icon]) => (
+                  <MotionButton
+                    key={theme}
+                    variant={preferredTheme === theme ? 'default' : 'outline'}
+                    size="icon"
+                    onClick={() => changeTheme(theme)}
+                    aria-label={`${theme} theme`}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="rounded-full"
+                  >
+                    <Icon className="h-5 w-5" />
+                  </MotionButton>
+                ))}
               </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>About & Support</CardTitle>
-              <CardDescription>Get help or send us your thoughts.</CardDescription>
-            </CardHeader>
-            <CardContent className="p-0">
-               <SettingsRow
-                  icon={<MessageSquare className="h-6 w-6 text-primary" />}
-                  title="Feedback"
-                  subtitle="Help us improve the app"
-                  action={<Button variant="outline">Send</Button>}
-               />
-               <Separator />
-               <SettingsRow
-                  icon={<LifeBuoy className="h-6 w-6 text-primary" />}
-                  title="Support"
-                  subtitle="Contact us for help"
-                  action={<Button variant="outline">Email</Button>}
-               />
-            </CardContent>
-          </Card>
-        </div>
+            </SettingsRow>
+          </Section>
+
+          <Section title="Notifications" icon={Bell}>
+            {Object.entries(notifications).map(([key, value]) => (
+              <SettingsRow key={key} title={key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}>
+                <Switch
+                  checked={value}
+                  onCheckedChange={(checked) =>
+                    setNotifications(prev => ({ ...prev, [key]: checked }))
+                  }
+                />
+              </SettingsRow>
+            ))}
+          </Section>
+
+          <Section title="Legal" icon={FileText}>
+            {['Privacy Policy', 'Terms of Service'].map(item => (
+                <div key={item} className="flex items-center justify-between py-3.5 group cursor-pointer">
+                    <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{item}</p>
+                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                </div>
+            ))}
+          </Section>
+
+          <Section title="Help" icon={LifeBuoy}>
+             {['Contact Support', 'Report a Bug'].map(item => (
+                <div key={item} className="flex items-center justify-between py-3.5 group cursor-pointer">
+                    <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{item}</p>
+                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                </div>
+            ))}
+          </Section>
+
+          <Section title="Share the App" icon={Share2}>
+            <div className="flex flex-col items-center text-center py-4">
+                <Lottie animationData={shareAnimation} loop={true} style={{width: 150, height: 150}} />
+                <p className="text-muted-foreground mb-4 mt-2">Enjoying Ecstatic? Share the love with your friends!</p>
+                <MotionButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Share2 className="mr-2 h-4 w-4" /> Share Now
+                </MotionButton>
+            </div>
+          </Section>
+        </motion.div>
       </main>
     </div>
   );
