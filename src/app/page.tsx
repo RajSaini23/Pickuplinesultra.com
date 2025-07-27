@@ -33,8 +33,8 @@ const AppLogo = () => (
       `}
     </style>
     <rect width="160" height="160" rx="40" fill="#2A2A3A"/>
-    <rect x="10" y="10" width="140" height="140" rx="30" stroke="#00BFFF" strokeWidth="3" strokeOpacity="0.4"/>
-    <rect x="18" y="18" width="124" height="124" rx="22" stroke="#00BFFF" strokeWidth="4" strokeOpacity="0.8"/>
+    <rect x="10" y="10" width="140" height="140" rx="30" stroke="hsl(215 20% 65%)" strokeWidth="3" strokeOpacity="0.4"/>
+    <rect x="18" y="18" width="124" height="124" rx="22" stroke="hsl(215 20% 65%)" strokeWidth="4" strokeOpacity="0.8"/>
     
     <defs>
       <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -52,7 +52,7 @@ const AppLogo = () => (
       dominantBaseline="central" 
       textAnchor="middle" 
       fontSize="100" 
-      fill="#00BFFF"
+      fill="hsl(215 20% 65%)"
       filter="url(#neon-glow)"
     >
       💠
