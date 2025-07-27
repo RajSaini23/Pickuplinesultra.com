@@ -89,20 +89,20 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     });
   };
 
-  const handleShare = async () => {
+  const handleShare = async (quoteText: string) => {
     const shareData = {
-      title: 'Ecstatic',
-      text: 'Check out Ecstatic - Your Emotion. Our Expression.',
-      url: window.location.origin,
+      title: 'Ecstatic Quote',
+      text: `${quoteText}\n\n- Shared from Ecstatic`,
+      url: window.location.href,
     };
     try {
       if (navigator.share) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(shareData.url);
+        await navigator.clipboard.writeText(shareData.text);
         toast({
-          title: "Link Copied!",
-          description: "The app URL has been copied to your clipboard.",
+          title: "Quote Copied!",
+          description: "The quote has been copied to your clipboard.",
         });
       }
     } catch (err) {
@@ -198,7 +198,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                             {isBookmarked ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
                           </ActionButton>
                           <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
-                          <ActionButton icon={Share2} label="Share" onClick={handleShare} />
+                          <ActionButton icon={Share2} label="Share" onClick={() => handleShare(quote.hinglish)} />
                       </div>
                     </div>
                 </Card>
