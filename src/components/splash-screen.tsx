@@ -1,3 +1,4 @@
+
 "use client";
 import { useState, useEffect } from 'react';
 import { Progress } from '@/components/ui/progress';
@@ -24,12 +25,12 @@ const AppLogo = () => (
     </defs>
     <rect width="140" height="140" rx="35" fill="#2A2A3A"/>
     <g style={{ filter: 'url(#neon-glow-2)' }}>
-      <rect x="5" y="5" width="130" height="130" rx="30" stroke="hsl(215 28% 47%)" strokeWidth="2" strokeOpacity="0.3" />
+      <rect x="5" y="5" width="130" height="130" rx="30" stroke="hsl(207 90% 54%)" strokeWidth="2" strokeOpacity="0.3" />
     </g>
     <g style={{ filter: 'url(#neon-glow-1)' }}>
-      <rect x="10" y="10" width="120" height="120" rx="25" stroke="hsl(215 28% 47%)" strokeWidth="2.5" />
+      <rect x="10" y="10" width="120" height="120" rx="25" stroke="hsl(207 90% 54%)" strokeWidth="2.5" />
     </g>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="70" fill="hsl(215 28% 47%)" style={{ filter: 'url(#neon-glow-1)' }}>
+    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="70" fill="hsl(207 90% 54%)" style={{ filter: 'url(#neon-glow-1)' }}>
       💠
     </text>
   </svg>
