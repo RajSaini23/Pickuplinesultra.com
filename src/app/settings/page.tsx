@@ -5,17 +5,14 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
-import Lottie from 'lottie-react';
 import {
-  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Check
+  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-
-import shareAnimation from '@/data/share-animation.json';
 
 const MotionCard = motion(Card);
 const MotionButton = motion(Button);
@@ -192,8 +189,7 @@ export default function SettingsPage() {
 
           <Section title="Share the App" icon={Share2}>
             <div className="flex flex-col items-center text-center py-4">
-                <Lottie animationData={shareAnimation} loop={true} style={{width: 150, height: 150}} />
-                <p className="text-muted-foreground mb-4 mt-2">Enjoying Ecstatic? Share the love with your friends!</p>
+                <p className="text-muted-foreground mb-4 mt-2 px-4">Enjoying Ecstatic? Share the love with your friends!</p>
                 <MotionButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <Share2 className="mr-2 h-4 w-4" /> Share Now
                 </MotionButton>
