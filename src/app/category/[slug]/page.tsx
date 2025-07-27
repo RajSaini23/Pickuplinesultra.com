@@ -1,4 +1,6 @@
 
+"use client";
+
 import Link from 'next/link';
 import { ArrowLeft, Heart, Bookmark, Copy, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { categories } from '@/lib/categories.tsx';
 import { quotes } from '@/lib/quotes';
+import SplitText from '@/components/ui/split-text';
 
 export default function CategoryPage({ params }: { params: { slug: string } }) {
   const category = categories.find((c) => c.slug === params.slug);
@@ -26,8 +29,10 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-10 flex items-center p-4 border-b bg-background/80 backdrop-blur-sm">
-        <Link href="/" className="flex items-center gap-2">
-          <ArrowLeft className="h-6 w-6" />
+        <Link href="/">
+          <Button variant="ghost" size="icon" className="active:scale-95">
+             <ArrowLeft className="h-6 w-6" />
+          </Button>
         </Link>
         <h1 className="text-2xl font-bold font-headline ml-4">{category.name}</h1>
       </header>
@@ -39,7 +44,11 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
                   <div className="flex-grow">
-                    <p className="font-headline text-2xl mb-2 font-semibold" lang="hi">{quote.hinglish}</p>
+                     <SplitText 
+                       text={quote.hinglish} 
+                       className="font-headline text-2xl mb-2 font-semibold" 
+                       splitType="words"
+                     />
                     <p className="text-muted-foreground italic">"{quote.english}"</p>
                   </div>
                 </div>
