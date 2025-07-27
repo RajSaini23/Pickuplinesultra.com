@@ -3,12 +3,14 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Heart, Bookmark, Copy, Share2 } from 'lucide-react';
+import { ArrowLeft, Heart, Bookmark, Copy, Share2, BookmarkCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import type { Category, Quote } from '@/data/types';
 import { CategoryIcon } from '@/lib/categories';
+import { useBookmarks } from '@/context/bookmark-context';
+import { useToast } from '@/hooks/use-toast';
 
 const AdCard = () => (
     <Card className="flex h-[75vh] min-h-[500px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
@@ -19,6 +21,9 @@ const AdCard = () => (
 );
 
 export function CategoryClientPage({ category, quotes }: { category: Omit<Category, 'icon'>, quotes: Quote[] }) {
+  const { toast } = useToast();
+  const { bookmarkedIds, addBookmark, removeBookmark } = useBookmarks();
+
   const allItems = React.useMemo(() => {
     const items = [];
     for (let i = 0; i < quotes.length; i++) {
@@ -54,10 +59,20 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     };
   }, [quotes.length]);
 
+  const handleBookmarkToggle = (quote: Quote) => {
+    const isBookmarked = bookmarkedIds.includes(quote.id);
+    if (isBookmarked) {
+      removeBookmark(quote.id);
+      toast({ title: "Bookmark Removed", description: `"${quote.hinglish}" removed from your bookmarks.` });
+    } else {
+      addBookmark(quote.id);
+      toast({ title: "Bookmark Added!", description: `"${quote.hinglish}" saved to your bookmarks.` });
+    }
+  };
 
-  const ActionButton = ({ icon: Icon, label }: { icon: React.ElementType, label: string }) => (
+  const ActionButton = ({ icon: Icon, label, onClick }: { icon: React.ElementType, label: string, onClick?: () => void }) => (
     <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
-       <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted">
+       <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={onClick}>
           <Icon className="h-6 w-6 text-muted-foreground" />
        </Button>
        <span className="text-sm font-medium text-muted-foreground">{label}</span>
@@ -108,7 +123,12 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                       <Separator />
                       <div className="flex items-center justify-around py-2">
                           <ActionButton icon={Heart} label="Like" />
-                          <ActionButton icon={Bookmark} label="Save" />
+                           <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
+                                <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={() => handleBookmarkToggle(item as Quote)}>
+                                    {bookmarkedIds.includes((item as Quote).id) ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
+                                </Button>
+                                <span className="text-sm font-medium text-muted-foreground">{bookmarkedIds.includes((item as Quote).id) ? 'Saved' : 'Save'}</span>
+                            </div>
                           <ActionButton icon={Copy} label="Copy" />
                           <ActionButton icon={Share2} label="Share" />
                       </div>

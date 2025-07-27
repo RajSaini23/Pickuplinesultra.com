@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight
+  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -80,9 +80,7 @@ export default function SettingsPage() {
     try {
       if (navigator.share) {
         await navigator.share(shareData);
-        toast({ title: "Thanks for sharing!" });
       } else {
-        // Fallback for browsers that do not support the Web Share API
         await navigator.clipboard.writeText(shareData.url);
         toast({
           title: "Link Copied!",
@@ -90,43 +88,61 @@ export default function SettingsPage() {
         });
       }
     } catch (err) {
-      // This catch block will handle errors from both navigator.share and navigator.clipboard
-      // We can choose to log the error for debugging or just do nothing to avoid showing an error to the user.
-      console.error("Share/Copy failed:", err);
+      if ((err as Error).name !== 'AbortError') {
+        console.error("Share/Copy failed:", err);
+      }
     }
   };
 
 
-  const Section = ({ title, icon, children }: { title: string, icon: React.ElementType, children: React.ReactNode }) => {
+  const Section = ({ title, icon, children, isLink, href }: { title: string, icon: React.ElementType, children?: React.ReactNode, isLink?: boolean, href?: string }) => {
     const isOpen = openSection === title;
+    
+    const content = (
+      <>
+        <div className="flex items-center gap-4">
+          <GlowIcon icon={icon} className="h-7 w-7 text-primary" />
+          <span className="text-lg font-semibold">{title}</span>
+        </div>
+        <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
+          <ChevronRight className="h-6 w-6 text-muted-foreground" />
+        </motion.div>
+      </>
+    );
+
+    const buttonOrLink = isLink && href ? (
+      <Link href={href} passHref>
+        <a className="w-full flex items-center justify-between p-5 text-left">{content}</a>
+      </Link>
+    ) : (
+      <button
+        className="w-full flex items-center justify-between p-5 text-left"
+        onClick={() => setOpenSection(isOpen ? null : title)}
+      >
+        {content}
+      </button>
+    );
+
+
     return (
       <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-        <button
-          className="w-full flex items-center justify-between p-5 text-left"
-          onClick={() => setOpenSection(isOpen ? null : title)}
-        >
-          <div className="flex items-center gap-4">
-            <GlowIcon icon={icon} className="h-7 w-7 text-primary" />
-            <span className="text-lg font-semibold">{title}</span>
-          </div>
-          <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
-            <ChevronRight className="h-6 w-6 text-muted-foreground" />
-          </motion.div>
-        </button>
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="px-5"
-            >
-              <Separator className="mb-4 bg-border/40"/>
-              {children}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {buttonOrLink}
+        {children && (
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="px-5"
+              >
+                <Separator className="mb-4 bg-border/40"/>
+                {children}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        )}
       </MotionCard>
     );
   };
@@ -181,6 +197,18 @@ export default function SettingsPage() {
               </div>
             </SettingsRow>
           </Section>
+          
+          <Link href="/bookmarks" passHref>
+             <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20 cursor-pointer">
+                <div className="w-full flex items-center justify-between p-5 text-left">
+                  <div className="flex items-center gap-4">
+                    <GlowIcon icon={Bookmark} className="h-7 w-7 text-primary" />
+                    <span className="text-lg font-semibold">Bookmarks</span>
+                  </div>
+                  <ChevronRight className="h-6 w-6 text-muted-foreground" />
+                </div>
+            </MotionCard>
+          </Link>
 
           <Section title="Notifications" icon={Bell}>
             {Object.entries(notifications).map(([key, value]) => (
