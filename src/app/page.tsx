@@ -33,35 +33,28 @@ const AppLogo = () => (
     <rect width="160" height="160" rx="40" fill="#2A2A3A"/>
     <rect x="10" y="10" width="140" height="140" rx="30" stroke="#00BFFF" strokeWidth="3" strokeOpacity="0.4"/>
     <rect x="18" y="18" width="124" height="124" rx="22" stroke="#00BFFF" strokeWidth="4" strokeOpacity="0.8"/>
-
+    
     <defs>
-        <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-            <stop offset="0%" style={{stopColor: '#90E0EF', stopOpacity: 1}} />
-            <stop offset="100%" style={{stopColor: '#00BFFF', stopOpacity: 1}} />
-        </radialGradient>
-        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
-            <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-        </filter>
+      <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
     </defs>
 
-    <g filter="url(#glow)" transform="translate(80, 80) rotate(45) translate(-80, -80)">
-        <path d="M80 25 C 85 45, 105 50, 115 55 C 105 70, 95 80, 80 95 C 65 80, 55 70, 45 55 C 55 50, 75 45, 80 25 Z" fill="url(#grad1)"/>
-    </g>
-    <g transform="translate(80, 80) rotate(135) translate(-80, -80)">
-        <path d="M80 25 C 85 45, 105 50, 115 55 C 105 70, 95 80, 80 95 C 65 80, 55 70, 45 55 C 55 50, 75 45, 80 25 Z" fill="url(#grad1)"/>
-    </g>
-    <g transform="translate(80, 80) rotate(225) translate(-80, -80)">
-        <path d="M80 25 C 85 45, 105 50, 115 55 C 105 70, 95 80, 80 95 C 65 80, 55 70, 45 55 C 55 50, 75 45, 80 25 Z" fill="url(#grad1)"/>
-    </g>
-    <g transform="translate(80, 80) rotate(315) translate(-80, -80)">
-        <path d="M80 25 C 85 45, 105 50, 115 55 C 105 70, 95 80, 80 95 C 65 80, 55 70, 45 55 C 55 50, 75 45, 80 25 Z" fill="url(#grad1)"/>
-    </g>
-
-    <path d="M80 65 L95 80 L80 95 L65 80 Z" fill="white"/>
+    <text 
+      x="50%" 
+      y="50%" 
+      dominantBaseline="middle" 
+      textAnchor="middle" 
+      fontSize="100" 
+      fill="#00BFFF"
+      filter="url(#neon-glow)"
+    >
+      💠
+    </text>
 </svg>
 );
 
