@@ -70,6 +70,38 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     }
   };
 
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({ title: "Copied!", description: "Quote copied to clipboard." });
+  };
+
+  const handleLike = () => {
+    toast({ title: "Liked!", description: "You liked this quote." });
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Ecstatic',
+      text: 'Check out Ecstatic - Your Emotion. Our Expression.',
+      url: window.location.origin,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(shareData.url);
+        toast({
+          title: "Link Copied!",
+          description: "The app URL has been copied to your clipboard.",
+        });
+      }
+    } catch (err) {
+      if ((err as Error).name !== 'AbortError') {
+        console.error("Share/Copy failed:", err);
+      }
+    }
+  };
+
   const ActionButton = ({ icon: Icon, label, onClick }: { icon: React.ElementType, label: string, onClick?: () => void }) => (
     <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
        <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={onClick}>
@@ -122,15 +154,15 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                     <div className="mt-auto px-4 pb-1">
                       <Separator className="mb-2" />
                       <div className="flex items-center justify-around">
-                          <ActionButton icon={Heart} label="Like" />
+                          <ActionButton icon={Heart} label="Like" onClick={handleLike} />
                            <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
                                 <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={() => handleBookmarkToggle(item as Quote)}>
                                     {bookmarkedIds.includes((item as Quote).id) ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
                                 </Button>
                                 <span className="text-sm font-medium text-muted-foreground">{bookmarkedIds.includes((item as Quote).id) ? 'Saved' : 'Save'}</span>
                             </div>
-                          <ActionButton icon={Copy} label="Copy" />
-                          <ActionButton icon={Share2} label="Share" />
+                          <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy((item as Quote).hinglish)} />
+                          <ActionButton icon={Share2} label="Share" onClick={handleShare} />
                       </div>
                     </div>
                 </Card>

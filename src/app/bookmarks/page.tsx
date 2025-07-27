@@ -10,15 +10,50 @@ import { quotes as allQuotes } from '@/data';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/hooks/use-toast';
 
 export default function BookmarksPage() {
   const { bookmarkedIds, removeBookmark } = useBookmarks();
   const [bookmarkedQuotes, setBookmarkedQuotes] = React.useState<any[]>([]);
+  const { toast } = useToast();
 
   React.useEffect(() => {
     const savedQuotes = allQuotes.filter(quote => bookmarkedIds.includes(quote.id));
     setBookmarkedQuotes(savedQuotes);
   }, [bookmarkedIds]);
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({ title: "Copied!", description: "Quote copied to clipboard." });
+  };
+
+  const handleLike = () => {
+    toast({ title: "Liked!", description: "You liked this quote." });
+  };
+  
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Ecstatic',
+      text: 'Check out Ecstatic - Your Emotion. Our Expression.',
+      url: window.location.origin,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(shareData.url);
+        toast({
+          title: "Link Copied!",
+          description: "The app URL has been copied to your clipboard.",
+        });
+      }
+    } catch (err) {
+      if ((err as Error).name !== 'AbortError') {
+        console.error("Share/Copy failed:", err);
+      }
+    }
+  };
+
 
   const ActionButton = ({ icon: Icon, label, onClick }: { icon: React.ElementType, label: string, onClick?: () => void }) => (
     <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
@@ -69,10 +104,10 @@ export default function BookmarksPage() {
                   <div className="mt-auto">
                     <Separator />
                     <div className="flex items-center justify-around py-2">
-                        <ActionButton icon={Heart} label="Like" />
+                        <ActionButton icon={Heart} label="Like" onClick={handleLike} />
                         <ActionButton icon={BookmarkX} label="Remove" onClick={() => removeBookmark(quote.id)} />
-                        <ActionButton icon={Copy} label="Copy" />
-                        <ActionButton icon={Share2} label="Share" />
+                        <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
+                        <ActionButton icon={Share2} label="Share" onClick={handleShare} />
                     </div>
                   </div>
                 </Card>
