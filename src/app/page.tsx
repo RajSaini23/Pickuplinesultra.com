@@ -1,9 +1,24 @@
 import Link from 'next/link';
-import { Cog, Search } from 'lucide-react';
+import { Cog, Search, Smile, Heart, Gem, MessageSquare, Flame, Laugh } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardTitle, CardDescription } from '@/components/ui/card';
 import { categories } from '@/lib/categories';
+
+const iconMap: { [key: string]: React.ReactNode } = {
+  cute: <Smile className="h-10 w-10 text-white" />,
+  crush: <Heart className="h-10 w-10 text-white" />,
+  proposal: <Gem className="h-10 w-10 text-white" />,
+  romantic: <Heart className="h-10 w-10 text-white" />,
+  motivational: <Flame className="h-10 w-10 text-white" />,
+  funny: <Laugh className="h-10 w-10 text-white" />,
+  shayari: <MessageSquare className="h-10 w-10 text-white" />,
+  'desi-swag': (
+    <span role="img" aria-label="sunglasses" className="text-4xl">
+      😎
+    </span>
+  ),
+};
 
 export default function Dashboard() {
   return (
@@ -29,20 +44,22 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="space-y-4">
           {categories.map((category) => (
             <Link href={`/category/${category.slug}`} key={category.slug} className="group">
               <Card 
-                className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2"
-                style={{ '--category-color': category.color } as React.CSSProperties}
+                className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 rounded-2xl border-none"
+                style={{ '--category-color': category.color, '--category-color-light': category.colorLight } as React.CSSProperties}
               >
-                <CardHeader className="relative h-48 flex flex-col justify-between p-6 bg-[var(--category-color)] text-primary-foreground transition-transform duration-500 group-hover:scale-105">
-                  <div className="text-6xl drop-shadow-lg">{category.emoji}</div>
-                  <div>
-                    <CardTitle className="font-headline text-3xl">{category.name}</CardTitle>
-                    <CardDescription className="text-primary-foreground/80">{category.description}</CardDescription>
+                <div className="flex items-center p-3 bg-[var(--category-color)]">
+                  <div className="flex items-center justify-center w-20 h-20 rounded-2xl bg-[var(--category-color-light)] flex-shrink-0">
+                    {iconMap[category.slug] || <span></span>}
                   </div>
-                </CardHeader>
+                  <div className="ml-5">
+                    <CardTitle className="font-bold text-2xl text-white tracking-wide">{category.name}</CardTitle>
+                    <CardDescription className="text-white/80 font-medium uppercase text-xs tracking-wider">Category</CardDescription>
+                  </div>
+                </div>
               </Card>
             </Link>
           ))}

@@ -1,16 +1,17 @@
 export type Category = {
   name: string;
   slug: string;
-  emoji: string;
-  color: string; // hex color
+  emoji: string; // Kept for other parts of the app, can be removed if not needed
+  color: string; // main color
+  colorLight: string; // lighter shade for icon bg
   description: string;
 };
 
 export const categories: Category[] = [
-  { name: 'Desi Swag', slug: 'desi-swag', emoji: '😎', color: '#4B0082', description: 'Attitude and style, the desi way.' },
-  { name: 'Romantic', slug: 'romantic', emoji: '❤️', color: '#EF476F', description: 'For the lovers and dreamers.' },
-  { name: 'Sad', slug: 'sad', emoji: '😢', color: '#6B7280', description: 'When you\'re feeling blue.' },
-  { name: 'Motivational', slug: 'motivational', emoji: '🔥', color: '#F59E0B', description: 'Get up and get going!' },
-  { name: 'Funny', slug: 'funny', emoji: '😂', color: '#10B981', description: 'For a good laugh.' },
-  { name: 'Shayari', slug: 'shayari', emoji: '✍️', color: '#0EA5E9', description: 'Poetic expressions of the heart.' },
+  { name: 'Cute', slug: 'cute', emoji: '😊', color: '#F9A825', colorLight: '#FBC02D', description: 'For all things sweet and adorable.' },
+  { name: 'Crush', slug: 'crush', emoji: '😍', color: '#EC407A', colorLight: '#F06292', description: 'When you have that special someone in mind.' },
+  { name: 'Proposal', slug: 'proposal', emoji: '💍', color: '#29B6F6', colorLight: '#4FC3F7', description: 'Ready to pop the big question?' },
+  { name: 'Romantic', slug: 'romantic', emoji: '❤️', color: '#EF476F', colorLight: '#F26D8D', description: 'For the lovers and dreamers.' },
+  { name: 'Motivational', slug: 'motivational', emoji: '🔥', color: '#F59E0B', colorLight: '#FABE58', description: 'Get up and get going!' },
+  { name: 'Funny', slug: 'funny', emoji: '😂', color: '#10B981', colorLight: '#3DCAA4', description: 'For a good laugh.' },
 ];
