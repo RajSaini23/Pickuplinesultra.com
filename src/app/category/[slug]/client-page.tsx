@@ -12,8 +12,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
 
@@ -60,7 +58,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
 
   const ActionButton = ({ icon: Icon, label }: { icon: React.ElementType, label: string }) => (
     <div className="flex flex-col items-center gap-1.5 transform transition-transform duration-200 active:scale-90">
-       <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-muted/50 hover:bg-muted">
+       <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted">
           <Icon className="h-6 w-6 text-muted-foreground" />
        </Button>
        <span className="text-xs font-medium text-muted-foreground">{label}</span>
@@ -90,21 +88,22 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
         <Carousel 
             setApi={setApi} 
             className="w-full h-full"
+            orientation="vertical"
             opts={{
                 loop: false,
                 align: "center",
                 duration: 25,
             }}
         >
-            <CarouselContent className="h-full -ml-4">
+            <CarouselContent className="h-full -mt-4">
                  {allItems.map((item, index) => (
-                    <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                    <CarouselItem key={index} className="pt-4 md:basis-1/2 lg:basis-1/3">
                          <div className="h-full p-1 flex items-center justify-center">
                             <div className="w-full max-w-sm h-[95%]">
                                 { 'ad' in item ? (
                                     <AdCard />
                                 ) : (
-                                <Card className="shadow-xl h-full flex flex-col border-border/60 hover:border-primary/50 transition-colors duration-300">
+                                <Card className="shadow-lg h-full flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl">
                                     <CardContent className="p-6 flex-grow flex flex-col items-center justify-center text-center gap-6">
                                         <div className="text-7xl">{(item as Quote).emoji}</div>
                                         <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
@@ -128,8 +127,6 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                     </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden md:flex" />
-            <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden md:flex" />
         </Carousel>
       </main>
     </div>
