@@ -1,5 +1,5 @@
 
-import { Heart, Gem, Smile, Cloud, Sparkles, Frown, HeartCrack, FlaskConical, Brain, Cake, MoreHorizontal, Zap, Flame, HeartPulse, HeartHandshake, Headphones, Plane, Eye, Meh, Edit, ThumbsDown, Image, Skull, Clapperboard, Music2, CalendarHeart, Glasses, PartyPopper, SunMoon } from 'lucide-react';
+import { Heart, Gem, Smile, Cloud, Sparkles, Frown, HeartCrack, FlaskConical, Brain, Cake, MoreHorizontal, Zap, Flame, HeartPulse, HeartHandshake, Headphones, Plane, Eye, Meh, Edit, ThumbsDown, Image, Skull, Clapperboard, Music2, CalendarHeart, Glasses, PartyPopper, SunMoon, Hammer, HandMetal, Crown, Star, MapPin } from 'lucide-react';
 
 export type Category = {
   name: string;
@@ -43,6 +43,11 @@ export const categories: Category[] = [
     { name: 'Valentine\'s Day', slug: 'valentines-day', color: '#ec4899', description: 'For the day of love.' },
     { name: 'Good Morning / Night', slug: 'good-morning-night', color: '#3b82f6', description: 'Greetings for the day and night.' },
     { name: 'Situational Love', slug: 'situational-love', color: '#d35400', description: 'For life\'s many situations.' },
+    { name: 'Yash (KGF)', slug: 'yash-kgf', color: '#b58a1d', description: 'Category' },
+    { name: 'Allu Arjun', slug: 'allu-arjun', color: '#c72c2c', description: 'Category' },
+    { name: 'Shah Rukh Khan', slug: 'shah-rukh-khan', color: '#2d2d2d', description: 'Category' },
+    { name: 'Salman Khan', slug: 'salman-khan', color: '#0f766e', description: 'Category' },
+    { name: 'Amitabh Bachchan', slug: 'amitabh-bachchan', color: '#881337', description: 'Category' },
 ];
 
 export const CategoryIcon = ({ slug, className }: { slug: string, className?: string }) => {
@@ -129,6 +134,16 @@ export const CategoryIcon = ({ slug, className }: { slug: string, className?: st
           <path d="M16 4l-1.5 16" />
         </svg>
       );
+    case 'yash-kgf':
+      return <Hammer className={className} />;
+    case 'allu-arjun':
+      return <HandMetal className={className} />;
+    case 'shah-rukh-khan':
+      return <Crown className={className} />;
+    case 'salman-khan':
+      return <Star className={className} />;
+    case 'amitabh-bachchan':
+      return <MapPin className={className} />;
     default:
       return <span></span>;
   }
