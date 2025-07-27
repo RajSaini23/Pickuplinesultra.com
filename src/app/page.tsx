@@ -7,7 +7,8 @@ import { Settings, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardTitle, CardDescription } from '@/components/ui/card';
-import { categories, CategoryIcon } from '@/lib/categories.tsx';
+import { CategoryIcon } from '@/lib/categories';
+import { categories } from '@/data';
 import * as React from 'react';
 
 const AppLogo = () => (

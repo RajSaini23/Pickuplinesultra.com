@@ -7,14 +7,13 @@ import { ArrowLeft, Heart, Bookmark, Copy, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { categories } from '@/lib/categories.tsx';
-import { quotes } from '@/lib/quotes';
+import { getCategory, getQuotesForCategory } from '@/data';
 import SplitText from '@/components/ui/split-text';
 
 export default function CategoryPage({ params: paramsProp }: { params: { slug: string } }) {
   const params = React.use(paramsProp);
-  const category = categories.find((c) => c.slug === params.slug);
-  const categoryQuotes = quotes.filter((q) => q.category === params.slug);
+  const category = getCategory(params.slug);
+  const categoryQuotes = getQuotesForCategory(params.slug);
 
   if (!category) {
     return (
