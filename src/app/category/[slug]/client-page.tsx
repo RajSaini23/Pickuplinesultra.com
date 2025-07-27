@@ -13,7 +13,7 @@ import { useBookmarks } from '@/context/bookmark-context';
 import { useToast } from '@/hooks/use-toast';
 
 const AdCard = () => (
-    <Card className="flex h-[75vh] min-h-[500px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
+    <Card className="flex h-[68vh] min-h-[500px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
       <CardContent className="p-6 text-center">
         <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
       </CardContent>
@@ -109,7 +109,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                 { 'ad' in item ? (
                     <AdCard />
                 ) : (
-                <Card className="shadow-lg h-[75vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden">
+                <Card className="shadow-lg h-[68vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden">
                     <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
                         <div className="text-7xl">{(item as Quote).emoji}</div>
                         <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
@@ -119,9 +119,9 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                     <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
                         - Ecstatic
                     </div>
-                    <div className="mt-auto">
-                      <Separator />
-                      <div className="flex items-center justify-around py-2">
+                    <div className="mt-auto px-4 pb-1">
+                      <Separator className="mb-2" />
+                      <div className="flex items-center justify-around">
                           <ActionButton icon={Heart} label="Like" />
                            <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
                                 <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={() => handleBookmarkToggle(item as Quote)}>
