@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import type { Category, Quote } from '@/data/types';
 
 const AdCard = () => (
-    <Card className="flex h-[85vh] min-h-[500px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
+    <Card className="flex h-[68vh] min-h-[400px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
       <CardContent className="p-6 text-center">
         <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
       </CardContent>
@@ -88,7 +88,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                 { 'ad' in item ? (
                     <AdCard />
                 ) : (
-                <Card className="shadow-lg h-[85vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl">
+                <Card className="shadow-lg h-[68vh] min-h-[400px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl">
                     <CardContent className="p-6 flex-grow flex flex-col items-center justify-center text-center gap-6">
                         <div className="text-7xl">{(item as Quote).emoji}</div>
                         <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
