@@ -82,23 +82,17 @@ export default function SettingsPage() {
         await navigator.share(shareData);
         toast({ title: "Thanks for sharing!" });
       } else {
-        throw new Error('Web Share API not supported');
-      }
-    } catch (err) {
-      // Fallback for browsers that do not support the Web Share API
-      try {
+        // Fallback for browsers that do not support the Web Share API
         await navigator.clipboard.writeText(shareData.url);
         toast({
           title: "Link Copied!",
           description: "The app URL has been copied to your clipboard.",
         });
-      } catch (copyErr) {
-        toast({
-          title: "Error",
-          description: "Could not share or copy the link.",
-          variant: "destructive",
-        });
       }
+    } catch (err) {
+      // This catch block will handle errors from both navigator.share and navigator.clipboard
+      // We can choose to log the error for debugging or just do nothing to avoid showing an error to the user.
+      console.error("Share/Copy failed:", err);
     }
   };
 
