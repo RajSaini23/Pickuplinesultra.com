@@ -163,9 +163,10 @@ export default function SettingsPage() {
         className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm"
       >
         <Link href="/" passHref>
-          <Button variant="ghost" size="icon" aria-label="Back">
-            <ArrowLeft className="h-6 w-6" />
-          </Button>
+           <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
+              <ArrowLeft className="h-5 w-5" />
+              <span>Back</span>
+            </Button>
         </Link>
         <h1 className="text-2xl font-bold font-headline ml-4">Settings</h1>
       </motion.header>
