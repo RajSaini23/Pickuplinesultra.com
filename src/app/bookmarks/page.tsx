@@ -138,9 +138,17 @@ export default function BookmarksPage() {
                               {quote.hinglish}
                           </p>
                       </div>
-                      <a href={typeof window !== 'undefined' ? window.location.origin : ''} target="_blank" rel="noopener noreferrer" className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic cursor-pointer bg-card">
-                          - Ecstatic
-                      </a>
+                      <div className="relative px-6 pb-2 text-end bg-card">
+                         <a 
+                            href={typeof window !== 'undefined' ? window.location.origin : ''} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            onClick={(e) => e.preventDefault()}
+                            className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
+                          >
+                           ECSTATIC
+                          </a>
+                      </div>
                     </div>
                     <div className="mt-auto">
                       <Separator />
