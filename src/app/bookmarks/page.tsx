@@ -13,11 +13,13 @@ import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import * as htmlToImage from 'html-to-image';
+import { Loader } from '@/components/ui/loader';
 
 export default function BookmarksPage() {
   const { bookmarkedIds, removeBookmark } = useBookmarks();
   const [bookmarkedQuotes, setBookmarkedQuotes] = React.useState<any[]>([]);
   const [likedQuotes, setLikedQuotes] = React.useState<Set<number>>(new Set());
+  const [sharingQuoteId, setSharingQuoteId] = React.useState<number | null>(null);
   const { toast } = useToast();
 
   React.useEffect(() => {
@@ -42,8 +44,8 @@ export default function BookmarksPage() {
     });
   };
 
-  const handleShare = async (element: HTMLElement, quoteText: string) => {
-    toast({ title: "Preparing Card...", description: "Please wait while we create the image." });
+  const handleShare = async (element: HTMLElement, quoteId: number, quoteText: string) => {
+    setSharingQuoteId(quoteId);
     try {
       const blob = await htmlToImage.toBlob(element, {
         pixelRatio: 2,
@@ -71,14 +73,14 @@ export default function BookmarksPage() {
          throw new Error("Sharing not supported.");
       }
     } catch (err) {
-      if ((err as Error).name !== 'AbortError') {
+      if ((err as Error).name === 'AbortError') {
+        // User cancelled the share, do nothing.
+      } else {
         console.error("Share failed:", err);
-         toast({
-          variant: 'destructive',
-          title: "Sharing Failed",
-          description: "Could not share the quote card. Please try again.",
-        });
+        // Fallback or silent failure is handled here if needed
       }
+    } finally {
+      setSharingQuoteId(null);
     }
   };
 
@@ -120,8 +122,15 @@ export default function BookmarksPage() {
               {bookmarkedQuotes.map((quote) => {
                 const cardContentRef = React.createRef<HTMLDivElement>();
                 const isLiked = likedQuotes.has(quote.id);
+                const isSharing = sharingQuoteId === quote.id;
+
                 return (
-                  <Card key={quote.id} className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card">
+                  <Card key={quote.id} className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card relative">
+                     {isSharing && (
+                      <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-[2px] rounded-2xl">
+                        <Loader />
+                      </div>
+                    )}
                     <div ref={cardContentRef} className="flex-grow flex flex-col">
                       <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
                           <div className="text-6xl">{quote.emoji}</div>
@@ -129,9 +138,9 @@ export default function BookmarksPage() {
                               {quote.hinglish}
                           </p>
                       </div>
-                      <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
+                      <a href={window.location.origin} target="_blank" rel="noopener noreferrer" className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic cursor-pointer">
                           - Ecstatic
-                      </div>
+                      </a>
                     </div>
                     <div className="mt-auto">
                       <Separator />
@@ -158,7 +167,7 @@ export default function BookmarksPage() {
                           </ActionButton>
                           <ActionButton icon={BookmarkX} label="Remove" onClick={() => removeBookmark(quote.id)} />
                           <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
-                          <ActionButton icon={Share2} label="Share" onClick={() => cardContentRef.current && handleShare(cardContentRef.current, quote.hinglish)} />
+                          <ActionButton icon={Share2} label="Share" onClick={() => cardContentRef.current && handleShare(cardContentRef.current, quote.id, quote.hinglish)} />
                       </div>
                     </div>
                   </Card>

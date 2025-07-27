@@ -13,6 +13,7 @@ import { CategoryIcon } from '@/lib/categories';
 import { useBookmarks } from '@/context/bookmark-context';
 import { useToast } from '@/hooks/use-toast';
 import * as htmlToImage from 'html-to-image';
+import { Loader } from '@/components/ui/loader';
 
 const AdCard = () => (
     <Card className="flex h-[68vh] min-h-[500px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
@@ -36,6 +37,7 @@ const QuoteCard = ({
   quote,
   isLiked,
   isBookmarked,
+  isSharing,
   onLikeToggle,
   onBookmarkToggle,
   onCopy,
@@ -44,15 +46,22 @@ const QuoteCard = ({
   quote: Quote;
   isLiked: boolean;
   isBookmarked: boolean;
+  isSharing: boolean;
   onLikeToggle: () => void;
   onBookmarkToggle: () => void;
   onCopy: () => void;
   onShare: (element: HTMLDivElement) => void;
 }) => {
   const cardContentRef = React.useRef<HTMLDivElement>(null);
+  const cardRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <Card className="shadow-lg h-[68vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-sm">
+    <Card ref={cardRef} className="shadow-lg h-[68vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-sm relative">
+       {isSharing && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-[2px] rounded-2xl">
+          <Loader />
+        </div>
+      )}
       <div ref={cardContentRef} className="flex-grow flex flex-col">
         <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
             <div className="text-7xl">{quote.emoji}</div>
@@ -60,9 +69,9 @@ const QuoteCard = ({
                 {quote.hinglish}
             </p>
         </div>
-        <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
+        <a href={typeof window !== 'undefined' ? window.location.origin : ''} target="_blank" rel="noopener noreferrer" className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic cursor-pointer">
             - Ecstatic
-        </div>
+        </a>
       </div>
 
       <div className="mt-auto px-4 pb-1">
@@ -104,6 +113,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
   const { toast } = useToast();
   const { bookmarkedIds, addBookmark, removeBookmark } = useBookmarks();
   const [likedQuotes, setLikedQuotes] = React.useState<Set<number>>(new Set());
+  const [sharingQuoteId, setSharingQuoteId] = React.useState<number | null>(null);
 
   const allItems = React.useMemo(() => {
     const items = [];
@@ -168,8 +178,8 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     });
   };
 
-  const handleShare = async (element: HTMLElement, quoteText: string) => {
-    toast({ title: "Preparing Card...", description: "Please wait while we create the image." });
+  const handleShare = async (element: HTMLElement, quoteId: number, quoteText: string) => {
+    setSharingQuoteId(quoteId);
     try {
       const blob = await htmlToImage.toBlob(element, {
         pixelRatio: 2,
@@ -197,7 +207,9 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
          throw new Error("Sharing not supported.");
       }
     } catch (err) {
-      if ((err as Error).name !== 'AbortError') {
+      if ((err as Error).name === 'AbortError') {
+        // User cancelled the share, do nothing.
+      } else {
         console.error("Share failed:", err);
          toast({
           variant: 'destructive',
@@ -205,6 +217,8 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
           description: "Could not share the quote card. Please try again.",
         });
       }
+    } finally {
+        setSharingQuoteId(null);
     }
   };
 
@@ -249,10 +263,11 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                 quote={quote}
                 isLiked={likedQuotes.has(quote.id)}
                 isBookmarked={bookmarkedIds.includes(quote.id)}
+                isSharing={sharingQuoteId === quote.id}
                 onLikeToggle={() => handleLikeToggle(quote.id)}
                 onBookmarkToggle={() => handleBookmarkToggle(quote)}
                 onCopy={() => handleCopy(quote.hinglish)}
-                onShare={(element) => handleShare(element, quote.hinglish)}
+                onShare={(element) => handleShare(element, quote.id, quote.hinglish)}
               />
             );
         })}
