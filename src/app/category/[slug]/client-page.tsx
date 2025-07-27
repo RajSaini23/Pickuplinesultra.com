@@ -8,15 +8,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import type { Category, Quote } from '@/data/types';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  type CarouselApi,
-} from "@/components/ui/carousel";
 
 const AdCard = () => (
-    <Card className="flex h-full items-center justify-center bg-muted/50 border-dashed">
+    <Card className="flex h-[85vh] min-h-[500px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
       <CardContent className="p-6 text-center">
         <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
       </CardContent>
@@ -24,11 +18,7 @@ const AdCard = () => (
 );
 
 export function CategoryClientPage({ category, quotes }: { category: Omit<Category, 'icon'>, quotes: Quote[] }) {
-  const [api, setApi] = React.useState<CarouselApi>();
-  const [current, setCurrent] = React.useState(0);
-  const [count, setCount] = React.useState(0);
-
-  const quotesWithAds = React.useMemo(() => {
+  const allItems = React.useMemo(() => {
     const items = [];
     for (let i = 0; i < quotes.length; i++) {
       items.push(quotes[i]);
@@ -39,21 +29,26 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     return items;
   }, [quotes]);
 
-  const allItems = quotesWithAds;
+  const [currentItem, setCurrentItem] = React.useState(1);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (!api) {
-      return;
-    }
+    const handleScroll = () => {
+        if (scrollRef.current) {
+            const { scrollTop, scrollHeight, clientHeight, children } = scrollRef.current;
+            const cardHeight = children[0]?.clientHeight || clientHeight;
+            const index = Math.round(scrollTop / (cardHeight + 16)); // 16 is for gap
+            setCurrentItem(index + 1);
+        }
+    };
 
-    const totalItems = allItems.length;
-    setCount(totalItems);
-    setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api, allItems.length]);
+    const currentRef = scrollRef.current;
+    currentRef?.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+        currentRef?.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
 
   const ActionButton = ({ icon: Icon, label }: { icon: React.ElementType, label: string }) => (
@@ -80,55 +75,40 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             <h1 className="text-2xl font-bold font-headline truncate">{category.name}</h1>
         </div>
         <div className="flex-1 flex justify-end text-sm font-medium text-muted-foreground tabular-nums">
-           {api ? `${api.selectedScrollSnap() + 1} / ${api.scrollSnapList().length}` : ''}
+           {currentItem} / {allItems.length}
         </div>
       </header>
 
-      <main className="flex-grow flex flex-col items-center justify-center p-0 overflow-hidden">
-        <Carousel 
-            setApi={setApi} 
-            className="w-full h-full"
-            orientation="vertical"
-            opts={{
-                loop: false,
-                align: 'start', // Align to start instead of center
-                dragFree: true, // This enables the free-scrolling behavior!
-                duration: 25,
-            }}
-        >
-            <CarouselContent className="h-full -mt-4">
-                 {allItems.map((item, index) => (
-                    <CarouselItem key={index} className="pt-4 basis-auto">
-                         <div className="h-full p-1 flex items-center justify-center">
-                            <div className="w-full max-w-sm h-[95vh] min-h-[600px] md:h-[calc(95vh-2rem)]">
-                                { 'ad' in item ? (
-                                    <AdCard />
-                                ) : (
-                                <Card className="shadow-lg h-full flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl">
-                                    <CardContent className="p-6 flex-grow flex flex-col items-center justify-center text-center gap-6">
-                                        <div className="text-7xl">{(item as Quote).emoji}</div>
-                                        <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
-                                            {(item as Quote).hinglish}
-                                        </p>
-                                    </CardContent>
-                                    <div className="relative p-6 pt-2">
-                                        <p className="text-end text-sm text-muted-foreground/50 italic">- Ecstatic</p>
-                                        <Separator className="my-4" />
-                                        <div className="flex items-center justify-around">
-                                            <ActionButton icon={Heart} label="Like" />
-                                            <ActionButton icon={Bookmark} label="Save" />
-                                            <ActionButton icon={Copy} label="Copy" />
-                                            <ActionButton icon={Share2} label="Share" />
-                                        </div>
-                                    </div>
-                                </Card>
-                                )}
-                             </div>
-                         </div>
-                    </CarouselItem>
-                ))}
-            </CarouselContent>
-        </Carousel>
+      <main 
+        ref={scrollRef} 
+        className="flex-grow flex flex-col items-center p-4 pt-6 gap-4 overflow-y-auto"
+      >
+        {allItems.map((item, index) => (
+            <div key={index} className="w-full max-w-sm">
+                { 'ad' in item ? (
+                    <AdCard />
+                ) : (
+                <Card className="shadow-lg h-[85vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl">
+                    <CardContent className="p-6 flex-grow flex flex-col items-center justify-center text-center gap-6">
+                        <div className="text-7xl">{(item as Quote).emoji}</div>
+                        <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
+                            {(item as Quote).hinglish}
+                        </p>
+                    </CardContent>
+                    <div className="relative p-6 pt-2">
+                        <p className="text-end text-sm text-muted-foreground/50 italic">- Ecstatic</p>
+                        <Separator className="my-4" />
+                        <div className="flex items-center justify-around">
+                            <ActionButton icon={Heart} label="Like" />
+                            <ActionButton icon={Bookmark} label="Save" />
+                            <ActionButton icon={Copy} label="Copy" />
+                            <ActionButton icon={Share2} label="Share" />
+                        </div>
+                    </div>
+                </Card>
+                )}
+            </div>
+        ))}
       </main>
     </div>
   );
