@@ -48,7 +48,9 @@ export default function BookmarksPage() {
       const blob = await htmlToImage.toBlob(element, {
         pixelRatio: 2,
         style: {
-          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          boxShadow: 'none',
+          margin: '0',
+          border: 'none',
         }
       });
       if (!blob) {
@@ -116,18 +118,20 @@ export default function BookmarksPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {bookmarkedQuotes.map((quote) => {
-                const cardRef = React.createRef<HTMLDivElement>();
+                const cardContentRef = React.createRef<HTMLDivElement>();
                 const isLiked = likedQuotes.has(quote.id);
                 return (
-                  <Card key={quote.id} ref={cardRef} className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card">
-                    <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
-                        <div className="text-6xl">{quote.emoji}</div>
-                        <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
-                            {quote.hinglish}
-                        </p>
-                    </div>
-                    <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
-                        - Ecstatic
+                  <Card key={quote.id} className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card">
+                    <div ref={cardContentRef} className="flex-grow flex flex-col">
+                      <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
+                          <div className="text-6xl">{quote.emoji}</div>
+                          <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
+                              {quote.hinglish}
+                          </p>
+                      </div>
+                      <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
+                          - Ecstatic
+                      </div>
                     </div>
                     <div className="mt-auto">
                       <Separator />
@@ -154,7 +158,7 @@ export default function BookmarksPage() {
                           </ActionButton>
                           <ActionButton icon={BookmarkX} label="Remove" onClick={() => removeBookmark(quote.id)} />
                           <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
-                          <ActionButton icon={Share2} label="Share" onClick={() => cardRef.current && handleShare(cardRef.current, quote.hinglish)} />
+                          <ActionButton icon={Share2} label="Share" onClick={() => cardContentRef.current && handleShare(cardContentRef.current, quote.hinglish)} />
                       </div>
                     </div>
                   </Card>

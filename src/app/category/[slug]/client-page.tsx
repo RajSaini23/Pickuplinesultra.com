@@ -49,52 +49,53 @@ const QuoteCard = ({
   onCopy: () => void;
   onShare: (element: HTMLDivElement) => void;
 }) => {
-  const cardRef = React.useRef<HTMLDivElement>(null);
+  const cardContentRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={cardRef} className="w-full max-w-sm">
-      <Card className="shadow-lg h-[68vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card">
-          <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
-              <div className="text-7xl">{quote.emoji}</div>
-              <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
-                  {quote.hinglish}
-              </p>
-          </div>
-          <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
-              - Ecstatic
-          </div>
-          <div className="mt-auto px-4 pb-1">
-            <Separator className="mb-2" />
-            <div className="flex items-center justify-around">
-                <ActionButton label={isLiked ? "Liked" : "Like"} onClick={onLikeToggle}>
+    <Card className="shadow-lg h-[68vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-sm">
+      <div ref={cardContentRef} className="flex-grow flex flex-col">
+        <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
+            <div className="text-7xl">{quote.emoji}</div>
+            <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
+                {quote.hinglish}
+            </p>
+        </div>
+        <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
+            - Ecstatic
+        </div>
+      </div>
+
+      <div className="mt-auto px-4 pb-1">
+        <Separator className="mb-2" />
+        <div className="flex items-center justify-around">
+            <ActionButton label={isLiked ? "Liked" : "Like"} onClick={onLikeToggle}>
+              <motion.div
+                key={isLiked ? 'liked' : 'unliked'}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
+                exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
+              >
+                {isLiked ? (
                   <motion.div
-                    key={isLiked ? 'liked' : 'unliked'}
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
-                    exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
                   >
-                    {isLiked ? (
-                      <motion.div
-                        initial={{ scale: 0.8 }}
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ duration: 0.4, ease: "easeInOut" }}
-                      >
-                        <Heart className="h-6 w-6 text-red-500 fill-red-500" />
-                      </motion.div>
-                    ) : (
-                      <Heart className="h-6 w-6 text-muted-foreground" />
-                    )}
+                    <Heart className="h-6 w-6 text-red-500 fill-red-500" />
                   </motion.div>
-                </ActionButton>
-                <ActionButton label={isBookmarked ? 'Saved' : 'Save'} onClick={onBookmarkToggle}>
-                  {isBookmarked ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
-                </ActionButton>
-                <ActionButton icon={Copy} label="Copy" onClick={onCopy} />
-                <ActionButton icon={Share2} label="Share" onClick={() => cardRef.current && onShare(cardRef.current)} />
-            </div>
-          </div>
-      </Card>
-    </div>
+                ) : (
+                  <Heart className="h-6 w-6 text-muted-foreground" />
+                )}
+              </motion.div>
+            </ActionButton>
+            <ActionButton label={isBookmarked ? 'Saved' : 'Save'} onClick={onBookmarkToggle}>
+              {isBookmarked ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
+            </ActionButton>
+            <ActionButton icon={Copy} label="Copy" onClick={onCopy} />
+            <ActionButton icon={Share2} label="Share" onClick={() => cardContentRef.current && onShare(cardContentRef.current)} />
+        </div>
+      </div>
+    </Card>
   );
 };
 
@@ -171,10 +172,11 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     toast({ title: "Preparing Card...", description: "Please wait while we create the image." });
     try {
       const blob = await htmlToImage.toBlob(element, {
-        pixelRatio: 2, // Higher quality
+        pixelRatio: 2,
         style: {
-          // Temporarily remove hover effects for capture
-          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          boxShadow: 'none',
+          margin: '0',
+          border: 'none',
         }
       });
       if (!blob) {
