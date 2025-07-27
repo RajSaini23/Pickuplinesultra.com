@@ -12,6 +12,7 @@ import type { Category, Quote } from '@/data/types';
 import { CategoryIcon } from '@/lib/categories';
 import { useBookmarks } from '@/context/bookmark-context';
 import { useToast } from '@/hooks/use-toast';
+import * as htmlToImage from 'html-to-image';
 
 const AdCard = () => (
     <Card className="flex h-[68vh] min-h-[500px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
@@ -20,6 +21,83 @@ const AdCard = () => (
       </CardContent>
     </Card>
 );
+
+const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
+  <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
+     <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={onClick}>
+        {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
+     </Button>
+     <span className="text-sm font-medium text-muted-foreground">{label}</span>
+  </div>
+);
+
+
+const QuoteCard = ({
+  quote,
+  isLiked,
+  isBookmarked,
+  onLikeToggle,
+  onBookmarkToggle,
+  onCopy,
+  onShare,
+}: {
+  quote: Quote;
+  isLiked: boolean;
+  isBookmarked: boolean;
+  onLikeToggle: () => void;
+  onBookmarkToggle: () => void;
+  onCopy: () => void;
+  onShare: (element: HTMLDivElement) => void;
+}) => {
+  const cardRef = React.useRef<HTMLDivElement>(null);
+
+  return (
+    <div ref={cardRef} className="w-full max-w-sm">
+      <Card className="shadow-lg h-[68vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card">
+          <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
+              <div className="text-7xl">{quote.emoji}</div>
+              <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
+                  {quote.hinglish}
+              </p>
+          </div>
+          <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
+              - Ecstatic
+          </div>
+          <div className="mt-auto px-4 pb-1">
+            <Separator className="mb-2" />
+            <div className="flex items-center justify-around">
+                <ActionButton label={isLiked ? "Liked" : "Like"} onClick={onLikeToggle}>
+                  <motion.div
+                    key={isLiked ? 'liked' : 'unliked'}
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
+                    exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
+                  >
+                    {isLiked ? (
+                      <motion.div
+                        initial={{ scale: 0.8 }}
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                      >
+                        <Heart className="h-6 w-6 text-red-500 fill-red-500" />
+                      </motion.div>
+                    ) : (
+                      <Heart className="h-6 w-6 text-muted-foreground" />
+                    )}
+                  </motion.div>
+                </ActionButton>
+                <ActionButton label={isBookmarked ? 'Saved' : 'Save'} onClick={onBookmarkToggle}>
+                  {isBookmarked ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
+                </ActionButton>
+                <ActionButton icon={Copy} label="Copy" onClick={onCopy} />
+                <ActionButton icon={Share2} label="Share" onClick={() => cardRef.current && onShare(cardRef.current)} />
+            </div>
+          </div>
+      </Card>
+    </div>
+  );
+};
+
 
 export function CategoryClientPage({ category, quotes }: { category: Omit<Category, 'icon'>, quotes: Quote[] }) {
   const { toast } = useToast();
@@ -89,37 +167,44 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     });
   };
 
-  const handleShare = async (quoteText: string) => {
-    const shareData = {
-      title: 'Ecstatic Quote',
-      text: `${quoteText}\n\n- Shared from Ecstatic`,
-      url: window.location.href,
-    };
+  const handleShare = async (element: HTMLElement, quoteText: string) => {
+    toast({ title: "Preparing Card...", description: "Please wait while we create the image." });
     try {
-      if (navigator.share) {
+      const blob = await htmlToImage.toBlob(element, {
+        pixelRatio: 2, // Higher quality
+        style: {
+          // Temporarily remove hover effects for capture
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        }
+      });
+      if (!blob) {
+          throw new Error('Failed to create image blob.');
+      }
+      
+      const file = new File([blob], 'ecstatic-quote.png', { type: 'image/png' });
+
+      const shareData = {
+        title: 'Ecstatic Quote',
+        text: `${quoteText}\n\n- Shared from Ecstatic`,
+        files: [file],
+      };
+
+      if (navigator.canShare && navigator.canShare(shareData)) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(shareData.text);
-        toast({
-          title: "Quote Copied!",
-          description: "The quote has been copied to your clipboard.",
-        });
+         throw new Error("Sharing not supported.");
       }
     } catch (err) {
       if ((err as Error).name !== 'AbortError') {
-        console.error("Share/Copy failed:", err);
+        console.error("Share failed:", err);
+         toast({
+          variant: 'destructive',
+          title: "Sharing Failed",
+          description: "Could not share the quote card. Please try again.",
+        });
       }
     }
   };
-
-  const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
-    <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
-       <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={onClick}>
-          {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
-       </Button>
-       <span className="text-sm font-medium text-muted-foreground">{label}</span>
-    </div>
-  );
 
   return (
     <div className="flex flex-col h-dvh bg-background text-foreground">
@@ -149,60 +234,24 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
         {allItems.map((item, index) => {
             if ('ad' in item) {
                 return (
-                    <div key={index} className="w-full max-w-sm">
+                    <div key={`ad-${index}`} className="w-full max-w-sm">
                         <AdCard />
                     </div>
                 );
             }
             
             const quote = item as Quote;
-            const isLiked = likedQuotes.has(quote.id);
-            const isBookmarked = bookmarkedIds.includes(quote.id);
-
             return (
-              <div key={index} className="w-full max-w-sm">
-                <Card className="shadow-lg h-[68vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden">
-                    <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
-                        <div className="text-7xl">{quote.emoji}</div>
-                        <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
-                            {quote.hinglish}
-                        </p>
-                    </div>
-                    <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
-                        - Ecstatic
-                    </div>
-                    <div className="mt-auto px-4 pb-1">
-                      <Separator className="mb-2" />
-                      <div className="flex items-center justify-around">
-                          <ActionButton label={isLiked ? "Liked" : "Like"} onClick={() => handleLikeToggle(quote.id)}>
-                            <motion.div
-                              key={isLiked ? 'liked' : 'unliked'}
-                              initial={{ scale: 0.8, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
-                              exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
-                            >
-                              {isLiked ? (
-                                <motion.div
-                                  initial={{ scale: 0.8 }}
-                                  animate={{ scale: [1, 1.2, 1] }}
-                                  transition={{ duration: 0.4, ease: "easeInOut" }}
-                                >
-                                  <Heart className="h-6 w-6 text-red-500 fill-red-500" />
-                                </motion.div>
-                              ) : (
-                                <Heart className="h-6 w-6 text-muted-foreground" />
-                              )}
-                            </motion.div>
-                          </ActionButton>
-                          <ActionButton label={isBookmarked ? 'Saved' : 'Save'} onClick={() => handleBookmarkToggle(quote)}>
-                            {isBookmarked ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
-                          </ActionButton>
-                          <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
-                          <ActionButton icon={Share2} label="Share" onClick={() => handleShare(quote.hinglish)} />
-                      </div>
-                    </div>
-                </Card>
-              </div>
+              <QuoteCard
+                key={quote.id}
+                quote={quote}
+                isLiked={likedQuotes.has(quote.id)}
+                isBookmarked={bookmarkedIds.includes(quote.id)}
+                onLikeToggle={() => handleLikeToggle(quote.id)}
+                onBookmarkToggle={() => handleBookmarkToggle(quote)}
+                onCopy={() => handleCopy(quote.hinglish)}
+                onShare={(element) => handleShare(element, quote.hinglish)}
+              />
             );
         })}
       </main>

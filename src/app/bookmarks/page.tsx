@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
+import * as htmlToImage from 'html-to-image';
 
 export default function BookmarksPage() {
   const { bookmarkedIds, removeBookmark } = useBookmarks();
@@ -41,25 +42,40 @@ export default function BookmarksPage() {
     });
   };
 
-  const handleShare = async (quoteText: string) => {
-    const shareData = {
-      title: 'Ecstatic Quote',
-      text: `${quoteText}\n\n- Shared from Ecstatic`,
-      url: window.location.href,
-    };
+  const handleShare = async (element: HTMLElement, quoteText: string) => {
+    toast({ title: "Preparing Card...", description: "Please wait while we create the image." });
     try {
-      if (navigator.share) {
+      const blob = await htmlToImage.toBlob(element, {
+        pixelRatio: 2,
+        style: {
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        }
+      });
+      if (!blob) {
+          throw new Error('Failed to create image blob.');
+      }
+      
+      const file = new File([blob], 'ecstatic-quote.png', { type: 'image/png' });
+
+      const shareData = {
+        title: 'Ecstatic Quote',
+        text: `${quoteText}\n\n- Shared from Ecstatic`,
+        files: [file],
+      };
+
+      if (navigator.canShare && navigator.canShare(shareData)) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(shareData.text);
-        toast({
-          title: "Quote Copied!",
-          description: "The quote has been copied to your clipboard.",
-        });
+         throw new Error("Sharing not supported.");
       }
     } catch (err) {
       if ((err as Error).name !== 'AbortError') {
-        console.error("Share/Copy failed:", err);
+        console.error("Share failed:", err);
+         toast({
+          variant: 'destructive',
+          title: "Sharing Failed",
+          description: "Could not share the quote card. Please try again.",
+        });
       }
     }
   };
@@ -100,9 +116,10 @@ export default function BookmarksPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {bookmarkedQuotes.map((quote) => {
+                const cardRef = React.createRef<HTMLDivElement>();
                 const isLiked = likedQuotes.has(quote.id);
                 return (
-                  <Card key={quote.id} className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden">
+                  <Card key={quote.id} ref={cardRef} className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card">
                     <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
                         <div className="text-6xl">{quote.emoji}</div>
                         <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
@@ -137,7 +154,7 @@ export default function BookmarksPage() {
                           </ActionButton>
                           <ActionButton icon={BookmarkX} label="Remove" onClick={() => removeBookmark(quote.id)} />
                           <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
-                          <ActionButton icon={Share2} label="Share" onClick={() => handleShare(quote.hinglish)} />
+                          <ActionButton icon={Share2} label="Share" onClick={() => cardRef.current && handleShare(cardRef.current, quote.hinglish)} />
                       </div>
                     </div>
                   </Card>
