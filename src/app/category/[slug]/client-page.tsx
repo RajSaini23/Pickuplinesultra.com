@@ -11,7 +11,7 @@ import type { Category, Quote } from '@/data/types';
 import { CategoryIcon } from '@/lib/categories';
 
 const AdCard = () => (
-    <Card className="flex h-[54vh] min-h-[320px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
+    <Card className="flex h-[75vh] min-h-[500px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
       <CardContent className="p-6 text-center">
         <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
       </CardContent>
@@ -42,7 +42,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             const cardHeight = firstChild.offsetHeight;
             const gap = 16; // Corresponds to gap-4
             const index = Math.round(scrollTop / (cardHeight + gap));
-            setCurrentItem(Math.min(index + 1, allItems.length));
+            setCurrentItem(Math.min(index + 1, quotes.length));
         }
     };
 
@@ -56,7 +56,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
 
 
   const ActionButton = ({ icon: Icon, label }: { icon: React.ElementType, label: string }) => (
-    <div className="flex flex-col items-center gap-1.5 transform transition-transform duration-200 active:scale-90">
+    <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
        <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted">
           <Icon className="h-7 w-7 text-muted-foreground" />
        </Button>
@@ -94,22 +94,22 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                 { 'ad' in item ? (
                     <AdCard />
                 ) : (
-                <Card className="shadow-lg h-[54vh] min-h-[320px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl">
+                <Card className="shadow-lg h-[75vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden">
                     <CardContent className="p-6 flex-grow flex flex-col items-center justify-center text-center gap-6">
                         <div className="text-7xl">{(item as Quote).emoji}</div>
                         <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
                             {(item as Quote).hinglish}
                         </p>
                     </CardContent>
-                    <div className="relative p-6 pt-2">
-                        <p className="text-end text-sm text-muted-foreground/50 italic">- Ecstatic</p>
-                        <Separator className="my-6" />
-                        <div className="flex items-center justify-around">
-                            <ActionButton icon={Heart} label="Like" />
-                            <ActionButton icon={Bookmark} label="Save" />
-                            <ActionButton icon={Copy} label="Copy" />
-                            <ActionButton icon={Share2} label="Share" />
-                        </div>
+                    <div className="relative p-6 pt-2 text-end text-sm text-muted-foreground/50 italic">
+                        - Ecstatic
+                    </div>
+                    <Separator />
+                    <div className="flex items-center justify-around p-2">
+                        <ActionButton icon={Heart} label="Like" />
+                        <ActionButton icon={Bookmark} label="Save" />
+                        <ActionButton icon={Copy} label="Copy" />
+                        <ActionButton icon={Share2} label="Share" />
                     </div>
                 </Card>
                 )}
