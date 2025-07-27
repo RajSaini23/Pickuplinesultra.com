@@ -52,13 +52,13 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     return () => {
         currentRef?.removeEventListener('scroll', handleScroll);
     };
-  }, [allItems.length]);
+  }, [quotes.length]);
 
 
   const ActionButton = ({ icon: Icon, label }: { icon: React.ElementType, label: string }) => (
     <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
        <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted">
-          <Icon className="h-7 w-7 text-muted-foreground" />
+          <Icon className="h-6 w-6 text-muted-foreground" />
        </Button>
        <span className="text-sm font-medium text-muted-foreground">{label}</span>
     </div>
@@ -80,7 +80,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             <h1 className="text-2xl font-bold font-headline truncate">{category.name}</h1>
         </div>
         <div className="flex-1 flex justify-end text-sm font-medium text-muted-foreground tabular-nums">
-           {currentItem} / {allItems.length}
+           {currentItem} / {quotes.length}
         </div>
       </header>
 
@@ -95,21 +95,23 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                     <AdCard />
                 ) : (
                 <Card className="shadow-lg h-[75vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden">
-                    <CardContent className="p-6 flex-grow flex flex-col items-center justify-center text-center gap-6">
+                    <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
                         <div className="text-7xl">{(item as Quote).emoji}</div>
                         <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
                             {(item as Quote).hinglish}
                         </p>
-                    </CardContent>
-                    <div className="relative p-6 pt-2 text-end text-sm text-muted-foreground/50 italic">
+                    </div>
+                    <div className="relative px-6 pb-2 text-end text-sm text-muted-foreground/50 italic">
                         - Ecstatic
                     </div>
-                    <Separator />
-                    <div className="flex items-center justify-around p-2">
-                        <ActionButton icon={Heart} label="Like" />
-                        <ActionButton icon={Bookmark} label="Save" />
-                        <ActionButton icon={Copy} label="Copy" />
-                        <ActionButton icon={Share2} label="Share" />
+                    <div className="mt-auto">
+                      <Separator />
+                      <div className="flex items-center justify-around py-2">
+                          <ActionButton icon={Heart} label="Like" />
+                          <ActionButton icon={Bookmark} label="Save" />
+                          <ActionButton icon={Copy} label="Copy" />
+                          <ActionButton icon={Share2} label="Share" />
+                      </div>
                     </div>
                 </Card>
                 )}
