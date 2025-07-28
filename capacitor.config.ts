@@ -5,8 +5,6 @@ const config: CapacitorConfig = {
   appName: 'Ecstatic',
   webDir: 'out',
   server: {
-    // Required for Next.js to work in development with Capacitor
-    // hostname: '192.168.1.100', // Replace with your local IP
     androidScheme: 'https',
   },
   plugins: {
