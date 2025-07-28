@@ -56,23 +56,25 @@ const QuoteCard = ({
 
   return (
     <Card className="shadow-lg h-[74vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-xl">
-      <div className="flex-grow flex flex-col" ref={cardRef}>
-        <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 bg-card">
-            <div className="text-6xl">{quote.emoji}</div>
-            <p className="font-headline text-2xl md:text-3xl font-semibold leading-snug text-foreground/90">
-                {quote.hinglish}
-            </p>
-        </div>
-        <div className="relative px-6 pb-2 text-end bg-card">
-           <a 
-              href={typeof window !== 'undefined' ? window.location.origin : ''} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              onClick={(e) => e.preventDefault()}
-              className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
-            >
-             ECSTATIC
-            </a>
+      <div className="flex-grow flex flex-col">
+        <div ref={cardRef} className="bg-card">
+          <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[calc(74vh-100px)]">
+              <div className="text-6xl">{quote.emoji}</div>
+              <p className="font-headline text-2xl md:text-3xl font-semibold leading-snug text-foreground/90">
+                  {quote.hinglish}
+              </p>
+          </div>
+          <div className="relative px-6 pb-2 text-end">
+             <a 
+                href={typeof window !== 'undefined' ? window.location.origin : ''} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={(e) => e.preventDefault()}
+                className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
+              >
+               ECSTATIC
+              </a>
+          </div>
         </div>
       </div>
 
