@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark
+  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark, Wifi
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -111,8 +111,8 @@ export default function SettingsPage() {
     );
 
     const buttonOrLink = isLink && href ? (
-      <Link href={href} passHref>
-        <a className="w-full flex items-center justify-between p-5 text-left">{content}</a>
+       <Link href={href} className="w-full flex items-center justify-between p-5 text-left">
+        {content}
       </Link>
     ) : (
       <button
@@ -147,12 +147,19 @@ export default function SettingsPage() {
     );
   };
   
-  const SettingsRow = ({ title, children }: { title: string, children: React.ReactNode }) => (
-    <div className="flex items-center justify-between py-3.5">
-      <p className="font-medium text-foreground/80">{title}</p>
-      {children}
-    </div>
-  );
+  const SettingsRow = ({ title, children, isLink, href }: { title: string, children: React.ReactNode, isLink?: boolean, href?: string }) => {
+    const content = (
+       <div className="flex items-center justify-between py-3.5 group cursor-pointer">
+          <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
+          {children}
+       </div>
+    );
+    
+    if (isLink && href) {
+        return <Link href={href}>{content}</Link>
+    }
+    return content;
+  }
 
   return (
     <div className="flex flex-col min-h-dvh bg-background">
@@ -200,14 +207,12 @@ export default function SettingsPage() {
           </Section>
           
           <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20 cursor-pointer">
-            <Link href="/bookmarks" passHref>
-              <div className="w-full flex items-center justify-between p-5 text-left">
-                <div className="flex items-center gap-4">
-                  <GlowIcon icon={Bookmark} className="h-7 w-7 text-primary" />
-                  <span className="text-lg font-semibold">Bookmarks</span>
-                </div>
-                <ChevronRight className="h-6 w-6 text-muted-foreground" />
+            <Link href="/bookmarks" className="w-full flex items-center justify-between p-5 text-left">
+              <div className="flex items-center gap-4">
+                <GlowIcon icon={Bookmark} className="h-7 w-7 text-primary" />
+                <span className="text-lg font-semibold">Bookmarks</span>
               </div>
+              <ChevronRight className="h-6 w-6 text-muted-foreground" />
             </Link>
           </MotionCard>
 
@@ -237,6 +242,10 @@ export default function SettingsPage() {
           </Section>
 
           <Section title="Help" icon={LifeBuoy}>
+             <Link href="/network-check" className="flex items-center justify-between py-3.5 group cursor-pointer">
+                <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">Network Check</p>
+                <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+             </Link>
              {['Contact Support', 'Report a Bug'].map(item => (
                 <div key={item} className="flex items-center justify-between py-3.5 group cursor-pointer">
                     <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{item}</p>
