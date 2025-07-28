@@ -140,24 +140,26 @@ export default function BookmarksPage() {
                         <Loader />
                       </div>
                     )}
-                    <Card ref={cardRef} className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card">
-                      <div className="flex-grow flex flex-col">
-                        <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px] bg-card">
-                            <div className="text-6xl">{quote.emoji}</div>
-                            <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
-                                {quote.hinglish}
-                            </p>
-                        </div>
-                        <div className="relative px-6 pb-2 text-end bg-card">
-                           <a 
-                              href={typeof window !== 'undefined' ? window.location.origin : ''} 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
-                              onClick={(e) => e.preventDefault()}
-                              className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
-                            >
-                             ECSTATIC
-                            </a>
+                    <Card className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card">
+                      <div ref={cardRef}>
+                        <div className="flex-grow flex flex-col">
+                          <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px] bg-card">
+                              <div className="text-6xl">{quote.emoji}</div>
+                              <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
+                                  {quote.hinglish}
+                              </p>
+                          </div>
+                          <div className="relative px-6 pb-2 text-end bg-card">
+                             <a 
+                                href={typeof window !== 'undefined' ? window.location.origin : ''} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                onClick={(e) => e.preventDefault()}
+                                className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
+                              >
+                               ECSTATIC
+                              </a>
+                          </div>
                         </div>
                       </div>
                       <div className="mt-auto">
