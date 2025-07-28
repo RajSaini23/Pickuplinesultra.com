@@ -24,7 +24,7 @@ const AdCard = () => (
 );
 
 const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
-    <Button variant="ghost" className="h-16 w-20 flex flex-col items-center justify-center gap-1 transform transition-transform duration-200 active:scale-90 rounded-2xl" onClick={onClick}>
+    <Button variant="ghost" className="h-16 w-20 flex flex-col items-center justify-center gap-1 transform transition-transform duration-200 active:scale-95 rounded-2xl" onClick={onClick}>
         {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
        <span className="text-xs font-medium text-muted-foreground">{label}</span>
     </Button>
@@ -89,7 +89,7 @@ const QuoteCard = ({
                     animate={{ scale: [1, 1.2, 1] }}
                     transition={{ duration: 0.4, ease: "easeInOut" }}
                   >
-                    <Heart className="h-6 w-6 text-red-500 fill-red-500" />
+                    <Heart className="h-6 w-6 text-accent fill-accent" />
                   </motion.div>
                 ) : (
                   <Heart className="h-6 w-6 text-muted-foreground" />
