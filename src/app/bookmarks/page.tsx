@@ -4,7 +4,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, BookmarkX, Heart, Share2, Copy, HeartCrack } from 'lucide-react';
+import { ArrowLeft, BookmarkX, Heart, Share2, Copy } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useBookmarks } from '@/context/bookmark-context';
 import { quotes as allQuotes } from '@/data';

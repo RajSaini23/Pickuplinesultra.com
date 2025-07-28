@@ -16,7 +16,7 @@ import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
 
 const AdCard = () => (
-    <Card className="flex h-[58vh] min-h-[420px] w-full max-w-lg mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
+    <Card className="flex h-[62vh] min-h-[440px] w-full max-w-xl mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
       <CardContent className="p-6 text-center">
         <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
       </CardContent>
@@ -53,15 +53,15 @@ const QuoteCard = ({
   const cardRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <Card className="shadow-lg h-[58vh] min-h-[420px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-lg">
-      <div ref={cardRef} className="flex-grow flex flex-col bg-card">
-        <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
+    <Card className="shadow-lg h-[62vh] min-h-[440px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-xl">
+      <div className="flex-grow flex flex-col" ref={cardRef}>
+        <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 bg-card">
             <div className="text-7xl">{quote.emoji}</div>
             <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
                 {quote.hinglish}
             </p>
         </div>
-        <div className="relative px-6 pb-2 text-end">
+        <div className="relative px-6 pb-2 text-end bg-card">
            <a 
               href={typeof window !== 'undefined' ? window.location.origin : ''} 
               target="_blank" 
@@ -75,9 +75,9 @@ const QuoteCard = ({
       </div>
 
 
-      <div className="mt-auto px-4 pb-1 bg-card">
-        <Separator className="mb-2" />
-        <div className="flex items-center justify-around">
+      <div className="mt-auto bg-card">
+        <Separator />
+        <div className="flex items-center justify-around py-2">
             <ActionButton label={isLiked ? "Liked" : "Like"} onClick={onLikeToggle}>
               <motion.div
                 key={isLiked ? 'liked' : 'unliked'}
@@ -256,7 +256,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
         {allItems.map((item, index) => {
             if ('ad' in item) {
                 return (
-                    <div key={`ad-${index}`} className="w-full max-w-lg">
+                    <div key={`ad-${index}`} className="w-full max-w-xl">
                         <AdCard />
                     </div>
                 );
@@ -266,7 +266,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             const isSharing = sharingQuoteId === quote.id;
 
             return (
-              <div key={quote.id} className="relative w-full max-w-lg">
+              <div key={quote.id} className="relative w-full max-w-xl">
                 {isSharing && (
                   <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-[2px] rounded-2xl">
                     <Loader />
