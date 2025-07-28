@@ -381,14 +381,14 @@
   }
   
   .loading-border {
+    --light-border: conic-gradient(from var(--angle), transparent 25%, #8B5CF6, #EC4899, #F59E0B, #10B981, #3B82F6, transparent 100%);
+    --dark-border: conic-gradient(from var(--angle), transparent 25%, #A78BFA, #F472B6, #FBBF24, #34D399, #60A5FA, transparent 100%);
     position: absolute;
-    inset: -2px;
+    inset: 0;
     z-index: 10;
     border-radius: inherit;
     padding: 2px;
-    background: conic-gradient(from var(--angle),
-        transparent 0%, transparent 85%, 
-        hsl(var(--primary)) 90%, hsl(var(--accent)) 100%);
+    background: var(--light-border);
     animation: spin 1.2s linear infinite;
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
@@ -398,5 +398,9 @@
         linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
+  }
+
+  .dark .loading-border {
+      background: var(--dark-border);
   }
 }
