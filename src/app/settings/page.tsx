@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Switch } from '@/components/ui/switch';
+import { CyberToggle } from '@/components/ui/cyber-toggle';
 import { useToast } from '@/hooks/use-toast';
 
 const MotionCard = motion(Card);
@@ -212,16 +212,19 @@ export default function SettingsPage() {
           </MotionCard>
 
           <Section title="Notifications" icon={Bell}>
-            {Object.entries(notifications).map(([key, value]) => (
-              <SettingsRow key={key} title={key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}>
-                <Switch
-                  checked={value}
-                  onCheckedChange={(checked) =>
-                    setNotifications(prev => ({ ...prev, [key]: checked }))
-                  }
-                />
-              </SettingsRow>
-            ))}
+            <div className="flex flex-col gap-2 -mt-2 pb-4">
+              {Object.entries(notifications).map(([key, value]) => (
+                <SettingsRow key={key} title={key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}>
+                  <CyberToggle
+                    id={`toggle-${key}`}
+                    checked={value}
+                    onCheckedChange={(checked) =>
+                      setNotifications(prev => ({ ...prev, [key]: checked }))
+                    }
+                  />
+                </SettingsRow>
+              ))}
+            </div>
           </Section>
 
           <Section title="Legal" icon={FileText}>
