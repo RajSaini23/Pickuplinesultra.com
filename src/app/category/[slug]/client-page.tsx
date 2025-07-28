@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Heart, Bookmark, Copy, Share2, BookmarkCheck, HeartCrack } from 'lucide-react';
+import { ArrowLeft, Heart, Bookmark, Copy, Share2, BookmarkCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -16,7 +16,7 @@ import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
 
 const AdCard = () => (
-    <Card className="flex h-[52vh] min-h-[384px] w-full max-w-md mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
+    <Card className="flex h-[58vh] min-h-[420px] w-full max-w-lg mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
       <CardContent className="p-6 text-center">
         <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
       </CardContent>
@@ -53,7 +53,7 @@ const QuoteCard = ({
   const cardRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <Card className="shadow-lg h-[52vh] min-h-[384px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-md">
+    <Card className="shadow-lg h-[58vh] min-h-[420px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-lg">
       <div ref={cardRef} className="flex-grow flex flex-col bg-card">
         <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
             <div className="text-7xl">{quote.emoji}</div>
@@ -256,7 +256,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
         {allItems.map((item, index) => {
             if ('ad' in item) {
                 return (
-                    <div key={`ad-${index}`} className="w-full max-w-md">
+                    <div key={`ad-${index}`} className="w-full max-w-lg">
                         <AdCard />
                     </div>
                 );
@@ -266,7 +266,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             const isSharing = sharingQuoteId === quote.id;
 
             return (
-              <div key={quote.id} className="relative w-full max-w-md">
+              <div key={quote.id} className="relative w-full max-w-lg">
                 {isSharing && (
                   <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-[2px] rounded-2xl">
                     <Loader />
@@ -288,5 +288,3 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     </div>
   );
 }
-
-    
