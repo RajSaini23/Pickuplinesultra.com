@@ -125,28 +125,24 @@ export default function Dashboard() {
             <Link 
               href={`/category/${category.slug}`} 
               key={category.slug} 
-              className="group relative"
+              className="group relative transition-transform duration-300 ease-in-out active:scale-[0.98]"
               onClick={(e) => handleCategoryClick(category.slug, e)}
             >
-              <div className="relative rounded-2xl">
-                 <Card 
-                  className={cn(
-                    "overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24 p-0"
-                  )}
-                  style={{ backgroundColor: category.color }}
-                >
-                    <div className="flex items-center p-4 h-full w-full">
-                      <div className="flex items-center justify-center w-16 h-16 rounded-xl flex-shrink-0 bg-white/20">
-                        <CategoryIcon slug={category.slug} className="h-8 w-8 text-white" />
-                      </div>
-                      <div className="ml-5">
-                        <CardTitle className="font-bold text-lg text-white">{category.name}</CardTitle>
-                        <CardDescription className="text-sm text-white/80 tracking-wider">Category</CardDescription>
-                      </div>
+              <Card 
+                className="overflow-hidden transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-1 rounded-2xl border-none shadow-md h-24 p-0 relative"
+                style={{ backgroundColor: category.color }}
+              >
+                  {navigatingTo === category.slug && <div className="loading-border" />}
+                  <div className="flex items-center p-4 h-full w-full">
+                    <div className="flex items-center justify-center w-16 h-16 rounded-xl flex-shrink-0 bg-white/20">
+                      <CategoryIcon slug={category.slug} className="h-8 w-8 text-white" />
                     </div>
-                </Card>
-                {navigatingTo === category.slug && <div className="loading-border" />}
-              </div>
+                    <div className="ml-5">
+                      <CardTitle className="font-bold text-lg text-white">{category.name}</CardTitle>
+                      <CardDescription className="text-sm text-white/80 tracking-wider">Category</CardDescription>
+                    </div>
+                  </div>
+              </Card>
             </Link>
           ))}
         </div>

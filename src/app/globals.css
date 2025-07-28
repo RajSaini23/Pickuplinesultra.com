@@ -134,9 +134,9 @@
     --dark-color-4: #ec4899;
 
     position: absolute;
-    inset: -1px; /* Adjust to sit just outside the card */
+    inset: -1px; 
     z-index: 10;
-    border-radius: inherit; /* Inherit border-radius from parent */
+    border-radius: inherit;
     padding: var(--border-width);
     background: conic-gradient(
       from var(--angle),
