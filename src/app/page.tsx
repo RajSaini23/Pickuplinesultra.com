@@ -129,11 +129,8 @@ export default function Dashboard() {
               onClick={(e) => handleCategoryClick(category.slug, e)}
             >
               <Card 
-                className={cn(
-                  "overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24 p-0",
-                  navigatingTo !== category.slug ? 'bg-card' : ''
-                )}
-                style={navigatingTo !== category.slug ? { backgroundColor: category.color } : {}}
+                className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24 p-0"
+                style={{ backgroundColor: category.color }}
               >
                   <div className="flex items-center p-4 h-full w-full">
                     <div className="flex items-center justify-center w-16 h-16 rounded-xl flex-shrink-0 bg-white/20">
