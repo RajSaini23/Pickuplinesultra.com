@@ -125,31 +125,27 @@ export default function Dashboard() {
             <Link 
               href={`/category/${category.slug}`} 
               key={category.slug} 
-              className="group"
+              className="group relative"
               onClick={(e) => handleCategoryClick(category.slug, e)}
             >
-              <div 
+              <Card 
                 className={cn(
                   "overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24 p-0",
-                  navigatingTo === category.slug ? 'loading-border' : 'bg-card'
+                  navigatingTo !== category.slug ? 'bg-card' : ''
                 )}
+                style={navigatingTo !== category.slug ? { backgroundColor: category.color } : {}}
               >
-                <div 
-                  className={cn(
-                    "flex items-center p-4 h-full w-full",
-                    navigatingTo === category.slug ? "" : "rounded-2xl"
-                  )}
-                  style={navigatingTo !== category.slug ? { backgroundColor: category.color } : {}}
-                >
-                  <div className="flex items-center justify-center w-16 h-16 rounded-xl flex-shrink-0 bg-white/20">
-                    <CategoryIcon slug={category.slug} className="h-8 w-8 text-white" />
+                  <div className="flex items-center p-4 h-full w-full">
+                    <div className="flex items-center justify-center w-16 h-16 rounded-xl flex-shrink-0 bg-white/20">
+                      <CategoryIcon slug={category.slug} className="h-8 w-8 text-white" />
+                    </div>
+                    <div className="ml-5">
+                      <CardTitle className="font-bold text-lg text-white">{category.name}</CardTitle>
+                      <CardDescription className="text-sm text-white/80 tracking-wider">Category</CardDescription>
+                    </div>
                   </div>
-                  <div className="ml-5">
-                    <CardTitle className="font-bold text-lg text-white">{category.name}</CardTitle>
-                    <CardDescription className="text-sm text-white/80 tracking-wider">Category</CardDescription>
-                  </div>
-                </div>
-              </div>
+              </Card>
+              {navigatingTo === category.slug && <div className="loading-border" />}
             </Link>
           ))}
         </div>
