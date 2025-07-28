@@ -198,49 +198,60 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
 
   const handleShare = async (quote: Quote, cardRef: React.RefObject<HTMLDivElement>) => {
     if (!cardRef.current) {
-      toast({ variant: 'destructive', title: "Error", description: "Could not share the quote card." });
-      return;
+        toast({ variant: 'destructive', title: "Error", description: "Could not share the quote card." });
+        return;
     }
 
-    setSharingQuoteId(quote.id);
-
-    try {
-      const blob = await htmlToImage.toBlob(cardRef.current, {
-        quality: 0.95,
-        pixelRatio: 2,
-      });
-
-      if (!blob) {
-        throw new Error('Image blob could not be created.');
-      }
-      
-      const file = new File([blob], `ecstatic-quote-${quote.id}.png`, { type: 'image/png' });
-      const shareData = {
+    const shareData = {
         title: 'Ecstatic Quote',
         text: `${quote.hinglish}\n\n- Shared from Ecstatic`,
-        files: [file],
-      };
+        url: window.location.origin,
+    };
+    
+    // Primary action: Share text and URL immediately on user click
+    if (navigator.share) {
+        try {
+            await navigator.share(shareData);
+            return; // Exit if successful
+        } catch (err) {
+             if ((err as Error).name === 'AbortError') {
+                // User cancelled the share, do nothing.
+                return;
+            }
+        }
+    }
+    
+    // Fallback: If Web Share API fails or is not available, proceed with image generation and copy.
+    setSharingQuoteId(quote.id);
+    try {
+        const blob = await htmlToImage.toBlob(cardRef.current, {
+            quality: 0.95,
+            pixelRatio: 2,
+        });
 
-      if (navigator.share && navigator.canShare(shareData)) {
-        await navigator.share(shareData);
-      } else {
-        await navigator.clipboard.writeText(`${shareData.text}\n${window.location.origin}`);
-        toast({
-          title: "Link Copied!",
-          description: "Image sharing not supported, link copied to clipboard.",
-        });
-      }
+        if (!blob) {
+            throw new Error('Image blob could not be created.');
+        }
+
+        // Try to copy image to clipboard
+        if (navigator.clipboard && navigator.clipboard.write) {
+            const item = new ClipboardItem({ 'image/png': blob });
+            await navigator.clipboard.write([item]);
+            toast({ title: "Image Copied!", description: "Quote card image copied to clipboard." });
+        } else {
+             // Final fallback: copy text
+            await navigator.clipboard.writeText(shareData.text);
+            toast({ title: "Link Copied!", description: "Image sharing not supported, link copied to clipboard." });
+        }
     } catch (err) {
-      if ((err as Error).name !== 'AbortError') {
-        console.error("Share failed:", err);
+        console.error("Fallback Share failed:", err);
         toast({
-          variant: 'destructive',
-          title: "Sharing Failed",
-          description: "Could not share the quote. Please try again.",
+            variant: 'destructive',
+            title: "Sharing Failed",
+            description: "Could not share the quote. Please try again.",
         });
-      }
     } finally {
-      setSharingQuoteId(null);
+        setSharingQuoteId(null);
     }
   };
 
