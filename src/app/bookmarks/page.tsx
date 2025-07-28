@@ -44,43 +44,33 @@ export default function BookmarksPage() {
     });
   };
 
-  const handleShare = async (element: HTMLElement, quoteId: number, quoteText: string) => {
-    setSharingQuoteId(quoteId);
+  const handleShare = async (quoteText: string) => {
+    const shareData = {
+      title: 'Ecstatic Quote',
+      text: `${quoteText}\n\n- Shared from Ecstatic`,
+      url: window.location.origin,
+    };
+
     try {
-      const blob = await htmlToImage.toBlob(element, {
-        pixelRatio: 2,
-        style: {
-          boxShadow: 'none',
-          margin: '0',
-          border: 'none',
-        }
-      });
-      if (!blob) {
-          throw new Error('Failed to create image blob.');
-      }
-      
-      const file = new File([blob], 'ecstatic-quote.png', { type: 'image/png' });
-
-      const shareData = {
-        title: 'Ecstatic Quote',
-        text: `${quoteText}\n\n- Shared from Ecstatic`,
-        files: [file],
-      };
-
-      if (navigator.canShare && navigator.canShare(shareData)) {
+      if (navigator.share && navigator.canShare(shareData)) {
         await navigator.share(shareData);
       } else {
-         throw new Error("Sharing not supported.");
+        // Fallback for browsers that do not support sharing
+        await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+        toast({
+          title: "Link Copied!",
+          description: "Sharing not supported, link copied to clipboard.",
+        });
       }
     } catch (err) {
-      if ((err as Error).name === 'AbortError') {
-        // User cancelled the share, do nothing.
-      } else {
+      if ((err as Error).name !== 'AbortError') {
         console.error("Share failed:", err);
-        // Fallback or silent failure is handled here if needed
+        toast({
+          variant: 'destructive',
+          title: "Sharing Failed",
+          description: "Could not share the quote. Please try again.",
+        });
       }
-    } finally {
-      setSharingQuoteId(null);
     }
   };
 
@@ -175,7 +165,7 @@ export default function BookmarksPage() {
                           </ActionButton>
                           <ActionButton icon={BookmarkX} label="Remove" onClick={() => removeBookmark(quote.id)} />
                           <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
-                          <ActionButton icon={Share2} label="Share" onClick={() => cardContentRef.current && handleShare(cardContentRef.current, quote.id, quote.hinglish)} />
+                          <ActionButton icon={Share2} label="Share" onClick={() => handleShare(quote.hinglish)} />
                       </div>
                     </div>
                   </Card>

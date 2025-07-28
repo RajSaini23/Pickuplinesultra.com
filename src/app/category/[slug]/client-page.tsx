@@ -50,7 +50,7 @@ const QuoteCard = ({
   onLikeToggle: () => void;
   onBookmarkToggle: () => void;
   onCopy: () => void;
-  onShare: (element: HTMLDivElement) => void;
+  onShare: (quoteText: string) => void;
 }) => {
   const cardContentRef = React.useRef<HTMLDivElement>(null);
   const cardRef = React.useRef<HTMLDivElement>(null);
@@ -109,7 +109,7 @@ const QuoteCard = ({
               {isBookmarked ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
             </ActionButton>
             <ActionButton icon={Copy} label="Copy" onClick={onCopy} />
-            <ActionButton icon={Share2} label="Share" onClick={() => cardContentRef.current && onShare(cardContentRef.current)} />
+            <ActionButton icon={Share2} label="Share" onClick={() => onShare(quote.hinglish)} />
         </div>
       </div>
     </Card>
@@ -186,49 +186,36 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     });
   };
 
-  const handleShare = async (element: HTMLElement, quoteId: number, quoteText: string) => {
-    setSharingQuoteId(quoteId);
+  const handleShare = async (quoteText: string) => {
+    const shareData = {
+      title: 'Ecstatic Quote',
+      text: `${quoteText}\n\n- Shared from Ecstatic`,
+      url: window.location.origin,
+    };
+
     try {
-      const blob = await htmlToImage.toBlob(element, {
-        pixelRatio: 2,
-        style: {
-          boxShadow: 'none',
-          margin: '0',
-          border: 'none',
-        }
-      });
-      if (!blob) {
-          throw new Error('Failed to create image blob.');
-      }
-      
-      const file = new File([blob], 'ecstatic-quote.png', { type: 'image/png' });
-
-      const shareData = {
-        title: 'Ecstatic Quote',
-        text: `${quoteText}\n\n- Shared from Ecstatic`,
-        files: [file],
-      };
-
-      if (navigator.canShare && navigator.canShare(shareData)) {
+      if (navigator.share && navigator.canShare(shareData)) {
         await navigator.share(shareData);
       } else {
-         throw new Error("Sharing not supported.");
-      }
-    } catch (err) {
-      if ((err as Error).name === 'AbortError') {
-        // User cancelled the share, do nothing.
-      } else {
-        console.error("Share failed:", err);
-         toast({
-          variant: 'destructive',
-          title: "Sharing Failed",
-          description: "Could not share the quote card. Please try again.",
+        // Fallback for browsers that do not support sharing
+        await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+        toast({
+          title: "Link Copied!",
+          description: "Sharing not supported, link copied to clipboard.",
         });
       }
-    } finally {
-        setSharingQuoteId(null);
+    } catch (err) {
+      if ((err as Error).name !== 'AbortError') {
+        console.error("Share failed:", err);
+        toast({
+          variant: 'destructive',
+          title: "Sharing Failed",
+          description: "Could not share the quote. Please try again.",
+        });
+      }
     }
   };
+
 
   return (
     <div className="flex flex-col h-dvh bg-background text-foreground">
@@ -275,7 +262,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                 onLikeToggle={() => handleLikeToggle(quote.id)}
                 onBookmarkToggle={() => handleBookmarkToggle(quote)}
                 onCopy={() => handleCopy(quote.hinglish)}
-                onShare={(element) => handleShare(element, quote.id, quote.hinglish)}
+                onShare={(quoteText) => handleShare(quoteText)}
               />
             );
         })}
