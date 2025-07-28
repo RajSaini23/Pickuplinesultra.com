@@ -37,7 +37,7 @@ export const data: CategoryData = {
     { id: 24, hinglish: 'Love bombing is not love.', english: 'Love bombing is not love.', emoji: '💣' },
     { id: 25, hinglish: 'Tumne meri aawaz ko dabane ki koshish ki.', english: 'You tried to suppress my voice.', emoji: '🔇' },
     { id: 26, hinglish: 'Mera "no" bhi ek complete sentence hai.', english: 'My "no" is also a complete sentence.', emoji: '🙅' },
-    { id: 27, hinglish: 'Tumhare "jokes" अक्सर personal attacks hote hain.', english: 'Your "jokes" are often personal attacks.', emoji: '🎭' },
+    { id: 27, hinglish: 'Tumhare "jokes" aksar personal attacks hote hain.', english: 'Your "jokes" are often personal attacks.', emoji: '🎭' },
     { id: 28, hinglish: 'Tumhare saath, main hamesha on edge rehta/rehti hoon.', english: 'With you, I am always on edge.', emoji: '😟' },
     { id: 29, hinglish: 'Apni galti na manna, tumhari sabse badi galti hai.', english: 'Not admitting your mistake is your biggest mistake.', emoji: '🤷‍♂️' },
     { id: 30, hinglish: 'I choose my peace over your presence.', english: 'I choose my peace over your presence.', emoji: '✌️' },
@@ -113,7 +113,3 @@ export const data: CategoryData = {
     { id: 100, hinglish: 'The end of your chapter is the beginning of mine.', english: 'The end of your chapter is the beginning of mine.', emoji: '🌟' }
   ]
 };
-
-    
-
-    

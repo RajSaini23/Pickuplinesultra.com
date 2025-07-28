@@ -41,7 +41,7 @@ import { data as salmanKhanData } from './categories/salman-khan';
 import { data as amitabhBachchanData } from './categories/amitabh-bachchan';
 
 
-const allData: CategoryData[] = [
+const allRawData: CategoryData[] = [
   romanticData,
   cuteData,
   crushData,
@@ -82,6 +82,17 @@ const allData: CategoryData[] = [
   salmanKhanData,
   amitabhBachchanData,
 ];
+
+// Re-index all quotes to ensure global uniqueness
+let globalId = 1;
+const allData: CategoryData[] = allRawData.map(categoryData => ({
+  ...categoryData,
+  quotes: categoryData.quotes.map(quote => ({
+    ...quote,
+    id: globalId++,
+  })),
+}));
+
 
 export const categories: Category[] = allData.map(d => d.category);
 
