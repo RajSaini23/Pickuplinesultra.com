@@ -16,7 +16,7 @@ import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
 
 const AdCard = () => (
-    <Card className="flex h-[68vh] min-h-[500px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
+    <Card className="flex h-[55vh] min-h-[400px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
       <CardContent className="p-6 text-center">
         <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
       </CardContent>
@@ -53,28 +53,29 @@ const QuoteCard = ({
   const cardRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <Card className="shadow-lg h-[68vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-sm">
-      <div ref={cardRef}>
-        <div className="flex-grow flex flex-col">
-          <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 bg-card">
-              <div className="text-7xl">{quote.emoji}</div>
-              <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
-                  {quote.hinglish}
-              </p>
+    <Card className="shadow-lg h-[55vh] min-h-[400px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-sm">
+      <div className="flex-grow flex flex-col">
+          <div ref={cardRef}>
+            <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 bg-card">
+                <div className="text-7xl">{quote.emoji}</div>
+                <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
+                    {quote.hinglish}
+                </p>
+            </div>
+            <div className="relative px-6 pb-2 text-end bg-card">
+               <a 
+                  href={typeof window !== 'undefined' ? window.location.origin : ''} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  onClick={(e) => e.preventDefault()}
+                  className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
+                >
+                 ECSTATIC
+                </a>
+            </div>
           </div>
-          <div className="relative px-6 pb-2 text-end bg-card">
-             <a 
-                href={typeof window !== 'undefined' ? window.location.origin : ''} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                onClick={(e) => e.preventDefault()}
-                className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
-              >
-               ECSTATIC
-              </a>
-          </div>
-        </div>
       </div>
+
 
       <div className="mt-auto px-4 pb-1">
         <Separator className="mb-2" />
@@ -208,7 +209,6 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
       if (navigator.share && navigator.canShare(shareData)) {
         await navigator.share(shareData);
       } else {
-        // Fallback for browsers that do not support sharing image files
         await navigator.clipboard.writeText(`${shareData.text}\n${window.location.origin}`);
         toast({
           title: "Link Copied!",
