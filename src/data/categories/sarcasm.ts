@@ -12,7 +12,7 @@ export const data: CategoryData = {
   },
   quotes: [
     { id: 1, hinglish: 'Aapki salah ke liye shukriya, main use ignore karne ka plan kar raha hoon.', english: 'Thank you for your advice, I plan on ignoring it.', emoji: '😒' },
-    { id: 2, hinglish: 'Main multitask kar sakta hoon. Main ek hi samay mein aapko sun sakta hoon aur ignore kar sakta hoon.', english: 'I can multitask. I can listen and ignore you at the same time.', emoji: ' multitask' },
+    { id: 2, hinglish: 'Main multitask kar sakta hoon. Main ek hi samay mein aapko sun sakta hoon aur ignore kar sakta hoon.', english: 'I can multitask. I can listen and ignore you at the same time.', emoji: '🤹' },
     { id: 3, hinglish: 'Main busy nahi hoon, bas aapko avoid kar raha hoon.', english: "I'm not busy, I'm just avoiding you.", emoji: '🏃' },
     { id: 4, hinglish: 'Kya aap hamesha itne smart hote hain, ya aaj koi special occasion hai?', english: 'Are you always this smart, or is today a special occasion?', emoji: '🤔' },
     { id: 5, hinglish: 'Aapki aawaz sunne se pehle, mera din achha jaa raha tha.', english: 'My day was going well until I heard your voice.', emoji: '🙄' },
