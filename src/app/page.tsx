@@ -35,7 +35,7 @@ const AppLogo = () => (
       `}
     </style>
     <rect width="160" height="160" rx="40" fill="#2A2A3A"/>
-    <rect x="10" y="10" width="140" height="140" rx="30" stroke="hsl(207 90% 54%)" strokeWidth="3" strokeOpacity="0.4"/>
+    <rect x="10" y="10" width="140" height="140" rx="30" stroke="hsl(207 90% 54%)" strokeOpacity="0.4"/>
     <rect x="18" y="18" width="124" height="124" rx="22" stroke="hsl(207 90% 54%)" strokeWidth="4" strokeOpacity="0.8"/>
     
     <defs>
@@ -128,15 +128,18 @@ export default function Dashboard() {
               className="group"
               onClick={(e) => handleCategoryClick(category.slug, e)}
             >
-              <Card 
+              <div 
                 className={cn(
                   "overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24 p-0",
-                  navigatingTo === category.slug && 'loading-border'
+                  navigatingTo === category.slug ? 'loading-border' : 'bg-card'
                 )}
               >
                 <div 
-                  className="flex items-center p-4 h-full rounded-2xl"
-                  style={{ backgroundColor: category.color }}
+                  className={cn(
+                    "flex items-center p-4 h-full w-full",
+                    navigatingTo === category.slug ? "" : "rounded-2xl"
+                  )}
+                  style={navigatingTo !== category.slug ? { backgroundColor: category.color } : {}}
                 >
                   <div className="flex items-center justify-center w-16 h-16 rounded-xl flex-shrink-0 bg-white/20">
                     <CategoryIcon slug={category.slug} className="h-8 w-8 text-white" />
@@ -146,7 +149,7 @@ export default function Dashboard() {
                     <CardDescription className="text-sm text-white/80 tracking-wider">Category</CardDescription>
                   </div>
                 </div>
-              </Card>
+              </div>
             </Link>
           ))}
         </div>
