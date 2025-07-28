@@ -50,9 +50,8 @@ const QuoteCard = ({
   onLikeToggle: () => void;
   onBookmarkToggle: () => void;
   onCopy: () => void;
-  onShare: (quoteText: string) => void;
+  onShare: (cardRef: React.RefObject<HTMLDivElement>) => void;
 }) => {
-  const cardContentRef = React.useRef<HTMLDivElement>(null);
   const cardRef = React.useRef<HTMLDivElement>(null);
 
   return (
@@ -62,7 +61,7 @@ const QuoteCard = ({
           <Loader />
         </div>
       )}
-      <div ref={cardContentRef} className="flex-grow flex flex-col">
+      <div className="flex-grow flex flex-col">
         <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 bg-card">
             <div className="text-7xl">{quote.emoji}</div>
             <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
@@ -109,7 +108,7 @@ const QuoteCard = ({
               {isBookmarked ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
             </ActionButton>
             <ActionButton icon={Copy} label="Copy" onClick={onCopy} />
-            <ActionButton icon={Share2} label="Share" onClick={() => onShare(quote.hinglish)} />
+            <ActionButton icon={Share2} label="Share" onClick={() => onShare(cardRef)} />
         </div>
       </div>
     </Card>
@@ -186,22 +185,39 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     });
   };
 
-  const handleShare = async (quoteText: string) => {
-    const shareData = {
-      title: 'Ecstatic Quote',
-      text: `${quoteText}\n\n- Shared from Ecstatic`,
-      url: window.location.origin,
-    };
+  const handleShare = async (quote: Quote, cardRef: React.RefObject<HTMLDivElement>) => {
+    if (!cardRef.current) {
+      toast({ variant: 'destructive', title: "Error", description: "Could not share the quote card." });
+      return;
+    }
+
+    setSharingQuoteId(quote.id);
 
     try {
+      const blob = await htmlToImage.toBlob(cardRef.current, {
+        quality: 0.95,
+        pixelRatio: 2,
+      });
+
+      if (!blob) {
+        throw new Error('Image blob could not be created.');
+      }
+      
+      const file = new File([blob], `ecstatic-quote-${quote.id}.png`, { type: 'image/png' });
+      const shareData = {
+        title: 'Ecstatic Quote',
+        text: `${quote.hinglish}\n\n- Shared from Ecstatic`,
+        files: [file],
+      };
+
       if (navigator.share && navigator.canShare(shareData)) {
         await navigator.share(shareData);
       } else {
-        // Fallback for browsers that do not support sharing
-        await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+        // Fallback for browsers that do not support sharing image files
+        await navigator.clipboard.writeText(`${shareData.text}\n${window.location.origin}`);
         toast({
           title: "Link Copied!",
-          description: "Sharing not supported, link copied to clipboard.",
+          description: "Image sharing not supported, link copied to clipboard.",
         });
       }
     } catch (err) {
@@ -213,6 +229,8 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
           description: "Could not share the quote. Please try again.",
         });
       }
+    } finally {
+      setSharingQuoteId(null);
     }
   };
 
@@ -262,7 +280,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                 onLikeToggle={() => handleLikeToggle(quote.id)}
                 onBookmarkToggle={() => handleBookmarkToggle(quote)}
                 onCopy={() => handleCopy(quote.hinglish)}
-                onShare={(quoteText) => handleShare(quoteText)}
+                onShare={(cardRef) => handleShare(quote, cardRef)}
               />
             );
         })}
