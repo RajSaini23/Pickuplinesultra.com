@@ -97,7 +97,24 @@ const QuoteCard = ({
               </motion.div>
             </ActionButton>
             <ActionButton label={isBookmarked ? 'Saved' : 'Save'} onClick={onBookmarkToggle}>
-              {isBookmarked ? <BookmarkCheck className="h-6 w-6 text-primary" /> : <Bookmark className="h-6 w-6 text-muted-foreground" />}
+              <motion.div
+                key={isBookmarked ? 'bookmarked' : 'unbookmarked'}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
+                exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
+              >
+                {isBookmarked ? (
+                   <motion.div
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                  >
+                    <BookmarkCheck className="h-6 w-6 text-primary" />
+                  </motion.div>
+                ) : (
+                  <Bookmark className="h-6 w-6 text-muted-foreground" />
+                )}
+              </motion.div>
             </ActionButton>
             <ActionButton icon={Copy} label="Copy" onClick={onCopy} />
             <ActionButton icon={Share2} label="Share" onClick={() => onShare(cardRef)} />
@@ -153,10 +170,8 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     const isBookmarked = bookmarkedIds.includes(quote.id);
     if (isBookmarked) {
       removeBookmark(quote.id);
-      toast({ title: "Bookmark Removed", description: `"${quote.hinglish}" removed from your bookmarks.` });
     } else {
       addBookmark(quote.id);
-      toast({ title: "Bookmark Added!", description: `"${quote.hinglish}" saved to your bookmarks.` });
     }
   };
 
