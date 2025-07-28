@@ -37,7 +37,6 @@ const QuoteCard = ({
   quote,
   isLiked,
   isBookmarked,
-  isSharing,
   onLikeToggle,
   onBookmarkToggle,
   onCopy,
@@ -46,7 +45,6 @@ const QuoteCard = ({
   quote: Quote;
   isLiked: boolean;
   isBookmarked: boolean;
-  isSharing: boolean;
   onLikeToggle: () => void;
   onBookmarkToggle: () => void;
   onCopy: () => void;
@@ -55,12 +53,7 @@ const QuoteCard = ({
   const cardRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <Card ref={cardRef} className="shadow-lg h-[68vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-sm relative">
-       {isSharing && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-[2px] rounded-2xl">
-          <Loader />
-        </div>
-      )}
+    <Card ref={cardRef} className="shadow-lg h-[68vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-sm">
       <div className="flex-grow flex flex-col">
         <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 bg-card">
             <div className="text-7xl">{quote.emoji}</div>
@@ -270,18 +263,25 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             }
             
             const quote = item as Quote;
+            const isSharing = sharingQuoteId === quote.id;
+
             return (
-              <QuoteCard
-                key={quote.id}
-                quote={quote}
-                isLiked={likedQuotes.has(quote.id)}
-                isBookmarked={bookmarkedIds.includes(quote.id)}
-                isSharing={sharingQuoteId === quote.id}
-                onLikeToggle={() => handleLikeToggle(quote.id)}
-                onBookmarkToggle={() => handleBookmarkToggle(quote)}
-                onCopy={() => handleCopy(quote.hinglish)}
-                onShare={(cardRef) => handleShare(quote, cardRef)}
-              />
+              <div key={quote.id} className="relative w-full max-w-sm">
+                {isSharing && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-[2px] rounded-2xl">
+                    <Loader />
+                  </div>
+                )}
+                <QuoteCard
+                  quote={quote}
+                  isLiked={likedQuotes.has(quote.id)}
+                  isBookmarked={bookmarkedIds.includes(quote.id)}
+                  onLikeToggle={() => handleLikeToggle(quote.id)}
+                  onBookmarkToggle={() => handleBookmarkToggle(quote)}
+                  onCopy={() => handleCopy(quote.hinglish)}
+                  onShare={(cardRef) => handleShare(quote, cardRef)}
+                />
+              </div>
             );
         })}
       </main>

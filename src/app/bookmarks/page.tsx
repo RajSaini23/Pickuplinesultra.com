@@ -134,60 +134,62 @@ export default function BookmarksPage() {
                 const isSharing = sharingQuoteId === quote.id;
 
                 return (
-                  <Card key={quote.id} ref={cardRef} className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card relative">
-                     {isSharing && (
+                  <div key={quote.id} className="relative">
+                    {isSharing && (
                       <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-[2px] rounded-2xl">
                         <Loader />
                       </div>
                     )}
-                    <div className="flex-grow flex flex-col">
-                      <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px] bg-card">
-                          <div className="text-6xl">{quote.emoji}</div>
-                          <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
-                              {quote.hinglish}
-                          </p>
-                      </div>
-                      <div className="relative px-6 pb-2 text-end bg-card">
-                         <a 
-                            href={typeof window !== 'undefined' ? window.location.origin : ''} 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
-                            onClick={(e) => e.preventDefault()}
-                            className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
-                          >
-                           ECSTATIC
-                          </a>
-                      </div>
-                    </div>
-                    <div className="mt-auto">
-                      <Separator />
-                      <div className="flex items-center justify-around py-2">
-                          <ActionButton label={isLiked ? "Liked" : "Like"} onClick={() => handleLikeToggle(quote.id)}>
-                            <motion.div
-                              key={isLiked ? 'liked' : 'unliked'}
-                              initial={{ scale: 0.8, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
-                              exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
+                    <Card ref={cardRef} className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card">
+                      <div className="flex-grow flex flex-col">
+                        <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px] bg-card">
+                            <div className="text-6xl">{quote.emoji}</div>
+                            <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
+                                {quote.hinglish}
+                            </p>
+                        </div>
+                        <div className="relative px-6 pb-2 text-end bg-card">
+                           <a 
+                              href={typeof window !== 'undefined' ? window.location.origin : ''} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              onClick={(e) => e.preventDefault()}
+                              className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
                             >
-                              {isLiked ? (
-                                <motion.div
-                                  initial={{ scale: 0.8 }}
-                                  animate={{ scale: [1, 1.2, 1] }}
-                                  transition={{ duration: 0.4, ease: "easeInOut" }}
-                                >
-                                  <Heart className="h-6 w-6 text-red-500 fill-red-500" />
-                                </motion.div>
-                              ) : (
-                                <Heart className="h-6 w-6 text-muted-foreground" />
-                              )}
-                            </motion.div>
-                          </ActionButton>
-                          <ActionButton icon={BookmarkX} label="Remove" onClick={() => removeBookmark(quote.id)} />
-                          <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
-                          <ActionButton icon={Share2} label="Share" onClick={() => handleShare(quote, cardRef)} />
+                             ECSTATIC
+                            </a>
+                        </div>
                       </div>
-                    </div>
-                  </Card>
+                      <div className="mt-auto">
+                        <Separator />
+                        <div className="flex items-center justify-around py-2">
+                            <ActionButton label={isLiked ? "Liked" : "Like"} onClick={() => handleLikeToggle(quote.id)}>
+                              <motion.div
+                                key={isLiked ? 'liked' : 'unliked'}
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
+                                exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
+                              >
+                                {isLiked ? (
+                                  <motion.div
+                                    initial={{ scale: 0.8 }}
+                                    animate={{ scale: [1, 1.2, 1] }}
+                                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                                  >
+                                    <Heart className="h-6 w-6 text-red-500 fill-red-500" />
+                                  </motion.div>
+                                ) : (
+                                  <Heart className="h-6 w-6 text-muted-foreground" />
+                                )}
+                              </motion.div>
+                            </ActionButton>
+                            <ActionButton icon={BookmarkX} label="Remove" onClick={() => removeBookmark(quote.id)} />
+                            <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
+                            <ActionButton icon={Share2} label="Share" onClick={() => handleShare(quote, cardRef)} />
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
                 );
               })}
             </div>
