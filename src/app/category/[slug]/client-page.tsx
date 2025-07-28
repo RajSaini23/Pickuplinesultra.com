@@ -16,7 +16,7 @@ import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
 
 const AdCard = () => (
-    <Card className="flex h-[44vh] min-h-[320px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
+    <Card className="flex h-[52vh] min-h-[384px] w-full max-w-md mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
       <CardContent className="p-6 text-center">
         <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
       </CardContent>
@@ -53,15 +53,15 @@ const QuoteCard = ({
   const cardRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <Card className="shadow-lg h-[44vh] min-h-[320px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-sm">
-      <div ref={cardRef} className="flex-grow flex flex-col">
-        <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 bg-card">
+    <Card className="shadow-lg h-[52vh] min-h-[384px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-md">
+      <div ref={cardRef} className="flex-grow flex flex-col bg-card">
+        <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
             <div className="text-7xl">{quote.emoji}</div>
             <p className="font-headline text-3xl md:text-4xl font-semibold leading-snug text-foreground/90">
                 {quote.hinglish}
             </p>
         </div>
-        <div className="relative px-6 pb-2 text-end bg-card">
+        <div className="relative px-6 pb-2 text-end">
            <a 
               href={typeof window !== 'undefined' ? window.location.origin : ''} 
               target="_blank" 
@@ -75,7 +75,7 @@ const QuoteCard = ({
       </div>
 
 
-      <div className="mt-auto px-4 pb-1">
+      <div className="mt-auto px-4 pb-1 bg-card">
         <Separator className="mb-2" />
         <div className="flex items-center justify-around">
             <ActionButton label={isLiked ? "Liked" : "Like"} onClick={onLikeToggle}>
@@ -117,7 +117,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
   const [sharingQuoteId, setSharingQuoteId] = React.useState<number | null>(null);
 
   const allItems = React.useMemo(() => {
-    const items = [];
+    const items: (Quote | { ad: boolean })[] = [];
     for (let i = 0; i < quotes.length; i++) {
       items.push(quotes[i]);
       if ((i + 1) % 3 === 0) {
@@ -256,7 +256,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
         {allItems.map((item, index) => {
             if ('ad' in item) {
                 return (
-                    <div key={`ad-${index}`} className="w-full max-w-sm">
+                    <div key={`ad-${index}`} className="w-full max-w-md">
                         <AdCard />
                     </div>
                 );
@@ -266,7 +266,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             const isSharing = sharingQuoteId === quote.id;
 
             return (
-              <div key={quote.id} className="relative w-full max-w-sm">
+              <div key={quote.id} className="relative w-full max-w-md">
                 {isSharing && (
                   <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-[2px] rounded-2xl">
                     <Loader />
@@ -288,3 +288,5 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     </div>
   );
 }
+
+    
