@@ -4,7 +4,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, BookmarkX, Heart, Share2, Copy } from 'lucide-react';
+import { ArrowLeft, BookmarkX, Heart, Share2, Copy, BookmarkCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useBookmarks } from '@/context/bookmark-context';
 import { quotes as allQuotes } from '@/data';
@@ -94,9 +94,9 @@ export default function BookmarksPage() {
 
 
   const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
-    <Button variant="ghost" className="h-12 gap-2 transform transition-transform duration-200 active:scale-90 rounded-full px-3" onClick={onClick}>
+    <Button variant="ghost" className="h-16 w-20 flex flex-col items-center justify-center gap-1 transform transition-transform duration-200 active:scale-90 rounded-2xl" onClick={onClick}>
         {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
-       <span className="text-sm font-medium text-muted-foreground">{label}</span>
+       <span className="text-xs font-medium text-muted-foreground">{label}</span>
     </Button>
   );
 
@@ -162,7 +162,7 @@ export default function BookmarksPage() {
                       </div>
                       <div className="mt-auto">
                         <Separator />
-                        <div className="flex items-center justify-evenly p-2">
+                        <div className="flex items-center justify-around p-2">
                             <ActionButton label={isLiked ? "Liked" : "Like"} onClick={() => handleLikeToggle(quote.id)}>
                               <motion.div
                                 key={isLiked ? 'liked' : 'unliked'}
@@ -183,7 +183,9 @@ export default function BookmarksPage() {
                                 )}
                               </motion.div>
                             </ActionButton>
-                            <ActionButton icon={BookmarkX} label="Remove" onClick={() => removeBookmark(quote.id)} />
+                            <ActionButton label="Remove" onClick={() => removeBookmark(quote.id)}>
+                               <BookmarkX className="h-6 w-6 text-muted-foreground" />
+                            </ActionButton>
                             <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
                             <ActionButton icon={Share2} label="Share" onClick={() => handleShare(quote, cardRef)} />
                         </div>
