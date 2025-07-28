@@ -16,7 +16,7 @@ import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
 
 const AdCard = () => (
-    <Card className="flex h-[70vh] min-h-[500px] w-full max-w-xl mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
+    <Card className="flex h-[74vh] min-h-[500px] w-full max-w-xl mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
       <CardContent className="p-6 text-center">
         <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
       </CardContent>
@@ -24,9 +24,9 @@ const AdCard = () => (
 );
 
 const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
-    <Button variant="ghost" className="flex-1 h-12 gap-2 transform transition-transform duration-200 active:scale-90 rounded-full" onClick={onClick}>
+    <Button variant="ghost" className="h-16 w-20 flex flex-col items-center justify-center gap-1 transform transition-transform duration-200 active:scale-90 rounded-2xl" onClick={onClick}>
         {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
-       <span className="text-sm font-medium text-muted-foreground">{label}</span>
+       <span className="text-xs font-medium text-muted-foreground">{label}</span>
     </Button>
 );
 
@@ -51,7 +51,7 @@ const QuoteCard = ({
   const cardRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <Card className="shadow-lg h-[70vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-xl">
+    <Card className="shadow-lg h-[74vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-xl">
       <div className="flex-grow flex flex-col" ref={cardRef}>
         <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 bg-card">
             <div className="text-6xl">{quote.emoji}</div>
