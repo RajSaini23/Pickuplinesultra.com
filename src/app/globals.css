@@ -124,9 +124,19 @@
 
   .loading-border {
     --border-width: 2px;
+    --light-color-1: #8000FF; /* Purple */
+    --light-color-2: #FF6A00; /* Orange */
+    --light-color-3: #00FFF0; /* Cyan */
+    --light-color-4: #FF007A; /* Magenta */
+    --dark-color-1: #a855f7;
+    --dark-color-2: #f97316;
+    --dark-color-3: #06b6d4;
+    --dark-color-4: #ec4899;
+
     position: relative;
     border: var(--border-width) solid transparent;
     border-radius: 1.25rem; /* slightly larger than the card's rounded-2xl */
+    z-index: 10;
   }
 
   .loading-border::before {
@@ -139,12 +149,13 @@
     border-radius: inherit;
     background: conic-gradient(
       from var(--angle),
-      #8000FF,
-      #FF6A00 25%,
-      #00FFF0 50%,
-      #FF007A 75%,
-      #8000FF 100%
+      var(--light-color-1),
+      var(--light-color-2) 25%,
+      var(--light-color-3) 50%,
+      var(--light-color-4) 75%,
+      var(--light-color-1) 100%
     );
+    filter: blur(2px);
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
@@ -154,6 +165,17 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     animation: spin 1.2s linear infinite;
-    animation-timing-function: ease-in-out;
+  }
+
+  .dark .loading-border::before {
+    background: conic-gradient(
+      from var(--angle),
+      var(--dark-color-1),
+      var(--dark-color-2) 25%,
+      var(--dark-color-3) 50%,
+      var(--dark-color-4) 75%,
+      var(--dark-color-1) 100%
+    );
+    filter: blur(3px) brightness(1.2);
   }
 }
