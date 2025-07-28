@@ -10,7 +10,7 @@ import { Card, CardTitle, CardDescription } from '@/components/ui/card';
 import { CategoryIcon } from '@/lib/categories';
 import { categories } from '@/data';
 import * as React from 'react';
-import { Loader } from '@/components/ui/loader';
+import { cn } from '@/lib/utils';
 
 const AppLogo = () => (
   <svg
@@ -85,17 +85,12 @@ export default function Dashboard() {
     setNavigatingTo(slug);
     setTimeout(() => {
       router.push(`/category/${slug}`);
-    }, 500);
+    }, 1500);
   };
 
 
   return (
     <div className="flex flex-col min-h-screen bg-muted/30 text-foreground">
-      {navigatingTo && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm">
-          <Loader />
-        </div>
-      )}
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-primary text-primary-foreground">
         <AppLogo />
         <div className="relative flex-1 mx-4">
@@ -133,10 +128,15 @@ export default function Dashboard() {
               onClick={(e) => handleCategoryClick(category.slug, e)}
             >
               <Card 
-                className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24"
-                style={{ backgroundColor: category.color }}
+                className={cn(
+                  "overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24",
+                  navigatingTo === category.slug && 'loading-border'
+                )}
               >
-                <div className="flex items-center p-4 h-full">
+                <div 
+                  className="flex items-center p-4 h-full rounded-2xl"
+                  style={{ backgroundColor: category.color }}
+                >
                   <div className="flex items-center justify-center w-16 h-16 rounded-xl flex-shrink-0 bg-white/20">
                     <CategoryIcon slug={category.slug} className="h-8 w-8 text-white" />
                   </div>
@@ -153,4 +153,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
