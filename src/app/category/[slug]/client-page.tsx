@@ -16,7 +16,7 @@ import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
 
 const AdCard = () => (
-    <Card className="flex h-[55vh] min-h-[400px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
+    <Card className="flex h-[48vh] min-h-[350px] w-full max-w-sm mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
       <CardContent className="p-6 text-center">
         <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
       </CardContent>
@@ -53,7 +53,7 @@ const QuoteCard = ({
   const cardRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <Card className="shadow-lg h-[55vh] min-h-[400px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-sm">
+    <Card className="shadow-lg h-[48vh] min-h-[350px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-sm">
       <div className="flex-grow flex flex-col">
           <div ref={cardRef}>
             <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 bg-card">
@@ -116,7 +116,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
   const { toast } = useToast();
   const { bookmarkedIds, addBookmark, removeBookmark } = useBookmarks();
   const [likedQuotes, setLikedQuotes] = React.useState<Set<number>>(new Set());
-  const [sharingQuoteId, setSharingQuoteId] = React.useState<number | null>(null);
+  const [sharingQuoteId, setSharingQuoteId] = React.useState<number | null);
 
   const allItems = React.useMemo(() => {
     const items = [];
