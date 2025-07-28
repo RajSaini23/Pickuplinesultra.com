@@ -94,12 +94,10 @@ export default function BookmarksPage() {
 
 
   const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
-    <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
-       <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={onClick}>
-          {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
-       </Button>
+    <Button variant="ghost" className="flex-1 h-12 gap-2 transform transition-transform duration-200 active:scale-90 rounded-full" onClick={onClick}>
+        {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
        <span className="text-sm font-medium text-muted-foreground">{label}</span>
-    </div>
+    </Button>
   );
 
   return (
@@ -164,7 +162,7 @@ export default function BookmarksPage() {
                       </div>
                       <div className="mt-auto">
                         <Separator />
-                        <div className="flex items-center justify-around py-2">
+                        <div className="flex items-center justify-around p-2">
                             <ActionButton label={isLiked ? "Liked" : "Like"} onClick={() => handleLikeToggle(quote.id)}>
                               <motion.div
                                 key={isLiked ? 'liked' : 'unliked'}

@@ -24,12 +24,10 @@ const AdCard = () => (
 );
 
 const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
-  <div className="flex flex-col items-center justify-center gap-1.5 transform transition-transform duration-200 active:scale-90 flex-1">
-     <Button variant="ghost" size="icon" className="w-12 h-12 rounded-full bg-transparent hover:bg-muted" onClick={onClick}>
+    <Button variant="ghost" className="flex-1 h-12 gap-2 transform transition-transform duration-200 active:scale-90 rounded-full" onClick={onClick}>
         {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
-     </Button>
-     <span className="text-sm font-medium text-muted-foreground">{label}</span>
-  </div>
+       <span className="text-sm font-medium text-muted-foreground">{label}</span>
+    </Button>
 );
 
 
@@ -56,8 +54,8 @@ const QuoteCard = ({
     <Card className="shadow-lg h-[70vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-xl">
       <div className="flex-grow flex flex-col" ref={cardRef}>
         <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 bg-card">
-            <div className="text-7xl">{quote.emoji}</div>
-            <p className="font-headline text-3xl font-semibold leading-snug text-foreground/90">
+            <div className="text-6xl">{quote.emoji}</div>
+            <p className="font-headline text-2xl md:text-3xl font-semibold leading-snug text-foreground/90">
                 {quote.hinglish}
             </p>
         </div>
@@ -77,7 +75,7 @@ const QuoteCard = ({
 
       <div className="mt-auto bg-card">
         <Separator />
-        <div className="flex items-center justify-around py-2">
+        <div className="flex items-center justify-around p-2">
             <ActionButton label={isLiked ? "Liked" : "Like"} onClick={onLikeToggle}>
               <motion.div
                 key={isLiked ? 'liked' : 'unliked'}
