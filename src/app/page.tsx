@@ -10,6 +10,7 @@ import { Card, CardTitle, CardDescription } from '@/components/ui/card';
 import { CategoryIcon } from '@/lib/categories';
 import { categories } from '@/data';
 import * as React from 'react';
+import { Loader } from '@/components/ui/loader';
 
 const AppLogo = () => (
   <svg
@@ -64,6 +65,7 @@ const AppLogo = () => (
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [isNavigating, setIsNavigating] = React.useState(false);
+  const [navigatingTo, setNavigatingTo] = React.useState<string | null>(null);
   const router = useRouter();
 
   const filteredCategories = categories.filter(category =>
@@ -73,14 +75,27 @@ export default function Dashboard() {
   const handleSettingsClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsNavigating(true);
-
     setTimeout(() => {
       router.push('/settings');
-    }, 500); // Duration of the animation
+    }, 500); 
   };
+  
+  const handleCategoryClick = (slug: string, e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setNavigatingTo(slug);
+    setTimeout(() => {
+      router.push(`/category/${slug}`);
+    }, 500);
+  };
+
 
   return (
     <div className="flex flex-col min-h-screen bg-muted/30 text-foreground">
+      {navigatingTo && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm">
+          <Loader />
+        </div>
+      )}
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-primary text-primary-foreground">
         <AppLogo />
         <div className="relative flex-1 mx-4">
@@ -111,7 +126,12 @@ export default function Dashboard() {
       <main className="flex-grow p-4 md:px-6 md:py-8 -mt-8">
         <div className="flex flex-col gap-y-4">
           {filteredCategories.map((category) => (
-            <Link href={`/category/${category.slug}`} key={category.slug} className="group">
+            <Link 
+              href={`/category/${category.slug}`} 
+              key={category.slug} 
+              className="group"
+              onClick={(e) => handleCategoryClick(category.slug, e)}
+            >
               <Card 
                 className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24"
                 style={{ backgroundColor: category.color }}
@@ -133,3 +153,4 @@ export default function Dashboard() {
     </div>
   );
 }
+
