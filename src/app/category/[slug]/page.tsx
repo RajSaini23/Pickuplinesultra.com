@@ -1,7 +1,13 @@
 import * as React from 'react';
-import { getCategory, getQuotesForCategory } from '@/data';
+import { categories, getCategory, getQuotesForCategory } from '@/data';
 import { CategoryClientPage } from './client-page';
 import { notFound } from 'next/navigation';
+
+export async function generateStaticParams() {
+  return categories.map((category) => ({
+    slug: category.slug,
+  }));
+}
 
 export default function CategoryPage({ params }: { params: { slug: string } }) {
   const categoryData = getCategory(params.slug);
