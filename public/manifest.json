@@ -1,11 +1,11 @@
 {
   "name": "Ecstatic",
   "short_name": "Ecstatic",
-  "description": "Mood-based Hinglish quotes for every feeling.",
+  "description": "Your Emotion. Our Expression.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1A1A1A",
-  "theme_color": "#4B0082",
+  "background_color": "#2A2A3A",
+  "theme_color": "#00BFFF",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
@@ -16,12 +16,6 @@
       "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
-    },
-    {
-      "src": "/icons/maskable_icon.png",
-      "sizes": "196x196",
-      "type": "image/png",
-      "purpose": "any maskable"
     }
   ]
 }
