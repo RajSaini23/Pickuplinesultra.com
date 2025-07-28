@@ -54,7 +54,6 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 207 90% 54%;
-    --radius: 0.75rem;
   }
   .dark {
     --background: 240 10% 10%;
@@ -124,31 +123,37 @@
   }
 
   .loading-border {
+    --border-width: 2px;
     position: relative;
-    border: 2px solid transparent; 
+    border: var(--border-width) solid transparent;
+    border-radius: 1.25rem; /* slightly larger than the card's rounded-2xl */
   }
-  
+
   .loading-border::before {
     content: '';
     position: absolute;
-    top: -2px; 
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
+    top: calc(-1 * var(--border-width));
+    left: calc(-1 * var(--border-width));
+    right: calc(-1 * var(--border-width));
+    bottom: calc(-1 * var(--border-width));
     border-radius: inherit;
-    padding: 2px;
     background: conic-gradient(
       from var(--angle),
       #8000FF,
       #FF6A00 25%,
       #00FFF0 50%,
       #FF007A 75%,
-      #8000FF
+      #8000FF 100%
     );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    animation: spin 1s linear infinite;
+    animation: spin 1.2s linear infinite;
+    animation-timing-function: ease-in-out;
   }
 }

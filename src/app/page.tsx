@@ -11,6 +11,7 @@ import { CategoryIcon } from '@/lib/categories';
 import { categories } from '@/data';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { Loader } from '@/components/ui/loader';
 
 const AppLogo = () => (
   <svg
@@ -129,7 +130,7 @@ export default function Dashboard() {
             >
               <Card 
                 className={cn(
-                  "overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24",
+                  "overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 active:scale-[0.98] active:shadow-md rounded-2xl border-none shadow-md h-24 p-0",
                   navigatingTo === category.slug && 'loading-border'
                 )}
               >
