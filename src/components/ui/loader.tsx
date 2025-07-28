@@ -1,60 +1,60 @@
 
 import { cn } from "@/lib/utils";
 
-const GoogleInspiredLoader = () => (
+const QuadraSpinnerLoader = () => (
   <>
     <style>
       {`
-        .google-loader {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 60px;
-          height: 60px;
+        .quadra-spinner {
+          width: 64px;
+          height: 64px;
+          position: relative;
         }
-
-        .dot {
-          width: 12px;
-          height: 12px;
+        .quadra-spinner-inner {
+          position: absolute;
+          inset: 0;
           border-radius: 50%;
-          margin: 0 3px;
-          animation: bounce 1.4s infinite ease-in-out both;
+          border-style: solid;
+          border-width: 4px;
+          animation: quadra-spin 2s ease-in-out infinite;
         }
-
-        .dot1 {
-          background-color: #4285F4;
-          animation-delay: -0.32s;
+        .quadra-spinner-inner:nth-child(1) {
+          border-color: #4285F4 transparent transparent transparent;
+          animation-delay: 0s;
         }
-
-        .dot2 {
-          background-color: #DB4437;
-          animation-delay: -0.16s;
+        .quadra-spinner-inner:nth-child(2) {
+          border-color: transparent #DB4437 transparent transparent;
+          animation-delay: -0.5s;
         }
-
-        .dot3 {
-          background-color: #F4B400;
+        .quadra-spinner-inner:nth-child(3) {
+          border-color: transparent transparent #F4B400 transparent;
+          animation-delay: -1s;
         }
-        
-        .dot4 {
-          background-color: #0F9D58;
-          animation-delay: 0.16s;
+        .quadra-spinner-inner:nth-child(4) {
+          border-color: transparent transparent transparent #0F9D58;
+          animation-delay: -1.5s;
         }
-
-        @keyframes bounce {
-          0%, 80%, 100% {
-            transform: scale(0);
+        @keyframes quadra-spin {
+          0% {
+            transform: rotate(0deg);
+            border-width: 6px;
           }
-          40% {
-            transform: scale(1.0);
+          50% {
+            transform: rotate(180deg);
+            border-width: 2px;
+          }
+          100% {
+            transform: rotate(360deg);
+            border-width: 6px;
           }
         }
       `}
     </style>
-    <div className="google-loader">
-      <div className="dot dot1"></div>
-      <div className="dot dot2"></div>
-      <div className="dot dot3"></div>
-      <div className="dot dot4"></div>
+    <div className="quadra-spinner">
+      <div className="quadra-spinner-inner"></div>
+      <div className="quadra-spinner-inner"></div>
+      <div className="quadra-spinner-inner"></div>
+      <div className="quadra-spinner-inner"></div>
     </div>
   </>
 );
@@ -63,7 +63,7 @@ const GoogleInspiredLoader = () => (
 export const Loader = ({ className }: { className?: string }) => {
   return (
     <div className={cn("relative flex items-center justify-center", className)}>
-        <GoogleInspiredLoader />
+        <QuadraSpinnerLoader />
     </div>
   )
 }
