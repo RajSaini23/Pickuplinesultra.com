@@ -9,15 +9,15 @@ const GoogleInspiredLoader = () => (
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 120px;
-          height: 120px;
+          width: 60px;
+          height: 60px;
         }
 
         .dot {
-          width: 20px;
-          height: 20px;
+          width: 12px;
+          height: 12px;
           border-radius: 50%;
-          margin: 0 5px;
+          margin: 0 3px;
           animation: bounce 1.4s infinite ease-in-out both;
         }
 
