@@ -274,7 +274,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
 
   return (
     <div className="flex flex-col h-dvh bg-background text-foreground">
-      <header className="sticky top-0 z-50 flex items-center justify-between p-4 border-b bg-card/80 backdrop-blur-sm">
+      <header className="sticky top-0 z-50 flex items-center justify-between p-4 h-20 border-b bg-card/80 backdrop-blur-sm">
         <div className="flex-1 flex justify-start">
           <Link href="/" passHref>
             <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
@@ -283,7 +283,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             </Button>
           </Link>
         </div>
-        <div className="flex-1 flex justify-center items-center gap-2 text-center">
+        <div className="flex-1 flex justify-center items-center gap-3 text-center">
             <CategoryIcon slug={category.slug} className="h-7 w-7" />
             <h1 className="text-2xl font-bold font-headline truncate">{category.name}</h1>
         </div>
