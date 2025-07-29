@@ -71,11 +71,22 @@ export default function BookmarksPage() {
                 text: `${quote.hinglish}\n\n- Shared from Ecstatic`,
             });
         } else {
+            // This error is thrown when navigator.share doesn't support files.
             throw new Error('Web Share API does not support sharing files in this browser.');
         }
-    } catch (err) {
-        // Fallback for browsers that don't support sharing files or if an error occurs
-        console.error("Share failed, falling back:", err);
+    } catch (err: any) {
+        console.error("Share failed:", err);
+
+        // This is a special case for the "NotAllowedError" which happens on some browsers
+        // if the share dialog is not triggered by a direct user gesture.
+        // We will fall back to sharing a link.
+        if (err.name === 'NotAllowedError') {
+             toast({
+                title: "Image Sharing Failed",
+                description: "Sharing link instead.",
+             });
+        }
+
         try {
             if (navigator.share) {
                 await navigator.share({
@@ -84,7 +95,7 @@ export default function BookmarksPage() {
                     url: window.location.origin,
                 });
             } else {
-                // Final fallback to clipboard
+                 // Final fallback to clipboard if even basic sharing is not supported
                 const blob = await htmlToImage.toBlob(cardRef.current, { quality: 0.95, pixelRatio: 2 });
                 if (blob && navigator.clipboard && navigator.clipboard.write) {
                     const item = new ClipboardItem({ 'image/png': blob });
@@ -92,11 +103,11 @@ export default function BookmarksPage() {
                     toast({ title: "Image Copied!", description: "Quote card image copied to clipboard." });
                 } else {
                     await navigator.clipboard.writeText(`${quote.hinglish}\n\n- Shared from Ecstatic`);
-                    toast({ title: "Link Copied!", description: "Image sharing not supported, link copied to clipboard." });
+                    toast({ title: "Text Copied!", description: "Sharing not supported, quote text copied." });
                 }
             }
-        } catch (fallbackError) {
-             if ((fallbackError as Error).name === 'AbortError') {
+        } catch (fallbackError: any) {
+             if (fallbackError.name === 'AbortError') {
                 // User cancelled the share, do nothing.
                 return;
             }
