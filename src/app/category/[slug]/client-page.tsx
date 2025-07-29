@@ -148,29 +148,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     return items;
   }, [quotes]);
 
-  const [currentItem, setCurrentItem] = React.useState(1);
   const scrollRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    const handleScroll = () => {
-        if (scrollRef.current) {
-            const { scrollTop, scrollHeight, clientHeight, children } = scrollRef.current;
-            if (children.length === 0) return;
-            const firstChild = children[0] as HTMLElement;
-            const cardHeight = firstChild.offsetHeight;
-            const gap = 16; // Corresponds to gap-4
-            const index = Math.round(scrollTop / (cardHeight + gap));
-            setCurrentItem(Math.min(index + 1, quotes.length));
-        }
-    };
-
-    const currentRef = scrollRef.current;
-    currentRef?.addEventListener('scroll', handleScroll, { passive: true });
-    
-    return () => {
-        currentRef?.removeEventListener('scroll', handleScroll);
-    };
-  }, [quotes.length]);
 
   const handleBookmarkToggle = (quote: Quote) => {
     const isBookmarked = bookmarkedIds.includes(quote.id);
@@ -283,12 +261,12 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             </Button>
           </Link>
         </div>
-        <div className="flex-1 flex justify-center items-center gap-3 text-center">
-            <CategoryIcon slug={category.slug} className="h-7 w-7" />
+        <div className="flex-1 flex justify-center items-center gap-3 text-center min-w-0">
+            <CategoryIcon slug={category.slug} className="h-7 w-7 flex-shrink-0" />
             <h1 className="text-2xl font-bold font-headline truncate">{category.name}</h1>
         </div>
-        <div className="flex-1 flex justify-end text-sm font-medium text-muted-foreground tabular-nums">
-           {currentItem} / {quotes.length}
+        <div className="flex-1 flex justify-end">
+          
         </div>
       </header>
 
