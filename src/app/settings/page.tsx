@@ -6,20 +6,17 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark, Wifi, WifiOff
+  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { CyberToggle } from '@/components/ui/cyber-toggle';
 import { useToast } from '@/hooks/use-toast';
-import { Loader } from '@/components/ui/loader';
 import { cn } from '@/lib/utils';
 
 const MotionCard = motion(Card);
 const MotionButton = motion(Button);
-
-type Status = 'checking' | 'online' | 'offline' | null;
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -57,25 +54,12 @@ export default function SettingsPage() {
     appUpdates: true,
     promotions: false,
   });
-  const [networkStatus, setNetworkStatus] = React.useState<Status>(null);
 
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme-preference') || 'auto';
     setPreferredTheme(savedTheme);
   }, []);
   
-  const handleCheckConnection = () => {
-    setNetworkStatus('checking');
-    setTimeout(() => {
-      if (navigator.onLine) {
-        setNetworkStatus('online');
-      } else {
-        setNetworkStatus('offline');
-      }
-      setTimeout(() => setNetworkStatus(null), 3000); // Reset after 3s
-    }, 1500);
-  };
-
   const changeTheme = (t: 'light' | 'dark' | 'auto') => {
     localStorage.setItem('theme-preference', t);
     setPreferredTheme(t);
@@ -192,19 +176,6 @@ export default function SettingsPage() {
 
     return content;
   }
-  
-  const renderNetworkStatus = () => {
-    switch(networkStatus) {
-        case 'checking':
-            return <div className="w-20"><Loader /></div>;
-        case 'online':
-            return <div className="flex items-center gap-2 text-green-500 font-medium"><Wifi className="h-5 w-5" /> Online</div>;
-        case 'offline':
-            return <div className="flex items-center gap-2 text-destructive font-medium"><WifiOff className="h-5 w-5" /> Offline</div>;
-        default:
-            return <Button variant="outline" size="sm" onClick={handleCheckConnection} className="h-8">Check</Button>;
-    }
-  }
 
   return (
     <div className="flex flex-col min-h-dvh bg-background">
@@ -294,9 +265,6 @@ export default function SettingsPage() {
                 </div>
                 <Separator className="my-4 bg-border/40"/>
                 <div className="flex flex-col">
-                  <SettingsRow title="Network Check">
-                     {renderNetworkStatus()}
-                  </SettingsRow>
                    {['Contact Support', 'Report a Bug'].map(item => (
                       <div key={item} className="flex items-center justify-between py-3.5 group cursor-pointer">
                           <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{item}</p>
