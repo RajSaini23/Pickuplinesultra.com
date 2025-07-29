@@ -58,74 +58,49 @@ const AnimatedSearchBar = ({ value, onChange }: { value: string, onChange: (e: R
   React.useEffect(() => {
     if (isFocused || value) return;
 
+    let typingTimeout: NodeJS.Timeout;
     const currentTerm = searchTerms[termIndex];
     let i = 0;
-    const typingInterval = setInterval(() => {
-      setDisplayedTerm(currentTerm.substring(0, i + 1));
-      i++;
-      if (i >= currentTerm.length) {
-        clearInterval(typingInterval);
-        setTimeout(() => {
-          let j = currentTerm.length;
-          const deletingInterval = setInterval(() => {
-            setDisplayedTerm(currentTerm.substring(0, j - 1));
-            j--;
-            if (j <= 0) {
-              clearInterval(deletingInterval);
-              setTermIndex((prev) => (prev + 1) % searchTerms.length);
-            }
-          }, 100);
-        }, 1500);
-      }
-    }, 150);
 
-    return () => clearInterval(typingInterval);
+    const type = () => {
+      if (i < currentTerm.length) {
+        setDisplayedTerm(currentTerm.substring(0, i + 1));
+        i++;
+        typingTimeout = setTimeout(type, 100);
+      } else {
+        typingTimeout = setTimeout(deleteTerm, 2000);
+      }
+    };
+
+    const deleteTerm = () => {
+      if (i > 0) {
+        setDisplayedTerm(currentTerm.substring(0, i - 1));
+        i--;
+        typingTimeout = setTimeout(deleteTerm, 60);
+      } else {
+        setTermIndex((prev) => (prev + 1) % searchTerms.length);
+      }
+    };
+    
+    typingTimeout = setTimeout(type, 500);
+
+    return () => clearTimeout(typingTimeout);
   }, [termIndex, isFocused, value, searchTerms]);
 
   return (
     <div className="relative w-full">
-      <div className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 z-10">
-         <AppLogo className="h-full w-full" />
+      <div className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground/80 z-10">
+         <Search />
       </div>
       <Input
         type="search"
         placeholder={isFocused || value ? "" : displayedTerm}
-        className="w-full pl-12 pr-10 h-12 bg-background text-foreground rounded-full border-none shadow-md focus-visible:ring-2 focus-visible:ring-primary/50"
+        className="w-full pl-12 pr-4 h-12 bg-background text-foreground rounded-full border-none shadow-md focus-visible:ring-2 focus-visible:ring-primary/50"
         value={value}
         onChange={onChange}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />
-      <AnimatePresence>
-        {!isFocused && !value && !displayedTerm && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-1 pointer-events-none"
-          >
-            {[...Array(3)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="h-1.5 w-1.5 bg-muted-foreground rounded-full"
-                animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.7, 1, 0.7],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <div className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground">
-        <Search />
-      </div>
     </div>
   );
 };
