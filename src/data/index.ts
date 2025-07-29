@@ -29,15 +29,9 @@ import { data as darkHumorData } from './categories/dark-humor';
 import { data as movieLinesData } from './categories/movie-lines';
 import { data as songLyricsData } from './categories/song-lyrics';
 import { data as anniversaryData } from './categories/anniversary';
-import { data as festiveData } from './categories/festive';
 import { data as valentinesDayData } from './categories/valentines-day';
 import { data as goodMorningNightData } from './categories/good-morning-night';
 import { data as situationalLoveData } from './categories/situational-love';
-import { data as yashKGFData } from './categories/yash-kgf';
-import { data as alluArjunData } from './categories/allu-arjun';
-import { data as shahRukhKhanData } from './categories/shah-rukh-khan';
-import { data as salmanKhanData } from './categories/salman-khan';
-import { data as amitabhBachchanData } from './categories/amitabh-bachchan';
 
 
 const allRawData: CategoryData[] = [
@@ -70,15 +64,9 @@ const allRawData: CategoryData[] = [
   movieLinesData,
   songLyricsData,
   anniversaryData,
-  festiveData,
   valentinesDayData,
   goodMorningNightData,
   situationalLoveData,
-  yashKGFData,
-  alluArjunData,
-  shahRukhKhanData,
-  salmanKhanData,
-  amitabhBachchanData,
 ];
 
 // Re-index all quotes to ensure global uniqueness
