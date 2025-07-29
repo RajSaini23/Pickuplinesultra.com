@@ -11,7 +11,7 @@ import { CategoryIcon } from '@/lib/categories';
 import { categories } from '@/data';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 const AppLogo = ({ className }: { className?: string }) => (
   <svg
@@ -105,6 +105,21 @@ const AnimatedSearchBar = ({ value, onChange }: { value: string, onChange: (e: R
   );
 };
 
+const AnimatedCategoryCard = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { amount: 0.5, once: true });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ scale: 0.8, opacity: 0, y: 30 }}
+      animate={inView ? { scale: 1, opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.4, delay, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = React.useState('');
@@ -160,29 +175,30 @@ export default function Dashboard() {
 
       <main className="flex-grow p-4 md:px-6 md:py-8 -mt-8">
         <div className="flex flex-col gap-y-4">
-          {filteredCategories.map((category) => (
-            <Link 
-              href={`/category/${category.slug}`} 
-              key={category.slug} 
-              className="group relative transition-transform duration-300 ease-in-out active:scale-[0.98]"
-              onClick={(e) => handleCategoryClick(category.slug, e)}
-            >
-              <Card 
-                className="overflow-hidden transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-1 rounded-2xl border-none shadow-md h-24 p-0 relative"
-                style={{ backgroundColor: category.color }}
+          {filteredCategories.map((category, index) => (
+            <AnimatedCategoryCard key={category.slug} delay={index * 0.05}>
+              <Link 
+                href={`/category/${category.slug}`} 
+                className="group relative transition-transform duration-300 ease-in-out active:scale-[0.98] block"
+                onClick={(e) => handleCategoryClick(category.slug, e)}
               >
-                  {navigatingTo === category.slug && <div className="loading-border" />}
-                  <div className="flex items-center p-4 h-full w-full">
-                    <div className="flex items-center justify-center w-16 h-16 rounded-xl flex-shrink-0 bg-white/20">
-                      <CategoryIcon slug={category.slug} className="h-8 w-8 text-white" />
+                <Card 
+                  className="overflow-hidden transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-1 rounded-2xl border-none shadow-md h-24 p-0 relative"
+                  style={{ backgroundColor: category.color }}
+                >
+                    {navigatingTo === category.slug && <div className="loading-border" />}
+                    <div className="flex items-center p-4 h-full w-full">
+                      <div className="flex items-center justify-center w-16 h-16 rounded-xl flex-shrink-0 bg-white/20">
+                        <CategoryIcon slug={category.slug} className="h-8 w-8 text-white" />
+                      </div>
+                      <div className="ml-5">
+                        <CardTitle className="font-bold text-lg text-white">{category.name}</CardTitle>
+                        <CardDescription className="text-sm text-white/80 tracking-wider">Category</CardDescription>
+                      </div>
                     </div>
-                    <div className="ml-5">
-                      <CardTitle className="font-bold text-lg text-white">{category.name}</CardTitle>
-                      <CardDescription className="text-sm text-white/80 tracking-wider">Category</CardDescription>
-                    </div>
-                  </div>
-              </Card>
-            </Link>
+                </Card>
+              </Link>
+            </AnimatedCategoryCard>
           ))}
         </div>
       </main>
