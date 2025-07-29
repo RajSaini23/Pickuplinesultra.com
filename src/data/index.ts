@@ -25,7 +25,6 @@ import { data as sarcasmData } from './categories/sarcasm';
 import { data as wordplayData } from './categories/wordplay';
 import { data as worstLinesData } from './categories/worst-lines';
 import { data as memeData } from './categories/meme';
-import { data as nerdyData } from './categories/nerdy';
 import { data as darkHumorData } from './categories/dark-humor';
 import { data as movieLinesData } from './categories/movie-lines';
 import { data as songLyricsData } from './categories/song-lyrics';
@@ -67,7 +66,6 @@ const allRawData: CategoryData[] = [
   wordplayData,
   worstLinesData,
   memeData,
-  nerdyData,
   darkHumorData,
   movieLinesData,
   songLyricsData,
