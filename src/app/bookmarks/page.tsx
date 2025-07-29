@@ -75,18 +75,13 @@ export default function BookmarksPage() {
             throw new Error('Web Share API does not support sharing files in this browser.');
         }
     } catch (err: any) {
-        console.error("Share failed:", err);
-
-        // This is a special case for the "NotAllowedError" which happens on some browsers
-        // if the share dialog is not triggered by a direct user gesture.
-        // We will fall back to sharing a link.
-        if (err.name === 'NotAllowedError') {
-             toast({
-                title: "Image Sharing Failed",
-                description: "Sharing link instead.",
-             });
+        // This is a special case for the "AbortError" which happens when the user cancels the share dialog.
+        // We do not want to show any error message in this case.
+        if (err.name === 'AbortError') {
+            return;
         }
 
+        // Fallback to sharing a link if sharing files is not supported or fails
         try {
             if (navigator.share) {
                 await navigator.share({
@@ -95,7 +90,7 @@ export default function BookmarksPage() {
                     url: window.location.origin,
                 });
             } else {
-                 // Final fallback to clipboard if even basic sharing is not supported
+                // Final fallback to clipboard if even basic sharing is not supported
                 const blob = await htmlToImage.toBlob(cardRef.current, { quality: 0.95, pixelRatio: 2 });
                 if (blob && navigator.clipboard && navigator.clipboard.write) {
                     const item = new ClipboardItem({ 'image/png': blob });
@@ -108,7 +103,6 @@ export default function BookmarksPage() {
             }
         } catch (fallbackError: any) {
              if (fallbackError.name === 'AbortError') {
-                // User cancelled the share, do nothing.
                 return;
             }
             console.error("Fallback share failed:", fallbackError);
