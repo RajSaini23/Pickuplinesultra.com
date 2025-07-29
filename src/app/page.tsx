@@ -11,7 +11,8 @@ import { CategoryIcon } from '@/lib/categories';
 import { categories } from '@/data';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import SplitText from '@/components/ui/split-text';
 
 const AppLogo = ({ className }: { className?: string }) => (
   <svg
@@ -126,6 +127,21 @@ export default function Dashboard() {
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [navigatingTo, setNavigatingTo] = React.useState<string | null>(null);
   const router = useRouter();
+  
+  const headlineCategories = React.useMemo(() => [
+    "Romantic Quotes", "Comedy Lines", "Poetic Verses",
+    "Bold Dialogues", "Dreamy Thoughts", "Sarcastic Wit"
+  ], []);
+  const [headlineIndex, setHeadlineIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const headlineInterval = setInterval(() => {
+      setHeadlineIndex(prev => (prev + 1) % headlineCategories.length);
+    }, 4000); // Change headline every 4 seconds
+
+    return () => clearInterval(headlineInterval);
+  }, [headlineCategories.length]);
+
 
   const filteredCategories = categories.filter(category =>
     category.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -170,7 +186,26 @@ export default function Dashboard() {
       </header>
 
       <div className="bg-primary px-4 md:px-6 pb-8">
-        <h1 className="text-4xl font-bold text-white">Dashboard</h1>
+        <AnimatePresence mode="wait">
+            <motion.div
+              key={headlineIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <SplitText
+                  text={headlineCategories[headlineIndex]}
+                  className="text-4xl font-bold text-white text-left"
+                  splitType="chars"
+                  delay={30}
+                  duration={0.4}
+                  ease="power2.out"
+                  from={{ opacity: 0, y: 20 }}
+                  to={{ opacity: 1, y: 0 }}
+              />
+            </motion.div>
+        </AnimatePresence>
       </div>
 
       <main className="flex-grow p-4 md:px-6 md:py-8 -mt-8">
