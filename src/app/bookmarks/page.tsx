@@ -63,44 +63,50 @@ export default function BookmarksPage() {
         }
 
         const files = [new File([blob], 'ecstatic-quote.png', { type: 'image/png' })];
-        const shareData = {
-            files,
-            title: 'Ecstatic Quote',
-            text: `${quote.hinglish}\n\n- Shared from Ecstatic`,
-        };
-
+        
         if (navigator.canShare && navigator.canShare({ files })) {
-            await navigator.share(shareData);
-        } else if (navigator.share) {
-            // Fallback for browsers that support share but not files
             await navigator.share({
+                files,
                 title: 'Ecstatic Quote',
                 text: `${quote.hinglish}\n\n- Shared from Ecstatic`,
-                url: window.location.origin,
             });
-        }
-        else {
-            // Fallback for browsers that don't support Web Share API
-            if (navigator.clipboard && navigator.clipboard.write) {
-                const item = new ClipboardItem({ 'image/png': blob });
-                await navigator.clipboard.write([item]);
-                toast({ title: "Image Copied!", description: "Quote card image copied to clipboard." });
-            } else {
-                await navigator.clipboard.writeText(`${quote.hinglish}\n\n- Shared from Ecstatic`);
-                toast({ title: "Link Copied!", description: "Image sharing not supported, link copied to clipboard." });
-            }
+        } else {
+            throw new Error('Web Share API does not support sharing files in this browser.');
         }
     } catch (err) {
-        if ((err as Error).name === 'AbortError') {
-            // User cancelled the share, do nothing.
-            return;
+        // Fallback for browsers that don't support sharing files or if an error occurs
+        console.error("Share failed, falling back:", err);
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: 'Ecstatic Quote',
+                    text: `${quote.hinglish}\n\n- Shared from Ecstatic`,
+                    url: window.location.origin,
+                });
+            } else {
+                // Final fallback to clipboard
+                const blob = await htmlToImage.toBlob(cardRef.current, { quality: 0.95, pixelRatio: 2 });
+                if (blob && navigator.clipboard && navigator.clipboard.write) {
+                    const item = new ClipboardItem({ 'image/png': blob });
+                    await navigator.clipboard.write([item]);
+                    toast({ title: "Image Copied!", description: "Quote card image copied to clipboard." });
+                } else {
+                    await navigator.clipboard.writeText(`${quote.hinglish}\n\n- Shared from Ecstatic`);
+                    toast({ title: "Link Copied!", description: "Image sharing not supported, link copied to clipboard." });
+                }
+            }
+        } catch (fallbackError) {
+             if ((fallbackError as Error).name === 'AbortError') {
+                // User cancelled the share, do nothing.
+                return;
+            }
+            console.error("Fallback share failed:", fallbackError);
+            toast({
+                variant: 'destructive',
+                title: "Sharing Failed",
+                description: "Could not share the quote. Please try again.",
+            });
         }
-        console.error("Share failed:", err);
-        toast({
-            variant: 'destructive',
-            title: "Sharing Failed",
-            description: "Could not share the quote. Please try again.",
-        });
     } finally {
         setSharingQuoteId(null);
     }
