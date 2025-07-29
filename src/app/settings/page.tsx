@@ -156,7 +156,10 @@ export default function SettingsPage() {
     );
     
     if (isLink && href) {
-        return <Link href={href}>{content}</Link>
+        return <Link href={href} className="flex items-center justify-between py-3.5 group cursor-pointer">
+          <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
+          {children}
+        </Link>
     }
     return content;
   }
@@ -241,18 +244,27 @@ export default function SettingsPage() {
             ))}
           </Section>
 
-          <Section title="Help" icon={LifeBuoy}>
-             <Link href="/network-check" className="flex items-center justify-between py-3.5 group cursor-pointer">
-                <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">Network Check</p>
-                <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-             </Link>
-             {['Contact Support', 'Report a Bug'].map(item => (
-                <div key={item} className="flex items-center justify-between py-3.5 group cursor-pointer">
-                    <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{item}</p>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+          <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
+              <div className="p-5">
+                <div className="flex items-center gap-4">
+                  <GlowIcon icon={LifeBuoy} className="h-7 w-7 text-primary" />
+                  <span className="text-lg font-semibold">Help</span>
                 </div>
-            ))}
-          </Section>
+                <Separator className="my-4 bg-border/40"/>
+                <div className="flex flex-col">
+                  <SettingsRow title="Network Check" isLink href="/network-check">
+                     <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                  </SettingsRow>
+                   {['Contact Support', 'Report a Bug'].map(item => (
+                      <div key={item} className="flex items-center justify-between py-3.5 group cursor-pointer">
+                          <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{item}</p>
+                          <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                      </div>
+                  ))}
+                </div>
+              </div>
+          </MotionCard>
+
 
           <Section title="Share the App" icon={Share2}>
             <div className="flex flex-col items-center text-center py-4">
