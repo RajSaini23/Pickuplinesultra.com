@@ -258,21 +258,13 @@ export default function SettingsPage() {
           </Section>
 
           <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-              <div className="p-5">
-                <div className="flex items-center gap-4">
-                  <GlowIcon icon={LifeBuoy} className="h-7 w-7 text-primary" />
-                  <span className="text-lg font-semibold">Help</span>
-                </div>
-                <Separator className="my-4 bg-border/40"/>
-                <div className="flex flex-col">
-                   {['Contact Support', 'Report a Bug'].map(item => (
-                      <div key={item} className="flex items-center justify-between py-3.5 group cursor-pointer">
-                          <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{item}</p>
-                          <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                      </div>
-                  ))}
-                </div>
-              </div>
+              <Link href="/network-check" className="w-full flex items-center justify-between p-5 text-left">
+                  <div className="flex items-center gap-4">
+                    <GlowIcon icon={LifeBuoy} className="h-7 w-7 text-primary" />
+                    <span className="text-lg font-semibold">Help & Support</span>
+                  </div>
+                  <ChevronRight className="h-6 w-6 text-muted-foreground" />
+              </Link>
           </MotionCard>
 
 

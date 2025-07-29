@@ -1,322 +1,405 @@
-"use client";
-
-import * as React from 'react';
-import Link from 'next/link';
-import { useTheme } from 'next-themes';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark, Wifi, WifiOff
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { CyberToggle } from '@/components/ui/cyber-toggle';
-import { useToast } from '@/hooks/use-toast';
-import { Loader } from '@/components/ui/loader';
-import { cn } from '@/lib/utils';
-
-const MotionCard = motion(Card);
-const MotionButton = motion(Button);
-
-type Status = 'checking' | 'online' | 'offline' | null;
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-    },
-  },
-};
-
-const GlowIcon = ({ icon: Icon, ...props }: { icon: React.ElementType, [key: string]: any }) => {
-  return <Icon {...props} style={{ filter: 'drop-shadow(0 0 5px hsl(var(--primary)))' }} />;
-};
-
-export default function SettingsPage() {
-  const { setTheme: setNextTheme } = useTheme();
-  const { toast } = useToast();
-  const [preferredTheme, setPreferredTheme] = React.useState('auto');
-  const [openSection, setOpenSection] = React.useState<string | null>(null);
-  const [notifications, setNotifications] = React.useState({
-    newQuotes: true,
-    appUpdates: true,
-    promotions: false,
-  });
-  const [networkStatus, setNetworkStatus] = React.useState<Status>(null);
-
-  React.useEffect(() => {
-    const savedTheme = localStorage.getItem('theme-preference') || 'auto';
-    setPreferredTheme(savedTheme);
-  }, []);
-  
-  const handleCheckConnection = () => {
-    setNetworkStatus('checking');
-    setTimeout(() => {
-      if (navigator.onLine) {
-        setNetworkStatus('online');
-      } else {
-        setNetworkStatus('offline');
-      }
-      setTimeout(() => setNetworkStatus(null), 3000); // Reset after 3s
-    }, 1500);
-  };
-
-  const changeTheme = (t: 'light' | 'dark' | 'auto') => {
-    localStorage.setItem('theme-preference', t);
-    setPreferredTheme(t);
-    if (t === 'auto') {
-      const hour = new Date().getHours();
-      setNextTheme(hour >= 6 && hour < 18 ? 'light' : 'dark');
-    } else {
-      setNextTheme(t);
-    }
-    toast({ title: "Theme Updated", description: `Theme set to ${t.charAt(0).toUpperCase() + t.slice(1)}` });
-  };
-  
-  const handleShare = async () => {
-    const shareData = {
-      title: 'Ecstatic',
-      text: 'Check out Ecstatic - Your Emotion. Our Expression.',
-      url: window.location.origin,
-    };
-    try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-      } else {
-        await navigator.clipboard.writeText(shareData.url);
-        toast({
-          title: "Link Copied!",
-          description: "The app URL has been copied to your clipboard.",
-        });
-      }
-    } catch (err) {
-      if ((err as Error).name !== 'AbortError') {
-        console.error("Share/Copy failed:", err);
-      }
-    }
-  };
+/* Urbanist Font */
+/* devanagari */
+@font-face {
+  font-family: 'Noto Sans Devanagari';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/notosansdevanagari/v27/LY2gB5y1gIFiYd0oKxnoQXVbMDLz32MEXTt4c61OOw.woff2) format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Urbanist';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/urbanist/v15/L0x-DFOFargEszd_DUHwsei3TzI.woff2) format('woff2');
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Urbanist';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/urbanist/v15/L0x-DFOFargEszd_DUHwses3.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, +2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 
-  const Section = ({ title, icon, children, isLink, href }: { title: string, icon: React.ElementType, children?: React.ReactNode, isLink?: boolean, href?: string }) => {
-    const isOpen = openSection === title;
-    
-    const content = (
-      <>
-        <div className="flex items-center gap-4">
-          <GlowIcon icon={icon} className="h-7 w-7 text-primary" />
-          <span className="text-lg font-semibold">{title}</span>
-        </div>
-        <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
-          <ChevronRight className="h-6 w-6 text-muted-foreground" />
-        </motion.div>
-      </>
-    );
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-    const buttonOrLink = isLink && href ? (
-       <Link href={href} className="w-full flex items-center justify-between p-5 text-left">
-        {content}
-      </Link>
-    ) : (
-      <button
-        className="w-full flex items-center justify-between p-5 text-left"
-        onClick={() => setOpenSection(isOpen ? null : title)}
-      >
-        {content}
-      </button>
-    );
-
-
-    return (
-      <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-        {buttonOrLink}
-        {children && (
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="px-5"
-              >
-                <Separator className="mb-4 bg-border/40"/>
-                {children}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        )}
-      </MotionCard>
-    );
-  };
-  
-  const SettingsRow = ({ title, children, isLink, href, onClick }: { title: string, children: React.ReactNode, isLink?: boolean, href?: string, onClick?: () => void }) => {
-    const content = (
-       <div className="flex items-center justify-between py-3.5 group cursor-pointer">
-          <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
-          {children}
-       </div>
-    );
-    
-    if (isLink && href) {
-        return (
-          <Link href={href} className="flex items-center justify-between py-3.5 group cursor-pointer" onClick={onClick}>
-            <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
-            {children}
-          </Link>
-        );
-    }
-    
-    if (onClick) {
-        return (
-            <div onClick={onClick} className="flex items-center justify-between py-3.5 group cursor-pointer">
-                <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
-                {children}
-            </div>
-        )
-    }
-
-    return content;
+@layer base {
+  :root {
+    --background: 240 50% 98%;
+    --foreground: 240 10% 3.9%;
+    --card: 240 50% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 240 50% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 207 90% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 348 83% 61%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 207 90% 54%;
   }
-  
-  const renderNetworkStatus = () => {
-    switch(networkStatus) {
-        case 'checking':
-            return <div className="w-20"><Loader /></div>;
-        case 'online':
-            return <div className="flex items-center gap-2 text-green-500 font-medium"><Wifi className="h-5 w-5" /> Online</div>;
-        case 'offline':
-            return <div className="flex items-center gap-2 text-destructive font-medium"><WifiOff className="h-5 w-5" /> Offline</div>;
-        default:
-            return <Button variant="outline" size="sm" onClick={handleCheckConnection} className="h-8">Check</Button>;
-    }
+  .dark {
+    --background: 240 10% 10%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 207 90% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 348 83% 61%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 20%;
+    --input: 240 3.7% 20%;
+    --ring: 207 90% 54%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Cyber Toggle Switch Styles */
+  .cyber-toggle-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 0; /* Adjusted from 15px */
+    transform: scale(0.85); /* Scaled down for better fit */
   }
 
-  return (
-    <div className="flex flex-col min-h-dvh bg-background">
-      <motion.header
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm"
-      >
-        <Link href="/" passHref>
-           <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
-              <ArrowLeft className="h-5 w-5" />
-              <span>Back</span>
-            </Button>
-        </Link>
-        <h1 className="text-2xl font-bold font-headline ml-4">Settings</h1>
-      </motion.header>
+  .cyber-toggle-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
 
-      <main className="flex-grow p-4 md:p-6">
-        <motion.div
-          className="max-w-2xl mx-auto space-y-6"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <Section title="Personalization" icon={Palette}>
-            <SettingsRow title="Theme">
-              <div className="flex items-center gap-2">
-                {([['light', Sun], ['dark', Moon], ['auto', Laptop]] as const).map(([theme, Icon]) => (
-                  <MotionButton
-                    key={theme}
-                    variant={preferredTheme === theme ? 'default' : 'outline'}
-                    size="icon"
-                    onClick={() => changeTheme(theme)}
-                    aria-label={`${theme} theme`}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="rounded-full"
-                  >
-                    <Icon className="h-5 w-5" />
-                  </MotionButton>
-                ))}
-              </div>
-            </SettingsRow>
-          </Section>
-          
-          <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20 cursor-pointer">
-            <Link href="/bookmarks" className="w-full flex items-center justify-between p-5 text-left">
-              <div className="flex items-center gap-4">
-                <GlowIcon icon={Bookmark} className="h-7 w-7 text-primary" />
-                <span className="text-lg font-semibold">Bookmarks</span>
-              </div>
-              <ChevronRight className="h-6 w-6 text-muted-foreground" />
-            </Link>
-          </MotionCard>
+  .cyber-toggle {
+    position: relative;
+    display: inline-block;
+    width: 64px;
+    height: 32px;
+    cursor: pointer;
+  }
 
-          <Section title="Notifications" icon={Bell}>
-            <div className="flex flex-col gap-2 -mt-2 pb-4">
-              {Object.entries(notifications).map(([key, value]) => (
-                <SettingsRow key={key} title={key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}>
-                  <CyberToggle
-                    id={`toggle-${key}`}
-                    checked={value}
-                    onCheckedChange={(checked) =>
-                      setNotifications(prev => ({ ...prev, [key]: checked }))
-                    }
-                  />
-                </SettingsRow>
-              ))}
-            </div>
-          </Section>
+  .cyber-toggle-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), inset 0 0 4px rgba(0, 0, 0, 0.8);
+    transition: all 0.4s cubic-bezier(0.3, 1.5, 0.7, 1);
+  }
 
-          <Section title="Legal" icon={FileText}>
-            {['Privacy Policy', 'Terms of Service'].map(item => (
-                <div key={item} className="flex items-center justify-between py-3.5 group cursor-pointer">
-                    <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{item}</p>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                </div>
-            ))}
-          </Section>
+  .cyber-toggle-track::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    border-radius: 14px;
+    background: #222;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 0;
+    transition: all 0.4s ease;
+  }
 
-          <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-              <div className="p-5">
-                <div className="flex items-center gap-4">
-                  <GlowIcon icon={LifeBuoy} className="h-7 w-7 text-primary" />
-                  <span className="text-lg font-semibold">Help</span>
-                </div>
-                <Separator className="my-4 bg-border/40"/>
-                <div className="flex flex-col">
-                  <SettingsRow title="Network Check">
-                     {renderNetworkStatus()}
-                  </SettingsRow>
-                   {['Contact Support', 'Report a Bug'].map(item => (
-                      <div key={item} className="flex items-center justify-between py-3.5 group cursor-pointer">
-                          <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{item}</p>
-                          <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                      </div>
-                  ))}
-                </div>
-              </div>
-          </MotionCard>
+  .cyber-toggle-track-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, #03e9f4, #4a00e0);
+    opacity: 0;
+    border-radius: 16px;
+    z-index: 1;
+    transition: all 0.4s ease;
+  }
 
+  .cyber-toggle-thumb {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+    background: #151515;
+    border-radius: 50%;
+    z-index: 2;
+    transition: all 0.4s cubic-bezier(0.3, 1.5, 0.7, 1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  }
 
-          <Section title="Share the App" icon={Share2}>
-            <div className="flex flex-col items-center text-center py-4">
-                <p className="text-muted-foreground mb-4 mt-2 px-4">Enjoying Ecstatic? Share the love with your friends!</p>
-                <MotionButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleShare}>
-                    <Share2 className="mr-2 h-4 w-4" /> Share Now
-                </MotionButton>
-            </div>
-          </Section>
-        </motion.div>
-      </main>
-    </div>
-  );
+  .cyber-toggle-thumb-shadow {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 70%);
+    z-index: 1;
+  }
+
+  .cyber-toggle-thumb-highlight {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.2), transparent 70%);
+    z-index: 1;
+  }
+
+  .cyber-toggle-thumb-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    opacity: 0.7;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .cyber-toggle-thumb-icon svg {
+    width: 14px;
+    height: 14px;
+    stroke: #555; /* Changed from fill */
+    transition: stroke 0.4s ease, transform 0.4s ease;
+  }
+
+  .cyber-toggle-track-dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+    z-index: 1;
+  }
+
+  .cyber-toggle-track-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #444;
+    margin-left: 3px;
+    opacity: 0.5;
+    transition: all 0.4s ease;
+  }
+
+  .cyber-toggle-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .cyber-toggle-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #03e9f4;
+    border-radius: 50%;
+    opacity: 0;
+    filter: blur(1px);
+    transition: all 0.3s ease;
+    box-shadow: 0 0 4px rgba(3, 233, 244, 0.8);
+  }
+
+  .cyber-toggle-particle:nth-child(1) { top: 15%; right: 20%; }
+  .cyber-toggle-particle:nth-child(2) { top: 45%; right: 30%; }
+  .cyber-toggle-particle:nth-child(3) { top: 25%; right: 40%; }
+  .cyber-toggle-particle:nth-child(4) { top: 60%; right: 15%; }
+
+  .cyber-toggle-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .cyber-toggle-label-off {
+    color: #555;
+    transition: all 0.4s ease;
+  }
+
+  .cyber-toggle-label-on {
+    color: #555;
+    transition: all 0.4s ease;
+  }
+
+  /* Checked States */
+  .cyber-toggle-checkbox:checked + .cyber-toggle .cyber-toggle-track-glow {
+    opacity: 0.5;
+  }
+
+  .cyber-toggle-checkbox:checked + .cyber-toggle .cyber-toggle-thumb {
+    left: calc(100% - 28px);
+    background: #222;
+  }
+
+  .cyber-toggle-checkbox:checked + .cyber-toggle .cyber-toggle-thumb-icon {
+    transform: rotate(360deg);
+  }
+
+  .cyber-toggle-checkbox:checked + .cyber-toggle .cyber-toggle-thumb-icon svg {
+    stroke: #03e9f4; /* Changed from fill */
+  }
+
+  .cyber-toggle-checkbox:checked + .cyber-toggle .cyber-toggle-track-dot {
+    background: #03e9f4;
+    box-shadow: 0 0 4px #03e9f4;
+    opacity: 1;
+  }
+
+  .cyber-toggle-checkbox:checked ~ .cyber-toggle-labels .cyber-toggle-label-on {
+    color: #03e9f4;
+    text-shadow: 0 0 5px rgba(3, 233, 244, 0.5);
+  }
+
+  .cyber-toggle-checkbox:not(:checked) ~ .cyber-toggle-labels .cyber-toggle-label-off {
+    color: #aaa;
+  }
+
+  /* Particle Animation when checked */
+  .cyber-toggle-checkbox:checked + .cyber-toggle .cyber-toggle-particle {
+    opacity: 1;
+    animation: cyber-toggle-float 3s infinite alternate;
+  }
+
+  .cyber-toggle-checkbox:checked + .cyber-toggle .cyber-toggle-particle:nth-child(1) { animation-delay: 0s; }
+  .cyber-toggle-checkbox:checked + .cyber-toggle .cyber-toggle-particle:nth-child(2) { animation-delay: 0.5s; }
+  .cyber-toggle-checkbox:checked + .cyber-toggle .cyber-toggle-particle:nth-child(3) { animation-delay: 1s; }
+  .cyber-toggle-checkbox:checked + .cyber-toggle .cyber-toggle-particle:nth-child(4) { animation-delay: 1.5s; }
+
+  /* Hover Effect */
+  .cyber-toggle:hover .cyber-toggle-track::before {
+    background: #272727;
+  }
+
+  .cyber-toggle:hover .cyber-toggle-thumb {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  .cyber-toggle-checkbox:checked + .cyber-toggle:hover .cyber-toggle-track-glow {
+    opacity: 0.7;
+  }
+
+  /* Focus Effect */
+  .cyber-toggle-checkbox:focus-visible + .cyber-toggle {
+    outline: none;
+  }
+
+  .cyber-toggle-checkbox:focus-visible + .cyber-toggle::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 20px;
+    border: 2px solid hsl(var(--primary) / 0.5);
+    opacity: 0.5;
+  }
+
+  @keyframes cyber-toggle-float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0); }
+  }
+}
+
+@layer utilities {
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted-foreground)) 25%,
+      hsl(var(--foreground)) 50%,
+      hsl(var(--muted-foreground)) 75%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 5s infinite linear;
+  }
+
+  @property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  @keyframes spin {
+    to {
+      --angle: 360deg;
+    }
+  }
+  
+  .loading-border {
+    --light-border: conic-gradient(from var(--angle), transparent 25%, #8B5CF6, #EC4899, #F59E0B, #10B981, #3B82F6, transparent 100%);
+    --dark-border: conic-gradient(from var(--angle), transparent 25%, #A78BFA, #F472B6, #FBBF24, #34D399, #60A5FA, transparent 100%);
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    border-radius: inherit;
+    padding: 2px;
+    background: var(--light-border);
+    animation: spin 1.2s linear infinite;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .dark .loading-border {
+      background: var(--dark-border);
+  }
 }
