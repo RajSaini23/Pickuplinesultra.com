@@ -58,6 +58,9 @@ export const useRatingPrompt = () => {
       }
     };
 
-    checkAndShowPrompt();
+    // We delay the check slightly to allow other parts of the app to initialize
+    const timer = setTimeout(checkAndShowPrompt, 1000);
+
+    return () => clearTimeout(timer);
   }, [bookmarkedIds, setIsOpen]);
 };
