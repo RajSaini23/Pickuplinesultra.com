@@ -13,7 +13,6 @@ import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { CyberToggle } from '@/components/ui/cyber-toggle';
 import { useToast } from '@/hooks/use-toast';
-import { cn } from '@/lib/utils';
 
 const MotionCard = motion(Card);
 const MotionButton = motion(Button);
@@ -49,11 +48,12 @@ export default function SettingsPage() {
   const { toast } = useToast();
   const [preferredTheme, setPreferredTheme] = React.useState('auto');
   const [openSection, setOpenSection] = React.useState<string | null>(null);
-  const [notifications, setNotifications] = React.useState({
-    newQuotes: true,
-    appUpdates: true,
-    promotions: false,
-  });
+  
+  // State for each notification toggle
+  const [newQuotes, setNewQuotes] = React.useState(true);
+  const [appUpdates, setAppUpdates] = React.useState(true);
+  const [promotions, setPromotions] = React.useState(false);
+
 
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme-preference') || 'auto';
@@ -148,33 +148,13 @@ export default function SettingsPage() {
     );
   };
   
-  const SettingsRow = ({ title, children, isLink, href, onClick }: { title: string, children: React.ReactNode, isLink?: boolean, href?: string, onClick?: () => void }) => {
-    const content = (
-       <div className="flex items-center justify-between py-3.5 group cursor-pointer">
-          <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
+  const SettingsRow = ({ title, children }: { title: string, children: React.ReactNode }) => {
+    return (
+       <div className="flex items-center justify-between py-3.5 group">
+          <p className="font-medium text-foreground/80">{title}</p>
           {children}
        </div>
     );
-    
-    if (isLink && href) {
-        return (
-          <Link href={href} className="flex items-center justify-between py-3.5 group cursor-pointer" onClick={onClick}>
-            <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
-            {children}
-          </Link>
-        );
-    }
-    
-    if (onClick) {
-        return (
-            <div onClick={onClick} className="flex items-center justify-between py-3.5 group cursor-pointer">
-                <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
-                {children}
-            </div>
-        )
-    }
-
-    return content;
   }
 
   return (
@@ -204,20 +184,23 @@ export default function SettingsPage() {
           <Section title="Personalization" icon={Palette}>
             <SettingsRow title="Theme">
               <div className="flex items-center gap-2">
-                {([['light', Sun], ['dark', Moon], ['auto', Laptop]] as const).map(([theme, Icon]) => (
-                  <MotionButton
-                    key={theme}
-                    variant={preferredTheme === theme ? 'default' : 'outline'}
-                    size="icon"
-                    onClick={() => changeTheme(theme)}
-                    aria-label={`${theme} theme`}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="rounded-full"
-                  >
-                    <Icon className="h-5 w-5" />
-                  </MotionButton>
-                ))}
+                {(['light', 'dark', 'auto'] as const).map((theme) => {
+                  const Icon = theme === 'light' ? Sun : theme === 'dark' ? Moon : Laptop;
+                  return (
+                    <MotionButton
+                      key={theme}
+                      variant={preferredTheme === theme ? 'default' : 'outline'}
+                      size="icon"
+                      onClick={() => changeTheme(theme)}
+                      aria-label={`${theme} theme`}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="rounded-full"
+                    >
+                      <Icon className="h-5 w-5" />
+                    </MotionButton>
+                  );
+                })}
               </div>
             </SettingsRow>
           </Section>
@@ -234,17 +217,27 @@ export default function SettingsPage() {
 
           <Section title="Notifications" icon={Bell}>
             <div className="flex flex-col gap-2 -mt-2 pb-4">
-              {Object.entries(notifications).map(([key, value]) => (
-                <SettingsRow key={key} title={key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}>
-                  <CyberToggle
-                    id={`toggle-${key}`}
-                    checked={value}
-                    onCheckedChange={(checked) =>
-                      setNotifications(prev => ({ ...prev, [key]: checked }))
-                    }
-                  />
-                </SettingsRow>
-              ))}
+              <SettingsRow title="New Quotes">
+                <CyberToggle
+                  id="toggle-new-quotes"
+                  checked={newQuotes}
+                  onCheckedChange={setNewQuotes}
+                />
+              </SettingsRow>
+              <SettingsRow title="App Updates">
+                <CyberToggle
+                  id="toggle-app-updates"
+                  checked={appUpdates}
+                  onCheckedChange={setAppUpdates}
+                />
+              </SettingsRow>
+              <SettingsRow title="Promotions">
+                <CyberToggle
+                  id="toggle-promotions"
+                  checked={promotions}
+                  onCheckedChange={setPromotions}
+                />
+              </SettingsRow>
             </div>
           </Section>
 
@@ -258,13 +251,13 @@ export default function SettingsPage() {
           </Section>
 
           <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-              <Link href="/network-check" className="w-full flex items-center justify-between p-5 text-left">
+              <div className="w-full flex items-center justify-between p-5 text-left">
                   <div className="flex items-center gap-4">
                     <GlowIcon icon={LifeBuoy} className="h-7 w-7 text-primary" />
                     <span className="text-lg font-semibold">Help & Support</span>
                   </div>
                   <ChevronRight className="h-6 w-6 text-muted-foreground" />
-              </Link>
+              </div>
           </MotionCard>
 
 
