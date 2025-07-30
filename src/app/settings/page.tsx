@@ -232,12 +232,14 @@ export default function SettingsPage() {
           </Section>
 
           <Section title="Legal" icon={FileText}>
-            {['Privacy Policy', 'Terms of Service'].map(item => (
-                <div key={item} className="flex items-center justify-between py-3.5 group cursor-pointer">
-                    <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{item}</p>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                </div>
-            ))}
+             <Link href="/privacy-policy" className="flex items-center justify-between py-3.5 group cursor-pointer">
+                <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">Privacy Policy</p>
+                <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+            </Link>
+             <Link href="/terms-of-service" className="flex items-center justify-between py-3.5 group cursor-pointer">
+                <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">Terms of Service</p>
+                <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+            </Link>
           </Section>
 
           <Section title="Help & Support" icon={LifeBuoy}>
