@@ -13,6 +13,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import SplitText from '@/components/ui/split-text';
+import { useNetwork } from '@/context/network-context';
 
 const AppLogo = ({ className }: { className?: string }) => (
   <svg
@@ -127,6 +128,7 @@ export default function Dashboard() {
   const [isNavigating, setIsNavigating] = React.useState(false);
   const [navigatingTo, setNavigatingTo] = React.useState<string | null>(null);
   const router = useRouter();
+  const { isOnline } = useNetwork();
   
   const headlineCategories = React.useMemo(() => [
     "Romantic Quotes", "Comedy Lines", "Poetic Verses",
@@ -167,7 +169,16 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col min-h-screen bg-muted/30 text-foreground">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-primary text-primary-foreground">
-        <AppLogo className="h-8 w-8" />
+        <div className="flex items-center gap-2">
+            <AppLogo className="h-8 w-8" />
+             <div 
+                className={cn(
+                    "w-3 h-3 rounded-full transition-colors duration-500",
+                    isOnline ? "bg-green-400" : "bg-red-500"
+                )}
+                title={isOnline ? "Online" : "Offline"}
+            />
+        </div>
         <div className="relative flex-1 mx-4">
           <AnimatedSearchBar 
             value={searchTerm}

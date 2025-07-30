@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { SplashScreen as CustomSplashScreen } from '@/components/splash-screen';
 import { BookmarkProvider } from '@/context/bookmark-context';
+import { NetworkProvider } from '@/context/network-context';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Capacitor } from '@capacitor/core';
@@ -39,12 +40,14 @@ export function ClientLayout({
 
   return (
     <ThemeProvider>
-      <BookmarkProvider>
-        <CustomSplashScreen>
-          {children}
-          <Toaster />
-        </CustomSplashScreen>
-      </BookmarkProvider>
+      <NetworkProvider>
+        <BookmarkProvider>
+          <CustomSplashScreen>
+            {children}
+            <Toaster />
+          </CustomSplashScreen>
+        </BookmarkProvider>
+      </NetworkProvider>
     </ThemeProvider>
   );
 }
