@@ -21,9 +21,9 @@ export const OfflinePage = () => {
         ) : (
           <>
             <WifiOff className="h-24 w-24 text-destructive/80 mb-6" />
-            <h1 className="text-4xl font-bold font-headline mb-2">You are Offline</h1>
+            <h1 className="text-4xl font-bold font-headline mb-2">No Internet Connection</h1>
             <p className="text-lg text-muted-foreground max-w-md mx-auto mb-8">
-              It seems you've lost your internet connection. Please check your network and try again.
+              It seems you're offline. Please check your internet connection and try again.
             </p>
             <Button size="lg" onClick={checkConnection}>
               Try Again

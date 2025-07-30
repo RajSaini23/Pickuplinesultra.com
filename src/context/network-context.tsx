@@ -16,7 +16,7 @@ export const NetworkProvider = ({ children }: { children: ReactNode }) => {
   const [isChecking, setIsChecking] = useState(false);
 
   useEffect(() => {
-    // Set initial status
+    // Set initial status based on browser's navigator.onLine property
     if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
         setIsOnline(window.navigator.onLine);
     }
@@ -34,6 +34,7 @@ export const NetworkProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const checkConnection = useCallback(async () => {
+    // If browser reports offline, don't bother fetching
     if (typeof window.navigator.onLine !== 'undefined' && !window.navigator.onLine) {
         setIsOnline(false);
         return;
