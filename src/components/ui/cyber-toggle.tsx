@@ -8,16 +8,12 @@ interface CyberToggleProps {
   id: string;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
-  labelOn?: string;
-  labelOff?: string;
 }
 
 export const CyberToggle: React.FC<CyberToggleProps> = ({
   id,
   checked,
-  onCheckedChange,
-  labelOn = "On",
-  labelOff = "Off"
+  onCheckedChange
 }) => {
   return (
     <div className="cyber-toggle-wrapper">
@@ -52,8 +48,8 @@ export const CyberToggle: React.FC<CyberToggleProps> = ({
         </div>
       </label>
       <div className="cyber-toggle-labels">
-        <span className="cyber-toggle-label-off">{labelOff}</span>
-        <span className="cyber-toggle-label-on">{labelOn}</span>
+        <span className="cyber-toggle-label-off">Off</span>
+        <span className="cyber-toggle-label-on">On</span>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark, Star, AppWindow, ExternalLink
+  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark, Star, AppWindow, Wifi, Loader, XCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -14,6 +14,8 @@ import { Separator } from '@/components/ui/separator';
 import { CyberToggle } from '@/components/ui/cyber-toggle';
 import { useToast } from '@/hooks/use-toast';
 import { useRatingDialog } from '@/components/ui/rating-dialog';
+import { cn } from '@/lib/utils';
+
 
 const MotionCard = motion(Card);
 const MotionButton = motion(Button);
@@ -50,6 +52,7 @@ export default function SettingsPage() {
   const { setIsOpen: openRatingDialog } = useRatingDialog();
   const [preferredTheme, setPreferredTheme] = React.useState('auto');
   const [openSection, setOpenSection] = React.useState<string | null>(null);
+  const [moreAppsStatus, setMoreAppsStatus] = React.useState<'idle' | 'loading' | 'error'>('idle');
   
   const [newQuotes, setNewQuotes] = React.useState(true);
   const [appUpdates, setAppUpdates] = React.useState(true);
@@ -92,6 +95,18 @@ export default function SettingsPage() {
         console.error("Share/Copy failed:", err);
       }
     }
+  };
+
+  const handleMoreAppsClick = () => {
+    if (moreAppsStatus !== 'idle') return;
+
+    setMoreAppsStatus('loading');
+    setTimeout(() => {
+      setMoreAppsStatus('error');
+      setTimeout(() => {
+        setMoreAppsStatus('idle');
+      }, 2500); // Reset after showing error for 2.5s
+    }, 2000); // Simulate loading for 2s
   };
 
 
@@ -232,8 +247,6 @@ export default function SettingsPage() {
                   id="toggle-new-quotes"
                   checked={newQuotes}
                   onCheckedChange={setNewQuotes}
-                  labelOn="On"
-                  labelOff="Off"
                 />
               </SettingsRow>
               <SettingsRow title="App Updates">
@@ -241,8 +254,6 @@ export default function SettingsPage() {
                   id="toggle-app-updates"
                   checked={appUpdates}
                   onCheckedChange={setAppUpdates}
-                  labelOn="On"
-                  labelOff="Off"
                 />
               </SettingsRow>
             </div>
@@ -264,9 +275,23 @@ export default function SettingsPage() {
                 <SettingsRow title="Rate Us" onClick={() => openRatingDialog(true)}>
                     <Star className="h-5 w-5 text-muted-foreground group-hover:text-yellow-400 group-hover:fill-yellow-400 transition-colors" />
                 </SettingsRow>
-                <SettingsRow title="More Apps" isLink href="https://firebase.google.com/">
-                    <ExternalLink className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                </SettingsRow>
+                 <SettingsRow title="More Apps" onClick={handleMoreAppsClick}>
+                    <div className="text-right">
+                        <AnimatePresence mode="wait" initial={false}>
+                            <motion.div
+                                key={moreAppsStatus}
+                                initial={{ opacity: 0, y: 5 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -5 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                {moreAppsStatus === 'idle' && <AppWindow className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />}
+                                {moreAppsStatus === 'loading' && <div className="h-5 w-5 flex items-center justify-center"><Loader /></div>}
+                                {moreAppsStatus === 'error' && <XCircle className="h-5 w-5 text-destructive" />}
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+                 </SettingsRow>
              </div>
           </Section>
 

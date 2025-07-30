@@ -6,7 +6,7 @@ const DotSpinner = () => (
     <style>
       {`
         .dot-spinner {
-          --uib-size: 2.8rem;
+          --uib-size: 1.75rem; /* Adjusted for smaller contexts */
           --uib-speed: .9s;
           --uib-color: hsl(var(--primary));
           position: relative;
@@ -37,7 +37,7 @@ const DotSpinner = () => (
           transform: scale(0);
           opacity: 0.5;
           animation: pulse0112 calc(var(--uib-speed) * 1.111) ease-in-out infinite;
-          box-shadow: 0 0 20px hsla(var(--primary), 0.3);
+          box-shadow: 0 0 10px hsla(var(--primary), 0.3);
         }
 
         .dot-spinner__dot:nth-child(2) {
@@ -123,10 +123,12 @@ const DotSpinner = () => (
   </>
 );
 
-export const Loader = ({ className }: { className?: string }) => {
+export const Loader = ({ className, large=false }: { className?: string, large?: boolean }) => {
   return (
     <div className={cn("relative flex items-center justify-center", className)}>
-      <DotSpinner />
+      <div style={{ '--uib-size': large ? '2.8rem' : '1.75rem' } as React.CSSProperties}>
+         <DotSpinner />
+      </div>
     </div>
   )
 }
