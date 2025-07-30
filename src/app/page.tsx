@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import SplitText from '@/components/ui/split-text';
 import { useNetwork } from '@/context/network-context';
+import { useRatingPrompt } from '@/hooks/use-rating-prompt';
 
 const AppLogo = ({ className }: { className?: string }) => (
   <svg
@@ -29,7 +30,7 @@ const AppLogo = ({ className }: { className?: string }) => (
         @keyframes float {
           0% { transform: translateY(0px); }
           50% { transform: translateY(-2px); }
-          100% { transform: translateY(0px); }
+          100% { translateY(0px); }
         }
         .floating-logo {
           animation: float 3s ease-in-out infinite;
@@ -135,6 +136,9 @@ export default function Dashboard() {
     "Bold Dialogues", "Dreamy Thoughts", "Sarcastic Wit"
   ], []);
   const [headlineIndex, setHeadlineIndex] = React.useState(0);
+  
+  useRatingPrompt();
+
 
   React.useEffect(() => {
     const headlineInterval = setInterval(() => {

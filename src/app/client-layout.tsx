@@ -12,6 +12,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { Capacitor } from '@capacitor/core';
 import { Wifi } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { RatingDialogProvider } from '@/components/ui/rating-dialog';
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { isOnline, justReconnected } = useNetwork();
@@ -71,10 +72,12 @@ export function ClientLayout({
     <ThemeProvider>
       <NetworkProvider>
         <BookmarkProvider>
-          <CustomSplashScreen>
-            <AppContent>{children}</AppContent>
-            <Toaster />
-          </CustomSplashScreen>
+          <RatingDialogProvider>
+            <CustomSplashScreen>
+              <AppContent>{children}</AppContent>
+              <Toaster />
+            </CustomSplashScreen>
+          </RatingDialogProvider>
         </BookmarkProvider>
       </NetworkProvider>
     </ThemeProvider>
