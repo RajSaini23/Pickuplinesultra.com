@@ -6,13 +6,14 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark
+  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark, Wifi, WifiOff
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { CyberToggle } from '@/components/ui/cyber-toggle';
 import { useToast } from '@/hooks/use-toast';
+import { NetworkStatusLoader } from '@/components/ui/network-status-loader';
 
 const MotionCard = motion(Card);
 const MotionButton = motion(Button);
@@ -49,15 +50,41 @@ export default function SettingsPage() {
   const [preferredTheme, setPreferredTheme] = React.useState('auto');
   const [openSection, setOpenSection] = React.useState<string | null>(null);
   
-  // State for each notification toggle
   const [newQuotes, setNewQuotes] = React.useState(true);
   const [appUpdates, setAppUpdates] = React.useState(true);
+  
+  const [networkStatus, setNetworkStatus] = React.useState<'online' | 'offline' | 'checking'>('online');
+  const [isChecking, setIsChecking] = React.useState(false);
 
 
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme-preference') || 'auto';
     setPreferredTheme(savedTheme);
+    setNetworkStatus(navigator.onLine ? 'online' : 'offline');
+
+    const handleOnline = () => setNetworkStatus('online');
+    const handleOffline = () => setNetworkStatus('offline');
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+     return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
   }, []);
+  
+  const handleCheckNetwork = () => {
+    setIsChecking(true);
+    setNetworkStatus('checking');
+    setTimeout(() => {
+        setNetworkStatus(navigator.onLine ? 'online' : 'offline');
+        setIsChecking(false);
+        toast({
+            title: "Network Status",
+            description: navigator.onLine ? "You are connected to the internet." : "No internet connection found.",
+        });
+    }, 2500);
+  };
   
   const changeTheme = (t: 'light' | 'dark' | 'auto') => {
     localStorage.setItem('theme-preference', t);
@@ -242,15 +269,27 @@ export default function SettingsPage() {
             ))}
           </Section>
 
-          <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-              <div className="w-full flex items-center justify-between p-5 text-left">
-                  <div className="flex items-center gap-4">
-                    <GlowIcon icon={LifeBuoy} className="h-7 w-7 text-primary" />
-                    <span className="text-lg font-semibold">Help & Support</span>
-                  </div>
-                  <ChevronRight className="h-6 w-6 text-muted-foreground" />
-              </div>
-          </MotionCard>
+          <Section title="Help & Support" icon={LifeBuoy}>
+             <SettingsRow title="Network Status">
+                <div className="flex items-center gap-4">
+                  {isChecking ? (
+                     <div className="relative w-24 h-12">
+                        <NetworkStatusLoader />
+                     </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                       {networkStatus === 'online' ? <Wifi className="h-5 w-5 text-green-500"/> : <WifiOff className="h-5 w-5 text-destructive"/>}
+                       <span className={`font-semibold ${networkStatus === 'online' ? 'text-green-500' : 'text-destructive'}`}>
+                          {networkStatus === 'online' ? 'Online' : 'Offline'}
+                       </span>
+                    </div>
+                  )}
+                  <Button variant="outline" onClick={handleCheckNetwork} disabled={isChecking}>
+                    {isChecking ? 'Checking...' : 'Check'}
+                  </Button>
+                </div>
+             </SettingsRow>
+          </Section>
 
 
           <Section title="Share the App" icon={Share2}>
