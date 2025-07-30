@@ -243,14 +243,7 @@ export default function SettingsPage() {
           </Section>
 
           <Section title="Help & Support" icon={LifeBuoy}>
-             <div className="flex items-center justify-between py-3.5 group cursor-pointer">
-                <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">Contact Us</p>
-                <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-            </div>
-             <div className="flex items-center justify-between py-3.5 group cursor-pointer">
-                <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">FAQ</p>
-                <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-            </div>
+             
           </Section>
 
 
