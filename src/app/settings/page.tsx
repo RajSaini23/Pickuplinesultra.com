@@ -6,13 +6,14 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark
+  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark, Star, AppWindow, ExternalLink
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { CyberToggle } from '@/components/ui/cyber-toggle';
 import { useToast } from '@/hooks/use-toast';
+import { useRatingDialog } from '@/components/ui/rating-dialog';
 
 const MotionCard = motion(Card);
 const MotionButton = motion(Button);
@@ -46,6 +47,7 @@ const GlowIcon = ({ icon: Icon, ...props }: { icon: React.ElementType, [key: str
 export default function SettingsPage() {
   const { setTheme: setNextTheme } = useTheme();
   const { toast } = useToast();
+  const { setIsOpen: openRatingDialog } = useRatingDialog();
   const [preferredTheme, setPreferredTheme] = React.useState('auto');
   const [openSection, setOpenSection] = React.useState<string | null>(null);
   
@@ -145,10 +147,21 @@ export default function SettingsPage() {
     );
   };
   
-  const SettingsRow = ({ title, children }: { title: string, children: React.ReactNode }) => {
+  const SettingsRow = ({ title, children, onClick, isLink = false, href }: { title: string, children: React.ReactNode, onClick?: () => void, isLink?: boolean, href?: string }) => {
+    const commonClasses = "flex items-center justify-between py-3.5 group cursor-pointer";
+
+    if (isLink && href) {
+        return (
+            <a href={href} target="_blank" rel="noopener noreferrer" className={commonClasses}>
+                <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
+                {children}
+            </a>
+        );
+    }
+    
     return (
-       <div className="flex items-center justify-between py-3.5 group">
-          <p className="font-medium text-foreground/80">{title}</p>
+       <div onClick={onClick} className={commonClasses}>
+          <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
           {children}
        </div>
     );
@@ -219,6 +232,8 @@ export default function SettingsPage() {
                   id="toggle-new-quotes"
                   checked={newQuotes}
                   onCheckedChange={setNewQuotes}
+                  labelOn="On"
+                  labelOff="Off"
                 />
               </SettingsRow>
               <SettingsRow title="App Updates">
@@ -226,6 +241,8 @@ export default function SettingsPage() {
                   id="toggle-app-updates"
                   checked={appUpdates}
                   onCheckedChange={setAppUpdates}
+                  labelOn="On"
+                  labelOff="Off"
                 />
               </SettingsRow>
             </div>
@@ -243,7 +260,14 @@ export default function SettingsPage() {
           </Section>
 
           <Section title="Help & Support" icon={LifeBuoy}>
-             
+             <div className="pb-1">
+                <SettingsRow title="Rate Us" onClick={() => openRatingDialog(true)}>
+                    <Star className="h-5 w-5 text-muted-foreground group-hover:text-yellow-400 group-hover:fill-yellow-400 transition-colors" />
+                </SettingsRow>
+                <SettingsRow title="More Apps" isLink href="https://firebase.google.com/">
+                    <ExternalLink className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                </SettingsRow>
+             </div>
           </Section>
 
 
