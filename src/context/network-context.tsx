@@ -42,12 +42,11 @@ export const NetworkProvider = ({ children }: { children: ReactNode }) => {
   const checkConnection = useCallback(async () => {
     if (typeof window === 'undefined' || typeof window.navigator === 'undefined') return;
 
-    if (!window.navigator.onLine) {
-        setIsOnline(false);
-        return;
-    }
-
     setIsChecking(true);
+
+    // Simulate a network check delay for the loader to be visible
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     try {
         const response = await fetch('/favicon.ico?_=' + new Date().getTime(), {
             method: 'HEAD',
@@ -65,9 +64,7 @@ export const NetworkProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
         setIsOnline(false);
     } finally {
-      setTimeout(() => {
-        setIsChecking(false);
-      }, 2000);
+      setIsChecking(false);
     }
   }, []);
 
