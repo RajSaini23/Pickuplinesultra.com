@@ -1,6 +1,6 @@
 
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { SplashScreen as CustomSplashScreen } from '@/components/splash-screen';
@@ -10,15 +10,32 @@ import { OfflinePage } from '@/components/ui/offline-page';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Capacitor } from '@capacitor/core';
+import { Wifi } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function AppContent({ children }: { children: React.ReactNode }) {
-  const { isOnline } = useNetwork();
-
-  if (!isOnline) {
-    return <OfflinePage />;
-  }
-
-  return <>{children}</>;
+  const { isOnline, justReconnected } = useNetwork();
+  
+  return (
+    <div className="relative">
+      <AnimatePresence>
+        {justReconnected && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            className="fixed top-0 left-0 right-0 z-[200] flex items-center justify-center p-3 bg-blue-500 text-white shadow-lg"
+          >
+            <Wifi className="mr-2 h-5 w-5" />
+            <span className="font-semibold">Back Online</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {!isOnline ? <OfflinePage /> : <>{children}</>}
+    </div>
+  );
 }
 
 

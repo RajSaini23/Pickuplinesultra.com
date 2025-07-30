@@ -24,6 +24,10 @@ const NetworkStatusLoader = () => (
           animation: dot1_ 3s cubic-bezier(0.55,0.3,0.24,0.99) infinite;
         }
 
+        .dark .loader {
+          background: #3c517d;
+        }
+
         .loader:nth-child(2) {
           z-index: 11;
           width: 150px;
@@ -33,6 +37,10 @@ const NetworkStatusLoader = () => (
           border-radius: 3px;
           background: #3c517d;
           animation-name: dot2_;
+        }
+        
+        .dark .loader:nth-child(2) {
+            background: #6bb2cd;
         }
 
         .loader:nth-child(3) {
@@ -44,6 +52,10 @@ const NetworkStatusLoader = () => (
           border-radius: 0 0 5px 5px;
           background: #6bb2cd;
           animation-name: dot3_;
+        }
+
+        .dark .loader:nth-child(3) {
+          background: #9ad4e6;
         }
 
         @keyframes dot1_ {

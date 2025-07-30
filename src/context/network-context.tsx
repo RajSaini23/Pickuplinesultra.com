@@ -7,6 +7,7 @@ interface NetworkContextType {
   isOnline: boolean;
   isChecking: boolean;
   checkConnection: () => Promise<void>;
+  justReconnected: boolean;
 }
 
 const NetworkContext = createContext<NetworkContextType | undefined>(undefined);
@@ -14,14 +15,19 @@ const NetworkContext = createContext<NetworkContextType | undefined>(undefined);
 export const NetworkProvider = ({ children }: { children: ReactNode }) => {
   const [isOnline, setIsOnline] = useState(true);
   const [isChecking, setIsChecking] = useState(false);
+  const [justReconnected, setJustReconnected] = useState(false);
 
   useEffect(() => {
-    // Set initial status based on browser's navigator.onLine property
     if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
-        setIsOnline(window.navigator.onLine);
+      setIsOnline(window.navigator.onLine);
     }
     
-    const handleOnline = () => setIsOnline(true);
+    const handleOnline = () => {
+      setIsOnline(true);
+      setJustReconnected(true);
+      setTimeout(() => setJustReconnected(false), 3000); 
+    };
+
     const handleOffline = () => setIsOnline(false);
 
     window.addEventListener('online', handleOnline);
@@ -34,32 +40,39 @@ export const NetworkProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const checkConnection = useCallback(async () => {
-    // If browser reports offline, don't bother fetching
-    if (typeof window.navigator.onLine !== 'undefined' && !window.navigator.onLine) {
+    if (typeof window === 'undefined' || typeof window.navigator === 'undefined') return;
+
+    if (!window.navigator.onLine) {
         setIsOnline(false);
         return;
     }
 
     setIsChecking(true);
     try {
-        // We add a random query parameter to prevent caching of the request.
         const response = await fetch('/favicon.ico?_=' + new Date().getTime(), {
             method: 'HEAD',
             cache: 'no-cache',
         });
-        setIsOnline(response.ok);
+      
+        if(response.ok) {
+          setIsOnline(true);
+          setJustReconnected(true);
+          setTimeout(() => setJustReconnected(false), 3000);
+        } else {
+          setIsOnline(false);
+        }
+
     } catch (error) {
         setIsOnline(false);
     } finally {
-      // A small delay to make the loader feel smoother.
       setTimeout(() => {
         setIsChecking(false);
-      }, 1500);
+      }, 2000);
     }
   }, []);
 
   return (
-    <NetworkContext.Provider value={{ isOnline, isChecking, checkConnection }}>
+    <NetworkContext.Provider value={{ isOnline, isChecking, checkConnection, justReconnected }}>
       {children}
     </NetworkContext.Provider>
   );

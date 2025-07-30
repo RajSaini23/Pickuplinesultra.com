@@ -1,10 +1,11 @@
 
 "use client";
 
-import { WifiOff } from 'lucide-react';
+import { WifiOff, RotateCw } from 'lucide-react';
 import { useNetwork } from '@/context/network-context';
 import { Button } from '@/components/ui/button';
 import NetworkStatusLoader from './network-status-loader';
+import { motion } from 'framer-motion';
 
 export const OfflinePage = () => {
   const { checkConnection, isChecking } = useNetwork();
@@ -15,19 +16,25 @@ export const OfflinePage = () => {
         {isChecking ? (
           <>
             <NetworkStatusLoader />
-            <p className="text-2xl font-semibold mt-20 text-primary">Checking Connection...</p>
+            <p className="text-2xl font-semibold mt-20 text-primary animate-pulse">Checking Connection...</p>
             <p className="text-muted-foreground mt-2">Please wait a moment.</p>
           </>
         ) : (
           <>
             <WifiOff className="h-24 w-24 text-destructive/80 mb-6" />
-            <h1 className="text-4xl font-bold font-headline mb-2">No Internet Connection</h1>
+            <h1 className="text-4xl font-bold font-headline mb-2">No Internet</h1>
             <p className="text-lg text-muted-foreground max-w-md mx-auto mb-8">
-              It seems you're offline. Please check your internet connection and try again.
+              Please connect to the internet to continue using the app.
             </p>
-            <Button size="lg" onClick={checkConnection}>
-              Try Again
-            </Button>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button size="lg" onClick={checkConnection}>
+                <RotateCw className="mr-2 h-5 w-5" />
+                Try Again
+              </Button>
+            </motion.div>
           </>
         )}
       </div>
