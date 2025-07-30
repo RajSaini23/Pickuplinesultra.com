@@ -52,7 +52,6 @@ export default function SettingsPage() {
   // State for each notification toggle
   const [newQuotes, setNewQuotes] = React.useState(true);
   const [appUpdates, setAppUpdates] = React.useState(true);
-  const [promotions, setPromotions] = React.useState(false);
 
 
   React.useEffect(() => {
@@ -229,13 +228,6 @@ export default function SettingsPage() {
                   id="toggle-app-updates"
                   checked={appUpdates}
                   onCheckedChange={setAppUpdates}
-                />
-              </SettingsRow>
-              <SettingsRow title="Promotions">
-                <CyberToggle
-                  id="toggle-promotions"
-                  checked={promotions}
-                  onCheckedChange={setPromotions}
                 />
               </SettingsRow>
             </div>
