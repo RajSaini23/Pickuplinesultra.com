@@ -214,7 +214,7 @@ export default function SettingsPage() {
 
           <Section title="Notifications" icon={Bell}>
             <div className="flex flex-col gap-2 -mt-2 pb-4">
-              <SettingsRow title="New Quotes">
+               <SettingsRow title="New Quotes">
                 <CyberToggle
                   id="toggle-new-quotes"
                   checked={newQuotes}

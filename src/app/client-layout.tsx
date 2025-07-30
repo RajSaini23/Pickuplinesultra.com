@@ -5,10 +5,22 @@ import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { SplashScreen as CustomSplashScreen } from '@/components/splash-screen';
 import { BookmarkProvider } from '@/context/bookmark-context';
-import { NetworkProvider } from '@/context/network-context';
+import { NetworkProvider, useNetwork } from '@/context/network-context';
+import { OfflinePage } from '@/components/ui/offline-page';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Capacitor } from '@capacitor/core';
+
+function AppContent({ children }: { children: React.ReactNode }) {
+  const { isOnline } = useNetwork();
+
+  if (!isOnline) {
+    return <OfflinePage />;
+  }
+
+  return <>{children}</>;
+}
+
 
 export function ClientLayout({
   children,
@@ -43,7 +55,7 @@ export function ClientLayout({
       <NetworkProvider>
         <BookmarkProvider>
           <CustomSplashScreen>
-            {children}
+            <AppContent>{children}</AppContent>
             <Toaster />
           </CustomSplashScreen>
         </BookmarkProvider>
