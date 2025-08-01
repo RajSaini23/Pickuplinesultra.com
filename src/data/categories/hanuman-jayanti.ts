@@ -78,7 +78,7 @@ export const data: CategoryData = {
     { id: 65, 'hinglish': 'Aapki seva, sabse bada dharm.', 'english': 'Your service is the greatest dharma.', emoji: '🙏' },
     { id: 66, 'hinglish': 'Is paavan din par, aapki har ichha poori ho.', 'english': 'On this holy day, may your every wish be fulfilled.', emoji: '💯' },
     { id: 67, 'hinglish': 'Aapki kripa drishti, hum par bani rahe.', 'english': 'May your graceful gaze remain upon us.', emoji: '✨' },
-    { id: 68, 'hinglish': 'Aapki har garजना mein, Ram naam ki goonj hai.', 'english': 'In your every roar, there is the echo of Rama\'s name.', emoji: '🦁' },
+    { id: 68, 'hinglish': 'Aapki har garjana mein, Ram naam ki goonj hai.', 'english': 'In your every roar, there is the echo of Rama\'s name.', emoji: '🦁' },
     { id: 69, 'hinglish': 'Aapki sharan mein, hum nirbhay hain.', 'english': 'In your shelter, we are fearless.', emoji: '🛡️' },
     { id: 70, 'hinglish': 'May the divine Hanuman bless you with courage and wisdom.', 'english': 'May the divine Hanuman bless you with courage and wisdom.', emoji: '🌟' },
     { id: 71, 'hinglish': 'Aapka har karya, Ram ji ko samarpit.', 'english': 'Your every work is dedicated to Lord Rama.', emoji: '🙌' },
