@@ -72,7 +72,6 @@ import { data as miladUnNabiData } from './categories/milad-un-nabi';
 // Christian Festivals
 import { data as christmasData } from './categories/christmas';
 import { data as goodFridayData } from './categories/good-friday';
-import { data as easterData } from './categories/easter';
 import { data as palmSundayData } from './categories/palm-sunday';
 import { data as newYearData } from './categories/new-year';
 
@@ -186,7 +185,6 @@ const allRawData: CategoryData[] = [
   miladUnNabiData,
   christmasData,
   goodFridayData,
-  easterData,
   palmSundayData,
   newYearData,
   buddhaPurnimaData,
