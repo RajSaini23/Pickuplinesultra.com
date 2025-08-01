@@ -94,3 +94,5 @@ export const getQuotesForCategory = (slug: string): Quote[] => {
     const data = allData.find(d => d.category.slug === slug);
     return data ? data.quotes : [];
 }
+
+    

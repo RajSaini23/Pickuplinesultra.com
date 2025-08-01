@@ -84,7 +84,7 @@ export const data: CategoryData = {
     { id: 55, hinglish: 'Tumhare saath, har din ek naya adventure.', english: 'With you, every day is a new adventure.', emoji: '🏞️' },
     { id: 56, hinglish: 'Jab tum meri galti par daantte nahi, samjhaate ho.', english: 'When you don\'t scold me for my mistake, but make me understand.', emoji: '🧑‍🏫' },
     { id: 57, hinglish: 'Tumhara "main sambhal lunga/lungi" kehna, himmat deta hai.', english: 'Your saying "I will handle it" gives courage.', emoji: '😌' },
-    { id: 58, hinglish: 'Bina kahe, meri zaroorat samajh jaana.', english: 'Understanding my needs without me saying anything.', emoji: ' telepathy' },
+    { id: 58, hinglish: 'Bina kahe, meri zaroorat samajh jaana.', english: 'Understanding my needs without me saying anything.', emoji: 'telepathy' },
     { id: 59, hinglish: 'Jab tum meri aazadi ki qadar karte ho.', english: 'When you value my freedom.', emoji: '🕊️' },
     { id: 60, hinglish: 'Tumhara diya har gift, anmol hai.', english: 'Every gift given by you is priceless.', emoji: '💝' },
     { id: 61, hinglish: 'Jab tum mere liye compromise karte ho.', english: 'When you compromise for me.', emoji: '😉' },
@@ -129,3 +129,5 @@ export const data: CategoryData = {
     { id: 100, hinglish: 'Simple "I love you" mein, poori duniya mil jaati hai.', english: 'In a simple "I love you", I find my whole world.', emoji: '🌍' }
   ]
 };
+
+    
