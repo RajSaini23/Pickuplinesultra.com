@@ -118,7 +118,7 @@ export default function PrivacyPolicyPage() {
           </Section>
 
           <Section title="6. Policy for Children">
-            <p>We do not knowingly solicit information from or market to children under the age of 18. Our Terms of Service require users to be at least 18 years old. If we learn that we have collected information from a child under age 18 without verification of parental consent, we will delete that information as quickly as possible. If you believe we might have any information from or about a child under 18, please contact us at <a href="mailto:support@ecstatic.app" className="text-primary hover:underline">support@ecstatic.app</a>.</p>
+            <p>We do not knowingly solicit information from or market to children under the age of 18. Our Terms of Service require users to be at least 18 years old. If we learn that we have collected information from a child under age 18 without verification of parental consent, we will delete that information as quickly as possible. If you believe we might have any information from or about a child under 18, please contact us at <a href="mailto:ecstaticquotes1@gmail.com" className="text-primary hover:underline">ecstaticquotes1@gmail.com</a>.</p>
           </Section>
 
            <Section title="7. App Store Specific Policies (Apple ATT & Google Data Safety)">
@@ -130,7 +130,7 @@ export default function PrivacyPolicyPage() {
             <p>In accordance with the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, if you have any grievances or concerns regarding our Privacy Policy or data processing, please contact our Grievance Officer:</p>
             <ul className="list-none space-y-1 mt-2">
               <li><strong>Name:</strong> Grievance Officer, Ecstatic</li>
-              <li><strong>Email:</strong> <a href="mailto:grievance@ecstatic.app" className="text-primary hover:underline">grievance@ecstatic.app</a></li>
+              <li><strong>Email:</strong> <a href="mailto:ecstaticquotes1@gmail.com" className="text-primary hover:underline">ecstaticquotes1@gmail.com</a></li>
               <li><strong>Address:</strong> [Your Company's Legal Address, India]</li>
             </ul>
             <p>We will address your concerns as soon as possible and within the timeframes stipulated by law (typically within 15 days of receipt).</p>
@@ -141,7 +141,7 @@ export default function PrivacyPolicyPage() {
           </Section>
 
           <Section title="10. Contact Us">
-            <p>If you have any questions about this Privacy Policy, please contact us at: <a href="mailto:support@ecstatic.app" className="text-primary hover:underline">support@ecstatic.app</a>.</p>
+            <p>If you have any questions about this Privacy Policy, please contact us at: <a href="mailto:ecstaticquotes1@gmail.com" className="text-primary hover:underline">ecstaticquotes1@gmail.com</a>.</p>
           </Section>
         </motion.div>
       </main>

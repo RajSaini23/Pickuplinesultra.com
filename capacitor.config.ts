@@ -1,7 +1,8 @@
+
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.ecstatic.app',
+  appId: 'com.ecstaticquotes.app',
   appName: 'Ecstatic',
   webDir: 'out',
   server: {

@@ -122,7 +122,7 @@ export default function TermsOfServicePage() {
           </Section>
           
           <Section title="13. Contact Us">
-            <p>If you have any questions about these Terms, please contact us at: <a href="mailto:support@ecstatic.app" className="text-primary hover:underline">support@ecstatic.app</a>.</p>
+            <p>If you have any questions about these Terms, please contact us at: <a href="mailto:ecstaticquotes1@gmail.com" className="text-primary hover:underline">ecstaticquotes1@gmail.com</a>.</p>
           </Section>
         </motion.div>
       </main>
