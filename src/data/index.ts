@@ -74,6 +74,8 @@ import { data as christmasData } from './categories/christmas';
 import { data as goodFridayData } from './categories/good-friday';
 import { data as palmSundayData } from './categories/palm-sunday';
 import { data as newYearData } from './categories/new-year';
+import { data as easterData } from './categories/easter';
+
 
 // Buddhist Festivals
 import { data as buddhaPurnimaData } from './categories/buddha-purnima.tsx';
@@ -187,6 +189,7 @@ const allRawData: CategoryData[] = [
   goodFridayData,
   palmSundayData,
   newYearData,
+  easterData,
   buddhaPurnimaData,
   losarData,
   kathinaData,
