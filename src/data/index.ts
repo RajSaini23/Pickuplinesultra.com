@@ -31,7 +31,6 @@ import { data as songLyricsData } from './categories/song-lyrics';
 import { data as anniversaryData } from './categories/anniversary';
 import { data as valentinesDayData } from './categories/valentines-day';
 import { data as goodMorningNightData } from './categories/good-morning-night';
-import { data as situationalLoveData } from './categories/situational-love';
 
 
 const allRawData: CategoryData[] = [
@@ -66,7 +65,6 @@ const allRawData: CategoryData[] = [
   anniversaryData,
   valentinesDayData,
   goodMorningNightData,
-  situationalLoveData,
 ];
 
 // Re-index all quotes to ensure global uniqueness
