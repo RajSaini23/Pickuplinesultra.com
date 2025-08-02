@@ -75,31 +75,17 @@ import { data as easterData } from './categories/easter';
 
 // Buddhist Festivals
 import { data as buddhaPurnimaData } from './categories/buddha-purnima.tsx';
-import { data as losarData } from './categories/losar';
-import { data as kathinaData } from './categories/kathina';
 import { data as asalhaPujaData } from './categories/asalha-puja';
 
 // Sikh Festivals
 import { data as guruNanakJayantiData } from './categories/guru-nanak-jayanti';
-import { data as vaisakhiData } from './categories/vaisakhi';
 import { data as guruGobindSinghJayantiData } from './categories/guru-gobind-singh-jayanti';
-import { data as martyrdomOfGuruArjanDevJiData } from './categories/martyrdom-of-guru-arjan-dev-ji';
-import { data as holaMohallaData } from './categories/hola-mohalla';
 
 // Jain Festivals
 import { data as mahavirJayantiData } from './categories/mahavir-jayanti';
-import { data as paryushanaData } from './categories/paryushana';
-import { data as kshamavaniData } from './categories/kshamavani';
-
-// Parsi Festivals
-import { data as navrozData } from './categories/navroz';
-import { data as khordadSalData } from './categories/khordad-sal';
-import { data as patetiData } from './categories/pateti';
 
 // Regional & Harvest Festivals
 import { data as lohriData } from './categories/lohri';
-import { data as pongalData } from './categories/pongal';
-import { data as onamData } from './categories/onam';
 
 // National & Cultural Festivals
 import { data as republicDayData } from './categories/republic-day';
@@ -183,23 +169,11 @@ const allRawData: CategoryData[] = [
   newYearData,
   easterData,
   buddhaPurnimaData,
-  losarData,
-  kathinaData,
   asalhaPujaData,
   guruNanakJayantiData,
-  vaisakhiData,
   guruGobindSinghJayantiData,
-  martyrdomOfGuruArjanDevJiData,
-  holaMohallaData,
   mahavirJayantiData,
-  paryushanaData,
-  kshamavaniData,
-  navrozData,
-  khordadSalData,
-  patetiData,
   lohriData,
-  pongalData,
-  onamData,
   republicDayData,
   independenceDayData,
   gandhiJayantiData,
