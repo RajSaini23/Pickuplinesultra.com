@@ -65,14 +65,10 @@ import { data as tulsiVivahData } from './categories/tulsi-vivah';
 import { data as eidUlFitrData } from './categories/eid-ul-fitr';
 import { data as eidUlAdhaData } from './categories/eid-ul-adha';
 import { data as ramadanData } from './categories/ramadan';
-import { data as shabEBaratData } from './categories/shab-e-barat';
 import { data as muharramData } from './categories/muharram';
-import { data as miladUnNabiData } from './categories/milad-un-nabi';
 
 // Christian Festivals
 import { data as christmasData } from './categories/christmas';
-import { data as goodFridayData } from './categories/good-friday';
-import { data as palmSundayData } from './categories/palm-sunday';
 import { data as newYearData } from './categories/new-year';
 import { data as easterData } from './categories/easter';
 
@@ -182,12 +178,8 @@ const allRawData: CategoryData[] = [
   eidUlFitrData,
   eidUlAdhaData,
   ramadanData,
-  shabEBaratData,
   muharramData,
-  miladUnNabiData,
   christmasData,
-  goodFridayData,
-  palmSundayData,
   newYearData,
   easterData,
   buddhaPurnimaData,
