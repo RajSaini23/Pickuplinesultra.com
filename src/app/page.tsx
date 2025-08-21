@@ -15,6 +15,7 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import SplitText from '@/components/ui/split-text';
 import { useNetwork } from '@/context/network-context';
 import { useRatingPrompt } from '@/hooks/use-rating-prompt';
+import { ScrollIndicator } from '@/components/ui/scroll-indicator';
 
 const AppLogo = ({ className }: { className?: string }) => (
   <svg
@@ -130,6 +131,7 @@ export default function Dashboard() {
   const [navigatingTo, setNavigatingTo] = React.useState<string | null>(null);
   const router = useRouter();
   const { isOnline } = useNetwork();
+  const [showScrollIndicator, setShowScrollIndicator] = React.useState(true);
   
   const headlineCategories = React.useMemo(() => [
     "Romantic Quotes", "Comedy Lines", "Poetic Verses",
@@ -138,6 +140,20 @@ export default function Dashboard() {
   const [headlineIndex, setHeadlineIndex] = React.useState(0);
   
   useRatingPrompt();
+
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setShowScrollIndicator(false);
+      } else {
+        setShowScrollIndicator(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
 
   React.useEffect(() => {
@@ -252,6 +268,9 @@ export default function Dashboard() {
           ))}
         </div>
       </main>
+      <AnimatePresence>
+        {showScrollIndicator && <ScrollIndicator />}
+      </AnimatePresence>
     </div>
   );
 }
