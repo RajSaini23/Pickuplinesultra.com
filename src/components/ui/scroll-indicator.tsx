@@ -11,7 +11,7 @@ export const ScrollIndicator = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.5 }}
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center justify-center pointer-events-none"
+      className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center justify-center pointer-events-none"
     >
       <motion.div
         animate={{ y: [0, 10, 0] }}
