@@ -5,8 +5,8 @@ import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 
 const AppLogo = () => (
-  <div className="relative w-36 h-36 flex items-center justify-center rounded-3xl bg-primary/10">
-    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/20 to-blue-500/20 blur-lg"></div>
+    <div className="relative w-36 h-36 flex items-center justify-center rounded-3xl bg-black">
+    <div className="absolute inset-0 rounded-3xl bg-black/50 blur-lg"></div>
     <div className="absolute inset-0 rounded-3xl border-2 border-primary/30"></div>
     <svg
       width="140"

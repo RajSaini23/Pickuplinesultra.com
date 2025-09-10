@@ -18,8 +18,8 @@ import { useRatingPrompt } from '@/hooks/use-rating-prompt';
 import { ScrollIndicator } from '@/components/ui/scroll-indicator';
 
 const AppLogo = ({ className }: { className?: string }) => (
-  <div className={cn("relative w-8 h-8 flex items-center justify-center rounded-lg bg-primary/10", className)}>
-    <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-primary/20 to-blue-500/20 blur-sm"></div>
+  <div className={cn("relative w-8 h-8 flex items-center justify-center rounded-lg bg-black", className)}>
+    <div className="absolute inset-0 rounded-lg bg-black/50 blur-sm"></div>
      <div className="absolute inset-0 rounded-lg border border-primary/30"></div>
     <svg
       width="100"
