@@ -18,13 +18,16 @@ import { useRatingPrompt } from '@/hooks/use-rating-prompt';
 import { ScrollIndicator } from '@/components/ui/scroll-indicator';
 
 const AppLogo = ({ className }: { className?: string }) => (
+  <div className={cn("relative w-8 h-8 flex items-center justify-center rounded-lg bg-primary/10", className)}>
+    <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-primary/20 to-blue-500/20 blur-sm"></div>
+     <div className="absolute inset-0 rounded-lg border border-primary/30"></div>
     <svg
       width="100"
       height="100"
       viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn("w-6 h-6", className)}
+      className="w-5 h-5 z-10"
     >
       <defs>
         <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -32,11 +35,11 @@ const AppLogo = ({ className }: { className?: string }) => (
           <stop offset="100%" style={{ stopColor: '#00BFFF', stopOpacity: 1 }} />
         </linearGradient>
         <filter id="logo-glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur" />
           <feColorMatrix
             in="blur"
             mode="matrix"
-            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.5 0"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.6 0"
             result="glow"
           />
           <feComposite in="SourceGraphic" in2="glow" operator="over" />
@@ -49,6 +52,7 @@ const AppLogo = ({ className }: { className?: string }) => (
         />
       </g>
     </svg>
+  </div>
 );
 
 
@@ -278,3 +282,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
+    

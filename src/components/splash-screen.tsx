@@ -2,14 +2,19 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { Progress } from '@/components/ui/progress';
+import { cn } from '@/lib/utils';
 
 const AppLogo = () => (
+  <div className="relative w-36 h-36 flex items-center justify-center rounded-3xl bg-primary/10">
+    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/20 to-blue-500/20 blur-lg"></div>
+    <div className="absolute inset-0 rounded-3xl border-2 border-primary/30"></div>
     <svg
       width="140"
       height="140"
       viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="w-24 h-24 z-10"
     >
       <defs>
         <linearGradient id="logo-gradient-splash" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -34,6 +39,7 @@ const AppLogo = () => (
         />
       </g>
     </svg>
+  </div>
 );
 
 
@@ -85,3 +91,5 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
 
   return <>{children}</>;
 };
+
+    
