@@ -185,17 +185,13 @@ export default function Dashboard() {
   const handleSettingsClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsNavigating(true);
-    setTimeout(() => {
-      router.push('/settings');
-    }, 500); 
+    router.push('/settings');
   };
   
   const handleCategoryClick = (slug: string, e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setNavigatingTo(slug);
-    setTimeout(() => {
-      router.push(`/category/${slug}`);
-    }, 1500);
+    router.push(`/category/${slug}`);
   };
 
 
