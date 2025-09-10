@@ -19,12 +19,12 @@ import { ScrollIndicator } from '@/components/ui/scroll-indicator';
 
 const AppLogo = ({ className }: { className?: string }) => (
   <motion.div
-    className={cn("relative w-9 h-9 flex items-center justify-center rounded-lg bg-black", className)}
+    className={cn("relative w-9 h-9 flex items-center justify-center bg-black", className)}
     animate={{ scale: [1, 1.05, 1] }}
     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
   >
-    <div className="absolute inset-0 rounded-lg bg-black/50 blur-sm"></div>
-     <div className="absolute inset-0 rounded-lg border border-primary/30"></div>
+    <div className="absolute inset-0 bg-black/50 blur-sm"></div>
+     <div className="absolute inset-0 border border-primary/30"></div>
     <svg
       width="100"
       height="100"
