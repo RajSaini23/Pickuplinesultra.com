@@ -186,7 +186,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
 
     try {
         const blob = await htmlToImage.toBlob(cardRef.current, {
-            quality: 0.95,
+            quality: 1,
             pixelRatio: 2,
         });
 
@@ -223,7 +223,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                 });
             } else {
                 // Final fallback to clipboard if even basic sharing is not supported
-                const blob = await htmlToImage.toBlob(cardRef.current, { quality: 0.95, pixelRatio: 2 });
+                const blob = await htmlToImage.toBlob(cardRef.current, { quality: 1, pixelRatio: 2 });
                 if (blob && navigator.clipboard && navigator.clipboard.write) {
                     const item = new ClipboardItem({ 'image/png': blob });
                     await navigator.clipboard.write([item]);
