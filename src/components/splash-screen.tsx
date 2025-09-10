@@ -7,32 +7,41 @@ const AppLogo = () => (
   <svg
     width="140"
     height="140"
-    viewBox="0 0 140 140"
+    viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <defs>
       <filter id="neon-glow-1" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.7 0" result="glow" />
-        <feComposite in="SourceGraphic" in2="glow" operator="over" />
-      </filter>
-       <filter id="neon-glow-2" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
-        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.5 0" result="glow" />
+        <feGaussianBlur in="SourceGraphic" stdDeviation="0.5" result="blur" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.8 0" result="glow" />
         <feComposite in="SourceGraphic" in2="glow" operator="over" />
       </filter>
     </defs>
-    <rect width="140" height="140" rx="35" fill="#2A2A3A"/>
-    <g style={{ filter: 'url(#neon-glow-2)' }}>
-      <rect x="5" y="5" width="130" height="130" rx="30" stroke="hsl(207 90% 54%)" strokeWidth="2" strokeOpacity="0.3" />
-    </g>
     <g style={{ filter: 'url(#neon-glow-1)' }}>
-      <rect x="10" y="10" width="120" height="120" rx="25" stroke="hsl(207 90% 54%)" strokeWidth="2.5" />
+      <path
+        d="M12 2L2 7V17L12 22L22 17V7L12 2Z"
+        stroke="hsl(var(--primary))"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M2 12L12 17L22 12"
+        stroke="hsl(var(--primary))"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 2V17"
+        stroke="hsl(var(--primary))"
+        strokeOpacity="0.5"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </g>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="90" fill="hsl(207 90% 54%)" style={{ filter: 'url(#neon-glow-1)' }}>
-      Q
-    </text>
   </svg>
 );
 

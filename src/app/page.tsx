@@ -18,33 +18,49 @@ import { useRatingPrompt } from '@/hooks/use-rating-prompt';
 import { ScrollIndicator } from '@/components/ui/scroll-indicator';
 
 const AppLogo = ({ className }: { className?: string }) => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 160 160"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={cn("floating-logo", className)}
-  >
-    <style>
-      {`
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-2px); }
-          100% { translateY(0px); }
-        }
-        .floating-logo {
-          animation: float 3s ease-in-out infinite;
-        }
-      `}
-    </style>
-    <rect width="160" height="160" rx="40" fill="#2A2A3A"/>
-    <rect x="10" y="10" width="140" height="140" rx="30" stroke="hsl(207 90% 54%)" strokeOpacity="0.4"/>
-    <rect x="18" y="18" width="124" height="124" rx="22" stroke="hsl(207 90% 54%)" strokeWidth="4" strokeOpacity="0.8"/>
-    <text x="50%" y="50%" dominantBaseline="central" textAnchor="middle" fontSize="100" fill="hsl(207 90% 54%)">
-      Q
-    </text>
-</svg>
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={cn("floating-logo", className)}
+    >
+        <style>
+        {`
+            @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-2px); }
+            100% { translateY(0px); }
+            }
+            .floating-logo {
+            animation: float 3s ease-in-out infinite;
+            }
+        `}
+        </style>
+      <path
+        d="M12 2L2 7V17L12 22L22 17V7L12 2Z"
+        stroke="hsl(var(--primary))"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M2 12L12 17L22 12"
+        stroke="hsl(var(--primary))"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 2V17"
+        stroke="hsl(var(--primary))"
+        strokeOpacity="0.5"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
 );
 
 
