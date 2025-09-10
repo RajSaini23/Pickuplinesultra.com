@@ -7,43 +7,30 @@ const AppLogo = () => (
   <svg
     width="140"
     height="140"
-    viewBox="0 0 24 24"
+    viewBox="0 0 100 100"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <defs>
-      <filter id="neon-glow-1" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="0.5" result="blur" />
-        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.8 0" result="glow" />
+      <filter id="neon-glow-large" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+        <feColorMatrix
+          in="blur"
+          mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.8 0"
+          result="glow"
+        />
         <feComposite in="SourceGraphic" in2="glow" operator="over" />
       </filter>
     </defs>
-    <g style={{ filter: 'url(#neon-glow-1)' }}>
-      <path
-        d="M12 2L2 7V17L12 22L22 17V7L12 2Z"
-        stroke="hsl(var(--primary))"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M2 12L12 17L22 12"
-        stroke="hsl(var(--primary))"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M12 2V17"
-        stroke="hsl(var(--primary))"
-        strokeOpacity="0.5"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <g filter="url(#neon-glow-large)">
+      <rect width="100" height="100" rx="20" fill="#2A2A3A" />
+      <path d="M50 15L85 50L50 85L15 50L50 15Z" fill="#00BFFF" stroke="#00BFFF" strokeWidth="4" />
+      <path d="M50 15L85 50L50 85L15 50L50 15Z" stroke="white" strokeWidth="2" strokeOpacity="0.5" />
     </g>
   </svg>
 );
+
 
 
 export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
