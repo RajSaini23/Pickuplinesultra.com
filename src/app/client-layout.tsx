@@ -13,6 +13,7 @@ import { Capacitor } from '@capacitor/core';
 import { Wifi } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RatingDialogProvider } from '@/components/ui/rating-dialog';
+import { BottomNav } from '@/components/ui/bottom-nav';
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { isOnline, justReconnected } = useNetwork();
@@ -74,7 +75,10 @@ export function ClientLayout({
         <BookmarkProvider>
           <RatingDialogProvider>
             <CustomSplashScreen>
-              <AppContent>{children}</AppContent>
+              <div className="relative flex flex-col min-h-dvh">
+                <main className="flex-1 pb-24">{children}</main>
+                <BottomNav />
+              </div>
               <Toaster />
             </CustomSplashScreen>
           </RatingDialogProvider>
