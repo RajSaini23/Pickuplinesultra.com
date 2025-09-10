@@ -2,8 +2,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.ecstaticquotes.app',
-  appName: 'Ecstatic',
+  appId: 'com.qutoquotes.app',
+  appName: 'QUTO',
   webDir: 'out',
   server: {
     androidScheme: 'https',

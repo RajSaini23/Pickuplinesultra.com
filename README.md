@@ -1,6 +1,6 @@
-# Ecstatic App - Project Summary
+# QUTO App - Project Summary
 
-This document provides a detailed summary of the "Ecstatic" application.
+This document provides a detailed summary of the "QUTO" application.
 
 ### 1. Deployment and Hosting
 

@@ -100,7 +100,7 @@ const RatingDialog = () => {
                         <X className="w-5 h-5" />
                     </button>
                     <div className="text-center">
-                        <h2 className="text-2xl font-bold font-headline mb-2 text-foreground">Enjoying Ecstatic?</h2>
+                        <h2 className="text-2xl font-bold font-headline mb-2 text-foreground">Enjoying QUTO?</h2>
                         <p className="text-muted-foreground mb-6">Your feedback helps us make the app better for everyone.</p>
                     
                         <div 

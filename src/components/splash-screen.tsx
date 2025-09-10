@@ -30,8 +30,8 @@ const AppLogo = () => (
     <g style={{ filter: 'url(#neon-glow-1)' }}>
       <rect x="10" y="10" width="120" height="120" rx="25" stroke="hsl(207 90% 54%)" strokeWidth="2.5" />
     </g>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="70" fill="hsl(207 90% 54%)" style={{ filter: 'url(#neon-glow-1)' }}>
-      💠
+    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="90" fill="hsl(207 90% 54%)" style={{ filter: 'url(#neon-glow-1)' }}>
+      Q
     </text>
   </svg>
 );
@@ -67,7 +67,7 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
       <div className="flex flex-col items-center justify-center h-screen bg-background text-foreground transition-opacity duration-500 p-8">
         <div className="flex flex-col items-center justify-center flex-grow text-center">
           <AppLogo />
-          <h1 className="text-5xl font-headline font-bold tracking-wider mt-6 text-primary">ECSTATIC</h1>
+          <h1 className="text-5xl font-headline font-bold tracking-wider mt-6 text-primary">QUTO</h1>
           <p className="mt-2 text-lg text-muted-foreground">Your Emotion. Our Expression.</p>
         
           <div className="w-full max-w-xs mt-12">
@@ -76,7 +76,7 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
         <footer className="text-center text-xs text-muted-foreground/70">
-          <p>© {new Date().getFullYear()} ECSTATIC. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} QUTO. All rights reserved.</p>
         </footer>
       </div>
     );

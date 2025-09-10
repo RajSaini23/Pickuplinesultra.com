@@ -42,7 +42,7 @@ const AppLogo = ({ className }: { className?: string }) => (
     <rect x="10" y="10" width="140" height="140" rx="30" stroke="hsl(207 90% 54%)" strokeOpacity="0.4"/>
     <rect x="18" y="18" width="124" height="124" rx="22" stroke="hsl(207 90% 54%)" strokeWidth="4" strokeOpacity="0.8"/>
     <text x="50%" y="50%" dominantBaseline="central" textAnchor="middle" fontSize="100" fill="hsl(207 90% 54%)">
-      💠
+      Q
     </text>
 </svg>
 );

@@ -12,7 +12,7 @@ interface BookmarkContextType {
 
 const BookmarkContext = createContext<BookmarkContextType | undefined>(undefined);
 
-const BOOKMARKS_STORAGE_KEY = 'ecstatic-bookmarks';
+const BOOKMARKS_STORAGE_KEY = 'quto-bookmarks';
 
 export const BookmarkProvider = ({ children }: { children: ReactNode }) => {
   const [bookmarkedIds, setBookmarkedIds] = useState<number[]>([]);

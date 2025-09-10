@@ -1,9 +1,10 @@
+
 import type { Metadata, Viewport } from 'next';
 import { ClientLayout } from './client-layout';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Ecstatic',
+  title: 'QUTO',
   description: 'Your Emotion. Our Expression.',
   manifest: '/manifest.json',
 };

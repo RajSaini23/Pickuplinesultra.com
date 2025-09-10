@@ -62,13 +62,13 @@ export default function BookmarksPage() {
             throw new Error('Image blob could not be created.');
         }
 
-        const files = [new File([blob], 'ecstatic-quote.png', { type: 'image/png' })];
+        const files = [new File([blob], 'quto-quote.png', { type: 'image/png' })];
         
         if (navigator.canShare && navigator.canShare({ files })) {
             await navigator.share({
                 files,
-                title: 'Ecstatic Quote',
-                text: `${quote.hinglish}\n\n- Shared from Ecstatic`,
+                title: 'QUTO Quote',
+                text: `${quote.hinglish}\n\n- Shared from QUTO`,
             });
         } else {
             // This error is thrown when navigator.share doesn't support files.
@@ -85,8 +85,8 @@ export default function BookmarksPage() {
         try {
             if (navigator.share) {
                 await navigator.share({
-                    title: 'Ecstatic Quote',
-                    text: `${quote.hinglish}\n\n- Shared from Ecstatic`,
+                    title: 'QUTO Quote',
+                    text: `${quote.hinglish}\n\n- Shared from QUTO`,
                     url: window.location.origin,
                 });
             } else {
@@ -97,7 +97,7 @@ export default function BookmarksPage() {
                     await navigator.clipboard.write([item]);
                     toast({ title: "Image Copied!", description: "Quote card image copied to clipboard." });
                 } else {
-                    await navigator.clipboard.writeText(`${quote.hinglish}\n\n- Shared from Ecstatic`);
+                    await navigator.clipboard.writeText(`${quote.hinglish}\n\n- Shared from QUTO`);
                     toast({ title: "Text Copied!", description: "Sharing not supported, quote text copied." });
                 }
             }
@@ -185,7 +185,7 @@ export default function BookmarksPage() {
                                 onClick={(e) => e.preventDefault()}
                                 className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
                               >
-                               ECSTATIC
+                               QUTO
                               </a>
                           </div>
                         </div>

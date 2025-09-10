@@ -64,15 +64,15 @@ export default function TermsOfServicePage() {
         >
           <motion.div variants={itemVariants} className="mb-8">
             <p className="text-muted-foreground"><strong>Last Updated:</strong> {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            <p className="mt-4 text-lg">Please read these Terms of Service ("Terms", "Terms of Service") carefully before using the Ecstatic mobile application (the "Service") operated by us. Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users, and others who access or use the Service.</p>
+            <p className="mt-4 text-lg">Please read these Terms of Service ("Terms", "Terms of Service") carefully before using the QUTO mobile application (the "Service") operated by us. Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users, and others who access or use the Service.</p>
           </motion.div>
 
           <Section title="1. Acceptance of Terms">
-            <p>By accessing or using the Service, you agree to be bound by these Terms. If you disagree with any part of the terms, then you may not access the Service. This is a legally binding agreement between you and Ecstatic.</p>
+            <p>By accessing or using the Service, you agree to be bound by these Terms. If you disagree with any part of the terms, then you may not access the Service. This is a legally binding agreement between you and QUTO.</p>
           </Section>
 
           <Section title="2. Description of Service">
-            <p>The Ecstatic App provides users with a curated collection of Hinglish quotes across various categories. Features include viewing, liking, bookmarking (saving locally), copying, and sharing quotes, including generating an image of the quote card for social media.</p>
+            <p>The QUTO App provides users with a curated collection of Hinglish quotes across various categories. Features include viewing, liking, bookmarking (saving locally), copying, and sharing quotes, including generating an image of the quote card for social media.</p>
           </Section>
           
           <Section title="3. User Eligibility and Age Restriction">
@@ -80,7 +80,7 @@ export default function TermsOfServicePage() {
           </Section>
           
           <Section title="4. Intellectual Property Rights">
-            <p>All content provided on the Service, including but not limited to the text, graphics, logos, icons, images, quote compilations, and the software itself, is the property of Ecstatic or its content suppliers and is protected by Indian and international copyright laws. The "Ecstatic" name and logo are trademarks of Ecstatic, and may not be used in connection with any product or service without our prior written consent.</p>
+            <p>All content provided on the Service, including but not limited to the text, graphics, logos, icons, images, quote compilations, and the software itself, is the property of QUTO or its content suppliers and is protected by Indian and international copyright laws. The "QUTO" name and logo are trademarks of QUTO, and may not be used in connection with any product or service without our prior written consent.</p>
             <p>You are granted a limited, non-exclusive, non-transferable, revocable license to access and use the App for your personal, non-commercial use only.</p>
           </Section>
 
@@ -94,19 +94,19 @@ export default function TermsOfServicePage() {
           </Section>
           
            <Section title="6. Third-Party Services and Advertisements">
-            <p>The App may contain links to third-party websites or services, and may display advertisements that are not owned or controlled by Ecstatic. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites or services. You further acknowledge and agree that Ecstatic shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods, or services available on or through any such web sites or services.</p>
+            <p>The App may contain links to third-party websites or services, and may display advertisements that are not owned or controlled by QUTO. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites or services. You further acknowledge and agree that QUTO shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods, or services available on or through any such web sites or services.</p>
           </Section>
 
           <Section title="7. Disclaimer of Warranties">
-            <p>The Service is provided on an "AS IS" and "AS AVAILABLE" basis. Your use of the Service is at your sole risk. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement, or course of performance. Ecstatic does not warrant that the app will function uninterrupted, secure, or available at any particular time or location.</p>
+            <p>The Service is provided on an "AS IS" and "AS AVAILABLE" basis. Your use of the Service is at your sole risk. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement, or course of performance. QUTO does not warrant that the app will function uninterrupted, secure, or available at any particular time or location.</p>
           </Section>
           
           <Section title="8. Limitation of Liability">
-            <p>In no event shall Ecstatic, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service; (iii) any content obtained from the Service; and (iv) unauthorized access, use, or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage.</p>
+            <p>In no event shall QUTO, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service; (iii) any content obtained from the Service; and (iv) unauthorized access, use, or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage.</p>
           </Section>
           
           <Section title="9. Indemnification">
-             <p>You agree to defend, indemnify, and hold harmless Ecstatic and its licensee and licensors, and their employees, contractors, agents, officers, and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees), resulting from or arising out of your use and access of the Service.</p>
+             <p>You agree to defend, indemnify, and hold harmless QUTO and its licensee and licensors, and their employees, contractors, agents, officers, and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees), resulting from or arising out of your use and access of the Service.</p>
           </Section>
 
           <Section title="10. Governing Law and Jurisdiction">
@@ -122,7 +122,7 @@ export default function TermsOfServicePage() {
           </Section>
           
           <Section title="13. Contact Us">
-            <p>If you have any questions about these Terms, please contact us at: <a href="mailto:ecstaticquotes1@gmail.com" className="text-primary hover:underline">ecstaticquotes1@gmail.com</a>.</p>
+            <p>If you have any questions about these Terms, please contact us at: <a href="mailto:qutoquotes1@gmail.com" className="text-primary hover:underline">qutoquotes1@gmail.com</a>.</p>
           </Section>
         </motion.div>
       </main>
