@@ -5,9 +5,9 @@ import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 
 const AppLogo = () => (
-    <div className="relative w-36 h-36 flex items-center justify-center bg-black">
-    <div className="absolute inset-0 bg-black/50 blur-lg"></div>
-    <div className="absolute inset-0 border-2 border-primary/30"></div>
+    <div className="relative w-36 h-36 flex items-center justify-center" style={{ borderRadius: '22%' }}>
+    <div className="absolute inset-0 bg-black/50 blur-lg" style={{ borderRadius: 'inherit' }}></div>
+    <div className="absolute inset-0 border-2 border-primary/30" style={{ borderRadius: 'inherit' }}></div>
     <svg
       width="140"
       height="140"
