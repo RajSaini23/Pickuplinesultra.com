@@ -18,7 +18,11 @@ import { useRatingPrompt } from '@/hooks/use-rating-prompt';
 import { ScrollIndicator } from '@/components/ui/scroll-indicator';
 
 const AppLogo = ({ className }: { className?: string }) => (
-  <div className={cn("relative w-8 h-8 flex items-center justify-center rounded-lg bg-black", className)}>
+  <motion.div
+    className={cn("relative w-9 h-9 flex items-center justify-center rounded-lg bg-black", className)}
+    animate={{ scale: [1, 1.05, 1] }}
+    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+  >
     <div className="absolute inset-0 rounded-lg bg-black/50 blur-sm"></div>
      <div className="absolute inset-0 rounded-lg border border-primary/30"></div>
     <svg
@@ -52,7 +56,7 @@ const AppLogo = ({ className }: { className?: string }) => (
         />
       </g>
     </svg>
-  </div>
+  </motion.div>
 );
 
 
@@ -198,7 +202,7 @@ export default function Dashboard() {
     <div className="flex flex-col min-h-screen bg-muted/30 text-foreground">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-primary text-primary-foreground">
         <div className="flex items-center gap-2">
-            <AppLogo className="h-8 w-8" />
+            <AppLogo className="h-9 w-9" />
              <div 
                 className={cn(
                     "w-3 h-3 rounded-full transition-colors duration-500",
@@ -282,5 +286,7 @@ export default function Dashboard() {
     </div>
   );
 }
+
+    
 
     
