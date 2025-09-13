@@ -83,7 +83,7 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
         <footer className="text-center text-xs text-muted-foreground/70">
-          <p>© {new Date().getFullYear()} QUTO. All rights reserved.</p>
+          <p className="font-semibold tracking-wider">Developed By INDGROWSIVE</p>
         </footer>
       </div>
     );
