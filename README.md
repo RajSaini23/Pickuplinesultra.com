@@ -1,6 +1,6 @@
-# QUTO App - Project Summary
+# Pickup Lines App - Project Summary
 
-This document provides a detailed summary of the "QUTO" application.
+This document provides a detailed summary of the "Pickup Lines" application.
 
 ### 1. Deployment and Hosting
 

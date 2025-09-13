@@ -72,7 +72,7 @@ const QuoteCard = ({
                 onClick={(e) => e.preventDefault()}
                 className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
               >
-               QUTO
+               Pickup Lines
               </a>
           </div>
         </div>
@@ -194,13 +194,13 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             throw new Error('Image blob could not be created.');
         }
 
-        const files = [new File([blob], 'quto-quote.png', { type: 'image/png' })];
+        const files = [new File([blob], 'pickup-lines-quote.png', { type: 'image/png' })];
         
         if (navigator.canShare && navigator.canShare({ files })) {
             await navigator.share({
                 files,
-                title: 'QUTO Quote',
-                text: `${quote.hinglish}\n\n- Shared from QUTO`,
+                title: 'Pickup Lines Quote',
+                text: `${quote.hinglish}\n\n- Shared from Pickup Lines`,
             });
         } else {
             // This error is thrown when navigator.share doesn't support files.
@@ -217,8 +217,8 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
         try {
             if (navigator.share) {
                 await navigator.share({
-                    title: 'QUTO Quote',
-                    text: `${quote.hinglish}\n\n- Shared from QUTO`,
+                    title: 'Pickup Lines Quote',
+                    text: `${quote.hinglish}\n\n- Shared from Pickup Lines`,
                     url: window.location.origin,
                 });
             } else {
@@ -229,7 +229,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                     await navigator.clipboard.write([item]);
                     toast({ title: "Image Copied!", description: "Quote card image copied to clipboard." });
                 } else {
-                    await navigator.clipboard.writeText(`${quote.hinglish}\n\n- Shared from QUTO`);
+                    await navigator.clipboard.writeText(`${quote.hinglish}\n\n- Shared from Pickup Lines`);
                     toast({ title: "Text Copied!", description: "Sharing not supported, quote text copied." });
                 }
             }

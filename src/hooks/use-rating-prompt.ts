@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useBookmarks } from '@/context/bookmark-context';
 import { useRatingDialog } from '@/components/ui/rating-dialog';
 
-const APP_OPEN_COUNT_KEY = 'quto-app-open-count';
+const APP_OPEN_COUNT_KEY = 'pickup-lines-app-open-count';
 const HAS_RATED_KEY = 'hasRated';
 const LAST_DISMISSED_KEY = 'ratingPromptLastDismissed';
 
