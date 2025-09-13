@@ -2,7 +2,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.pickuplines.app',
+  appId: 'com.indgrowsive.pickuplines.app',
   appName: 'Pickup Lines',
   webDir: 'out',
   server: {
