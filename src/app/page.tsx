@@ -146,7 +146,7 @@ const ThemeToggle = () => {
 
   if (!mounted) {
     return (
-      <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+      <Button variant="ghost" size="icon" className="text-white bg-transparent hover:bg-transparent focus:bg-transparent">
         <Sun className="h-7 w-7" />
       </Button>
     );
@@ -159,7 +159,7 @@ const ThemeToggle = () => {
       variant="ghost"
       size="icon"
       aria-label="Theme Toggle"
-      className="text-white hover:bg-white/20"
+      className="text-white bg-transparent hover:bg-transparent focus:bg-transparent"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
     >
       {isDark ? <Sun className="h-7 w-7" /> : <Moon className="h-7 w-7" />}
