@@ -122,7 +122,7 @@ export default function TermsOfServicePage() {
           </Section>
           
           <Section title="13. Contact Us">
-            <p>If you have any questions about these Terms, please contact us at: <a href="mailto:pickuplines-support@example.com" className="text-primary hover:underline">pickuplines-support@example.com</a>.</p>
+            <p>If you have any questions about these Terms, please contact us at: <a href="mailto:indgrowsivestudio@gmail.com" className="text-primary hover:underline">indgrowsivestudio@gmail.com</a>.</p>
           </Section>
         </motion.div>
       </main>
