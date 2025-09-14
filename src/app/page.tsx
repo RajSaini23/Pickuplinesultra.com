@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Settings, Search } from 'lucide-react';
+import { Settings, Search, Sun, Moon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardTitle, CardDescription } from '@/components/ui/card';
@@ -16,6 +16,7 @@ import SplitText from '@/components/ui/split-text';
 import { useNetwork } from '@/context/network-context';
 import { useRatingPrompt } from '@/hooks/use-rating-prompt';
 import { ScrollIndicator } from '@/components/ui/scroll-indicator';
+import { useTheme } from 'next-themes';
 
 const AppLogo = ({ className }: { className?: string }) => (
   <motion.div
@@ -137,6 +138,35 @@ const AnimatedCategoryCard = ({ children, delay = 0 }: { children: React.ReactNo
   );
 };
 
+const ThemeToggle = () => {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return (
+      <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+        <Sun className="h-7 w-7" />
+      </Button>
+    );
+  }
+
+  const isDark = theme === 'dark';
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label="Theme Toggle"
+      className="text-white hover:bg-white/20"
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+    >
+      {isDark ? <Sun className="h-7 w-7" /> : <Moon className="h-7 w-7" />}
+    </Button>
+  );
+};
+
 
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = React.useState('');
@@ -181,12 +211,6 @@ export default function Dashboard() {
   const filteredCategories = categories.filter(category =>
     category.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const handleSettingsClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setIsNavigating(true);
-    router.push('/settings');
-  };
   
   const handleCategoryClick = (slug: string, e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -214,15 +238,7 @@ export default function Dashboard() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          aria-label="Settings" 
-          className="text-white hover:bg-white/20"
-          onClick={handleSettingsClick}
-        >
-          <Settings className={`h-7 w-7 transition-transform duration-500 ease-in-out ${isNavigating ? 'rotate-180' : ''}`} />
-        </Button>
+        <ThemeToggle />
       </header>
 
       <div className="bg-primary px-4 md:px-6 pb-8">
@@ -283,3 +299,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
+    
