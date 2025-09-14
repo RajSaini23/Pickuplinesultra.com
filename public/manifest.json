@@ -1,19 +1,20 @@
+
 {
-  "name": "Ecstatic",
-  "short_name": "Ecstatic",
+  "name": "Pickup Lines",
+  "short_name": "Pickup Lines",
   "description": "Your Emotion. Our Expression.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#2A2A3A",
-  "theme_color": "#00BFFF",
+  "theme_color": "#2079F2",
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
