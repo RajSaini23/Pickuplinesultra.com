@@ -13,7 +13,6 @@ const withPWA = withPWAInit({
 
 
 const nextConfig: NextConfig = {
-  output: 'export',
   typescript: {
     ignoreBuildErrors: true,
   },
