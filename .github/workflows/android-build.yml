@@ -1,0 +1,59 @@
+name: Build Android App Bundle
+
+on:
+  push:
+    branches:
+      - main # Or your default branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build web assets
+        run: npm run build:mobile
+
+      - name: Install Capacitor CLI
+        run: npm install -g @capacitor/cli
+
+      - name: Sync Capacitor project
+        run: npx cap sync android
+
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.MY_KEYSTORE_BASE64 }}" | base64 --decode > android/app/my-app-key.jks
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x android/gradlew
+      
+      - name: Build App Bundle
+        run: |
+          cd android
+          ./gradlew bundleRelease \
+            -Pandroid.keystore.path=app/my-app-key.jks \
+            -Pandroid.keystore.password="${{ secrets.MY_KEYSTORE_PASSWORD }}" \
+            -Pandroid.key.alias="${{ secrets.MY_KEY_ALIAS }}" \
+            -Pandroid.key.password="${{ secrets.MY_KEY_PASSWORD }}"
+
+      - name: Upload App Bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release
+          path: android/app/build/outputs/bundle/release/app-release.aab
+          retention-days: 7
