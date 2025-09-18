@@ -144,9 +144,9 @@ const allRawData: CategoryData[] = [
   makarSankrantiData,
   basantPanchamiData,
   mahashivratriData,
-gudiPadwaData,
-ugadiData,
-vishuData,
+  gudiPadwaData,
+  ugadiData,
+  vishuData,
   rathYatraData,
   kumbhMelaData,
   akshayaTritiyaData,
@@ -182,7 +182,7 @@ vishuData,
   hindiDiwasData,
   engineersDayData,
   armedForcesDayData,
-];
+].filter(d => d.quotes.length > 0); // Filter out categories with no quotes
 
 // Re-index all quotes to ensure global uniqueness
 let globalId = 1;
