@@ -64,13 +64,13 @@ export default function PrivacyPolicyPage() {
         >
           <motion.div variants={itemVariants} className="mb-8">
             <p className="text-muted-foreground"><strong>Last Updated:</strong> {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            <p className="mt-4 text-lg">Welcome to Pickup Lines Ultra ("we," "our," or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application (the "App"). Please read this policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application.</p>
+            <p className="mt-4 text-lg">Welcome to Pickup Lines Ultra (the "App"), operated by INDGROWSIVE ("we," "our," or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application. Please read this policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application.</p>
           </motion.div>
 
           <Section title="1. Information We Collect">
             <p>We collect information that is necessary for the App to function and to improve your experience. The types of information we may collect depend on how you use our App.</p>
             <h3 className="font-semibold text-foreground mt-4 mb-2">A. Personally Identifiable Information (PII)</h3>
-            <p>We currently do not require you to create an account or provide any Personally Identifiable Information like your name, email address, or phone number to use the core features of our App.</p>
+            <p>We currently do not require you to create an account or provide any Personally Identifiable Information like your name, email address, or phone number to use the core features of our App. If you voluntarily contact us for support or provide feedback, we may collect your name and email address to respond to your inquiries.</p>
             <h3 className="font-semibold text-foreground mt-4 mb-2">B. Non-Personally Identifiable Information / Usage Data</h3>
             <p>To enhance functionality and user experience, the App may collect the following types of data which are stored locally on your device and are not transmitted to our servers:</p>
             <ul className="list-disc pl-6 space-y-2 mt-2">
@@ -129,9 +129,9 @@ export default function PrivacyPolicyPage() {
           <Section title="8. Grievance Redressal">
             <p>In accordance with the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, if you have any grievances or concerns regarding our Privacy Policy or data processing, please contact our Grievance Officer:</p>
             <ul className="list-none space-y-1 mt-2">
-              <li><strong>Name:</strong> Grievance Officer, Pickup Lines Ultra</li>
+              <li><strong>Name:</strong> Saini Adarsh Rajesh</li>
               <li><strong>Email:</strong> <a href="mailto:indgrowsivestudio@gmail.com" className="text-primary hover:underline">indgrowsivestudio@gmail.com</a></li>
-              <li><strong>Address:</strong> [Your Company's Legal Address, India]</li>
+              <li><strong>Address:</strong> Faizabad, Uttar Pradesh, India</li>
             </ul>
             <p>We will address your concerns as soon as possible and within the timeframes stipulated by law (typically within 15 days of receipt).</p>
           </Section>
