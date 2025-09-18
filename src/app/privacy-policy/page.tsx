@@ -64,7 +64,7 @@ export default function PrivacyPolicyPage() {
         >
           <motion.div variants={itemVariants} className="mb-8">
             <p className="text-muted-foreground"><strong>Last Updated:</strong> {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            <p className="mt-4 text-lg">Welcome to Pickup Lines ("we," "our," or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application (the "App"). Please read this policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application.</p>
+            <p className="mt-4 text-lg">Welcome to Pickup Lines Ultra ("we," "our," or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application (the "App"). Please read this policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application.</p>
           </motion.div>
 
           <Section title="1. Information We Collect">
@@ -129,7 +129,7 @@ export default function PrivacyPolicyPage() {
           <Section title="8. Grievance Redressal">
             <p>In accordance with the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, if you have any grievances or concerns regarding our Privacy Policy or data processing, please contact our Grievance Officer:</p>
             <ul className="list-none space-y-1 mt-2">
-              <li><strong>Name:</strong> Grievance Officer, Pickup Lines</li>
+              <li><strong>Name:</strong> Grievance Officer, Pickup Lines Ultra</li>
               <li><strong>Email:</strong> <a href="mailto:indgrowsivestudio@gmail.com" className="text-primary hover:underline">indgrowsivestudio@gmail.com</a></li>
               <li><strong>Address:</strong> [Your Company's Legal Address, India]</li>
             </ul>
