@@ -4,7 +4,7 @@ import { ClientLayout } from './client-layout';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Pickup Lines',
+  title: 'Pickup Lines Ultra',
   description: 'Your Emotion. Our Expression.',
   manifest: '/manifest.json',
 };

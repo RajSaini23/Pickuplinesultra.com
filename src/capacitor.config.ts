@@ -2,8 +2,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.quto.app',
-  appName: 'QUTO',
+  appId: 'com.pickuplines.ultra',
+  appName: 'Pickup Lines Ultra',
   webDir: 'out',
   server: {
     androidScheme: 'https',

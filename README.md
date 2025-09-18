@@ -1,6 +1,6 @@
-# Pickup Lines App - Project Summary
+# Pickup Lines Ultra - Project Summary
 
-This document provides a detailed summary of the "Pickup Lines" application.
+This document provides a detailed summary of the "Pickup Lines Ultra" application.
 
 ### 1. Deployment and Hosting
 
