@@ -2,14 +2,11 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.qutoquotes.app',
+  appId: 'com.quto.app',
   appName: 'QUTO',
   webDir: 'out',
   server: {
     androidScheme: 'https',
-  },
-  android: {
-    minSdkVersion: 21,
   },
   plugins: {
     SplashScreen: {

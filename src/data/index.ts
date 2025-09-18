@@ -54,7 +54,7 @@ import { data as rakshaBandhanData } from './categories/raksha-bandhan';
 import { data as bhagwatiJatraData } from './categories/bhagwati-jatra';
 import { data as chhathPujaData } from './categories/chhath-puja';
 import { data as bihuData } from './categories/bihu';
-import { data as teejData } from './categories/teej.tsx';
+import { data as teejData } from './categories/teej';
 import { data as govardhanPujaData } from './categories/govardhan-puja';
 import { data as bhaiDoojData } from './categories/bhai-dooj';
 import { data as hanumanJayantiData } from './categories/hanuman-jayanti';
@@ -74,7 +74,7 @@ import { data as easterData } from './categories/easter';
 
 
 // Buddhist Festivals
-import { data as buddhaPurnimaData } from './categories/buddha-purnima.tsx';
+import { data as buddhaPurnimaData } from './categories/buddha-purnima';
 import { data as asalhaPujaData } from './categories/asalha-puja';
 
 // Sikh Festivals
@@ -144,9 +144,9 @@ const allRawData: CategoryData[] = [
   makarSankrantiData,
   basantPanchamiData,
   mahashivratriData,
-  gudiPadwaData,
-  ugadiData,
-  vishuData,
+gudiPadwaData,
+ugadiData,
+vishuData,
   rathYatraData,
   kumbhMelaData,
   akshayaTritiyaData,
