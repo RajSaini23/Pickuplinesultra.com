@@ -2,8 +2,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.indgrowsive.pickuplines.app',
-  appName: 'Pickup Lines',
+  appId: 'com.pickuplines.ultra',
+  appName: 'Pickup Lines Ultra',
   webDir: 'out',
   server: {
     androidScheme: 'https',
