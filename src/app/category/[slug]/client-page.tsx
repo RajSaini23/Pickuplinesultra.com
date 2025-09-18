@@ -70,7 +70,7 @@ const QuoteCard = ({
                 target="_blank" 
                 rel="noopener noreferrer" 
                 onClick={(e) => e.preventDefault()}
-                className="font-headline uppercase tracking-widest text-lg font-bold italic pointer-events-none"
+                className="font-headline uppercase tracking-widest text-sm font-bold italic pointer-events-none"
               >
                Pickup Lines <span className="animate-text-gold">Ultra</span>
               </a>
