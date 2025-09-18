@@ -368,6 +368,22 @@
     animation: shimmer 5s infinite linear;
   }
 
+  .animate-text-gold {
+    background: linear-gradient(
+      90deg,
+      #FDE047 0%, /* yellow-200 */
+      #FACC15 25%, /* yellow-400 */
+      #F59E0B 50%, /* amber-500 */
+      #FACC15 75%, /* yellow-400 */
+      #FDE047 100% /* yellow-200 */
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 5s infinite linear;
+  }
+
   @property --angle {
     syntax: '<angle>';
     initial-value: 0deg;

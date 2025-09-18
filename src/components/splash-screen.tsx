@@ -76,7 +76,7 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
           <AppLogo />
            <h1 className="text-5xl font-headline font-bold tracking-wider mt-6 text-primary">
             Pickup Lines
-            <span className="animate-shimmer bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-amber-200 to-yellow-500"> Ultra</span>
+            <span className="animate-text-gold"> Ultra</span>
           </h1>
           <p className="mt-2 text-lg text-muted-foreground">Your Emotion. Our Expression.</p>
         

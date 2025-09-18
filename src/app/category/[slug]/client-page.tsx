@@ -70,9 +70,9 @@ const QuoteCard = ({
                 target="_blank" 
                 rel="noopener noreferrer" 
                 onClick={(e) => e.preventDefault()}
-                className="font-headline uppercase tracking-widest text-lg font-bold italic animate-shimmer pointer-events-none"
+                className="font-headline uppercase tracking-widest text-lg font-bold italic pointer-events-none"
               >
-               Pickup Lines
+               Pickup Lines <span className="animate-text-gold">Ultra</span>
               </a>
           </div>
         </div>
@@ -200,7 +200,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             await navigator.share({
                 files,
                 title: 'Pickup Lines Quote',
-                text: `${quote.hinglish}\n\n- Shared from Pickup Lines`,
+                text: `${quote.hinglish}\n\n- Shared from Pickup Lines Ultra`,
             });
         } else {
             // This error is thrown when navigator.share doesn't support files.
@@ -218,7 +218,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             if (navigator.share) {
                 await navigator.share({
                     title: 'Pickup Lines Quote',
-                    text: `${quote.hinglish}\n\n- Shared from Pickup Lines`,
+                    text: `${quote.hinglish}\n\n- Shared from Pickup Lines Ultra`,
                     url: window.location.origin,
                 });
             } else {
@@ -229,7 +229,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                     await navigator.clipboard.write([item]);
                     toast({ title: "Image Copied!", description: "Quote card image copied to clipboard." });
                 } else {
-                    await navigator.clipboard.writeText(`${quote.hinglish}\n\n- Shared from Pickup Lines`);
+                    await navigator.clipboard.writeText(`${quote.hinglish}\n\n- Shared from Pickup Lines Ultra`);
                     toast({ title: "Text Copied!", description: "Sharing not supported, quote text copied." });
                 }
             }
