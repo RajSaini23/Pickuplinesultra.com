@@ -127,11 +127,10 @@ export default function PrivacyPolicyPage() {
            </Section>
 
           <Section title="8. Grievance Redressal">
-            <p>In accordance with the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, if you have any grievances or concerns regarding our Privacy Policy or data processing, please contact our Grievance Officer:</p>
+             <p>In accordance with the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, if you have any grievances or concerns regarding our Privacy Policy or data processing, please contact our Grievance Officer:</p>
             <ul className="list-none space-y-1 mt-2">
-              <li><strong>Name:</strong> Saini Adarsh Rajesh</li>
+              <li><strong>Grievance Officer:</strong> INDGROWSIVE</li>
               <li><strong>Email:</strong> <a href="mailto:indgrowsivestudio@gmail.com" className="text-primary hover:underline">indgrowsivestudio@gmail.com</a></li>
-              <li><strong>Address:</strong> Faizabad, Uttar Pradesh, India</li>
             </ul>
             <p>We will address your concerns as soon as possible and within the timeframes stipulated by law (typically within 15 days of receipt).</p>
           </Section>

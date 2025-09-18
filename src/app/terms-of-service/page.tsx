@@ -110,7 +110,7 @@ export default function TermsOfServicePage() {
           </Section>
 
           <Section title="10. Governing Law and Jurisdiction">
-            <p>These Terms shall be governed and construed in accordance with the laws of India, without regard to its conflict of law provisions. Any dispute arising out of or in connection with these Terms, including any question regarding its existence, validity, or termination, shall be subject to the exclusive jurisdiction of the courts located in Faizabad, Uttar Pradesh, India.</p>
+            <p>These Terms shall be governed and construed in accordance with the laws of India, without regard to its conflict of law provisions. Any dispute arising out of or in connection with these Terms, including any question regarding its existence, validity, or termination, shall be subject to the exclusive jurisdiction of the courts of India.</p>
           </Section>
           
           <Section title="11. Termination">
