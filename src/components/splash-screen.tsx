@@ -74,7 +74,10 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
       <div className="flex flex-col items-center justify-center h-screen bg-background text-foreground transition-opacity duration-500 p-8">
         <div className="flex flex-col items-center justify-center flex-grow text-center">
           <AppLogo />
-          <h1 className="text-5xl font-headline font-bold tracking-wider mt-6 text-primary">Pickup Lines</h1>
+           <h1 className="text-5xl font-headline font-bold tracking-wider mt-6 text-primary">
+            Pickup Lines
+            <span className="animate-shimmer bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-amber-200 to-yellow-500"> Ultra</span>
+          </h1>
           <p className="mt-2 text-lg text-muted-foreground">Your Emotion. Our Expression.</p>
         
           <div className="w-full max-w-xs mt-12">
