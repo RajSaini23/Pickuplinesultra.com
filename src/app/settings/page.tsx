@@ -76,8 +76,8 @@ export default function SettingsPage() {
   
   const handleShare = async () => {
     const shareData = {
-      title: 'Pickup Lines',
-      text: 'Check out Pickup Lines - Your Emotion. Our Expression.',
+      title: 'Pickup Lines Ultra',
+      text: 'Check out Pickup Lines Ultra - Your Emotion. Our Expression.',
       url: window.location.origin,
     };
     try {
@@ -298,7 +298,7 @@ export default function SettingsPage() {
 
           <Section title="Share the App" icon={Share2}>
             <div className="flex flex-col items-center text-center py-4">
-                <p className="text-muted-foreground mb-4 mt-2 px-4">Enjoying Pickup Lines? Share the love with your friends!</p>
+                <p className="text-muted-foreground mb-4 mt-2 px-4">Enjoying Pickup Lines Ultra? Share the love with your friends!</p>
                 <MotionButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleShare}>
                     <Share2 className="mr-2 h-4 w-4" /> Share Now
                 </MotionButton>
