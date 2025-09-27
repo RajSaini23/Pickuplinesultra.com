@@ -6,7 +6,7 @@ This document provides a detailed summary of the "Pickup Lines Ultra" applicatio
 
 Your app is built as a modern, high-performance Progressive Web App (PWA) using Next.js with static export. This makes it incredibly flexible for deployment.
 
-*   **Firebase Hosting**: The best and easiest option. Since it's a Firebase project, you can deploy it with a single command for fast, global hosting.
+*   **Firebase Hosting**: The best and easiest option. Since it's a Firebase project, you can deploy it with a single command for fast, global hosting. The free tier is generous enough for initial launch.
 *   **Vercel / Netlify**: These platforms are built for Next.js and offer seamless, continuous deployment directly from your code repository.
 *   **Mobile App Stores (iOS/Android)**: Because we've integrated **Capacitor**, you can wrap your web app and publish it to the **Apple App Store** and **Google Play Store**. The `capacitor.config.ts` file and mobile build scripts are already set up for this.
 
@@ -23,22 +23,32 @@ We used a powerful and modern web technology stack:
 *   **Capacitor**: To bridge the web app into a native mobile app for iOS and Android.
 *   **Lucide Icons**: For clean and modern icons used throughout the app.
 
-### 3. Strengths and Features
+### 3. Strengths and Features (Why it's different)
 
-Your app is feature-rich and built on a very strong foundation.
+Your app is feature-rich and built on a very strong foundation, setting it apart from typical quote apps.
 
-*   **High-Quality UI/UX**: The app has a professional, modern design with smooth animations, a custom splash screen, and a themeable interface (light/dark/auto modes).
+*   **High-Quality UI/UX**: The app has a professional, modern design with smooth animations, a custom splash screen, and a themeable interface (light/dark/auto modes). This provides a premium user experience often lacking in similar apps.
 *   **Offline First (PWA)**: The app is a fully functional Progressive Web App. It can be "installed" on a user's home screen and much of the content (quotes, categories) is cached for offline use.
-*   **Interactive and Engaging**: Features like the "Cyber Toggle" switch, the animated loading border on category cards, and the "Dot Spinner" loader make the app feel dynamic and alive.
+*   **Interactive and Engaging**: Features like the "Cyber Toggle" switch, the animated loading border, and the "Dot Spinner" loader make the app feel dynamic and alive.
 *   **Robust Functionality**: We have built:
     *   A dashboard with searchable categories.
     *   Detailed quote-swiping screens for each category.
-    *   A powerful sharing feature that generates a clean image of the quote card.
+    *   A powerful sharing feature that generates a clean image of the quote card, perfect for social media.
     *   A bookmarks page to save favorite quotes.
     *   A comprehensive settings page with theme controls and a network checker utility.
 *   **Cross-Platform**: The same code runs on the web, as a desktop PWA, and as a native app on both iOS and Android.
 
-### 4. Weaknesses and Areas for Improvement
+### 4. Revenue & Cost
+
+*   **Revenue (Aamdani):**
+    *   Currently, the app has no monetization implemented.
+    *   **Future Potential:** You can easily add revenue streams like **Google AdMob** for advertisements (placeholders for ads are already in the code), introducing **premium categories** as in-app purchases, or launching a separate **"ad-free" paid version**.
+*   **Cost (Laagat):**
+    *   **Hosting:** Initial hosting costs can be nearly **zero** by using the generous free tier of **Firebase Hosting**.
+    *   **Database:** All data is currently local to the app, so there are no database costs.
+    *   **Play Store Fee:** There is a **one-time registration fee of $25** to publish on the Google Play Store.
+
+### 5. Weaknesses and Areas for Improvement
 
 Every project has areas where it can grow.
 
@@ -46,7 +56,7 @@ Every project has areas where it can grow.
 *   **Limited AI Features**: While we've set up the foundation for AI with Genkit, we haven't implemented any major AI-powered features yet (like generating quotes on the fly).
 *   **User Accounts**: There is no user login system. Bookmarks are saved on the user's device locally. Adding Firebase Authentication would allow users to sync their bookmarks across devices.
 
-### 5. How Technologies Were Used
+### 6. How Technologies Were Used
 
 *   **Next.js & React** were used to structure the pages (Dashboard, Settings, Category, Bookmarks) and components (`Card`, `Button`, etc.).
 *   **Tailwind CSS** was used in `globals.css` to define the entire color palette (primary, accent colors) and apply all styles, from layout to shadows.
