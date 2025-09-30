@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Bookmark, Star, AppWindow, Wifi, Loader, XCircle
+  ArrowLeft, Palette, Bell, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Star, AppWindow, Wifi, Loader, XCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -231,7 +231,7 @@ export default function SettingsPage() {
           </Section>
 
           <Section title="Notifications" icon={Bell}>
-            <div className="flex flex-col gap-2 -mt-2 pb-4">
+             <div className="flex flex-col gap-2 -mt-2 pb-4">
                <SettingsRow title="New Quotes">
                 <CyberToggle
                   id="toggle-new-quotes"
@@ -239,6 +239,11 @@ export default function SettingsPage() {
                   onCheckedChange={setNewQuotes}
                 />
               </SettingsRow>
+            </div>
+          </Section>
+
+          <Section title="App Updates" icon={AppWindow}>
+             <div className="flex flex-col gap-2 -mt-2 pb-4">
               <SettingsRow title="App Updates">
                 <CyberToggle
                   id="toggle-app-updates"
@@ -299,5 +304,3 @@ export default function SettingsPage() {
     </div>
   );
 }
-
-    
