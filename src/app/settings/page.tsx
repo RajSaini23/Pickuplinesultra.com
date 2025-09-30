@@ -43,7 +43,7 @@ const itemVariants = {
 };
 
 const GlowIcon = ({ icon: Icon, ...props }: { icon: React.ElementType, [key: string]: any }) => {
-  return <Icon {...props} style={{ filter: 'drop-shadow(0 0 5px hsl(var(--icon-color)))' }} />;
+  return <Icon {...props} className={cn("text-icon", props.className)} />;
 };
 
 export default function SettingsPage() {
@@ -116,7 +116,7 @@ export default function SettingsPage() {
     const content = (
       <>
         <div className="flex items-center gap-4">
-          <GlowIcon icon={icon} className="h-7 w-7 text-icon" />
+          <GlowIcon icon={icon} className="h-7 w-7" />
           <span className="text-lg font-semibold">{title}</span>
         </div>
         {children && (
@@ -317,3 +317,4 @@ export default function SettingsPage() {
   );
 
     
+
