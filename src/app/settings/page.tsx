@@ -229,16 +229,6 @@ export default function SettingsPage() {
               </div>
             </SettingsRow>
           </Section>
-          
-          <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20 cursor-pointer">
-            <Link href="/bookmarks" className="w-full flex items-center justify-between p-5 text-left">
-              <div className="flex items-center gap-4">
-                <GlowIcon icon={Bookmark} className="h-7 w-7 text-primary" />
-                <span className="text-lg font-semibold">Bookmarks</span>
-              </div>
-              <ChevronRight className="h-6 w-6 text-muted-foreground" />
-            </Link>
-          </MotionCard>
 
           <Section title="Notifications" icon={Bell}>
             <div className="flex flex-col gap-2 -mt-2 pb-4">
