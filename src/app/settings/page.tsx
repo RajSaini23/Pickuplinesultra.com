@@ -55,6 +55,7 @@ export default function SettingsPage() {
   const [openSection, setOpenSection] = React.useState<string | null>(null);
   const [moreAppsStatus, setMoreAppsStatus] = React.useState<'idle' | 'loading' | 'error'>('idle');
   
+  const [scheduledDigest, setScheduledDigest] = React.useState(true);
   const [newQuotes, setNewQuotes] = React.useState(true);
   const [appUpdates, setAppUpdates] = React.useState(true);
 
@@ -254,16 +255,27 @@ export default function SettingsPage() {
 
           <Section title="Notification Center" icon={Bell}>
              <div className="flex flex-col gap-2 -mt-2 pb-4">
-               <SettingsRow 
-                title="Scheduled digest"
-                description="Get all your notifications as a daily digest at 7:00 PM. Tap to customize delivery time"
-               >
-                <Switch
-                  id="toggle-new-quotes"
-                  checked={newQuotes}
-                  onCheckedChange={setNewQuotes}
-                />
-              </SettingsRow>
+                <SettingsRow 
+                  title="New Quotes"
+                  description="Notify me when I receive a new Quote"
+                >
+                  <Switch
+                    id="toggle-new-quotes"
+                    checked={newQuotes}
+                    onCheckedChange={setNewQuotes}
+                  />
+                </SettingsRow>
+                <Separator />
+                <SettingsRow 
+                  title="Scheduled digest"
+                  description="Get all your notifications as a daily digest at 7:00 PM. Tap to customize delivery time"
+                >
+                  <Switch
+                    id="toggle-scheduled-digest"
+                    checked={scheduledDigest}
+                    onCheckedChange={setScheduledDigest}
+                  />
+                </SettingsRow>
             </div>
           </Section>
 
@@ -333,5 +345,7 @@ export default function SettingsPage() {
 
 
 
+
+    
 
     
