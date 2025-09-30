@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Palette, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Star, AppWindow, Wifi, Loader, XCircle
+  ArrowLeft, Palette, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Star, AppWindow, Wifi, Loader, XCircle, Bell
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -45,27 +45,6 @@ const itemVariants = {
 const GlowIcon = ({ icon: Icon, ...props }: { icon: React.ElementType, [key: string]: any }) => {
   return <Icon {...props} className={cn("text-icon", props.className)} />;
 };
-
-
-const NotificationCenterIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg 
-        width="28" 
-        height="28" 
-        viewBox="0 0 28 28" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg"
-        {...props}
-    >
-        <rect width="28" height="28" rx="8" fill="url(#paint0_linear_1_2)" />
-        <circle cx="23" cy="5" r="3" fill="#4D8DFF" />
-        <defs>
-            <linearGradient id="paint0_linear_1_2" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#4D8DFF" />
-                <stop offset="1" stopColor="#2264E5" />
-            </linearGradient>
-        </defs>
-    </svg>
-);
 
 
 export default function SettingsPage() {
@@ -138,7 +117,7 @@ export default function SettingsPage() {
     const content = (
       <>
         <div className="flex items-center gap-4">
-          <GlowIcon icon={icon} className="h-7 w-7" />
+          <GlowIcon icon={icon} className={cn("h-7 w-7", title === "Notification Center" && "text-primary")} />
           <span className="text-lg font-semibold">{title}</span>
         </div>
         {children && (
@@ -150,20 +129,6 @@ export default function SettingsPage() {
             <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
         )}
       </>
-    );
-
-    const notificationContent = (
-         <>
-            <div className="flex items-center gap-4">
-              <NotificationCenterIcon className="h-7 w-7" />
-              <span className="text-lg font-semibold">{title}</span>
-            </div>
-            {children && (
-                <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
-                 <ChevronRight className="h-6 w-6 text-muted-foreground" />
-                </motion.div>
-            )}
-         </>
     );
 
     const handleSectionClick = () => {
@@ -183,7 +148,7 @@ export default function SettingsPage() {
         className="w-full flex items-center justify-between p-5 text-left"
         onClick={handleSectionClick}
       >
-        {title === "Notification Center" ? notificationContent : content}
+       {content}
       </button>
     );
 
@@ -279,7 +244,7 @@ export default function SettingsPage() {
             </SettingsRow>
           </Section>
 
-          <Section title="Notification Center" icon={NotificationCenterIcon}>
+          <Section title="Notification Center" icon={Bell}>
              <div className="flex flex-col gap-2 -mt-2 pb-4">
                <SettingsRow title="New Quotes">
                 <CyberToggle
@@ -353,5 +318,6 @@ export default function SettingsPage() {
   );
 
     
+
 
 
