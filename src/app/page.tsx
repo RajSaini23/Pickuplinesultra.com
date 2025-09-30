@@ -265,7 +265,7 @@ export default function Dashboard() {
       </div>
 
       <main className="flex-grow p-4 md:px-6 md:py-8 -mt-8">
-        <div className="flex flex-col gap-y-4">
+        <div className="flex flex-col gap-y-6">
           {filteredCategories.map((category, index) => (
             <AnimatedCategoryCard key={category.slug} delay={index * 0.05}>
               <Link 
@@ -300,5 +300,4 @@ export default function Dashboard() {
   );
 }
 
-    
     
