@@ -110,7 +110,7 @@ export default function SettingsPage() {
   };
 
 
-  const Section = ({ title, icon, children, isLink, href }: { title: string, icon: React.ElementType, children?: React.ReactNode, isLink?: boolean, href?: string }) => {
+  const Section = ({ title, icon, children, isLink, href, onClick }: { title: string, icon: React.ElementType, children?: React.ReactNode, isLink?: boolean, href?: string, onClick?: () => void }) => {
     const isOpen = openSection === title;
     
     const content = (
@@ -119,11 +119,24 @@ export default function SettingsPage() {
           <GlowIcon icon={icon} className="h-7 w-7 text-primary" />
           <span className="text-lg font-semibold">{title}</span>
         </div>
-        <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
-          <ChevronRight className="h-6 w-6 text-muted-foreground" />
-        </motion.div>
+        {children && (
+            <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
+             <ChevronRight className="h-6 w-6 text-muted-foreground" />
+            </motion.div>
+        )}
+         {!children && !isLink && (
+            <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+        )}
       </>
     );
+    
+    const handleSectionClick = () => {
+        if (onClick) {
+            onClick();
+        } else if (children) {
+            setOpenSection(isOpen ? null : title)
+        }
+    };
 
     const buttonOrLink = isLink && href ? (
        <Link href={href} className="w-full flex items-center justify-between p-5 text-left">
@@ -132,7 +145,7 @@ export default function SettingsPage() {
     ) : (
       <button
         className="w-full flex items-center justify-between p-5 text-left"
-        onClick={() => setOpenSection(isOpen ? null : title)}
+        onClick={handleSectionClick}
       >
         {content}
       </button>
@@ -253,8 +266,9 @@ export default function SettingsPage() {
               </SettingsRow>
             </div>
           </Section>
-
+          
           <Section title="Legal" icon={FileText}>
+            <div className="pb-1">
              <Link href="/privacy-policy" className="flex items-center justify-between py-3.5 group cursor-pointer">
                 <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">Privacy Policy</p>
                 <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
@@ -263,32 +277,30 @@ export default function SettingsPage() {
                 <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">Terms of Service</p>
                 <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:translate-x-1 transition-transform" />
             </Link>
+            </div>
           </Section>
 
-          <Section title="Help & Support" icon={LifeBuoy}>
-             <div className="pb-1">
-                <SettingsRow title="Rate Us" onClick={() => openRatingDialog(true)}>
-                    <Star className="h-5 w-5 text-muted-foreground group-hover:text-yellow-400 group-hover:fill-yellow-400 transition-colors" />
-                </SettingsRow>
-                 <SettingsRow title="More Apps" onClick={handleMoreAppsClick}>
-                    <div className="text-right">
-                        <AnimatePresence mode="wait" initial={false}>
-                            <motion.div
-                                key={moreAppsStatus}
-                                initial={{ opacity: 0, y: 5 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -5 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                {moreAppsStatus === 'idle' && <AppWindow className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />}
-                                {moreAppsStatus === 'loading' && <div className="h-5 w-5 flex items-center justify-center"><Loader /></div>}
-                                {moreAppsStatus === 'error' && <XCircle className="h-5 w-5 text-destructive" />}
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
-                 </SettingsRow>
-             </div>
+          <Section title="Rate Us" icon={Star} onClick={() => openRatingDialog(true)} />
+          
+          <Section title="More Apps" icon={AppWindow} onClick={handleMoreAppsClick}>
+             <div className="absolute right-5 top-1/2 -translate-y-1/2">
+                <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                        key={moreAppsStatus}
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        {moreAppsStatus === 'idle' && <ChevronRight className="h-6 w-6 text-muted-foreground" />}
+                        {moreAppsStatus === 'loading' && <div className="h-6 w-6 flex items-center justify-center"><Loader /></div>}
+                        {moreAppsStatus === 'error' && <XCircle className="h-6 w-6 text-destructive" />}
+                    </motion.div>
+                </AnimatePresence>
+            </div>
           </Section>
+          
+          <Section title="Help &amp; Support" icon={LifeBuoy} />
 
 
           <Section title="Share the App" icon={Share2}>
@@ -303,4 +315,5 @@ export default function SettingsPage() {
       </main>
     </div>
   );
-}
+
+    
