@@ -23,9 +23,9 @@ export const BottomNav = () => {
           const isActive = pathname === item.href;
           return (
             <Link href={item.href} key={item.href} className="relative flex flex-col items-center justify-center w-24 h-full text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300">
-              <item.icon className={cn("h-7 w-7 mb-1 transition-all", isActive ? "text-icon" : "")} />
-              <span className={cn("transition-all", isActive ? "text-primary font-bold" : "")}>{item.label}</span>
-              {isActive && (
+              <item.icon className={cn("h-7 w-7 transition-all", isActive ? "text-icon" : "")} />
+              <span className={cn("transition-all mt-1", isActive ? "text-primary font-bold" : "")}>{item.label}</span>
+              {/* {isActive && (
                 <motion.div
                   layoutId="active-nav-indicator"
                   className="absolute bottom-0 h-1 w-12 bg-primary rounded-t-full"
@@ -33,7 +33,7 @@ export const BottomNav = () => {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                 />
-              )}
+              )} */}
             </Link>
           );
         })}
