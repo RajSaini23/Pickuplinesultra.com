@@ -11,10 +11,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { CyberToggle } from '@/components/ui/cyber-toggle';
 import { useToast } from '@/hooks/use-toast';
 import { useRatingDialog } from '@/components/ui/rating-dialog';
 import { cn } from '@/lib/utils';
+import { Switch } from '@/components/ui/switch';
 
 
 const MotionCard = motion(Card);
@@ -176,22 +176,28 @@ export default function SettingsPage() {
     );
   };
   
-  const SettingsRow = ({ title, children, onClick, isLink = false, href }: { title: string, children: React.ReactNode, onClick?: () => void, isLink?: boolean, href?: string }) => {
-    const commonClasses = "flex items-center justify-between py-3.5 group cursor-pointer";
+  const SettingsRow = ({ title, description, children, onClick, isLink = false, href }: { title: string, description?: string, children: React.ReactNode, onClick?: () => void, isLink?: boolean, href?: string }) => {
+    const content = (
+       <div className="flex items-center justify-between py-3.5 group cursor-pointer w-full">
+          <div className="flex flex-col gap-1">
+            <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
+            {description && <p className="text-sm text-muted-foreground">{description}</p>}
+          </div>
+          {children}
+       </div>
+    )
 
     if (isLink && href) {
         return (
-            <a href={href} target="_blank" rel="noopener noreferrer" className={commonClasses}>
-                <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
-                {children}
+            <a href={href} target="_blank" rel="noopener noreferrer" className="w-full">
+                {content}
             </a>
         );
     }
     
     return (
-       <div onClick={onClick} className={commonClasses}>
-          <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
-          {children}
+       <div onClick={onClick} className="w-full">
+         {content}
        </div>
     );
   }
@@ -221,33 +227,38 @@ export default function SettingsPage() {
           animate="visible"
         >
           <Section title="Personalization" icon={Palette}>
-            <SettingsRow title="Theme">
-              <div className="flex items-center gap-2">
-                {(['light', 'dark', 'auto'] as const).map((theme) => {
-                  const Icon = theme === 'light' ? Sun : theme === 'dark' ? Moon : Laptop;
-                  return (
-                    <MotionButton
-                      key={theme}
-                      variant={preferredTheme === theme ? 'default' : 'outline'}
-                      size="icon"
-                      onClick={() => changeTheme(theme)}
-                      aria-label={`${theme} theme`}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="rounded-full"
-                    >
-                      <Icon className="h-5 w-5" />
-                    </MotionButton>
-                  );
-                })}
-              </div>
-            </SettingsRow>
+            <div className="flex flex-col gap-2 -mt-2 pb-4">
+              <SettingsRow title="Theme">
+                <div className="flex items-center gap-2">
+                  {(['light', 'dark', 'auto'] as const).map((theme) => {
+                    const Icon = theme === 'light' ? Sun : theme === 'dark' ? Moon : Laptop;
+                    return (
+                      <MotionButton
+                        key={theme}
+                        variant={preferredTheme === theme ? 'default' : 'outline'}
+                        size="icon"
+                        onClick={() => changeTheme(theme)}
+                        aria-label={`${theme} theme`}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="rounded-full"
+                      >
+                        <Icon className="h-5 w-5" />
+                      </MotionButton>
+                    );
+                  })}
+                </div>
+              </SettingsRow>
+            </div>
           </Section>
 
           <Section title="Notification Center" icon={Bell}>
              <div className="flex flex-col gap-2 -mt-2 pb-4">
-               <SettingsRow title="New Quotes">
-                <CyberToggle
+               <SettingsRow 
+                title="Scheduled digest"
+                description="Get all your notifications as a daily digest at 7:00 PM. Tap to customize delivery time"
+               >
+                <Switch
                   id="toggle-new-quotes"
                   checked={newQuotes}
                   onCheckedChange={setNewQuotes}
@@ -259,7 +270,7 @@ export default function SettingsPage() {
           <Section title="App Updates" icon={AppWindow}>
              <div className="flex flex-col gap-2 -mt-2 pb-4">
               <SettingsRow title="App Updates">
-                <CyberToggle
+                <Switch
                   id="toggle-app-updates"
                   checked={appUpdates}
                   onCheckedChange={setAppUpdates}
@@ -321,3 +332,6 @@ export default function SettingsPage() {
 
 
 
+
+
+    
