@@ -39,7 +39,7 @@ export const OfflinePage = () => {
         )}
       </div>
       <footer className="text-center text-xs text-muted-foreground/70">
-          <p>© {new Date().getFullYear()} QUTO. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Pickup Lines Ultra. All rights reserved.</p>
         </footer>
     </div>
   );
