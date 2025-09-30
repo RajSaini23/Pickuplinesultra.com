@@ -54,6 +54,7 @@
     --border: 220 13% 91%;
     --input: 220 13% 91%;
     --ring: 217 91% 60%;
+    --icon-color: 217 91% 60%; /* Blue for light mode */
   }
   .dark {
     --background: 220 15% 10%;
@@ -75,6 +76,7 @@
     --border: 220 10% 20%;
     --input: 220 10% 20%;
     --ring: 217 91% 60%;
+    --icon-color: 45 93% 55%; /* Yellow for dark mode */
   }
 }
 

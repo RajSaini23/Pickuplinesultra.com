@@ -186,7 +186,7 @@ const RatingDialog = () => {
         className="p-8"
     >
       <div className="text-center mb-6">
-        <MessageSquare className="mx-auto w-12 h-12 text-primary mb-3" />
+        <MessageSquare className="mx-auto w-12 h-12 text-icon mb-3" />
         <h2 className="text-2xl font-bold font-headline text-foreground">Help Us Improve</h2>
         <p className="text-muted-foreground mt-1">We're sorry you didn't have a great experience. Please let us know what we can do better.</p>
       </div>
