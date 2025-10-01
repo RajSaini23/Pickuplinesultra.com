@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from 'react';
@@ -317,7 +316,7 @@ export default function SettingsPage() {
 
           <Section title="Rate Us" icon={Star} onClick={() => openRatingDialog(true)} />
           
-          <Section title="Help &amp; Support" icon={LifeBuoy}>
+          <Section title="Help & Support" icon={LifeBuoy}>
              <div className="flex flex-col gap-2 -mt-2 pb-4">
               <SettingsRow 
                 title="Contact Email"

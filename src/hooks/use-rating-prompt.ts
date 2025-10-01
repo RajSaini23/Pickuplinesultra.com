@@ -1,6 +1,3 @@
-
-"use client";
-
 import { useEffect } from 'react';
 import { useBookmarks } from '@/context/bookmark-context';
 import { useRatingDialog } from '@/components/ui/rating-dialog';
