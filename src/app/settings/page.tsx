@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from 'react';
@@ -15,6 +16,7 @@ import { useRatingDialog } from '@/components/ui/rating-dialog';
 import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
+import { useRouter } from 'next/navigation';
 
 
 const MotionCard = motion(Card);
@@ -44,15 +46,15 @@ const itemVariants = {
 
 const PrivacyIcon = () => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path d="M14 2.33331C18.235 2.33331 22.47 4.66665 24.5 7.81665V7.81665C25.13 8.79665 25.43 9.94498 25.3633 11.0966L24.5 20.9999C24.32 23.3333 22.47 25.6666 19.8333 25.6666H8.16667C5.53 25.6666 3.68 23.3333 3.5 20.9999L2.63667 11.0966C2.57 9.94498 2.87 8.79665 3.5 7.81665V7.81665C5.53 4.66665 9.765 2.33331 14 2.33331Z"/>
+    <path d="M14 2.33331C18.235 2.33331 22.47 4.66665 24.5 7.81665V7.81665C25.13 8.79665 25.43 9.94498 25.3633 11.0966L24.5 20.9999C24.32 23.3333 22.47 25.6666 19.8333 25.6666H8.16667C5.53 25.6666 3.68 23.3333 3.5 20.9999L2.63667 11.0966C2.57 9.94498 2.87 8.79665 3.5 7.81665V7.81665C5.53 4.66665 9.765 2.33331 14 2.33331Z" fill="currentColor"/>
     <path d="M14 14.5833L11.6667 12.25L9.33333 14.5833" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M14 19.25V13.4167" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
 const TermsIcon = () => (
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16.3333 2.33331H8.16667C7.575 2.33331 6.98333 2.56665 6.55667 2.99331C6.13 3.41998 5.83333 4.01165 5.83333 4.66665V23.3333C5.83333 23.9883 6.13 24.58 6.55667 25.0066C6.98333 25.4333 7.575 25.6666 8.16667 25.6666H19.8333C20.425 25.6666 21.0167 25.4333 21.4433 25.0066C21.87 24.58 22.1667 23.9883 22.1667 23.3333V9.33331L16.3333 2.33331Z" />
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.3333 2.33331H8.16667C7.575 2.33331 6.98333 2.56665 6.55667 2.99331C6.13 3.41998 5.83333 4.01165 5.83333 4.66665V23.3333C5.83333 23.9883 6.13 24.58 6.55667 25.0066C6.98333 25.4333 7.575 25.6666 8.16667 25.6666H19.8333C20.425 25.6666 21.0167 25.4333 21.4433 25.0066C21.87 24.58 22.1667 23.9883 22.1667 23.3333V9.33331L16.3333 2.33331Z" fill="currentColor" />
         <path d="M16.3333 2.33331V9.33331H22.1667" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M10.5 15.1667H17.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M10.5 19.8333H17.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -65,6 +67,7 @@ const GlowIcon = ({ icon: Icon, ...props }: { icon: React.ElementType, [key: str
 
 
 export default function SettingsPage() {
+  const router = useRouter();
   const { setTheme: setNextTheme } = useTheme();
   const { toast } = useToast();
   const { setIsOpen: openRatingDialog } = useRatingDialog();
@@ -129,13 +132,21 @@ export default function SettingsPage() {
     }
   };
 
+  const handleLinkClick = (href: string, e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => {
+        router.push(href);
+    }, 300);
+  };
+
   const Section = ({ title, icon, children, isLink, href, onClick }: { title: string, icon: React.ElementType, children?: React.ReactNode, isLink?: boolean, href?: string, onClick?: () => void }) => {
     const isOpen = openSection === title;
     
     const content = (
       <>
         <div className="flex items-center gap-4">
-          <GlowIcon icon={icon} />
+          <GlowIcon icon={icon} className="text-foreground" />
           <span className="text-lg font-semibold">{title}</span>
         </div>
         {children && (
@@ -156,19 +167,9 @@ export default function SettingsPage() {
             setOpenSection(isOpen ? null : title)
         }
     };
-    
-    const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        if (href) {
-            e.preventDefault();
-            setIsLoading(true);
-            setTimeout(() => {
-                window.location.href = href;
-            }, 300);
-        }
-    };
 
     const buttonOrLink = isLink && href ? (
-       <Link href={href} onClick={handleLinkClick} className="w-full flex items-center justify-between p-5 text-left">
+       <Link href={href} onClick={(e) => handleLinkClick(href, e)} className="w-full flex items-center justify-between p-5 text-left">
         {content}
       </Link>
     ) : (
@@ -206,7 +207,7 @@ export default function SettingsPage() {
   
   const SettingsRow = ({ title, description, children, onClick, isLink = false, href }: { title: string, description?: string, children: React.ReactNode, onClick?: () => void, isLink?: boolean, href?: string }) => {
     
-    const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const handleLocalLinkClick = (e: React.MouseEvent<HTMLElement>) => {
         if (href) {
             e.preventDefault();
             setIsLoading(true);
@@ -229,7 +230,7 @@ export default function SettingsPage() {
 
     if (isLink && href) {
         return (
-            <a href={href} onClick={handleLinkClick} className="w-full">
+            <a href={href} onClick={handleLocalLinkClick} className="w-full">
                 {content}
             </a>
         );
@@ -332,7 +333,7 @@ export default function SettingsPage() {
           </Section>
           
            <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-                <Link href="/privacy-policy" onClick={(e) => { e.preventDefault(); setIsLoading(true); setTimeout(() => window.location.href = '/privacy-policy', 300); }} className="w-full flex items-center justify-between p-5 text-left group">
+                <Link href="/privacy-policy" onClick={(e) => handleLinkClick('/privacy-policy', e)} className="w-full flex items-center justify-between p-5 text-left group">
                     <div className="flex items-center gap-4">
                         <GlowIcon icon={PrivacyIcon} />
                         <span className="text-lg font-semibold group-hover:text-primary transition-colors">Privacy Policy</span>
@@ -342,7 +343,7 @@ export default function SettingsPage() {
             </MotionCard>
             
             <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-                <Link href="/terms-of-service" onClick={(e) => { e.preventDefault(); setIsLoading(true); setTimeout(() => window.location.href = '/terms-of-service', 300); }} className="w-full flex items-center justify-between p-5 text-left group">
+                <Link href="/terms-of-service" onClick={(e) => handleLinkClick('/terms-of-service', e)} className="w-full flex items-center justify-between p-5 text-left group">
                     <div className="flex items-center gap-4">
                         <GlowIcon icon={TermsIcon} />
                         <span className="text-lg font-semibold group-hover:text-primary transition-colors">Terms of Service</span>
