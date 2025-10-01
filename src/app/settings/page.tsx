@@ -15,6 +15,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useRatingDialog } from '@/components/ui/rating-dialog';
 import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
+import { useNotificationDialog } from '@/components/ui/notification-dialog';
 
 
 const MotionCard = motion(Card);
@@ -43,34 +44,21 @@ const itemVariants = {
 };
 
 const PrivacyIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="privacy-gradient" x1="50%" y1="0%" x2="50%" y2="100%">
-        <stop offset="0%" stopColor="#3B82F6" />
-        <stop offset="100%" stopColor="#6D28D9" />
-      </linearGradient>
-    </defs>
-    <path d="M14 2.33331C18.235 2.33331 22.47 4.66665 24.5 7.81665V7.81665C25.13 8.79665 25.43 9.94498 25.3633 11.0966L24.5 20.9999C24.32 23.3333 22.47 25.6666 19.8333 25.6666H8.16667C5.53 25.6666 3.68 23.3333 3.5 20.9999L2.63667 11.0966C2.57 9.94498 2.87 8.79665 3.5 7.81665V7.81665C5.53 4.66665 9.765 2.33331 14 2.33331Z" fill="url(#privacy-gradient)"/>
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 2.33331C18.235 2.33331 22.47 4.66665 24.5 7.81665V7.81665C25.13 8.79665 25.43 9.94498 25.3633 11.0966L24.5 20.9999C24.32 23.3333 22.47 25.6666 19.8333 25.6666H8.16667C5.53 25.6666 3.68 23.3333 3.5 20.9999L2.63667 11.0966C2.57 9.94498 2.87 8.79665 3.5 7.81665V7.81665C5.53 4.66665 9.765 2.33331 14 2.33331Z"/>
     <path d="M14 14.5833L11.6667 12.25L9.33333 14.5833" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M14 19.25V13.4167" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
 const TermsIcon = () => (
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="terms-gradient" x1="50%" y1="0%" x2="50%" y2="100%">
-                <stop offset="0%" stopColor="#F59E0B" />
-                <stop offset="100%" stopColor="#EF4444" />
-            </linearGradient>
-        </defs>
-        <path d="M16.3333 2.33331H8.16667C7.575 2.33331 6.98333 2.56665 6.55667 2.99331C6.13 3.41998 5.83333 4.01165 5.83333 4.66665V23.3333C5.83333 23.9883 6.13 24.58 6.55667 25.0066C6.98333 25.4333 7.575 25.6666 8.16667 25.6666H19.8333C20.425 25.6666 21.0167 25.4333 21.4433 25.0066C21.87 24.58 22.1667 23.9883 22.1667 23.3333V9.33331L16.3333 2.33331Z" fill="url(#terms-gradient)"/>
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.3333 2.33331H8.16667C7.575 2.33331 6.98333 2.56665 6.55667 2.99331C6.13 3.41998 5.83333 4.01165 5.83333 4.66665V23.3333C5.83333 23.9883 6.13 24.58 6.55667 25.0066C6.98333 25.4333 7.575 25.6666 8.16667 25.6666H19.8333C20.425 25.6666 21.0167 25.4333 21.4433 25.0066C21.87 24.58 22.1667 23.9883 22.1667 23.3333V9.33331L16.3333 2.33331Z" />
         <path d="M16.3333 2.33331V9.33331H22.1667" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M10.5 15.1667H17.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M10.5 19.8333H17.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
 );
-
 
 const GlowIcon = ({ icon: Icon, ...props }: { icon: React.ElementType, [key: string]: any }) => {
   return <Icon {...props} className={cn("text-foreground", props.className)} />;
@@ -81,6 +69,8 @@ export default function SettingsPage() {
   const { setTheme: setNextTheme } = useTheme();
   const { toast } = useToast();
   const { setIsOpen: openRatingDialog } = useRatingDialog();
+  const { setIsOpen: openNotificationDialog } = useNotificationDialog();
+
   const [preferredTheme, setPreferredTheme] = React.useState('auto');
   const [openSection, setOpenSection] = React.useState<string | null>(null);
   
@@ -134,7 +124,7 @@ export default function SettingsPage() {
     const content = (
       <>
         <div className="flex items-center gap-4">
-          <GlowIcon icon={icon} className={cn(title === "Notification Center" && "text-primary")} />
+          <GlowIcon icon={icon} />
           <span className="text-lg font-semibold">{title}</span>
         </div>
         {children && (
@@ -356,3 +346,5 @@ export default function SettingsPage() {
     </div>
   );
 }
+
+    
