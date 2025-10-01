@@ -36,8 +36,8 @@ const AppLogo = ({ className }: { className?: string }) => (
     >
       <defs>
         <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))' }} />
-          <stop offset="100%" style={{ stopColor: 'hsl(var(--foreground))' }} />
+           <stop offset="0%" style={{ stopColor: 'hsl(217, 91%, 60%)' }} />
+           <stop offset="100%" style={{ stopColor: 'hsl(220, 15%, 10%)' }} />
         </linearGradient>
         <filter id="logo-glow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur" />
@@ -145,10 +145,7 @@ export default function Dashboard() {
   const { isOnline } = useNetwork();
   const [showScrollIndicator, setShowScrollIndicator] = React.useState(true);
   
-  const headlineCategories = React.useMemo(() => [
-    "Romantic Quotes", "Comedy Lines", "Poetic Verses",
-    "Bold Dialogues", "Dreamy Thoughts", "Sarcastic Wit"
-  ], []);
+  const headlineCategories = React.useMemo(() => categories.map(c => c.name), []);
   const [headlineIndex, setHeadlineIndex] = React.useState(0);
   
   useRatingPrompt();
