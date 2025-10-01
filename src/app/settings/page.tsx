@@ -73,7 +73,7 @@ const TermsIcon = () => (
 
 
 const GlowIcon = ({ icon: Icon, ...props }: { icon: React.ElementType, [key: string]: any }) => {
-  return <Icon {...props} className={cn("text-icon", props.className)} />;
+  return <Icon {...props} className={cn("text-foreground", props.className)} />;
 };
 
 
@@ -134,7 +134,7 @@ export default function SettingsPage() {
     const content = (
       <>
         <div className="flex items-center gap-4">
-          <GlowIcon icon={icon} className={cn("h-7 w-7", title === "Notification Center" && "text-primary")} />
+          <GlowIcon icon={icon} className={cn(title === "Notification Center" && "text-primary")} />
           <span className="text-lg font-semibold">{title}</span>
         </div>
         {children && (
@@ -329,7 +329,18 @@ export default function SettingsPage() {
 
           <Section title="Rate Us" icon={Star} onClick={() => openRatingDialog(true)} />
           
-          <Section title="Help &amp; Support" icon={LifeBuoy} />
+          <Section title="Help &amp; Support" icon={LifeBuoy}>
+             <div className="flex flex-col gap-2 -mt-2 pb-4">
+              <SettingsRow 
+                title="Contact Email"
+                description="For any queries, please reach out to us"
+                isLink={true}
+                href="mailto:indgrowsivestudio@gmail.com"
+              >
+                  <span className="text-sm font-medium text-primary hover:underline">indgrowsivestudio@gmail.com</span>
+              </SettingsRow>
+            </div>
+          </Section>
 
 
           <Section title="Share the App" icon={Share2}>

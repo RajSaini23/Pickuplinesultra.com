@@ -121,9 +121,6 @@ export default function TermsOfServicePage() {
             <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. We will provide notice of any changes by posting the new Terms of Service on this page and updating the "Last Updated" date. By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms.</p>
           </Section>
           
-          <Section title="13. Contact Us">
-            <p>If you have any questions about these Terms, please contact us at: <a href="mailto:indgrowsivestudio@gmail.com" className="text-primary hover:underline">indgrowsivestudio@gmail.com</a>.</p>
-          </Section>
         </motion.div>
       </main>
     </div>
