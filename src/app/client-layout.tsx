@@ -75,10 +75,12 @@ export function ClientLayout({
         <BookmarkProvider>
           <RatingDialogProvider>
             <CustomSplashScreen>
-              <div className="relative flex flex-col min-h-dvh">
-                <main className="flex-1 pb-24">{children}</main>
-                <BottomNav />
-              </div>
+              <AppContent>
+                <div className="relative flex flex-col min-h-dvh">
+                  <main className="flex-1 pb-24">{children}</main>
+                  <BottomNav />
+                </div>
+              </AppContent>
               <Toaster />
             </CustomSplashScreen>
           </RatingDialogProvider>
