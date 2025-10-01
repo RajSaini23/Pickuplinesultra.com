@@ -15,7 +15,6 @@ import { useToast } from '@/hooks/use-toast';
 import { useRatingDialog } from '@/components/ui/rating-dialog';
 import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
-import { useNotificationDialog } from '@/components/ui/notification-dialog';
 
 
 const MotionCard = motion(Card);
@@ -69,7 +68,6 @@ export default function SettingsPage() {
   const { setTheme: setNextTheme } = useTheme();
   const { toast } = useToast();
   const { setIsOpen: openRatingDialog } = useRatingDialog();
-  const { setIsOpen: openNotificationDialog } = useNotificationDialog();
 
   const [preferredTheme, setPreferredTheme] = React.useState('auto');
   const [openSection, setOpenSection] = React.useState<string | null>(null);
@@ -300,7 +298,7 @@ export default function SettingsPage() {
            <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
                 <Link href="/privacy-policy" className="w-full flex items-center justify-between p-5 text-left group">
                     <div className="flex items-center gap-4">
-                        <PrivacyIcon />
+                        <GlowIcon icon={PrivacyIcon} />
                         <span className="text-lg font-semibold group-hover:text-primary transition-colors">Privacy Policy</span>
                     </div>
                     <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
@@ -310,7 +308,7 @@ export default function SettingsPage() {
             <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
                 <Link href="/terms-of-service" className="w-full flex items-center justify-between p-5 text-left group">
                     <div className="flex items-center gap-4">
-                        <TermsIcon />
+                        <GlowIcon icon={TermsIcon} />
                         <span className="text-lg font-semibold group-hover:text-primary transition-colors">Terms of Service</span>
                     </div>
                     <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
@@ -346,5 +344,3 @@ export default function SettingsPage() {
     </div>
   );
 }
-
-    
