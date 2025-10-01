@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useRatingDialog } from '@/components/ui/rating-dialog';
 import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
+import { LoadingOverlay } from '@/components/ui/loading-overlay';
 
 
 const MotionCard = motion(Card);
@@ -74,13 +75,22 @@ export default function SettingsPage() {
   const [scheduledDigest, setScheduledDigest] = React.useState(true);
   const [newQuotes, setNewQuotes] = React.useState(true);
   const [appUpdates, setAppUpdates] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
+
 
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme-preference') || 'auto';
     setPreferredTheme(savedTheme);
   }, []);
   
+  const handleToggle = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setIsLoading(true);
+    setter(prev => !prev);
+    setTimeout(() => setIsLoading(false), 300);
+  };
+  
   const changeTheme = (t: 'light' | 'dark' | 'auto') => {
+    setIsLoading(true);
     localStorage.setItem('theme-preference', t);
     setPreferredTheme(t);
     if (t === 'auto') {
@@ -90,9 +100,11 @@ export default function SettingsPage() {
       setNextTheme(t);
     }
     toast({ title: "Theme Updated", description: `Theme set to ${t.charAt(0).toUpperCase() + t.slice(1)}` });
+    setTimeout(() => setIsLoading(false), 300);
   };
   
   const handleShare = async () => {
+    setIsLoading(true);
     const shareData = {
       title: 'Pickup Lines Ultra',
       text: 'Check out Pickup Lines Ultra - Your Emotion. Our Expression.',
@@ -112,6 +124,8 @@ export default function SettingsPage() {
       if ((err as Error).name !== 'AbortError') {
         console.error("Share/Copy failed:", err);
       }
+    } finally {
+        setIsLoading(false);
     }
   };
 
@@ -142,9 +156,19 @@ export default function SettingsPage() {
             setOpenSection(isOpen ? null : title)
         }
     };
+    
+    const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (href) {
+            e.preventDefault();
+            setIsLoading(true);
+            setTimeout(() => {
+                window.location.href = href;
+            }, 300);
+        }
+    };
 
     const buttonOrLink = isLink && href ? (
-       <Link href={href} className="w-full flex items-center justify-between p-5 text-left">
+       <Link href={href} onClick={handleLinkClick} className="w-full flex items-center justify-between p-5 text-left">
         {content}
       </Link>
     ) : (
@@ -181,6 +205,18 @@ export default function SettingsPage() {
   };
   
   const SettingsRow = ({ title, description, children, onClick, isLink = false, href }: { title: string, description?: string, children: React.ReactNode, onClick?: () => void, isLink?: boolean, href?: string }) => {
+    
+    const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (href) {
+            e.preventDefault();
+            setIsLoading(true);
+            setTimeout(() => {
+                window.open(href, '_blank', 'noopener,noreferrer');
+                setIsLoading(false);
+            }, 300);
+        }
+    };
+
     const content = (
        <div className="flex items-center justify-between py-3.5 group cursor-pointer w-full">
           <div className="flex flex-col gap-1">
@@ -189,11 +225,11 @@ export default function SettingsPage() {
           </div>
           {children}
        </div>
-    )
+    );
 
     if (isLink && href) {
         return (
-            <a href={href} target="_blank" rel="noopener noreferrer" className="w-full">
+            <a href={href} onClick={handleLinkClick} className="w-full">
                 {content}
             </a>
         );
@@ -204,10 +240,11 @@ export default function SettingsPage() {
          {content}
        </div>
     );
-  }
+  };
 
   return (
     <div className="flex flex-col min-h-dvh bg-background">
+      <LoadingOverlay isLoading={isLoading} />
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -265,7 +302,7 @@ export default function SettingsPage() {
                   <Switch
                     id="toggle-new-quotes"
                     checked={newQuotes}
-                    onCheckedChange={setNewQuotes}
+                    onCheckedChange={() => handleToggle(setNewQuotes)}
                   />
                 </SettingsRow>
                 <Separator />
@@ -276,7 +313,7 @@ export default function SettingsPage() {
                   <Switch
                     id="toggle-scheduled-digest"
                     checked={scheduledDigest}
-                    onCheckedChange={setScheduledDigest}
+                    onCheckedChange={() => handleToggle(setScheduledDigest)}
                   />
                 </SettingsRow>
             </div>
@@ -288,14 +325,14 @@ export default function SettingsPage() {
                 <Switch
                   id="toggle-app-updates"
                   checked={appUpdates}
-                  onCheckedChange={setAppUpdates}
+                  onCheckedChange={() => handleToggle(setAppUpdates)}
                 />
               </SettingsRow>
             </div>
           </Section>
           
            <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-                <Link href="/privacy-policy" className="w-full flex items-center justify-between p-5 text-left group">
+                <Link href="/privacy-policy" onClick={(e) => { e.preventDefault(); setIsLoading(true); setTimeout(() => window.location.href = '/privacy-policy', 300); }} className="w-full flex items-center justify-between p-5 text-left group">
                     <div className="flex items-center gap-4">
                         <GlowIcon icon={PrivacyIcon} />
                         <span className="text-lg font-semibold group-hover:text-primary transition-colors">Privacy Policy</span>
@@ -305,7 +342,7 @@ export default function SettingsPage() {
             </MotionCard>
             
             <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-                <Link href="/terms-of-service" className="w-full flex items-center justify-between p-5 text-left group">
+                <Link href="/terms-of-service" onClick={(e) => { e.preventDefault(); setIsLoading(true); setTimeout(() => window.location.href = '/terms-of-service', 300); }} className="w-full flex items-center justify-between p-5 text-left group">
                     <div className="flex items-center gap-4">
                         <GlowIcon icon={TermsIcon} />
                         <span className="text-lg font-semibold group-hover:text-primary transition-colors">Terms of Service</span>
