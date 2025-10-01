@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Bookmark, Settings } from 'lucide-react';
+import { Home, Bookmark, Settings, AppWindow } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -11,6 +11,7 @@ const navItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/bookmarks', label: 'Saved', icon: Bookmark },
   { href: '/settings', label: 'Settings', icon: Settings },
+  { href: '/more-apps', label: 'More Apps', icon: AppWindow },
 ];
 
 export const BottomNav = () => {

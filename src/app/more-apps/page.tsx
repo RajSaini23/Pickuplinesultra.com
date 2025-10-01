@@ -1,0 +1,39 @@
+
+"use client";
+
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, AppWindow } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Card } from '@/components/ui/card';
+
+export default function MoreAppsPage() {
+  return (
+    <div className="flex flex-col min-h-dvh bg-background">
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm"
+      >
+        <Link href="/" passHref>
+          <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
+            <ArrowLeft className="h-5 w-5" />
+            <span>Back</span>
+          </Button>
+        </Link>
+        <h1 className="text-2xl font-bold font-headline ml-4">More Apps</h1>
+      </motion.header>
+
+      <main className="flex-grow p-4 md:p-8 flex items-center justify-center">
+        <Card className="text-center p-8 md:p-12 max-w-lg mx-auto shadow-xl rounded-2xl">
+          <AppWindow className="mx-auto h-20 w-20 text-primary mb-6" />
+          <h2 className="text-3xl font-bold font-headline mb-3">Coming Soon!</h2>
+          <p className="text-muted-foreground text-lg">
+            We are working hard to bring you more exciting apps. Stay tuned!
+          </p>
+        </Card>
+      </main>
+    </div>
+  );
+}
