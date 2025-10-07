@@ -69,7 +69,29 @@ When you are ready to publish your app to the Google Play Store, Google will man
 
 After completing these steps, your Android app will be correctly and securely configured to work with all Firebase services.
 
-### 3. Languages and Technologies Used
+### 3. Getting Your Android App Bundle (.aab) for Upload
+
+Your project is set up with GitHub Actions, which is an automated system that builds your Android App Bundle (`.aab` file) for you. You do not need to build it on your own computer.
+
+Here is how to get the file for uploading to the Google Play Store:
+
+1.  **Push Your Code**: Make sure all your latest code changes are pushed to the `main` branch of your GitHub repository.
+2.  **Go to GitHub Actions**:
+    *   Open your project's repository on GitHub.
+    *   Click on the **"Actions"** tab at the top of the repository page.
+3.  **Find the Workflow Run**:
+    *   You will see a list of workflow runs. The top one will be the one triggered by your latest push. It will be named "Build Android App Bundle".
+    *   Wait for the workflow to complete. It will show a green checkmark (✅) when it's done.
+4.  **Download the Artifact**:
+    *   Click on the completed workflow run to open its summary page.
+    *   Scroll down to the bottom of the page to the **"Artifacts"** section.
+    *   You will see an artifact named **`app-release`**.
+    *   Click on **`app-release`** to download a `.zip` file.
+5.  **Extract and Upload**:
+    *   Unzip the downloaded file. Inside, you will find your `app-release.aab` file.
+    *   This is the file you need to upload to the Google Play Console.
+
+### 4. Languages and Technologies Used
 
 We used a powerful and modern web technology stack:
 
@@ -83,7 +105,7 @@ We used a powerful and modern web technology stack:
 *   **Capacitor**: To bridge the web app into a native mobile app for iOS and Android.
 *   **Lucide Icons**: For clean and modern icons used throughout the app.
 
-### 4. Strengths and Features (Why it's different)
+### 5. Strengths and Features (Why it's different)
 
 Your app is feature-rich and built on a very strong foundation, setting it apart from typical quote apps.
 
@@ -99,7 +121,7 @@ Your app is feature-rich and built on a very strong foundation, setting it apart
     *   A comprehensive settings page with theme controls and a network checker.
 *   **Cross-Platform**: The same code runs on the web, as a desktop PWA, and as a native app on both iOS and Android.
 
-### 5. Revenue & Cost
+### 6. Revenue & Cost
 
 *   **Revenue (Aamdani):**
     *   Currently, the app has no monetization implemented.
@@ -108,14 +130,14 @@ Your app is feature-rich and built on a very strong foundation, setting it apart
     *   **Hosting & Database:** Initial costs can be nearly **zero** by using the generous free tiers of **Firebase Hosting** and **Firestore**.
     *   **Play Store Fee:** There is a **one-time registration fee of $25** to publish on the Google Play Store.
 
-### 6. Weaknesses and Areas for Improvement
+### 7. Weaknesses and Areas for Improvement
 
 Every project has areas where it can grow.
 
 *   **Limited AI Features**: While we've set up the foundation for AI with Genkit, we haven't implemented any major AI-powered features yet (like generating quotes on the fly or AI-powered recommendations).
 *   **User Accounts**: There is no user login system. Bookmarks are saved on the user's device locally. Adding Firebase Authentication would allow users to sync their bookmarks across devices.
 
-### 7. How Technologies Were Used
+### 8. How Technologies Were Used
 
 *   **Next.js & React** were used to structure the pages (Dashboard, Settings, Category, Bookmarks) and components (`Card`, `Button`, etc.).
 *   **Firebase Firestore** is used as the primary database, with data being fetched in real-time on the client-side.
