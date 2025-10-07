@@ -7,6 +7,10 @@ const withPWA = withPWAInit({
   disable: process.env.NODE_ENV === 'development',
   cacheOnFrontEndNav: true,
   aggressiveFrontEndNavCaching: true,
+  cacheStartUrl: true,
+  dynamicOptions: {
+    // you can pass your dynamic options here
+  },
 });
 
 

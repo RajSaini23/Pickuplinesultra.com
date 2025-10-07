@@ -3,14 +3,25 @@ import type { Metadata, Viewport } from 'next';
 import { ClientLayout } from './client-layout';
 import './globals.css';
 
+const APP_NAME = "Pickup Lines Ultra";
+const APP_DESCRIPTION = "Your Emotion. Our Expression.";
+
 export const metadata: Metadata = {
-  title: 'Pickup Lines Ultra',
-  description: 'Your Emotion. Our Expression.',
-  manifest: '/manifest.json',
+  applicationName: APP_NAME,
+  title: APP_NAME,
+  description: APP_DESCRIPTION,
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_NAME,
+  },
+  formatDetection: {
+    telephone: false,
+  },
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/icon.svg',
-    apple: '/icon.svg',
+    shortcut: "/icon.svg",
+    apple: "/icons/icon-512x512.png",
   },
 };
 
@@ -25,10 +36,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icon.svg"></link>
-      </head>
       <body className="font-body antialiased">
         <ClientLayout>{children}</ClientLayout>
       </body>

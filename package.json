@@ -7,17 +7,19 @@
     "dev": "next dev --turbopack -p 9002",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
-    "build": "next build",
+    "pwa-assets": "node scripts/generate-pwa-assets.mjs",
+    "build": "npm run pwa-assets && next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "build:mobile": "next build",
+    "build:mobile": "npm run build && next build",
     "cap:sync": "npm run build:mobile && npx cap sync",
     "cap:open:android": "npx cap open android",
     "cap:open:ios": "npx cap open ios",
     "cap:res": "npx @capacitor/assets generate --icon-only --splash-only"
   },
   "dependencies": {
+    "@capacitor-community/sqlite": "^6.0.0-1",
     "@capacitor/android": "^6.1.0",
     "@capacitor/core": "^6.1.0",
     "@capacitor/ios": "^6.1.0",
@@ -54,7 +56,7 @@
     "date-fns": "^3.6.0",
     "dotenv": "^16.5.0",
     "embla-carousel-react": "^8.6.0",
-    "firebase": "^11.9.1",
+    "firebase": "^10.12.2",
     "framer-motion": "^11.2.10",
     "genkit": "^1.14.1",
     "gsap": "^3.12.5",
@@ -81,6 +83,7 @@
     "@types/react-dom": "^18",
     "genkit-cli": "^1.14.1",
     "postcss": "^8",
+    "sharp": "^0.33.4",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
