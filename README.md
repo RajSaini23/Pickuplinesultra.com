@@ -6,6 +6,8 @@ This document provides a detailed summary of the "Pickup Lines Ultra" applicatio
 
 Your app is built as a modern, high-performance Progressive Web App (PWA) using Next.js. This makes it incredibly flexible for deployment.
 
+**The live application is hosted at: [https://studio--ecstatic-mhefl.us-central1.hosted.app](https://studio--ecstatic-mhefl.us-central1.hosted.app)**
+
 *   **Firebase Hosting**: The best and easiest option. Since it's a Firebase project, you can deploy it with a single command for fast, global hosting. The free tier is generous enough for initial launch.
 *   **Vercel / Netlify**: These platforms are built for Next.js and offer seamless, continuous deployment directly from your code repository.
 *   **Mobile App Stores (iOS/Android)**: Because we've integrated **Capacitor**, you can wrap your web app and publish it to the **Apple App Store** and **Google Play Store**. The `capacitor.config.ts` file and mobile build scripts are already set up for this.
