@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   title: 'Pickup Lines Ultra',
   description: 'Your Emotion. Our Expression.',
   manifest: '/manifest.json',
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
 };
 
 export const viewport: Viewport = {
@@ -22,7 +27,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icon-192x192.png"></link>
+        <link rel="apple-touch-icon" href="/icon.svg"></link>
       </head>
       <body className="font-body antialiased">
         <ClientLayout>{children}</ClientLayout>
