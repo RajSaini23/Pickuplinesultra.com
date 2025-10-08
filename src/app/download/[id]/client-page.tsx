@@ -25,20 +25,24 @@ const AdPlaceholder = () => (
 
 const QuoteCard = ({ quote }: { quote: Quote }) => (
     <div className="hidden">
-      <div id="download-card" className="w-[1080px] h-[1080px] p-8 flex items-center justify-center" style={{ backgroundColor: 'hsl(var(--accent))', borderRadius: '40px' }}>
-          <div className="w-full h-full p-6" style={{ backgroundColor: 'hsl(var(--primary))', borderRadius: '32px' }}>
-              <div className="w-full h-full bg-card p-24 flex flex-col items-center justify-center text-center relative" style={{ borderRadius: '28px' }}>
-                  <div className="text-9xl mb-12">{quote.emoji}</div>
-                  <p className="font-headline text-7xl font-semibold leading-tight text-foreground/90 px-8">
-                      {quote.hinglish}
+      <div id="download-card" className="w-[450px] h-[800px] bg-card p-4 flex flex-col" style={{
+        // Using a fixed size for consistent downloads, aspect ratio similar to a phone screen
+      }}>
+        <div className="w-full h-full p-2 bg-accent/80 rounded-2xl">
+          <div className="w-full h-full p-2 bg-primary/80 rounded-xl">
+            <div className="w-full h-full bg-card p-6 flex flex-col items-center justify-center text-center relative rounded-lg">
+                <div className="text-8xl mb-12">{quote.emoji}</div>
+                <p className="font-headline text-5xl font-semibold leading-tight text-foreground/90 px-4">
+                    {quote.hinglish}
+                </p>
+                <div className="absolute bottom-8 text-center w-full">
+                  <p className="font-headline uppercase tracking-widest text-xl font-bold italic pointer-events-none">
+                    Pickup Lines <span className="animate-text-gold">Ultra</span>
                   </p>
-                  <div className="absolute bottom-12 text-center w-full">
-                    <p className="font-headline uppercase tracking-widest text-2xl font-bold italic pointer-events-none">
-                      Pickup Lines <span className="animate-text-gold">Ultra</span>
-                    </p>
-                  </div>
-              </div>
+                </div>
+            </div>
           </div>
+        </div>
       </div>
     </div>
 );
@@ -62,9 +66,9 @@ export function DownloadClientPage({ quote }: { quote: Quote }) {
     try {
       const blob = await toBlob(node, {
         quality: 1,
-        pixelRatio: 1, 
+        pixelRatio: 2, 
         width: 1080,
-        height: 1080,
+        height: 1920,
       });
 
       if (blob) {
@@ -181,3 +185,4 @@ export function DownloadClientPage({ quote }: { quote: Quote }) {
       </footer>
     </div>
   );
+}
