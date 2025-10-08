@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, CheckCircle, DownloadCloud, Loader, Play, Share2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Loader, Play, Share2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -25,22 +25,20 @@ const AdPlaceholder = () => (
 
 const QuoteCard = ({ quote }: { quote: Quote }) => (
     <div className="hidden">
-      <div id="download-card" className="w-[450px] h-[800px] bg-card p-4 flex flex-col" style={{
+      <div id="download-card" className="w-[450px] h-auto bg-card p-0 flex flex-col" style={{
         // Using a fixed size for consistent downloads, aspect ratio similar to a phone screen
       }}>
-        <div className="w-full h-full p-2 bg-accent/80 rounded-2xl">
-          <div className="w-full h-full p-2 bg-primary/80 rounded-xl">
-            <div className="w-full h-full bg-card p-6 flex flex-col items-center justify-center text-center relative rounded-lg">
-                <div className="text-8xl mb-12">{quote.emoji}</div>
-                <p className="font-headline text-5xl font-semibold leading-tight text-foreground/90 px-4">
-                    {quote.hinglish}
-                </p>
-                <div className="absolute bottom-8 text-center w-full">
-                  <p className="font-headline uppercase tracking-widest text-xl font-bold italic pointer-events-none">
-                    Pickup Lines <span className="animate-text-gold">Ultra</span>
-                  </p>
-                </div>
-            </div>
+        <div className="bg-card border-2 border-accent/40 rounded-2xl">
+          <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[550px]">
+              <div className="text-8xl mb-12">{quote.emoji}</div>
+              <p className="font-headline text-5xl font-semibold leading-tight text-foreground/90 px-4">
+                  {quote.hinglish}
+              </p>
+          </div>
+          <div className="relative px-6 pb-2 text-end">
+            <p className="font-headline uppercase tracking-widest text-xl font-bold italic pointer-events-none">
+              Pickup Lines <span className="animate-text-gold">Ultra</span>
+            </p>
           </div>
         </div>
       </div>
@@ -67,8 +65,7 @@ export function DownloadClientPage({ quote }: { quote: Quote }) {
       const blob = await toBlob(node, {
         quality: 1,
         pixelRatio: 2, 
-        width: 1080,
-        height: 1920,
+        // Consistent sizing with shared image aspect ratio
       });
 
       if (blob) {
