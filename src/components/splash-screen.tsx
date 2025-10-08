@@ -18,8 +18,8 @@ const AppLogo = () => (
     >
       <defs>
         <linearGradient id="logo-gradient-splash" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#3B82F6', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#00BFFF', stopOpacity: 1 }} />
+           <stop offset="0%" style={{ stopColor: 'hsl(217, 91%, 60%)' }} />
+           <stop offset="100%" style={{ stopColor: 'hsl(220, 15%, 10%)' }} />
         </linearGradient>
         <filter id="logo-glow-splash" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur" />

@@ -1,7 +1,6 @@
 
 "use client";
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Settings, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -36,7 +35,7 @@ const AppLogo = ({ className }: { className?: string }) => (
     >
       <defs>
         <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-           <stop offset="0%" style={{ stopColor: 'hsl(217, 91%, 60%)' }} />
+           <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))' }} />
            <stop offset="100%" style={{ stopColor: 'hsl(220, 15%, 10%)' }} />
         </linearGradient>
         <filter id="logo-glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -178,8 +177,7 @@ export default function Dashboard() {
     category.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   
-  const handleCategoryClick = (slug: string, e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const handleCategoryClick = (slug: string) => {
     setNavigatingTo(slug);
     router.push(`/category/${slug}`);
   };
@@ -204,11 +202,9 @@ export default function Dashboard() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <Link href="/settings">
-          <Button variant="ghost" size="icon" className="text-white bg-transparent hover:bg-transparent focus:bg-transparent">
-            <Settings className="h-7 w-7" />
-          </Button>
-        </Link>
+        <Button variant="ghost" size="icon" className="text-white bg-transparent hover:bg-transparent focus:bg-transparent" onClick={() => router.push('/settings')}>
+          <Settings className="h-7 w-7" />
+        </Button>
       </header>
 
       <div className="bg-primary px-4 md:px-6 pb-8">
@@ -238,10 +234,9 @@ export default function Dashboard() {
         <div className="flex flex-col gap-y-6">
           {filteredCategories.map((category, index) => (
             <AnimatedCategoryCard key={category.slug} delay={index * 0.05}>
-              <Link 
-                href={`/category/${category.slug}`} 
+              <div 
                 className="group relative transition-transform duration-300 ease-in-out active:scale-[0.98] block"
-                onClick={(e) => handleCategoryClick(category.slug, e)}
+                onClick={() => handleCategoryClick(category.slug)}
               >
                 <Card 
                   className="overflow-hidden transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-1 rounded-2xl border-none shadow-md h-24 p-0 relative"
@@ -258,7 +253,7 @@ export default function Dashboard() {
                       </div>
                     </div>
                 </Card>
-              </Link>
+              </div>
             </AnimatedCategoryCard>
           ))}
         </div>

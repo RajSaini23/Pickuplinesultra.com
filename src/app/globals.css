@@ -41,19 +41,19 @@
     --card-foreground: 0 0% 98%;
     --popover: 220 15% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 100 80% 50%;
+    --primary: 217 91% 60%;
     --primary-foreground: 220 15% 10%;
     --secondary: 220 10% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 220 10% 15.9%;
     --muted-foreground: 220 5% 64.9%;
-    --accent: 100 80% 50%;
+    --accent: 45 93% 47%;
     --accent-foreground: 220 15% 10%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 10% 20%;
     --input: 220 10% 20%;
-    --ring: 100 80% 55%;
+    --ring: 217 91% 65%;
     --icon-color: 0 0% 98%;
     --radius: 0.75rem;
   }
@@ -64,19 +64,19 @@
     --card-foreground: 0 0% 98%;
     --popover: 220 15% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 100 80% 50%;
+    --primary: 217 91% 60%;
     --primary-foreground: 220 15% 10%;
     --secondary: 220 10% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 220 10% 15.9%;
     --muted-foreground: 220 5% 64.9%;
-    --accent: 100 80% 50%;
+    --accent: 45 93% 47%;
     --accent-foreground: 220 15% 10%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 10% 20%;
     --input: 220 10% 20%;
-    --ring: 100 80% 55%;
+    --ring: 217 91% 65%;
     --icon-color: 0 0% 98%;
   }
 }
@@ -116,11 +116,11 @@
   .animate-text-gold {
     background: linear-gradient(
       90deg,
-      #b8ff5e 0%, /* neon-green-light */
-      #7fff00 25%, /* chartreuse */
-      #32cd32 50%, /* limegreen */
-      #7fff00 75%, /* chartreuse */
-      #b8ff5e 100% /* neon-green-light */
+      #facc15 0%,
+      #fde047 25%,
+      #fef08a 50%,
+      #fde047 75%,
+      #facc15 100%
     );
     background-size: 200% 100%;
     -webkit-background-clip: text;

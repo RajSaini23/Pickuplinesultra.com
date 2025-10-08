@@ -3,7 +3,6 @@
 "use client";
 
 import * as React from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, BookmarkX, DownloadCloud, Share2, Copy } from 'lucide-react';
 import { motion } from 'framer-motion';
