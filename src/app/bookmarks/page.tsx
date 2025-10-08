@@ -153,7 +153,7 @@ export default function BookmarksPage() {
                     <Card className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card">
                       <div className="flex-grow flex flex-col">
                         <div ref={cardRef}>
-                          <div className="bg-card border-2 border-primary/20">
+                          <div className="bg-card border-2 border-primary/40 rounded-2xl">
                             <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
                                 <div className="text-6xl">{quote.emoji}</div>
                                 <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
