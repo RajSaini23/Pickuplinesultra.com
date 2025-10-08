@@ -24,12 +24,10 @@ const AdPlaceholder = () => (
 );
 
 const QuoteCard = ({ quote }: { quote: Quote }) => (
-    <div className="hidden">
-      <div id="download-card" className="w-[450px] h-auto bg-card p-0 flex flex-col" style={{
-        // Using a fixed size for consistent downloads, aspect ratio similar to a phone screen
-      }}>
-        <div className="bg-card border-2 border-accent/40 rounded-2xl">
-          <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[550px]">
+    <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
+      <div id="download-card" className="w-[450px] h-[700px] bg-card p-0 flex flex-col">
+        <div className="bg-card border-2 border-accent/40 rounded-2xl h-full flex flex-col">
+          <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
               <div className="text-8xl mb-12">{quote.emoji}</div>
               <p className="font-headline text-5xl font-semibold leading-tight text-foreground/90 px-4">
                   {quote.hinglish}
@@ -64,8 +62,7 @@ export function DownloadClientPage({ quote }: { quote: Quote }) {
     try {
       const blob = await toBlob(node, {
         quality: 1,
-        pixelRatio: 2, 
-        // Consistent sizing with shared image aspect ratio
+        pixelRatio: 2,
       });
 
       if (blob) {
