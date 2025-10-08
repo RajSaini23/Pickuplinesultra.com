@@ -66,23 +66,25 @@ const QuoteCard = ({
   return (
     <Card className="shadow-lg h-[74vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-xl">
       <div className="flex-grow flex flex-col">
-        <div ref={cardRef} className="bg-card">
-          <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[calc(74vh-100px)]">
-              <div className="text-6xl">{quote.emoji}</div>
-              <p className="font-headline text-2xl md:text-3xl font-semibold leading-snug text-foreground/90">
-                  {quote.hinglish}
-              </p>
-          </div>
-          <div className="relative px-6 pb-2 text-end">
-             <a 
-                href={typeof window !== 'undefined' ? window.location.origin : ''} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                onClick={(e) => e.preventDefault()}
-                className="font-headline uppercase tracking-widest text-sm font-bold italic pointer-events-none"
-              >
-               Pickup Lines <span className="animate-text-gold">Ultra</span>
-              </a>
+        <div ref={cardRef}>
+          <div className="bg-card border-2 border-primary/20">
+            <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[calc(74vh-100px)]">
+                <div className="text-6xl">{quote.emoji}</div>
+                <p className="font-headline text-2xl md:text-3xl font-semibold leading-snug text-foreground/90">
+                    {quote.hinglish}
+                </p>
+            </div>
+            <div className="relative px-6 pb-2 text-end">
+              <a 
+                  href={typeof window !== 'undefined' ? window.location.origin : ''} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  onClick={(e) => e.preventDefault()}
+                  className="font-headline uppercase tracking-widest text-sm font-bold italic pointer-events-none"
+                >
+                Pickup Lines <span className="animate-text-gold">Ultra</span>
+                </a>
+            </div>
           </div>
         </div>
       </div>

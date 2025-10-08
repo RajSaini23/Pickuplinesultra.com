@@ -105,13 +105,13 @@ export default function BookmarksPage() {
   };
 
 
-  const ActionButton = ({ icon: Icon, label, onClick }: { icon?: React.ElementType, label: string, onClick?: () => void }) => (
+  const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
     <Button 
       variant="ghost" 
       className="h-16 w-20 flex flex-col items-center justify-center gap-1 transform transition-transform duration-200 active:scale-95 rounded-2xl hover:bg-transparent focus:bg-transparent hover:opacity-80 active:opacity-70" 
       onClick={onClick}
     >
-        {Icon && <Icon className="h-6 w-6 text-muted-foreground" />}
+        {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
        <span className="text-xs font-medium text-muted-foreground">{label}</span>
     </Button>
   );
@@ -152,23 +152,25 @@ export default function BookmarksPage() {
                     )}
                     <Card className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card">
                       <div className="flex-grow flex flex-col">
-                        <div ref={cardRef} className="bg-card">
-                          <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
-                              <div className="text-6xl">{quote.emoji}</div>
-                              <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
-                                  {quote.hinglish}
-                              </p>
-                          </div>
-                          <div className="relative px-6 pb-2 text-end">
-                             <a 
-                                href={typeof window !== 'undefined' ? window.location.origin : ''} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                onClick={(e) => e.preventDefault()}
-                                className="font-headline uppercase tracking-widest text-sm font-bold italic pointer-events-none"
-                              >
-                               Pickup Lines <span className="animate-text-gold">Ultra</span>
-                              </a>
+                        <div ref={cardRef}>
+                          <div className="bg-card border-2 border-primary/20">
+                            <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
+                                <div className="text-6xl">{quote.emoji}</div>
+                                <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
+                                    {quote.hinglish}
+                                </p>
+                            </div>
+                            <div className="relative px-6 pb-2 text-end">
+                              <a 
+                                  href={typeof window !== 'undefined' ? window.location.origin : ''} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer" 
+                                  onClick={(e) => e.preventDefault()}
+                                  className="font-headline uppercase tracking-widest text-sm font-bold italic pointer-events-none"
+                                >
+                                Pickup Lines <span className="animate-text-gold">Ultra</span>
+                                </a>
+                            </div>
                           </div>
                         </div>
                       </div>
