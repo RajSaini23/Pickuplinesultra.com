@@ -25,22 +25,20 @@ const AdPlaceholder = () => (
 
 const QuoteCard = ({ quote }: { quote: Quote }) => (
     <div className="hidden">
-      <div id="download-card" className="w-[1080px] h-[1080px] bg-card p-3 flex flex-col items-center justify-center text-center" style={{ borderRadius: '40px' }}>
-         <div className="w-full h-full p-3" style={{ backgroundColor: 'hsl(var(--accent))', borderRadius: '36px' }}>
-           <div className="w-full h-full p-3" style={{ backgroundColor: 'hsl(var(--primary))', borderRadius: '32px' }}>
-                <div className="w-full h-full bg-card p-24 flex flex-col items-center justify-center text-center relative" style={{ borderRadius: '28px' }}>
-                    <div className="text-9xl mb-12">{quote.emoji}</div>
-                    <p className="font-headline text-7xl font-semibold leading-tight text-foreground/90 px-8">
-                        {quote.hinglish}
+      <div id="download-card" className="w-[1080px] h-[1080px] p-8 flex items-center justify-center" style={{ backgroundColor: 'hsl(var(--accent))', borderRadius: '40px' }}>
+          <div className="w-full h-full p-6" style={{ backgroundColor: 'hsl(var(--primary))', borderRadius: '32px' }}>
+              <div className="w-full h-full bg-card p-24 flex flex-col items-center justify-center text-center relative" style={{ borderRadius: '28px' }}>
+                  <div className="text-9xl mb-12">{quote.emoji}</div>
+                  <p className="font-headline text-7xl font-semibold leading-tight text-foreground/90 px-8">
+                      {quote.hinglish}
+                  </p>
+                  <div className="absolute bottom-12 text-center w-full">
+                    <p className="font-headline uppercase tracking-widest text-2xl font-bold italic pointer-events-none">
+                      Pickup Lines <span className="animate-text-gold">Ultra</span>
                     </p>
-                    <div className="absolute bottom-12 text-center w-full">
-                        <p className="font-headline uppercase tracking-widest text-2xl font-bold italic pointer-events-none">
-                        Pickup Lines <span className="animate-text-gold">Ultra</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+                  </div>
+              </div>
+          </div>
       </div>
     </div>
 );
@@ -183,4 +181,3 @@ export function DownloadClientPage({ quote }: { quote: Quote }) {
       </footer>
     </div>
   );
-}
