@@ -35,26 +35,27 @@
 
 @layer base {
   :root {
-    --background: 220 20% 98%;
-    --foreground: 220 10% 3.9%;
-    --card: 220 20% 100%;
-    --card-foreground: 220 10% 3.9%;
-    --popover: 220 20% 100%;
-    --popover-foreground: 220 10% 3.9%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220 5.9% 10%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 45.1%;
-    --accent: 340 82% 61%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
+    --background: 220 15% 10%;
+    --foreground: 0 0% 98%;
+    --card: 220 15% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 15% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 100 80% 50%;
+    --primary-foreground: 220 15% 10%;
+    --secondary: 220 10% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 220 10% 15.9%;
+    --muted-foreground: 220 5% 64.9%;
+    --accent: 100 80% 50%;
+    --accent-foreground: 220 15% 10%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 217 91% 60%;
-    --icon-color: 220 10% 3.9%;
+    --border: 220 10% 20%;
+    --input: 220 10% 20%;
+    --ring: 100 80% 55%;
+    --icon-color: 0 0% 98%;
+    --radius: 0.75rem;
   }
   .dark {
     --background: 220 15% 10%;
@@ -63,19 +64,19 @@
     --card-foreground: 0 0% 98%;
     --popover: 220 15% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 100 80% 50%;
+    --primary-foreground: 220 15% 10%;
     --secondary: 220 10% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 220 10% 15.9%;
     --muted-foreground: 220 5% 64.9%;
-    --accent: 340 82% 61%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 100 80% 50%;
+    --accent-foreground: 220 15% 10%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 10% 20%;
     --input: 220 10% 20%;
-    --ring: 217 91% 60%;
+    --ring: 100 80% 55%;
     --icon-color: 0 0% 98%;
   }
 }
@@ -115,11 +116,11 @@
   .animate-text-gold {
     background: linear-gradient(
       90deg,
-      #FDE047 0%, /* yellow-200 */
-      #FACC15 25%, /* yellow-400 */
-      #F59E0B 50%, /* amber-500 */
-      #FACC15 75%, /* yellow-400 */
-      #FDE047 100% /* yellow-200 */
+      #b8ff5e 0%, /* neon-green-light */
+      #7fff00 25%, /* chartreuse */
+      #32cd32 50%, /* limegreen */
+      #7fff00 75%, /* chartreuse */
+      #b8ff5e 100% /* neon-green-light */
     );
     background-size: 200% 100%;
     -webkit-background-clip: text;
@@ -148,7 +149,7 @@
     z-index: 10;
     border-radius: inherit;
     padding: 2px;
-    background: var(--light-border);
+    background: var(--dark-border);
     animation: spin 1.2s linear infinite;
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,

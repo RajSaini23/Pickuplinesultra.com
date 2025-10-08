@@ -4,7 +4,8 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, BookmarkX, Heart, Share2, Copy, BookmarkCheck } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft, BookmarkX, DownloadCloud, Share2, Copy } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useBookmarks } from '@/context/bookmark-context';
 import { quotes as allQuotes } from '@/data';
@@ -18,9 +19,9 @@ import { Loader } from '@/components/ui/loader';
 export default function BookmarksPage() {
   const { bookmarkedIds, removeBookmark } = useBookmarks();
   const [bookmarkedQuotes, setBookmarkedQuotes] = React.useState<any[]>([]);
-  const [likedQuotes, setLikedQuotes] = React.useState<Set<number>>(new Set());
   const [sharingQuoteId, setSharingQuoteId] = React.useState<number | null>(null);
   const { toast } = useToast();
+  const router = useRouter();
 
   React.useEffect(() => {
     const savedQuotes = allQuotes.filter(quote => bookmarkedIds.includes(quote.id));
@@ -31,17 +32,9 @@ export default function BookmarksPage() {
     navigator.clipboard.writeText(text);
     toast({ title: "Copied!", description: "Quote copied to clipboard." });
   };
-  
-  const handleLikeToggle = (quoteId: number) => {
-    setLikedQuotes(prev => {
-      const newLiked = new Set(prev);
-      if (newLiked.has(quoteId)) {
-        newLiked.delete(quoteId);
-      } else {
-        newLiked.add(quoteId);
-      }
-      return newLiked;
-    });
+
+  const handleDownload = (quoteId: number) => {
+    router.push(`/download/${quoteId}`);
   };
 
   const handleShare = async (quote: any, cardRef: React.RefObject<HTMLDivElement>) => {
@@ -71,17 +64,13 @@ export default function BookmarksPage() {
                 text: `${quote.hinglish}\n\n- Shared from Pickup Lines Ultra`,
             });
         } else {
-            // This error is thrown when navigator.share doesn't support files.
             throw new Error('Web Share API does not support sharing files in this browser.');
         }
     } catch (err: any) {
-        // This is a special case for the "AbortError" which happens when the user cancels the share dialog.
-        // We do not want to show any error message in this case.
         if (err.name === 'AbortError') {
             return;
         }
 
-        // Fallback to sharing a link if sharing files is not supported or fails
         try {
             if (navigator.share) {
                 await navigator.share({
@@ -90,7 +79,6 @@ export default function BookmarksPage() {
                     url: window.location.origin,
                 });
             } else {
-                // Final fallback to clipboard if even basic sharing is not supported
                 const blob = await htmlToImage.toBlob(cardRef.current, { quality: 1, pixelRatio: 2 });
                 if (blob && navigator.clipboard && navigator.clipboard.write) {
                     const item = new ClipboardItem({ 'image/png': blob });
@@ -118,13 +106,13 @@ export default function BookmarksPage() {
   };
 
 
-  const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
+  const ActionButton = ({ icon: Icon, label, onClick }: { icon?: React.ElementType, label: string, onClick?: () => void }) => (
     <Button 
       variant="ghost" 
       className="h-16 w-20 flex flex-col items-center justify-center gap-1 transform transition-transform duration-200 active:scale-95 rounded-2xl hover:bg-transparent focus:bg-transparent hover:opacity-80 active:opacity-70" 
       onClick={onClick}
     >
-        {children || (Icon && <Icon className="h-6 w-6 text-muted-foreground" />)}
+        {Icon && <Icon className="h-6 w-6 text-muted-foreground" />}
        <span className="text-xs font-medium text-muted-foreground">{label}</span>
     </Button>
   );
@@ -132,12 +120,10 @@ export default function BookmarksPage() {
   return (
     <div className="flex flex-col min-h-dvh bg-background text-foreground">
       <header className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm">
-        <Link href="/" passHref>
-           <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
-              <ArrowLeft className="h-5 w-5" />
-              <span>Back</span>
-            </Button>
-        </Link>
+        <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.push('/')}>
+            <ArrowLeft className="h-5 w-5" />
+            <span>Back</span>
+        </Button>
         <h1 className="text-2xl font-bold font-headline ml-4">Bookmarked Pages</h1>
       </header>
 
@@ -150,15 +136,12 @@ export default function BookmarksPage() {
               <BookmarkX className="mx-auto h-16 w-16 text-muted-foreground/50 mb-4" />
               <h2 className="text-2xl font-semibold mb-2">No bookmarked pages yet.</h2>
               <p className="text-muted-foreground">Save pages from the level or dialogue details screen!</p>
-              <Link href="/" passHref>
-                 <Button className="mt-6">Explore Quotes</Button>
-              </Link>
+              <Button className="mt-6" onClick={() => router.push('/')}>Explore Quotes</Button>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {bookmarkedQuotes.map((quote) => {
                 const cardRef = React.createRef<HTMLDivElement>();
-                const isLiked = likedQuotes.has(quote.id);
                 const isSharing = sharingQuoteId === quote.id;
 
                 return (
@@ -193,26 +176,7 @@ export default function BookmarksPage() {
                       <div className="mt-auto">
                         <Separator />
                         <div className="flex items-center justify-around p-2">
-                            <ActionButton label={isLiked ? "Liked" : "Like"} onClick={() => handleLikeToggle(quote.id)}>
-                              <motion.div
-                                key={isLiked ? 'liked' : 'unliked'}
-                                initial={{ scale: 0.8, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
-                                exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
-                              >
-                                {isLiked ? (
-                                  <motion.div
-                                    initial={{ scale: 0.8 }}
-                                    animate={{ scale: [1, 1.2, 1] }}
-                                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                                  >
-                                    <Heart className="h-6 w-6 text-accent fill-accent" />
-                                  </motion.div>
-                                ) : (
-                                  <Heart className="h-6 w-6 text-muted-foreground" />
-                                )}
-                              </motion.div>
-                            </ActionButton>
+                           <ActionButton icon={DownloadCloud} label="Download" onClick={() => handleDownload(quote.id)} />
                             <ActionButton label="Remove" onClick={() => removeBookmark(quote.id)}>
                                <BookmarkX className="h-6 w-6 text-muted-foreground" />
                             </ActionButton>

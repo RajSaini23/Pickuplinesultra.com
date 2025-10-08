@@ -3,8 +3,9 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Heart, Bookmark, Copy, Share2, BookmarkCheck } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft, Bookmark, Copy, Share2, BookmarkCheck, DownloadCloud } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -37,22 +38,31 @@ const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.E
 
 const QuoteCard = ({
   quote,
-  isLiked,
   isBookmarked,
-  onLikeToggle,
   onBookmarkToggle,
   onCopy,
   onShare,
+  onDownload,
 }: {
   quote: Quote;
-  isLiked: boolean;
   isBookmarked: boolean;
-  onLikeToggle: () => void;
   onBookmarkToggle: () => void;
   onCopy: () => void;
   onShare: (cardRef: React.RefObject<HTMLDivElement>) => void;
+  onDownload: () => void;
 }) => {
   const cardRef = React.useRef<HTMLDivElement>(null);
+  const [isDownloading, setIsDownloading] = React.useState(false);
+
+  const handleDownloadClick = () => {
+    setIsDownloading(true);
+    // Add a pulse effect
+    setTimeout(() => {
+        onDownload();
+        setIsDownloading(false);
+    }, 300);
+  };
+
 
   return (
     <Card className="shadow-lg h-[74vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-xl">
@@ -82,26 +92,22 @@ const QuoteCard = ({
       <div className="mt-auto bg-card">
         <Separator />
         <div className="flex items-center justify-around p-2">
-            <ActionButton label={isLiked ? "Liked" : "Like"} onClick={onLikeToggle}>
-              <motion.div
-                key={isLiked ? 'liked' : 'unliked'}
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
-                exit={{ scale: 0.8, opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
-              >
-                {isLiked ? (
-                  <motion.div
-                    initial={{ scale: 0.8 }}
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                  >
-                    <Heart className="h-6 w-6 text-accent fill-accent" />
-                  </motion.div>
-                ) : (
-                  <Heart className="h-6 w-6 text-muted-foreground" />
+            <motion.div
+                animate={{ scale: isDownloading ? [1, 1.1, 1] : 1 }}
+                transition={{ duration: 0.3 }}
+                className="relative"
+            >
+                <ActionButton icon={DownloadCloud} label="Download" onClick={handleDownloadClick} />
+                {isDownloading && (
+                    <motion.div
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 2.5, opacity: [0.5, 0] }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="absolute inset-0 rounded-full bg-primary/50"
+                        style={{ pointerEvents: 'none' }}
+                    />
                 )}
-              </motion.div>
-            </ActionButton>
+            </motion.div>
             <ActionButton label={isBookmarked ? 'Saved' : 'Save'} onClick={onBookmarkToggle}>
               <motion.div
                 key={isBookmarked ? 'bookmarked' : 'unbookmarked'}
@@ -134,8 +140,8 @@ const QuoteCard = ({
 export function CategoryClientPage({ category, quotes }: { category: Omit<Category, 'icon'>, quotes: Quote[] }) {
   const { toast } = useToast();
   const { bookmarkedIds, addBookmark, removeBookmark } = useBookmarks();
-  const [likedQuotes, setLikedQuotes] = React.useState<Set<number>>(new Set());
   const [sharingQuoteId, setSharingQuoteId] = React.useState<number | null>(null);
+  const router = useRouter();
 
   const allItems = React.useMemo(() => {
     const items: (Quote | { ad: boolean })[] = [];
@@ -164,16 +170,8 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     toast({ title: "Copied!", description: "Quote copied to clipboard." });
   };
   
-  const handleLikeToggle = (quoteId: number) => {
-    setLikedQuotes(prev => {
-      const newLiked = new Set(prev);
-      if (newLiked.has(quoteId)) {
-        newLiked.delete(quoteId);
-      } else {
-        newLiked.add(quoteId);
-      }
-      return newLiked;
-    });
+  const handleDownload = (quoteId: number) => {
+    router.push(`/download/${quoteId}`);
   };
 
   const handleShare = async (quote: Quote, cardRef: React.RefObject<HTMLDivElement>) => {
@@ -203,17 +201,13 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                 text: `${quote.hinglish}\n\n- Shared from Pickup Lines Ultra`,
             });
         } else {
-            // This error is thrown when navigator.share doesn't support files.
             throw new Error('Web Share API does not support sharing files in this browser.');
         }
     } catch (err: any) {
-        // This is a special case for the "AbortError" which happens when the user cancels the share dialog.
-        // We do not want to show any error message in this case.
         if (err.name === 'AbortError') {
             return;
         }
 
-        // Fallback to sharing a link if sharing files is not supported or fails
         try {
             if (navigator.share) {
                 await navigator.share({
@@ -222,7 +216,6 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                     url: window.location.origin,
                 });
             } else {
-                // Final fallback to clipboard if even basic sharing is not supported
                 const blob = await htmlToImage.toBlob(cardRef.current, { quality: 1, pixelRatio: 2 });
                 if (blob && navigator.clipboard && navigator.clipboard.write) {
                     const item = new ClipboardItem({ 'image/png': blob });
@@ -254,12 +247,10 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     <div className="flex flex-col h-dvh bg-background text-foreground">
       <header className="sticky top-0 z-50 flex items-center justify-between p-4 h-20 border-b bg-card/80 backdrop-blur-sm">
         <div className="flex-1 flex justify-start">
-          <Link href="/" passHref>
-            <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
+            <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.push('/')}>
               <ArrowLeft className="h-5 w-5" />
               <span>Back</span>
             </Button>
-          </Link>
         </div>
         <div className="flex-1 flex justify-center items-center gap-3 text-center min-w-0">
             <CategoryIcon slug={category.slug} className="h-7 w-7 flex-shrink-0" />
@@ -296,12 +287,11 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                 )}
                 <QuoteCard
                   quote={quote}
-                  isLiked={likedQuotes.has(quote.id)}
                   isBookmarked={bookmarkedIds.includes(quote.id)}
-                  onLikeToggle={() => handleLikeToggle(quote.id)}
                   onBookmarkToggle={() => handleBookmarkToggle(quote)}
                   onCopy={() => handleCopy(quote.hinglish)}
                   onShare={(cardRef) => handleShare(quote, cardRef)}
+                  onDownload={() => handleDownload(quote.id)}
                 />
               </div>
             );
