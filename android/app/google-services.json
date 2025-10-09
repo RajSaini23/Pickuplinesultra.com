@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "698831772358",
+    "firebase_url": "https://ecstatic-mhefl-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ecstatic-mhefl",
+    "storage_bucket": "ecstatic-mhefl.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698831772358:android:ebddd07c8da4b6a3fcd5c7",
+        "android_client_info": {
+          "package_name": "com.indgrowsive.pickuplines.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS873qmtjxYQTJoAe11ATENGSZteLgRtI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
