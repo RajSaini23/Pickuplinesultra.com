@@ -75,7 +75,7 @@ The application is a Progressive Web App (PWA) and can be deployed to various pl
 
 ## Android Publishing Guide
 
-To publish the app on the Google Play Store, you need to configure Firebase and generate a signed App Bundle.
+To publish the app on the Google Play Store, you need to configure Firebase and generate an App Bundle.
 
 ### Generating Firebase SHA Fingerprints
 
@@ -100,18 +100,16 @@ To use Firebase services like Google Sign-In or Push Notifications, you must add
 
 ### Building the App Bundle for Google Play
 
-This project is configured with **GitHub Actions** to automatically build your Android App Bundle (`.aab`) every time you push code to the `main` branch.
+This project is configured with **GitHub Actions** to automatically build an **unsigned** Android App Bundle (`.aab`) every time you push code to the `main` branch. You can then upload this file directly to the Google Play Store, and Google will handle the signing for you.
 
-**How to get your signed `.aab` file:**
+**How to get your `.aab` file:**
 
 1.  **Push to `main`**: Ensure your latest code is on the `main` branch on GitHub.
 2.  **Go to GitHub Actions**: Open your repository on GitHub and click the **"Actions"** tab.
 3.  **Download the Artifact**:
     *   Wait for the "Build Android App Bundle" workflow to complete (it will show a ✅).
     *   Click on the completed workflow run.
-    *   Scroll down to the **"Artifacts"** section and download the **`app-release`** artifact.
+    *   Scroll down to the **"Artifacts"** section and download the **`app-release-unsigned`** artifact.
 4.  **Upload to Play Store**:
-    *   Unzip the downloaded file to find your `app-release.aab`.
-    *   This is the file you upload to the Google Play Console for publishing.
-
-> **Note**: For the automated build to work, you must first create your own release key and add its credentials as secrets in your GitHub repository. The workflow file (`.github/workflows/android-build.yml`) expects the following secrets: `MY_KEYSTORE_BASE64`, `MY_KEYSTORE_PASSWORD`, `MY_KEY_ALIAS`, and `MY_KEY_PASSWORD`.
+    *   Unzip the downloaded file to find your `app-release-unsigned.aab`.
+    *   This is the file you upload to the Google Play Console for publishing. Google Play will sign the app for you using a secure key that it manages.

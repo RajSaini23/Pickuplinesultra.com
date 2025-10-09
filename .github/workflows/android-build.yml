@@ -29,10 +29,6 @@ jobs:
       - name: Sync Capacitor project
         run: npx cap sync android
 
-      - name: Decode Keystore
-        run: |
-          echo "${{ secrets.MY_KEYSTORE_BASE64 }}" | base64 --decode > android/app/my-app-key.jks
-
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
@@ -42,18 +38,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x android/gradlew
       
-      - name: Build App Bundle
+      - name: Build Unsigned App Bundle
         run: |
           cd android
-          ./gradlew bundleRelease \
-            -Pandroid.keystore.path=app/my-app-key.jks \
-            -Pandroid.keystore.password="${{ secrets.MY_KEYSTORE_PASSWORD }}" \
-            -Pandroid.key.alias="${{ secrets.MY_KEY_ALIAS }}" \
-            -Pandroid.key.password="${{ secrets.MY_KEY_PASSWORD }}"
+          ./gradlew bundleRelease
 
       - name: Upload App Bundle
         uses: actions/upload-artifact@v3
         with:
-          name: app-release
-          path: android/app/build/outputs/bundle/release/app-release.aab
+          name: app-release-unsigned
+          path: android/app/build/outputs/bundle/release/app-release-unsigned.aab
           retention-days: 7
