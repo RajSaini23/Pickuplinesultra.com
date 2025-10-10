@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { useRouter } from 'next/navigation';
-import { CyberToggle } from '@/components/ui/cyber-toggle';
+import { Loader } from '@/components/ui/loader';
 
 
 const MotionCard = motion(Card);
@@ -68,7 +68,7 @@ const AppUpdateDialog = ({onClose}: {onClose: () => void}) => {
             case 'checking':
                 return (
                     <motion.div key="checking" initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} className="flex flex-col items-center gap-4 text-center">
-                       <CyberToggle id="update-toggle" checked={true} onCheckedChange={() => {}} />
+                       <Loader large />
                        <h2 className="text-xl font-bold font-headline text-primary animate-pulse">Checking for updates...</h2>
                        <p className="text-sm text-muted-foreground">Please wait a moment.</p>
                     </motion.div>
@@ -441,3 +441,5 @@ export default function SettingsPage() {
     </div>
   );
 }
+
+    
