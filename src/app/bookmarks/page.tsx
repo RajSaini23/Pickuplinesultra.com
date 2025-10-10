@@ -9,11 +9,20 @@ import { motion } from 'framer-motion';
 import { useBookmarks } from '@/context/bookmark-context';
 import { quotes as allQuotes } from '@/data';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
+
+const AdCard = () => (
+    <Card className="flex h-full min-h-[420px] w-full items-center justify-center bg-muted/50 border-dashed rounded-2xl">
+      <CardContent className="p-6 text-center">
+        <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
+      </CardContent>
+    </Card>
+);
+
 
 export default function BookmarksPage() {
   const { bookmarkedIds, removeBookmark } = useBookmarks();
@@ -104,6 +113,19 @@ export default function BookmarksPage() {
     }
   };
 
+  const allItems = React.useMemo(() => {
+    const items: (any | { ad: boolean })[] = [];
+    if (bookmarkedQuotes.length === 0) return [];
+    
+    for (let i = 0; i < bookmarkedQuotes.length; i++) {
+      items.push(bookmarkedQuotes[i]);
+      if ((i + 1) % 3 === 0) {
+        items.push({ ad: true });
+      }
+    }
+    return items;
+  }, [bookmarkedQuotes]);
+
 
   const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.ElementType, label: string, onClick?: () => void, children?: React.ReactNode }) => (
     <Button 
@@ -128,18 +150,25 @@ export default function BookmarksPage() {
 
       <main className="flex-grow p-4 md:p-6">
         <div className="max-w-4xl mx-auto">
-          <p className="text-center text-muted-foreground mb-8">Access your saved pages for quick reference.</p>
-          
           {bookmarkedQuotes.length === 0 ? (
-            <div className="text-center py-16">
+            <div className="text-center py-8">
               <BookmarkX className="mx-auto h-16 w-16 text-muted-foreground/50 mb-4" />
-              <h2 className="text-2xl font-semibold mb-2">No bookmarked pages yet.</h2>
-              <p className="text-muted-foreground">Save pages from the level or dialogue details screen!</p>
-              <Button className="mt-6" onClick={() => router.push('/')}>Explore Quotes</Button>
+              <h2 className="text-2xl font-semibold mb-2">No bookmarks yet.</h2>
+              <p className="text-muted-foreground mb-6">Yahan aapke pasandida quotes dikhenge! Shuru karne ke liye kuch save karein.</p>
+              <Button className="mb-8" onClick={() => router.push('/')}>Explore Quotes</Button>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <AdCard />
+                <AdCard />
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {bookmarkedQuotes.map((quote) => {
+              {allItems.map((item, index) => {
+                if(item.ad) {
+                    return <div key={`ad-${index}`}><AdCard /></div>
+                }
+
+                const quote = item;
                 const cardRef = React.createRef<HTMLDivElement>();
                 const isSharing = sharingQuoteId === quote.id;
 
@@ -153,7 +182,7 @@ export default function BookmarksPage() {
                     <Card className="shadow-lg flex flex-col border-border/40 rounded-2xl overflow-hidden bg-card">
                       <div className="flex-grow flex flex-col">
                         <div ref={cardRef}>
-                          <div className="bg-card border-2 border-primary/40 rounded-2xl">
+                           <div className="bg-card border-2 border-primary/40 rounded-2xl">
                             <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
                                 <div className="text-6xl">{quote.emoji}</div>
                                 <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
