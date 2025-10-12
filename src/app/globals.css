@@ -35,25 +35,25 @@
 
 @layer base {
   :root {
-    --background: 220 20% 10%; /* Dark Charcoal */
-    --foreground: 210 40% 98%; /* Off-White */
-    --card: 220 20% 15%; /* Slightly Lighter Charcoal */
+    --background: 220 25% 15%; /* Deep Blue-Charcoal */
+    --foreground: 210 40% 96%; /* Off-White */
+    --card: 220 25% 20%; /* Slightly Lighter Charcoal */
     --card-foreground: 210 40% 98%;
-    --popover: 220 20% 10%;
+    --popover: 220 25% 12%;
     --popover-foreground: 210 40% 98%;
-    --primary: 240 5% 65%;
+    --primary: 195 100% 50%; /* Electric Blue */
     --primary-foreground: 210 40% 98%;
-    --secondary: 217 32.6% 17.5%;
+    --secondary: 217 32.6% 25%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 217 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%; /* Mid Grey */
-    --accent: 204 100% 50%;
+    --muted: 217 32.6% 25%;
+    --muted-foreground: 215 15% 55%; /* Soft Grey */
+    --accent: 195 100% 50%; /* Electric Blue */
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 32.6% 20.5%;
-    --input: 217 32.6% 20.5%;
-    --ring: 240 5% 65%;
+    --border: 217 32.6% 25%;
+    --input: 217 32.6% 25%;
+    --ring: 195 100% 50%;
     --icon-color: 210 40% 98%;
     --radius: 0.75rem; /* 12px */
   }
