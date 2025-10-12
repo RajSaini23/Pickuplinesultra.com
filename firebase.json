@@ -1,3 +1,4 @@
+
 {
   "hosting": {
     "public": "out",
@@ -12,5 +13,8 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "database": {
+    "rules": "database.rules.json"
   }
 }

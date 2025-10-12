@@ -1,9 +1,13 @@
 
 {
   "rules": {
-    // These rules grant public read access to your data.
-    // Make sure to secure your data properly according to your needs.
-    ".read": true,
-    ".write": false
+    "categories": {
+      ".read": true,
+      ".write": false
+    },
+    "quotes": {
+      ".read": true,
+      ".write": false
+    }
   }
 }

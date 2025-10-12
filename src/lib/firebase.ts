@@ -26,12 +26,13 @@ export const analytics = isSupported().then(yes => yes ? getAnalytics(app) : nul
 
 // Initialize App Check
 try {
-  const appCheck = initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider('6Ld-pP0pAAAAAAN-c8c7gJG1-2J2S_yZ-m_xY-9E'),
-    isTokenAutoRefreshEnabled: true
-  });
-  console.log("Firebase App Check initialized successfully");
+  if (typeof window !== 'undefined') {
+    const appCheck = initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider('6Ld-pP0pAAAAAAN-c8c7gJG1-2J2S_yZ-m_xY-9E'),
+      isTokenAutoRefreshEnabled: true
+    });
+    console.log("Firebase App Check initialized successfully");
+  }
 } catch (error) {
   console.error("Error initializing Firebase App Check:", error);
 }
-
