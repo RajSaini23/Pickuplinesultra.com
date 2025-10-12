@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Palette, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Star, AppWindow, Bell, Shield, CheckCircle, X, Download
+  ArrowLeft, Palette, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Star, AppWindow, Bell, Shield, Download
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -17,7 +17,8 @@ import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { useRouter } from 'next/navigation';
-import { Loader } from '@/components/ui/loader';
+import AppUpdateDialog from '@/components/ui/app-update-dialog';
+import packageJson from '../../../package.json';
 
 
 const MotionCard = motion(Card);
@@ -50,94 +51,12 @@ const GlowIcon = ({ icon: Icon, ...props }: { icon: React.ElementType, [key: str
 };
 
 
-const AppUpdateDialog = ({onClose}: {onClose: () => void}) => {
-    const [updateStatus, setUpdateStatus] = React.useState<'checking' | 'updated' | 'available'>('checking');
-
-    React.useEffect(() => {
-        const timer = setTimeout(() => {
-            // Simulate finding an update randomly
-            const foundUpdate = Math.random() > 0.5;
-            setUpdateStatus(foundUpdate ? 'available' : 'updated');
-        }, 2500);
-
-        return () => clearTimeout(timer);
-    }, []);
-
-    const DialogContent = () => {
-        switch (updateStatus) {
-            case 'checking':
-                return (
-                    <motion.div key="checking" initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} className="flex flex-col items-center gap-4 text-center">
-                       <Loader large />
-                       <h2 className="text-xl font-bold font-headline text-primary animate-pulse">Checking for updates...</h2>
-                       <p className="text-sm text-muted-foreground">Please wait a moment.</p>
-                    </motion.div>
-                );
-            case 'updated':
-                return (
-                     <motion.div key="updated" initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} className="flex flex-col items-center gap-3 text-center">
-                        <CheckCircle className="w-16 h-16 text-green-500" />
-                        <h2 className="text-2xl font-bold font-headline text-foreground">You are up to date!</h2>
-                        <p className="text-muted-foreground max-w-sm">You have the latest version of Pickup Lines Ultra installed.</p>
-                    </motion.div>
-                );
-            case 'available':
-                 return (
-                     <motion.div key="available" initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} className="flex flex-col items-center gap-4 text-center">
-                        <AppWindow className="w-16 h-16 text-primary" />
-                        <h2 className="text-2xl font-bold font-headline text-foreground">New version available!</h2>
-                        <p className="text-muted-foreground max-w-sm">Update to version 1.1.0 to get the latest features and bug fixes.</p>
-                        <Button className="w-full h-12 mt-2">
-                            <Download className="mr-2 h-5 w-5"/>
-                            Download Now
-                        </Button>
-                    </motion.div>
-                );
-            default:
-                return null;
-        }
-    }
-
-    return (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
-          onClick={onClose}
-        >
-            <motion.div
-                initial={{ scale: 0.9, y: 20, opacity: 0 }}
-                animate={{ scale: 1, y: 0, opacity: 1 }}
-                exit={{ scale: 0.9, y: 20, opacity: 0 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="relative w-full max-w-md rounded-2xl bg-card text-card-foreground shadow-2xl border border-border/20 overflow-hidden"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <div className="relative p-8 min-h-[280px] flex items-center justify-center">
-                    <AnimatePresence mode="wait">
-                       <DialogContent />
-                    </AnimatePresence>
-                </div>
-
-                <div className="p-4 bg-muted/50 border-t border-border/20 text-center">
-                    <Button variant="ghost" onClick={onClose} className="w-full h-11">Close</Button>
-                </div>
-
-                 <Button variant="ghost" size="icon" className="absolute top-3 right-3 rounded-full" onClick={onClose}>
-                    <X className="h-5 w-5 text-muted-foreground" />
-                </Button>
-            </motion.div>
-        </motion.div>
-    )
-}
-
-
 export default function SettingsPage() {
   const router = useRouter();
   const { setTheme: setNextTheme } = useTheme();
   const { toast } = useToast();
   const { setIsOpen: openRatingDialog } = useRatingDialog();
+  const appVersion = packageJson.version;
 
   const [preferredTheme, setPreferredTheme] = React.useState('auto');
   const [openSection, setOpenSection] = React.useState<string | null>(null);
@@ -213,7 +132,7 @@ export default function SettingsPage() {
     const content = (
       <>
         <div className="flex items-center gap-4">
-          <GlowIcon icon={icon} className="text-foreground" />
+          <GlowIcon icon={icon} />
           <span className="text-lg font-semibold">{title}</span>
         </div>
         {children && (
@@ -438,9 +357,9 @@ export default function SettingsPage() {
           </Section>
         </motion.div>
       </main>
+      <footer className="text-center py-4 px-4 text-muted-foreground/80 text-sm">
+        <p>Version {appVersion} | Developed by INDGROWSIVE</p>
+      </footer>
     </div>
   );
 }
-
-    
-    
