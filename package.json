@@ -16,8 +16,7 @@
     "cap:sync": "npx cap sync android",
     "cap:open:android": "npx cap open android",
     "cap:open:ios": "npx cap open ios",
-    "cap:res": "npx @capacitor/assets generate --icon-only --splash-only",
-    "android:signingreport": "cd android && ./gradlew signingReport"
+    "cap:res": "npx @capacitor/assets generate --icon-only --splash-only"
   },
   "dependencies": {
     "@capacitor-community/sqlite": "^6.0.0-1",
