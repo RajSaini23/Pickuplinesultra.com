@@ -1,0 +1,22 @@
+{
+  "name": "Pickup Lines Ultra",
+  "short_name": "PL-Ultra",
+  "description": "Your Emotion. Our Expression.",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#2A2A3A",
+  "background_color": "#2A2A3A",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

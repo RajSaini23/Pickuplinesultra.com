@@ -12,7 +12,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "build:mobile": "npm run build && next build",
-    "cap:sync": "npm run build:mobile && npx cap sync",
+    "cap:sync": "npm run build:mobile && npx cap sync android",
     "cap:open:android": "npx cap open android",
     "cap:open:ios": "npx cap open ios",
     "cap:res": "npx @capacitor/assets generate --icon-only --splash-only",
