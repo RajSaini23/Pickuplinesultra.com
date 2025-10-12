@@ -50,8 +50,6 @@ const GlowIcon = ({ icon: Icon, ...props }: { icon: React.ElementType, [key: str
   return <Icon {...props} className={cn("text-foreground", props.className)} />;
 };
 
-type UpdateStatus = 'checking' | 'updated' | 'available' | 'downloading' | 'complete';
-
 export default function SettingsPage() {
   const router = useRouter();
   const { setTheme: setNextTheme } = useTheme();
@@ -68,9 +66,6 @@ export default function SettingsPage() {
   const [newQuotes, setNewQuotes] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isUpdateDialogOpen, setUpdateDialogOpen] = React.useState(false);
-  const [updateStatus, setUpdateStatus] = React.useState<UpdateStatus>('checking');
-  const [isCheckingForUpdate, setIsCheckingForUpdate] = React.useState(false);
-
 
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme-preference') || 'auto';
@@ -98,23 +93,19 @@ export default function SettingsPage() {
   };
 
   const handleCheckForUpdate = () => {
-    setIsCheckingForUpdate(true);
-    setUpdateStatus('checking');
-    setUpdateDialogOpen(true);
-
-    setTimeout(() => {
-      if (currentAppVersion < LATEST_APP_VERSION) {
-        setUpdateStatus('available');
-      } else {
-        setUpdateStatus('updated');
-      }
-      setIsCheckingForUpdate(false);
-    }, 2500);
+    if (currentAppVersion < LATEST_APP_VERSION) {
+        setUpdateDialogOpen(true);
+    } else {
+        toast({
+            title: "You are up to date!",
+            description: `You already have the latest version (${currentAppVersion}).`,
+        });
+    }
   };
 
   const handleRelaunch = () => {
-    // Simulate updating the version number
     setCurrentAppVersion(LATEST_APP_VERSION);
+    setUpdateDialogOpen(false);
     toast({
       title: "App Updated!",
       description: `You are now on version ${LATEST_APP_VERSION}.`
@@ -266,10 +257,8 @@ export default function SettingsPage() {
           <AppUpdateDialog 
             onClose={() => setUpdateDialogOpen(false)} 
             onRelaunch={handleRelaunch}
+            currentVersion={currentAppVersion}
             latestVersion={LATEST_APP_VERSION}
-            isCheckingForUpdate={isCheckingForUpdate}
-            updateStatus={updateStatus}
-            setUpdateStatus={setUpdateStatus}
           />
         )}
       </AnimatePresence>

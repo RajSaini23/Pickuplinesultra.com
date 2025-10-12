@@ -9,25 +9,33 @@ import { cn } from '@/lib/utils';
 import { Loader } from './loader';
 import { Progress } from './progress';
 
-type UpdateStatus = 'checking' | 'updated' | 'available' | 'downloading' | 'complete';
+type UpdateStatus = 'checking' | 'available' | 'downloading' | 'complete' | 'updated';
 
 const AppUpdateDialog = ({
     onClose,
     onRelaunch,
-    latestVersion,
-    isCheckingForUpdate,
-    updateStatus,
-    setUpdateStatus
+    currentVersion,
+    latestVersion
 }: {
     onClose: () => void;
     onRelaunch: () => void;
+    currentVersion: string;
     latestVersion: string;
-    isCheckingForUpdate: boolean;
-    updateStatus: UpdateStatus;
-    setUpdateStatus: React.Dispatch<React.SetStateAction<UpdateStatus>>;
 }) => {
     
+    const [updateStatus, setUpdateStatus] = React.useState<UpdateStatus>('checking');
     const [progress, setProgress] = React.useState(0);
+
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            if (currentVersion < latestVersion) {
+                setUpdateStatus('available');
+            } else {
+                setUpdateStatus('updated');
+            }
+        }, 2500);
+        return () => clearTimeout(timer);
+    }, [currentVersion, latestVersion]);
 
     const handleDownload = () => {
         setUpdateStatus('downloading');
@@ -35,18 +43,13 @@ const AppUpdateDialog = ({
             setProgress(prev => {
                 if (prev >= 100) {
                     clearInterval(interval);
-                    setUpdateStatus('complete');
+                    setTimeout(() => setUpdateStatus('complete'), 500);
                     return 100;
                 }
-                return prev + 10;
+                return prev + Math.floor(Math.random() * 10) + 5;
             });
         }, 300);
     };
-
-    const handleRelaunch = () => {
-        onRelaunch();
-        onClose();
-    }
 
     const DialogContent = () => {
         switch (updateStatus) {
@@ -92,8 +95,8 @@ const AppUpdateDialog = ({
                     <motion.div key="complete" initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} exit={{opacity: 0, scale: 0.8}} className="flex flex-col items-center gap-4 text-center">
                         <CheckCircle className="w-16 h-16 text-green-500" />
                         <h2 className="text-2xl font-bold font-headline text-foreground">Update Downloaded</h2>
-                        <p className="text-muted-foreground max-w-sm">The app will now use the new version.</p>
-                        <Button className="w-full h-12 mt-2" onClick={handleRelaunch}>
+                        <p className="text-muted-foreground max-w-sm">The app will now restart to apply the update.</p>
+                        <Button className="w-full h-12 mt-2" onClick={onRelaunch}>
                             <RotateCw className="mr-2 h-5 w-5"/>
                             Relaunch Now
                         </Button>
