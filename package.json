@@ -1,4 +1,3 @@
-
 {
   "name": "pickup-lines-ultra",
   "version": "1.0.0",
@@ -16,7 +15,8 @@
     "cap:sync": "npm run build:mobile && npx cap sync",
     "cap:open:android": "npx cap open android",
     "cap:open:ios": "npx cap open ios",
-    "cap:res": "npx @capacitor/assets generate --icon-only --splash-only"
+    "cap:res": "npx @capacitor/assets generate --icon-only --splash-only",
+    "android:signingreport": "cd android && ./gradlew signingReport"
   },
   "dependencies": {
     "@capacitor-community/sqlite": "^6.0.0-1",
