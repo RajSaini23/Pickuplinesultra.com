@@ -24,6 +24,7 @@ To get the project up and running on your local machine, follow these simple ste
 
 -   Node.js (v18 or later)
 -   npm or yarn
+-   Android Studio (for generating SHA keys)
 
 ### Installation & Running the App
 
@@ -83,9 +84,11 @@ To use Firebase services like Google Sign-In, App Check (Play Integrity), or Pus
 
 **1. Get Debug Keys (for development):**
    - This key is used when you run the app on your local machine or an emulator.
-   - Navigate to the `android` folder in your project: `cd android`
-   - Run the command: `./gradlew signingReport` (For Windows, use `gradlew signingReport`)
-   - The output will contain several sections. Look for the `Variant: debug` section.
+   - **Open your project's `android` folder in Android Studio.**
+   - In Android Studio, click on the **"Gradle"** tab on the right side of the window.
+   - Navigate to **`[Your App Name] > Tasks > android > signingReport`**.
+   - Double-click on **`signingReport`**. This will run the task.
+   - In the "Run" window at the bottom, you will see the output. Look for the `Variant: debug` section.
    - Copy the **SHA-1** and **SHA-256** values from there. They will look like `00:00:00:...`.
 
 **2. Get Release Keys (for publishing):**
