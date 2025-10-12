@@ -14,6 +14,7 @@ import { Wifi } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RatingDialogProvider } from '@/components/ui/rating-dialog';
 import { BottomNav } from '@/components/ui/bottom-nav';
+import { InstallPromptProvider } from '@/context/install-prompt-context';
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { isOnline, justReconnected } = useNetwork();
@@ -74,15 +75,17 @@ export function ClientLayout({
       <NetworkProvider>
         <BookmarkProvider>
           <RatingDialogProvider>
-            <CustomSplashScreen>
-              <AppContent>
-                <div className="relative flex flex-col min-h-dvh">
-                  <main className="flex-1 pb-24">{children}</main>
-                  <BottomNav />
-                </div>
-              </AppContent>
-              <Toaster />
-            </CustomSplashScreen>
+             <InstallPromptProvider>
+                <CustomSplashScreen>
+                  <AppContent>
+                    <div className="relative flex flex-col min-h-dvh">
+                      <main className="flex-1 pb-24">{children}</main>
+                      <BottomNav />
+                    </div>
+                  </AppContent>
+                  <Toaster />
+                </CustomSplashScreen>
+             </InstallPromptProvider>
           </RatingDialogProvider>
         </BookmarkProvider>
       </NetworkProvider>
