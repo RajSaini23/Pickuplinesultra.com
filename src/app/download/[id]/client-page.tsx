@@ -25,8 +25,8 @@ const AdPlaceholder = () => (
 
 const QuoteCard = ({ quote }: { quote: Quote }) => (
     <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
-      <div id="download-card" className="w-[450px] h-[700px] bg-card p-0 flex flex-col">
-        <div className="bg-card border-2 border-accent/40 rounded-2xl h-full flex flex-col">
+      <div id="download-card" className="w-[450px] h-[700px] bg-card p-0 flex flex-col rounded-2xl">
+        <div className="bg-card border-2 border-accent rounded-2xl h-full flex flex-col">
           <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
               <div className="text-8xl mb-12">{quote.emoji}</div>
               <p className="font-headline text-5xl font-semibold leading-tight text-foreground/90 px-4">
@@ -180,3 +180,5 @@ export function DownloadClientPage({ quote }: { quote: Quote }) {
     </div>
   );
 }
+
+    

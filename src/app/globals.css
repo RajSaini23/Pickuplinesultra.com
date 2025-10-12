@@ -41,19 +41,19 @@
     --card-foreground: 210 40% 98%;
     --popover: 220 20% 10%;
     --popover-foreground: 210 40% 98%;
-    --primary: 217 65% 52%; /* Muted Brand Blue for Dark Mode */
+    --primary: 240 5% 65%;
     --primary-foreground: 210 40% 98%;
     --secondary: 217 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%; /* Mid Grey */
-    --accent: 217 32.6% 17.5%;
+    --accent: 204 100% 50%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 217 32.6% 20.5%;
     --input: 217 32.6% 20.5%;
-    --ring: 217 65% 52%;
+    --ring: 240 5% 65%;
     --icon-color: 210 40% 98%;
     --radius: 0.75rem; /* 12px */
   }
@@ -65,19 +65,19 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 217 65% 52%; /* Brand Blue #2356B2 */
+    --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 0 0% 100%; /* White */
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%; /* Mid Grey #555555 */
-    --accent: 210 40% 96.1%;
+    --accent: 204 100% 50%;
     --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 21% 74%;
-    --input: 217 21% 74%;
-    --ring: 217 65% 52%;
+    --border: 217.2 91.2% 80%;
+    --input: 217.2 91.2% 80%;
+    --ring: 217.2 91.2% 59.8%;
     --icon-color: 222.2 84% 4.9%;
   }
 }
