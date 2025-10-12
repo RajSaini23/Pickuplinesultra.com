@@ -11,17 +11,23 @@ import { Progress } from './progress';
 
 type UpdateStatus = 'checking' | 'updated' | 'available' | 'downloading' | 'complete';
 
-const AppUpdateDialog = ({onClose}: {onClose: () => void}) => {
-    const [updateStatus, setUpdateStatus] = React.useState<UpdateStatus>('checking');
+const AppUpdateDialog = ({
+    onClose,
+    onRelaunch,
+    latestVersion,
+    isCheckingForUpdate,
+    updateStatus,
+    setUpdateStatus
+}: {
+    onClose: () => void;
+    onRelaunch: () => void;
+    latestVersion: string;
+    isCheckingForUpdate: boolean;
+    updateStatus: UpdateStatus;
+    setUpdateStatus: React.Dispatch<React.SetStateAction<UpdateStatus>>;
+}) => {
+    
     const [progress, setProgress] = React.useState(0);
-
-    React.useEffect(() => {
-        const timer = setTimeout(() => {
-            setUpdateStatus('available');
-        }, 2500);
-
-        return () => clearTimeout(timer);
-    }, []);
 
     const handleDownload = () => {
         setUpdateStatus('downloading');
@@ -38,24 +44,23 @@ const AppUpdateDialog = ({onClose}: {onClose: () => void}) => {
     };
 
     const handleRelaunch = () => {
+        onRelaunch();
         onClose();
-        // In a real app, you would trigger a window reload or app restart.
-        // For now, we just close the dialog.
     }
 
     const DialogContent = () => {
         switch (updateStatus) {
             case 'checking':
                 return (
-                    <motion.div key="checking" initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} className="flex flex-col items-center gap-4 text-center">
+                    <motion.div key="checking" initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} exit={{opacity: 0, y: -10}} className="flex flex-col items-center gap-4 text-center">
                        <Loader large />
                        <h2 className="text-xl font-bold font-headline text-primary animate-pulse">Checking for updates...</h2>
                        <p className="text-sm text-muted-foreground">Please wait a moment.</p>
                     </motion.div>
                 );
             case 'updated':
-                return (
-                     <motion.div key="updated" initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} className="flex flex-col items-center gap-3 text-center">
+                 return (
+                     <motion.div key="updated" initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} exit={{opacity: 0, scale: 0.8}} className="flex flex-col items-center gap-3 text-center">
                         <CheckCircle className="w-16 h-16 text-green-500" />
                         <h2 className="text-2xl font-bold font-headline text-foreground">You are up to date!</h2>
                         <p className="text-muted-foreground max-w-sm">You have the latest version of Pickup Lines Ultra installed.</p>
@@ -63,10 +68,10 @@ const AppUpdateDialog = ({onClose}: {onClose: () => void}) => {
                 );
             case 'available':
                  return (
-                     <motion.div key="available" initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} className="flex flex-col items-center gap-4 text-center">
+                     <motion.div key="available" initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} exit={{opacity: 0, scale: 0.8}} className="flex flex-col items-center gap-4 text-center">
                         <AppWindow className="w-16 h-16 text-primary" />
                         <h2 className="text-2xl font-bold font-headline text-foreground">New version available!</h2>
-                        <p className="text-muted-foreground max-w-sm">Update to version 1.1.0 to get the latest features and bug fixes.</p>
+                        <p className="text-muted-foreground max-w-sm">Update to version {latestVersion} to get the latest features and bug fixes.</p>
                         <Button className="w-full h-12 mt-2" onClick={handleDownload}>
                             <Download className="mr-2 h-5 w-5"/>
                             Download Now
@@ -75,7 +80,7 @@ const AppUpdateDialog = ({onClose}: {onClose: () => void}) => {
                 );
             case 'downloading':
                 return (
-                     <motion.div key="downloading" initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} className="w-full flex flex-col items-center gap-4 text-center">
+                     <motion.div key="downloading" initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} exit={{opacity: 0, y: -10}} className="w-full flex flex-col items-center gap-4 text-center">
                        <Loader large />
                        <h2 className="text-xl font-bold font-headline text-primary">Downloading update...</h2>
                        <Progress value={progress} className="w-full h-2" />
@@ -84,13 +89,13 @@ const AppUpdateDialog = ({onClose}: {onClose: () => void}) => {
                 )
              case 'complete':
                 return (
-                    <motion.div key="complete" initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} className="flex flex-col items-center gap-4 text-center">
+                    <motion.div key="complete" initial={{opacity: 0, scale: 0.8}} animate={{opacity: 1, scale: 1}} exit={{opacity: 0, scale: 0.8}} className="flex flex-col items-center gap-4 text-center">
                         <CheckCircle className="w-16 h-16 text-green-500" />
                         <h2 className="text-2xl font-bold font-headline text-foreground">Update Downloaded</h2>
-                        <p className="text-muted-foreground max-w-sm">The app will restart to apply the update.</p>
+                        <p className="text-muted-foreground max-w-sm">The app will now use the new version.</p>
                         <Button className="w-full h-12 mt-2" onClick={handleRelaunch}>
                             <RotateCw className="mr-2 h-5 w-5"/>
-                            Relaunch App
+                            Relaunch Now
                         </Button>
                     </motion.div>
                 );

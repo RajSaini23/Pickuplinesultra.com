@@ -50,13 +50,16 @@ const GlowIcon = ({ icon: Icon, ...props }: { icon: React.ElementType, [key: str
   return <Icon {...props} className={cn("text-foreground", props.className)} />;
 };
 
+type UpdateStatus = 'checking' | 'updated' | 'available' | 'downloading' | 'complete';
 
 export default function SettingsPage() {
   const router = useRouter();
   const { setTheme: setNextTheme } = useTheme();
   const { toast } = useToast();
   const { setIsOpen: openRatingDialog } = useRatingDialog();
-  const appVersion = packageJson.version;
+  
+  const LATEST_APP_VERSION = '1.1.0';
+  const [currentAppVersion, setCurrentAppVersion] = React.useState(packageJson.version);
 
   const [preferredTheme, setPreferredTheme] = React.useState('auto');
   const [openSection, setOpenSection] = React.useState<string | null>(null);
@@ -65,6 +68,8 @@ export default function SettingsPage() {
   const [newQuotes, setNewQuotes] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isUpdateDialogOpen, setUpdateDialogOpen] = React.useState(false);
+  const [updateStatus, setUpdateStatus] = React.useState<UpdateStatus>('checking');
+  const [isCheckingForUpdate, setIsCheckingForUpdate] = React.useState(false);
 
 
   React.useEffect(() => {
@@ -91,6 +96,30 @@ export default function SettingsPage() {
     toast({ title: "Theme Updated", description: `Theme set to ${t.charAt(0).toUpperCase() + t.slice(1)}` });
     setTimeout(() => setIsLoading(false), 300);
   };
+
+  const handleCheckForUpdate = () => {
+    setIsCheckingForUpdate(true);
+    setUpdateStatus('checking');
+    setUpdateDialogOpen(true);
+
+    setTimeout(() => {
+      if (currentAppVersion < LATEST_APP_VERSION) {
+        setUpdateStatus('available');
+      } else {
+        setUpdateStatus('updated');
+      }
+      setIsCheckingForUpdate(false);
+    }, 2500);
+  };
+
+  const handleRelaunch = () => {
+    // Simulate updating the version number
+    setCurrentAppVersion(LATEST_APP_VERSION);
+    toast({
+      title: "App Updated!",
+      description: `You are now on version ${LATEST_APP_VERSION}.`
+    });
+  }
   
   const handleShare = async () => {
     setIsLoading(true);
@@ -233,7 +262,16 @@ export default function SettingsPage() {
     <div className="flex flex-col min-h-dvh bg-background">
       <LoadingOverlay isLoading={isLoading} />
       <AnimatePresence>
-        {isUpdateDialogOpen && <AppUpdateDialog onClose={() => setUpdateDialogOpen(false)} />}
+        {isUpdateDialogOpen && (
+          <AppUpdateDialog 
+            onClose={() => setUpdateDialogOpen(false)} 
+            onRelaunch={handleRelaunch}
+            latestVersion={LATEST_APP_VERSION}
+            isCheckingForUpdate={isCheckingForUpdate}
+            updateStatus={updateStatus}
+            setUpdateStatus={setUpdateStatus}
+          />
+        )}
       </AnimatePresence>
       <motion.header
         initial={{ y: -100, opacity: 0 }}
@@ -309,7 +347,7 @@ export default function SettingsPage() {
             </div>
           </Section>
 
-          <Section title="Check for Updates" icon={AppWindow} onClick={() => setUpdateDialogOpen(true)} />
+          <Section title="Check for Updates" icon={AppWindow} onClick={handleCheckForUpdate} />
           
            <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
                 <Link href="/privacy-policy" onClick={(e) => handleLinkClick('/privacy-policy', e)} className="w-full flex items-center justify-between p-5 text-left group">
@@ -358,7 +396,7 @@ export default function SettingsPage() {
         </motion.div>
       </main>
       <footer className="text-center py-4 px-4 text-muted-foreground/80 text-sm">
-        <p>Version {appVersion} | Developed by INDGROWSIVE</p>
+        <p>Version {currentAppVersion} | Developed by INDGROWSIVE</p>
       </footer>
     </div>
   );
