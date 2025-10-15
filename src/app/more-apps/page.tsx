@@ -7,17 +7,16 @@ import { ArrowLeft, Hourglass } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
 
 // --- Components ---
 
 const AppSkeletonCard = ({ delay = 0 }: { delay?: number }) => (
     <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay }}
     >
-        <Card className="overflow-hidden transition-all duration-300 ease-in-out rounded-2xl border-none shadow-md h-24 p-0 relative bg-muted/80">
+        <Card className="overflow-hidden transition-all duration-300 ease-in-out rounded-2xl border-none shadow-md h-24 p-0 relative bg-muted/50">
             <div className="flex items-center p-4 h-full w-full">
                 <Skeleton className="w-16 h-16 rounded-xl flex-shrink-0 bg-muted-foreground/20" />
                 <div className="ml-5 flex-grow">
@@ -29,15 +28,15 @@ const AppSkeletonCard = ({ delay = 0 }: { delay?: number }) => (
     </motion.div>
 );
 
-const AdPlaceholder = ({ index }: { index: number }) => (
+const AdPlaceholder = ({ delay = 0 }: { delay?: number }) => (
     <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
+        transition={{ duration: 0.5, delay }}
     >
-        <div className="group relative transition-transform duration-300 ease-in-out active:scale-[0.98] block">
+        <div className="group relative transition-transform duration-300 ease-in-out block">
              <Card 
-                  className="overflow-hidden transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-1 rounded-2xl border-dashed shadow-md h-24 p-0 relative"
+                  className="overflow-hidden transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-1 rounded-2xl border-dashed border-border/80 shadow-md h-24 p-0 relative bg-muted/50"
                 >
                 <CardContent className="p-4 text-center flex items-center justify-center h-full">
                     <div className="text-center">
@@ -69,17 +68,24 @@ export default function MoreAppsPage() {
             </motion.header>
 
             <main className="flex-grow p-4 md:p-6">
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-2xl mx-auto flex flex-col gap-y-6">
+                    {/* Upcoming Apps Skeletons */}
+                    <div className="space-y-4">
+                        <AppSkeletonCard delay={0.1} />
+                        <AppSkeletonCard delay={0.2} />
+                    </div>
+
+                    {/* Coming Soon Banner */}
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
-                        className="text-center my-8"
+                        className="text-center my-6"
                     >
                         <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-green-500/10 border border-green-500/30">
                             <motion.div
-                                animate={{ rotate: [0, 360, 360, 0] }}
-                                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                                animate={{ rotate: [0, -15, 15, -15, 0] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                             >
                                 <Hourglass className="h-6 w-6 text-green-400" />
                             </motion.div>
@@ -87,7 +93,8 @@ export default function MoreAppsPage() {
                         </div>
                     </motion.div>
 
-                    <div className="mt-12">
+                    {/* Sponsored Section */}
+                    <div className="mt-8">
                         <motion.h2 
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -98,7 +105,7 @@ export default function MoreAppsPage() {
                         </motion.h2>
                         <div className="grid grid-cols-1 gap-y-6">
                             {[...Array(3)].map((_, index) => (
-                                <AdPlaceholder key={index} index={index} />
+                                <AdPlaceholder key={index} delay={0.5 + index * 0.1} />
                             ))}
                         </div>
                     </div>
