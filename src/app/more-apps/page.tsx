@@ -35,17 +35,18 @@ const AdPlaceholder = ({ index }: { index: number }) => (
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-        <Card className={cn(
-            "overflow-hidden transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-1 rounded-2xl border-dashed shadow-md h-24 p-0 relative",
-            "bg-card"
-        )}>
-            <CardContent className="p-4 text-center flex items-center justify-center h-full">
-                <div className="text-center">
-                    <p className="font-semibold text-muted-foreground">Advertisement</p>
-                    <p className="text-sm text-muted-foreground/70">Ad banner</p>
-                </div>
-            </CardContent>
-        </Card>
+        <div className="group relative transition-transform duration-300 ease-in-out active:scale-[0.98] block">
+             <Card 
+                  className="overflow-hidden transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-1 rounded-2xl border-dashed shadow-md h-24 p-0 relative"
+                >
+                <CardContent className="p-4 text-center flex items-center justify-center h-full">
+                    <div className="text-center">
+                        <p className="font-semibold text-muted-foreground">Advertisement</p>
+                        <p className="text-sm text-muted-foreground/70">Ad banner</p>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
     </motion.div>
 );
 
@@ -69,19 +70,19 @@ export default function MoreAppsPage() {
 
             <main className="flex-grow p-4 md:p-6">
                 <div className="max-w-4xl mx-auto">
-                    <div className="space-y-4 mb-8">
-                        <AppSkeletonCard delay={0.1} />
-                        <AppSkeletonCard delay={0.2} />
-                    </div>
-
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
-                        className="text-center my-12"
+                        className="text-center my-8"
                     >
                         <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-green-500/10 border border-green-500/30">
-                            <Hourglass className="h-6 w-6 text-green-400" />
+                            <motion.div
+                                animate={{ rotate: [0, 360, 360, 0] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                            >
+                                <Hourglass className="h-6 w-6 text-green-400" />
+                            </motion.div>
                             <h2 className="text-xl font-semibold text-green-400">More apps coming soon...</h2>
                         </div>
                     </motion.div>
