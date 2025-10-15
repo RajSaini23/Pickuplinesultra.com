@@ -16,12 +16,12 @@ const AppSkeletonCard = ({ delay = 0 }: { delay?: number }) => (
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay }}
     >
-        <Card className="overflow-hidden transition-all duration-300 ease-in-out rounded-2xl border-none shadow-md h-24 p-0 relative bg-muted/50">
+        <Card className="overflow-hidden transition-all duration-300 ease-in-out rounded-2xl border-none shadow-md h-24 p-0 relative bg-card">
             <div className="flex items-center p-4 h-full w-full">
-                <Skeleton className="w-16 h-16 rounded-xl flex-shrink-0 bg-muted-foreground/20" />
+                <Skeleton className="w-16 h-16 rounded-xl flex-shrink-0 bg-muted" />
                 <div className="ml-5 flex-grow">
-                    <Skeleton className="h-5 w-3/4 rounded-md bg-muted-foreground/20" />
-                    <Skeleton className="h-4 w-1/2 mt-2 rounded-md bg-muted-foreground/20" />
+                    <Skeleton className="h-5 w-3/4 rounded-md bg-muted" />
+                    <Skeleton className="h-4 w-1/2 mt-2 rounded-md bg-muted" />
                 </div>
             </div>
         </Card>
@@ -75,14 +75,14 @@ export default function MoreAppsPage() {
                         transition={{ duration: 0.5, delay: 0.3 }}
                         className="text-center my-6"
                     >
-                        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-green-500/10 border border-green-500/30">
+                        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-primary/10 border border-primary/30">
                             <motion.div
                                 animate={{ rotate: [0, -15, 15, -15, 0] }}
                                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                             >
-                                <Hourglass className="h-6 w-6 text-green-400" />
+                                <Hourglass className="h-6 w-6 text-primary" />
                             </motion.div>
-                            <h2 className="text-xl font-semibold text-green-400">More apps coming soon...</h2>
+                            <h2 className="text-xl font-semibold text-primary">More apps coming soon...</h2>
                         </div>
                     </motion.div>
 
@@ -107,4 +107,3 @@ export default function MoreAppsPage() {
         </div>
     );
 }
-
