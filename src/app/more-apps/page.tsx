@@ -27,50 +27,8 @@ const moreAppsData = [
     rating: 4.8,
     downloads: '10M+',
   },
-  {
-    icon: 'https://picsum.photos/seed/app3/100/100',
-    dataAiHint: 'logo finance',
-    name: 'Budget Planner',
-    description: 'Manage your finances with ease.',
-    rating: 4.2,
-    downloads: '1M+',
-  },
-  {
-    icon: 'https://picsum.photos/seed/app4/100/100',
-    dataAiHint: 'logo fitness',
-    name: 'Fitness Tracker',
-    description: 'Your personal fitness companion.',
-    rating: 4.6,
-    downloads: '2M+',
-  },
 ];
 
-const adCardsData = [
-    {
-      id: 1,
-      imageUrl: 'https://picsum.photos/seed/ad1/600/400',
-      dataAiHint: 'technology business',
-      title: 'Boost Your Productivity',
-      description: 'The ultimate tool for managing your tasks and projects seamlessly.',
-      callToAction: 'Learn More'
-    },
-    {
-      id: 2,
-      imageUrl: 'https://picsum.photos/seed/ad2/600/400',
-      dataAiHint: 'travel adventure',
-      title: 'Explore New Horizons',
-      description: 'Book your next adventure with exclusive deals and offers.',
-      callToAction: 'Book Now'
-    },
-    {
-      id: 3,
-      imageUrl: 'https://picsum.photos/seed/ad3/600/400',
-      dataAiHint: 'food delicious',
-      title: 'Gourmet Meals at Home',
-      description: 'Get fresh ingredients and easy recipes delivered to your door.',
-      callToAction: 'Order Today'
-    },
-]
 
 // --- Components ---
 
@@ -109,36 +67,22 @@ const AppListItem = ({ app, index }: { app: typeof moreAppsData[0], index: numbe
     </motion.div>
 );
 
-const AdCard = ({ ad, index }: { ad: typeof adCardsData[0], index: number }) => (
+const AdPlaceholder = ({ index }: { index: number }) => (
     <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: index * 0.15 }}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.15 }}
     >
-         <Card className="overflow-hidden shadow-lg border-none group">
-            <div className="relative h-40">
-                <Image
-                    src={ad.imageUrl}
-                    alt={ad.title}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    data-ai-hint={ad.dataAiHint}
-                    className="transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <h3 className="absolute bottom-4 left-4 text-xl font-bold text-white">{ad.title}</h3>
-            </div>
-            <CardContent className="p-4 bg-card">
-                <p className="text-muted-foreground text-sm mb-4">{ad.description}</p>
-                <Button className="w-full">{ad.callToAction}</Button>
-            </CardContent>
-        </Card>
+      <Card className="bg-muted/50 border-dashed h-48 flex items-center justify-center">
+        <CardContent className="p-4 text-center">
+          <p className="font-semibold text-muted-foreground">Advertisement</p>
+          <p className="text-sm text-muted-foreground/70">Ad banner will be displayed here</p>
+        </CardContent>
+      </Card>
     </motion.div>
 )
 
 export default function MoreAppsPage() {
-  const [showAll, setShowAll] = useState(false);
-  const displayedApps = showAll ? moreAppsData : moreAppsData.slice(0, 2);
 
   return (
     <div className="flex flex-col min-h-dvh bg-background">
@@ -161,25 +105,17 @@ export default function MoreAppsPage() {
         <div className="max-w-4xl mx-auto">
             <div className="space-y-4">
                 <AnimatePresence>
-                {displayedApps.map((app, index) => (
+                {moreAppsData.map((app, index) => (
                     <AppListItem key={app.name} app={app} index={index} />
                 ))}
                 </AnimatePresence>
             </div>
-            
-            {!showAll && moreAppsData.length > 2 && (
-                <div className="text-center my-6">
-                    <Button variant="secondary" className="rounded-full" onClick={() => setShowAll(true)}>
-                        Show All
-                    </Button>
-                </div>
-            )}
 
             <div className="mt-12">
                 <h2 className="text-2xl font-bold font-headline mb-4 text-center text-muted-foreground">Sponsored</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {adCardsData.map((ad, index) => (
-                        <AdCard key={ad.id} ad={ad} index={index} />
+                    {[...Array(3)].map((_, index) => (
+                       <AdPlaceholder key={index} index={index} />
                     ))}
                 </div>
             </div>
@@ -188,4 +124,3 @@ export default function MoreAppsPage() {
     </div>
   );
 }
-
