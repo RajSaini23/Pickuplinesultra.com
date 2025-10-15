@@ -16,7 +16,7 @@ import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
 
 const AdCard = () => (
-    <Card className="flex h-[74vh] min-h-[500px] w-full max-w-xl mx-auto items-center justify-center bg-muted/50 border-dashed rounded-2xl">
+    <Card className="flex h-[74vh] min-h-[500px] w-full max-w-xl mx-auto items-center justify-center bg-muted/50 border-2 border-dashed border-border/50 rounded-2xl">
       <CardContent className="p-6 text-center">
         <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
       </CardContent>

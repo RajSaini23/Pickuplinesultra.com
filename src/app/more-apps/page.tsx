@@ -30,22 +30,15 @@ const AppSkeletonCard = ({ delay = 0 }: { delay?: number }) => (
 
 const AdPlaceholder = ({ delay = 0 }: { delay?: number }) => (
     <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay }}
     >
-        <div className="group relative transition-transform duration-300 ease-in-out block">
-             <Card 
-                  className="overflow-hidden transition-all duration-300 ease-in-out group-hover:shadow-xl group-hover:-translate-y-1 rounded-2xl border-dashed border-border/80 shadow-md h-24 p-0 relative bg-muted/50"
-                >
-                <CardContent className="p-4 text-center flex items-center justify-center h-full">
-                    <div className="text-center">
-                        <p className="font-semibold text-muted-foreground">Advertisement</p>
-                        <p className="text-sm text-muted-foreground/70">Ad banner</p>
-                    </div>
-                </CardContent>
-            </Card>
-        </div>
+      <Card className="flex h-24 w-full items-center justify-center bg-muted/50 border-2 border-dashed border-border/50 rounded-2xl">
+        <CardContent className="p-4 text-center">
+          <span className="font-semibold text-muted-foreground">Advertisement</span>
+        </CardContent>
+      </Card>
     </motion.div>
 );
 
@@ -114,3 +107,4 @@ export default function MoreAppsPage() {
         </div>
     );
 }
+

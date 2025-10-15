@@ -10,16 +10,15 @@ import { Progress } from '@/components/ui/progress';
 import type { Quote } from '@/data/types';
 import * as htmlToImage from 'html-to-image';
 import { toBlob } from 'html-to-image';
+import { Card, CardContent } from '@/components/ui/card';
 
 const AdPlaceholder = () => (
-  <div className="w-full h-full bg-black/80 rounded-lg flex items-center justify-center border-2 border-dashed border-primary/30">
-    <div className="text-center text-primary">
-      <div className="p-4 bg-primary/20 rounded-full inline-block">
-        <Play className="w-10 h-10 text-primary" fill="currentColor" />
-      </div>
-      <p className="mt-4 font-semibold text-lg">Your Ad Here</p>
-      <p className="text-sm text-primary/70">Video or Banner Ad</p>
-    </div>
+  <div className="w-full h-full rounded-2xl flex items-center justify-center">
+     <Card className="flex h-full w-full items-center justify-center bg-muted/50 border-2 border-dashed border-border/50 rounded-2xl">
+      <CardContent className="p-6 text-center">
+        <span className="text-lg font-semibold text-muted-foreground">Advertisement</span>
+      </CardContent>
+    </Card>
   </div>
 );
 
