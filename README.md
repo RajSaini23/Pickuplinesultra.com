@@ -24,7 +24,7 @@ To get the project up and running on your local machine, follow these simple ste
 
 -   Node.js (v18 or later)
 -   npm or yarn
--   Android Studio (for generating SHA keys)
+-   Android Studio (for Android SDK)
 
 ### Installation & Running the App
 
@@ -82,26 +82,29 @@ To publish the app on the Google Play Store, you need to configure Firebase and 
 
 To use Firebase services like Google Sign-In, App Check (Play Integrity), or Push Notifications, you must add your app's SHA-1 and SHA-256 fingerprints to your Firebase project.
 
-**1. Get Debug Keys (for development):**
-   - This key is used when you run the app on your local machine or an emulator.
-   - **Open your project's `android` folder in Android Studio.**
-   - In Android Studio, click on the **"Gradle"** tab on the right side of the window.
-   - Navigate to **`[Your App Name] > Tasks > android > signingReport`**.
-   - Double-click on **`signingReport`**. This will run the task.
-   - In the "Run" window at the bottom, you will see the output. Look for the `Variant: debug` section.
-   - Copy the **SHA-1** and **SHA-256** values from there. They will look like `00:00:00:...`.
+**1. Get Your SHA Keys (Easiest Method):**
+   - This project includes a simple command to get your debug and release keys.
+   - Run the following command in your terminal:
+     ```bash
+     npm run android:signingreport
+     ```
+   - This command will output the **SHA-1** and **SHA-256** fingerprints for both your `debug` and `release` builds.
 
-**2. Get Release Keys (for publishing):**
-   - When you upload your app to the Google Play Console, Google manages your release key using a feature called **Play App Signing**.
-   - In the **Play Console**, navigate to your app, then go to **Setup > App integrity**.
-   - Under the **"App signing"** tab, you will find the SHA-1 and SHA-256 fingerprints for your release build. These are the official keys for your live app.
+**2. Understanding Debug vs. Release Keys:**
+   - **Debug Keys**: The `Variant: debug` section shows the keys used when you run the app on your local machine or an emulator. You need these for testing Firebase services during development.
+   - **Release Keys**: When you upload your app to the Google Play Console, Google manages your release key using a feature called **Play App Signing**. You can find these keys in the Play Console under **Setup > App integrity**. These are the official keys for your live app.
 
-**3. Add Keys to Firebase:**
+**3. Add All Four Keys to Firebase:**
    - Go to your **Firebase Console** > **Project settings** (click the ⚙️ icon).
    - Select your Android app.
    - Scroll down to the **"SHA certificate fingerprints"** section.
-   - Click **"Add fingerprint"** and paste the **debug** SHA-1 key.
-   - Add all other keys (debug SHA-256, release SHA-1, release SHA-256) in the same way. It is crucial to add all four fingerprints to ensure Firebase works correctly in both development and production.
+   - Click **"Add fingerprint"** and paste the **debug SHA-1** key from the terminal output.
+   - Repeat this process to add all four fingerprints:
+     - Debug SHA-1
+     - Debug SHA-256
+     - Release SHA-1 (from Play Console)
+     - Release SHA-256 (from Play Console)
+   - It is crucial to add all four fingerprints to ensure Firebase works correctly in all scenarios.
 
 ### Building the App Bundle for Google Play
 
