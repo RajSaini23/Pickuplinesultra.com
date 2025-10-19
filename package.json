@@ -8,7 +8,7 @@
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "pwa-assets": "pwa-assets-generator public/logo.svg public/icons --manifest public/manifest.webmanifest --icon-only --favicon --background 'hsl(220 25% 15%)' --padding 0 --type 'maskable' --path-override 'icons' && pwa-assets-generator public/logo.svg public/icons --manifest public/manifest.webmanifest --icon-only --favicon --background 'hsl(220 25% 15%)' --padding 0 --type 'apple' --path-override 'icons'",
-    "build": "npm run pwa-assets && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
