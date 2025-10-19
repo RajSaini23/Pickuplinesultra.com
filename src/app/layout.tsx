@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: APP_NAME,
+    title: "Pickup Lines Ultra",
   },
   formatDetection: {
     telephone: false,
