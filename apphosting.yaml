@@ -6,8 +6,7 @@ build:
   # The command to run to build your app
   run: npm run build
   # Specifies where to fetch the source code from
-  fetch:
-    source: /
+  source: /
 
 # The command to run your app
 run:
