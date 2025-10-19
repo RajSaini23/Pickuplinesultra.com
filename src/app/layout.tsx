@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from 'next';
 import { ClientLayout } from './client-layout';
 import './globals.css';
