@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    shortcut: "/icon.svg",
+    shortcut: "/logo.svg",
     apple: "/icons/icon-512x512.png",
   },
 };
