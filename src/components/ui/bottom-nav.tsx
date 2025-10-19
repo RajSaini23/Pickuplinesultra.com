@@ -23,7 +23,7 @@ const navItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/bookmarks', label: 'Saved', icon: Bookmark },
   { href: '/settings', label: 'Settings', icon: Settings },
-  { href: '/more-apps', label: 'More Apps', icon: AppWindow },
+  { href: '/more-apps', label: 'Apps', icon: AppWindow },
 ];
 
 export const BottomNav = () => {
