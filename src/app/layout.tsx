@@ -14,14 +14,14 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Pickup Lines Ultra",
+    title: APP_NAME,
   },
   formatDetection: {
     telephone: false,
   },
   icons: {
     shortcut: "/logo.svg",
-    apple: "/icons/icon-512x512.png",
+    apple: "/icons/apple-touch-icon.png",
   },
 };
 
