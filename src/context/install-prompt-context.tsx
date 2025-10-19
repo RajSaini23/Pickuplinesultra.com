@@ -14,7 +14,9 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 interface InstallPromptContextType {
-  promptEvent: BeforeInstallPromptEvent | null;
+  isInstallable: boolean;
+  isPwa: boolean;
+  canShowInstallPrompt: boolean;
   triggerInstall: () => void;
 }
 
@@ -22,8 +24,14 @@ const InstallPromptContext = createContext<InstallPromptContextType | undefined>
 
 export const InstallPromptProvider = ({ children }: { children: ReactNode }) => {
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
-
+  const [isPwa, setIsPwa] = useState(false);
+  
   useEffect(() => {
+    // Detect if the app is running in standalone mode (as a PWA)
+    if (window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone) {
+      setIsPwa(true);
+    }
+
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setPromptEvent(e as BeforeInstallPromptEvent);
@@ -50,9 +58,19 @@ export const InstallPromptProvider = ({ children }: { children: ReactNode }) => 
       });
     }
   };
+  
+  // Logic to determine if install prompt can be shown
+  const canShowInstallPrompt = !!promptEvent;
+  
+  // More generic check for installability, including Safari on iOS
+  const isIos = () => /iPhone|iPad|iPod/.test(navigator.userAgent);
+  const isSafari = () => /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const canBeInstalledOnIos = isIos() && isSafari();
+
+  const isInstallable = !isPwa && (canShowInstallPrompt || canBeInstalledOnIos);
 
   return (
-    <InstallPromptContext.Provider value={{ promptEvent, triggerInstall }}>
+    <InstallPromptContext.Provider value={{ isInstallable, isPwa, canShowInstallPrompt, triggerInstall }}>
       {children}
     </InstallPromptContext.Provider>
   );
