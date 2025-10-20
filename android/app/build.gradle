@@ -1,7 +1,8 @@
-
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
+    namespace "com.indgrowsive.pickuplines.app"
     compileSdkVersion 34
     defaultConfig {
         applicationId "com.indgrowsive.pickuplines.app"
@@ -11,53 +12,50 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        debug {
+            storeFile file("../debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+        release {
+            storeFile file("release.keystore")
+            storePassword "password"
+            keyAlias "alias"
+            keyPassword "password"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
-    }
-    buildFeatures {
-        // Enables data binding.
-        dataBinding true
     }
 }
 
 repositories {
-    google()
-    mavenCentral()
+    flatDir{
+        dirs 'libs'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation "androidx.appcompat:appcompat:1.6.1"
     implementation project(':capacitor-android')
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    implementation project(':capacitor-app')
+    implementation project(':capacitor-haptics')
+    implementation project(':capacitor-keyboard')
+    implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
-    implementation 'com.google.firebase:firebase-messaging:23.0.8'
-    implementation 'com.google.firebase:firebase-analytics:21.2.0'
+    implementation project(':capacitor-community-sqlite')
 }
 
 apply from: 'capacitor.build.gradle'
 apply plugin: 'com.google.gms.google-services'
-
-// Allowlist Certificate for Identity Toolkit
-// This is necessary for Google Sign-in to work with App Check
-// https://firebase.google.com/docs/app-check/android/play-integrity-provider
-// It is also needed for phone auth.
-android.applicationVariants.all { variant ->
-    variant.outputs.all {
-        def process = "keytool -list -v -keystore ${variant.signingConfig.storeFile.absolutePath} -alias ${variant.signingConfig.keyAlias} -storepass ${variant.signingConfig.storePassword} -keypass ${variant.signingConfig.keyPassword}".execute()
-        def standardOutput = new ByteArrayOutputStream()
-        process.consumeProcessOutput(standardOutput, System.err)
-        process.waitFor()
-        def stdout = standardOutput.toString()
-        if (process.exitValue() == 0) {
-            def sha1 = (stdout =~ /SHA1: (.*)/)[0][1]
-            println "SHA1: " + sha1
-        }
-    }
-}
