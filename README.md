@@ -90,11 +90,24 @@ To use Firebase services like Google Sign-In, App Check (Play Integrity), or Pus
      ```
    - This command will output the **SHA-1** and **SHA-256** fingerprints for both your `debug` and `release` builds.
 
-**2. Understanding Debug vs. Release Keys:**
+**2. Manual Method (Using Keytool):**
+   - If you manage your own keystore file, you can use the `keytool` utility (part of the Java JDK).
+   - The default debug keystore is typically located at `~/.android/debug.keystore`.
+   - To get the SHA-1 fingerprint, run the following command:
+     ```bash
+     # For Debug Keystore
+     keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+
+     # For a custom Release Keystore
+     keytool -list -v -keystore <path-to-your-release-keystore> -alias <your-release-key-alias>
+     ```
+   - You will be prompted for the keystore password.
+
+**3. Understanding Debug vs. Release Keys:**
    - **Debug Keys**: The `Variant: debug` section shows the keys used when you run the app on your local machine or an emulator. You need these for testing Firebase services during development.
    - **Release Keys**: When you upload your app to the Google Play Console, Google manages your release key using a feature called **Play App Signing**. You can find these keys in the Play Console under **Setup > App integrity**. These are the official keys for your live app.
 
-**3. Add All Four Keys to Firebase:**
+**4. Add All Four Keys to Firebase:**
    - Go to your **Firebase Console** > **Project settings** (click the ⚙️ icon).
    - Select your Android app.
    - Scroll down to the **"SHA certificate fingerprints"** section.

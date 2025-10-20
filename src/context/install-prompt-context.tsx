@@ -25,16 +25,26 @@ const InstallPromptContext = createContext<InstallPromptContextType | undefined>
 export const InstallPromptProvider = ({ children }: { children: ReactNode }) => {
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
   const [isPwa, setIsPwa] = useState(false);
+  const [isInstallable, setIsInstallable] = useState(false);
   
   useEffect(() => {
+    // These functions use `navigator` and should only run on the client
+    const isIos = () => /iPhone|iPad|iPod/.test(navigator.userAgent);
+    const isSafari = () => /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const canBeInstalledOnIos = isIos() && isSafari();
+
     // Detect if the app is running in standalone mode (as a PWA)
     if (window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone) {
       setIsPwa(true);
+      setIsInstallable(false); // Already installed
+    } else {
+        setIsInstallable(!!promptEvent || canBeInstalledOnIos);
     }
 
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setPromptEvent(e as BeforeInstallPromptEvent);
+      setIsInstallable(true);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -42,7 +52,7 @@ export const InstallPromptProvider = ({ children }: { children: ReactNode }) => 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
-  }, []);
+  }, [promptEvent]);
 
   const triggerInstall = () => {
     if (promptEvent) {
@@ -55,6 +65,7 @@ export const InstallPromptProvider = ({ children }: { children: ReactNode }) => 
         }
         // The prompt can only be used once, so we clear it.
         setPromptEvent(null);
+        setIsInstallable(false);
       });
     }
   };
@@ -62,13 +73,6 @@ export const InstallPromptProvider = ({ children }: { children: ReactNode }) => 
   // Logic to determine if install prompt can be shown
   const canShowInstallPrompt = !!promptEvent;
   
-  // More generic check for installability, including Safari on iOS
-  const isIos = () => /iPhone|iPad|iPod/.test(navigator.userAgent);
-  const isSafari = () => /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-  const canBeInstalledOnIos = isIos() && isSafari();
-
-  const isInstallable = !isPwa && (canShowInstallPrompt || canBeInstalledOnIos);
-
   return (
     <InstallPromptContext.Provider value={{ isInstallable, isPwa, canShowInstallPrompt, triggerInstall }}>
       {children}
