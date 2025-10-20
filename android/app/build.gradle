@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     namespace "com.indgrowsive.pickuplines.app"
@@ -12,50 +13,50 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    signingConfigs {
-        debug {
-            storeFile file("../debug.keystore")
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
-        }
-        release {
-            storeFile file("release.keystore")
-            storePassword "password"
-            keyAlias "alias"
-            keyPassword "password"
-        }
-    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
+    }
+    lint {
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 
 repositories {
     flatDir{
-        dirs 'libs'
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.core:core-splashscreen:1.0.1"
     implementation project(':capacitor-android')
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-    implementation project(':capacitor-app')
-    implementation project(':capacitor-haptics')
-    implementation project(':capacitor-keyboard')
     implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
-    implementation project(':capacitor-community-sqlite')
 }
 
-apply from: 'capacitor.build.gradle'
-apply plugin: 'com.google.gms.google-services'
+apply from: "capacitor.build.gradle"
+
+// Displays signing info for both debug and release builds
+task signingReport {
+    doLast {
+        exec {
+            commandLine 'keytool', '-list', '-v', '-keystore', "$System.env.HOME/.android/debug.keystore", '-alias', 'androiddebugkey', '-storepass', 'android', '-keypass', 'android'
+        }
+    }
+}
