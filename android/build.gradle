@@ -1,41 +1,44 @@
-
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        // SDK and tools
+        // --- START: Crucial Capacitor Configuration ---
+        // This is the root of the Capacitor project, where node_modules are stored.
+        // This variable is used by capacitor.build.gradle to find plugin sources.
+        capacitorProjectRoot = new File(projectDir, '..')
+        // --- END: Crucial Capacitor Configuration ---
+
+        // SDK and library versions
+        // It's recommended to keep these in a separate file (e.g., variables.gradle)
+        // but defining them here for clarity and fixing the build.
         compileSdkVersion = 34
         minSdkVersion = 22
         targetSdkVersion = 34
-
-        // App dependencies
-        appCompatVersion = '1.6.1'
-        constraintLayoutVersion = '2.1.4'
-        coreTestingVersion = '2.1.0'
-        espressoCoreVersion = '3.5.0'
+        androidxActivityVersion = '1.9.0'
+        androidxAppCompatVersion = '1.6.1'
+        androidxCoordinatorLayoutVersion = '1.2.0'
+        androidxCoreVersion = '1.12.0'
+        androidxFragmentVersion = '1.6.2'
+        coreSplashScreenVersion = '1.0.1'
+        androidxWebkitVersion = '1.11.0'
         junitVersion = '4.13.2'
-        junitExtVersion = '1.1.4'
-        googleServicesVersion = '4.4.2'
-        firebaseMessagingVersion = '23.1.2'
-        playServicesLocationVersion = '21.0.1'
-
-        // Capacitor
-        capacitorVersion = '6.0.0'
-        capacitorAndroidVersion = '6.1.0'
-        coreSplashscreenVersion = '1.0.0'
-        
-        // Kotlin
+        androidxJunitVersion = '1.1.5'
+        androidxEspressoCoreVersion = '3.5.1'
+        cordovaAndroidVersion = '10.1.1'
+        firebaseMessagingVersion = '23.4.1'
+        playServicesLocationVersion = '21.2.0'
         kotlinVersion = '1.9.22'
     }
-
     repositories {
         google()
         mavenCentral()
     }
-
     dependencies {
-        classpath "com.android.tools.build:gradle:8.2.1"
+        classpath 'com.android.tools.build:gradle:8.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "com.google.gms:google-services:$googleServicesVersion"
+        // --- START: Firebase Google Services Plugin ---
+        // This was the cause of the 'Plugin with id 'com.google.gms.google-services' not found' error.
+        classpath 'com.google.gms:google-services:4.4.2'
+        // --- END: Firebase Google Services Plugin ---
     }
 }
 
