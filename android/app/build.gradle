@@ -18,15 +18,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
     compileOptions {
-      sourceCompatibility JavaVersion.VERSION_17
-      targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-      jvmTarget = "17"
-    }
-    lint {
-        abortOnError false
+        jvmTarget = '17'
     }
 }
 
@@ -37,15 +37,16 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "androidx.appcompat:appcompat:$rootProject.ext.appCompatVersion"
-    implementation project(':capacitor-android')
+    implementation "androidx.core:core-ktx:$rootProject.ext.coreVersion"
+    implementation "com.google.android.material:material:$rootProject.ext.materialVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$rootProject.ext.coordinatorLayoutVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espressoCoreVersion"
-    implementation "com.google.firebase:firebase-messaging:$rootProject.ext.firebaseMessagingVersion"
-    implementation "com.google.android.gms:play-services-location:$rootProject.ext.playServicesLocationVersion"
-    implementation "androidx.core:core-splashscreen:$rootProject.ext.coreSplashscreenVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
+    implementation project(':capacitor-android')
     implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')

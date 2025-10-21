@@ -1,19 +1,31 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply from: 'variables.gradle'
-
 buildscript {
     ext {
-        // ... existing ext properties
-        capacitorProjectRoot = new File(projectDir, '..')
+        minSdkVersion = 22
+        compileSdkVersion = 34
+        targetSdkVersion = 34
+        appCompatVersion = '1.6.1'
+        coreVersion = '1.12.0'
+        constraintLayoutVersion = '2.1.4'
+        coordinatorLayoutVersion = '1.2.0'
+        junitVersion = '4.13.2'
+        junitExtVersion = '1.1.5'
+        espressoVersion = '3.5.1'
+        googlePlayServicesVersion = '21.0.1'
+        firebaseMessagingVersion = '23.1.2'
+        kotlinVersion = '1.9.22'
+        gradleVersion = '8.2.2'
+        androidStudioPluginVersion = '8.2.2'
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22"
+        classpath "com.android.tools.build:gradle:$rootProject.ext.androidStudioPluginVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$rootProject.ext.kotlinVersion"
         classpath 'com.google.gms:google-services:4.4.2'
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
