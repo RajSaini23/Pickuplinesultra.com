@@ -1,31 +1,44 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 buildscript {
     ext {
+        buildToolsVersion = "34.0.0"
         minSdkVersion = 22
         compileSdkVersion = 34
         targetSdkVersion = 34
-        appCompatVersion = '1.6.1'
-        coreVersion = '1.12.0'
-        constraintLayoutVersion = '2.1.4'
-        coordinatorLayoutVersion = '1.2.0'
-        junitVersion = '4.13.2'
-        junitExtVersion = '1.1.5'
-        espressoVersion = '3.5.1'
-        googlePlayServicesVersion = '21.0.1'
-        firebaseMessagingVersion = '23.1.2'
-        kotlinVersion = '1.9.22'
-        gradleVersion = '8.2.2'
-        androidStudioPluginVersion = '8.2.2'
+        ndkVersion = "26.1.10909125"
+
+        // Essential AndroidX versions
+        androidxAppCompatVersion = "1.6.1"
+        androidxCoordinatorLayoutVersion = "1.2.0"
+        androidxCoreVersion = '1.12.0'
+        androidxMaterialVersion = "1.10.0"
+        androidxBrowserVersion = "1.8.0"
+        androidxLocalbroadcastmanagerVersion = "1.1.0"
+        androidxExifInterfaceVersion = "1.3.7"
+        
+        // Capacitor and other plugin versions
+        capacitorVersion = "6.1.0"
+        capacitorCommunitySqliteVersion = "6.0.0-1"
+        firebaseMessagingVersion = "24.0.0"
+        playServicesLocationVersion = "21.3.0"
+        
+        // Testing library versions
+        junitVersion = "4.13.2"
+        androidxJunitVersion = "1.1.5"
+        androidxEspressoCoreVersion = "3.5.1"
+        
+        // Kotlin version
+        kotlinVersion = '1.9.10'
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$rootProject.ext.androidStudioPluginVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$rootProject.ext.kotlinVersion"
+        classpath 'com.android.tools.build:gradle:8.3.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath 'com.google.gms:google-services:4.4.2'
-
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
