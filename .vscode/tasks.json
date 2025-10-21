@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "android:signingreport",
+			"path": "src",
+			"problemMatcher": [],
+			"label": "npm: android:signingreport - src",
+			"detail": "cd android && ./gradlew signingReport",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
