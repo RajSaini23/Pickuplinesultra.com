@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 
 android {
     namespace "com.indgrowsive.pickuplines.app"
@@ -11,9 +10,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        aaptOptions {
-             // You can add options here if needed
-        }
     }
     buildTypes {
         release {
@@ -22,17 +18,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    buildFeatures {
-        viewBinding true
-    }
-    lint {
-        abortOnError false
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
@@ -48,20 +35,12 @@ dependencies {
     implementation "androidx.coordinatorlayout:coordinatorlayout:$rootProject.ext.androidxCoordinatorLayoutVersion"
     implementation "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
     implementation "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
-    implementation "androidx.browser:browser:$rootProject.ext.androidxBrowserVersion"
-    implementation project(':capacitor-android')
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.androidxConstraintLayoutVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.androidxEspressoCoreVersion"
-    implementation project(':capacitor-push-notifications')
-    implementation project(':capacitor-splash-screen')
-    implementation project(':capacitor-status-bar')
+    implementation project(':capacitor-android')
 }
 
-apply from: 'capacitor.build.gradle'
+// Apply the Google Services plugin at the bottom
 apply plugin: 'com.google.gms.google-services'
-
-// Custom task to get signing report
-task signingReport(type: Exec) {
-    commandLine 'keytool', '-list', '-v', '-keystore', System.getProperty('user.home') + '/.android/debug.keystore', '-alias', 'androiddebugkey', '-storepass', 'android', '-keypass', 'android'
-}
