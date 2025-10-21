@@ -12,6 +12,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "build:mobile": "next build",
+    "android:bundle": "cd android && chmod +x ./gradlew && ./gradlew bundleRelease",
     "cap:sync": "npm run build:mobile && npx cap sync",
     "cap:open:android": "npx cap open android",
     "cap:open:ios": "npx cap open ios",
