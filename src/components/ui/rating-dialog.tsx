@@ -15,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { submitFeedback } from '@/ai/flows/feedback-flow';
 import { Loader } from './loader';
+import { useNetwork } from '@/context/network-context';
 
 
 interface RatingDialogContextType {
@@ -61,6 +62,7 @@ const RatingDialog = () => {
   const [view, setView] = useState<'rating' | 'feedback' | 'thank_you'>('rating');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { isOnline } = useNetwork();
 
   const form = useForm<z.infer<typeof feedbackSchema>>({
     resolver: zodResolver(feedbackSchema),
@@ -94,18 +96,42 @@ const RatingDialog = () => {
 
   const onFeedbackSubmit = async (data: z.infer<typeof feedbackSchema>) => {
     setIsSubmitting(true);
+    const feedbackData = {
+        rating,
+        review: data.review,
+        email: data.email || '',
+    };
+    
     try {
-        await submitFeedback({
-            rating,
-            review: data.review,
-            email: data.email || '',
+        const response = await fetch('/api/feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(feedbackData),
         });
-        toast({
-            title: "Feedback Sent!",
-            description: "Thank you for helping us improve.",
-        });
-        setView('thank_you');
-        setTimeout(handleClose, 2500);
+
+        if (!isOnline) {
+             toast({
+                title: "You are offline.",
+                description: "Your feedback will be sent automatically when you're back online.",
+            });
+            setView('thank_you');
+            setTimeout(handleClose, 3000);
+            return;
+        }
+
+        if (response.ok) {
+            toast({
+                title: "Feedback Sent!",
+                description: "Thank you for helping us improve.",
+            });
+            setView('thank_you');
+            setTimeout(handleClose, 2500);
+        } else {
+            throw new Error('Server responded with an error.');
+        }
+
     } catch(e) {
         toast({
             variant: "destructive",
