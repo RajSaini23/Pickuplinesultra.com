@@ -14,12 +14,6 @@
       "type": "image/png"
     },
     {
-      "src": "/icons/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
       "src": "/icons/maskable_icon.png",
       "sizes": "512x512",
       "type": "image/png",
@@ -29,39 +23,36 @@
   "theme_color": "#2A2A3A",
   "background_color": "#2A2A3A",
   "start_url": "/",
-  "display_override": [
-    "tabbed",
-    "window-controls-overlay"
-  ],
   "display": "standalone",
   "orientation": "portrait",
   "gcm_sender_id": "103953800507",
-  "widgets": [
+  "note_taking": {
+    "new_note_url": "/new"
+  },
+  "shortcuts": [
     {
-      "name": "Pickup Lines - Quote of the Day",
-      "short_name": "Quote of the Day",
-      "description": "Get a fresh pickup line delivered to your dashboard every day!",
-      "template": "ms-card",
-      "data": "/widgets/quote-of-the-day.json",
-      "screenshots": [
-        {
-          "src": "/widgets/screenshot-qotd.png",
-          "sizes": "600x400",
-          "label": "Quote of the Day Widget"
-        }
-      ],
+      "name": "Bookmarks",
+      "short_name": "Saved",
+      "description": "View your bookmarked pickup lines",
+      "url": "/bookmarks",
       "icons": [
         {
-          "src": "/icons/android-chrome-192x192.png",
+          "src": "/icons/shortcut-bookmark.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "short_name": "Settings",
+      "description": "Change app settings and preferences",
+      "url": "/settings",
+      "icons": [
+        {
+          "src": "/icons/shortcut-settings.png",
           "sizes": "192x192"
         }
       ]
     }
-  ],
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-  "note_taking": {
-    "new_note_url": "/new-note"
-  }
+  ]
 }
