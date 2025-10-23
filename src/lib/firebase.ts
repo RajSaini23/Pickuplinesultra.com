@@ -1,8 +1,8 @@
-
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+import { getMessaging } from "firebase/messaging";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -23,6 +23,9 @@ export const app = initializeApp(firebaseConfig);
 
 // Initialize Analytics and export it
 export const analytics = isSupported().then(yes => yes ? getAnalytics(app) : null);
+
+// Initialize Messaging and export it
+export const messaging = (typeof window !== 'undefined' && typeof Notification !== 'undefined') ? getMessaging(app) : null;
 
 // Initialize App Check
 try {

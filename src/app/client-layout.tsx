@@ -15,6 +15,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { RatingDialogProvider } from '@/components/ui/rating-dialog';
 import { BottomNav } from '@/components/ui/bottom-nav';
 import { InstallPromptProvider } from '@/context/install-prompt-context';
+import { messaging } from '@/lib/firebase';
+import { getToken } from 'firebase/messaging';
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { isOnline, justReconnected } = useNetwork();
@@ -66,6 +68,37 @@ export function ClientLayout({
 
       return () => observer.disconnect();
     }
+  }, []);
+
+  useEffect(() => {
+    const requestPermission = async () => {
+      if(messaging && typeof Notification !== 'undefined') {
+        try {
+          const permission = await Notification.requestPermission();
+          if (permission === 'granted') {
+            console.log('Notification permission granted.');
+            const currentToken = await getToken(messaging, { vapidKey: 'BM0G3ZqfP8d_0g5q3H_1rJ_tL4iRjQ4P6QG-8mJ_n5YF_wO-j_1nF_pZqC_kH_mZ_z_y_Y_k' });
+            if (currentToken) {
+              console.log('FCM Token:', currentToken);
+              // Send this token to your server to send notifications
+            } else {
+              console.log('No registration token available. Request permission to generate one.');
+            }
+          } else {
+            console.log('Unable to get permission to notify.');
+          }
+        } catch (err) {
+          console.log('An error occurred while retrieving token. ', err);
+        }
+      }
+    }
+
+    // Delay the request slightly to not overwhelm the user on first load
+    const timer = setTimeout(() => {
+      requestPermission();
+    }, 5000); // 5 seconds delay
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
