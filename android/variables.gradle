@@ -1,30 +1,28 @@
 
 ext {
-    // Versions for core Android libraries
-    appCompatVersion = '1.6.1'
-    coreVersion = '1.12.0'
-    constraintLayoutVersion = '2.1.4'
-    coordinatorLayoutVersion = '1.2.0'
-    materialVersion = '1.10.0'
-    browserVersion = '1.7.0'
-
-    // Versions for testing libraries
-    junitVersion = '4.13.2'
-    junitExtVersion = '1.1.5'
-    espressoVersion = '3.5.1'
-
-    // Versions for Capacitor
-    capacitorVersion = '6.1.0'
-    capacitorAndroidVersion = '6.1.0'
-    // Add other Capacitor plugin versions if needed, e.g.
-    // capacitorSplashScreenVersion = '6.0.1'
-
-    // Versions for Google Play services
-    playServicesVersion = '18.3.0'
-
-    // Other versions
-    firebaseMessagingVersion = '23.4.0'
-    androidxActivityVersion = '1.8.0'
+    // Versions for all the modules
+    buildToolsVersion = "34.0.0"
+    minSdkVersion = 22
+    compileSdkVersion = 34
+    targetSdkVersion = 34
+    kotlinVersion = "1.9.10"
+    
+    // AndroidX Libraries
+    androidxAppCompatVersion = '1.6.1'
+    androidxCoreVersion = '1.12.0'
+    androidxMaterialVersion = '1.10.0'
+    androidxConstraintLayoutVersion = '2.1.4'
+    androidxCoordinatorLayoutVersion = '1.2.0'
     androidxFragmentVersion = '1.6.2'
-    androidxWebkitVersion = '1.8.0'
+    
+    // Testing Libraries
+    junitVersion = '4.13.2'
+    androidxJunitVersion = '1.1.5'
+    androidxEspressoCoreVersion = '3.5.1'
+    
+    // Capacitor
+    capacitorVersion = '6.1.0'
+    
+    // Other
+    playServicesLocationVersion = '21.0.1'
 }
