@@ -4,12 +4,9 @@
   "description": "Your Emotion. Our Expression. A curated collection of pickup lines in Hinglish for every mood and occasion.",
   "start_url": "/",
   "display": "standalone",
-  "display_override": [
-    "window-controls-overlay"
-  ],
   "background_color": "#2A2A3A",
   "theme_color": "#2A2A3A",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
@@ -22,7 +19,7 @@
       "type": "image/png"
     },
     {
-      "src: "/icons/icon-128x128.png",
+      "src": "/icons/icon-128x128.png",
       "sizes": "128x128",
       "type": "image/png"
     },
@@ -53,17 +50,21 @@
       "type": "image/png"
     }
   ],
-  "related_applications": [
+  "shortcuts": [
     {
-      "platform": "play",
-      "id": "com.indgrowsive.pickuplines.app"
+      "name": "View Bookmarks",
+      "short_name": "Bookmarks",
+      "description": "Access your saved pickup lines",
+      "url": "/bookmarks",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Explore Categories",
+      "short_name": "Explore",
+      "description": "Browse all categories of pickup lines",
+      "url": "/",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     }
-  ],
-  "scope": "/",
-  "categories": [
-    "entertainment",
-    "lifestyle",
-    "social"
   ],
   "share_target": {
     "action": "/share-target/",
@@ -74,21 +75,19 @@
       "url": "url"
     }
   },
+  "categories": ["entertainment", "lifestyle", "social"],
+  "scope": "/",
   "file_handlers": [
     {
       "action": "/handle-file",
       "accept": {
-        "image/jpeg": [
-          ".jpg",
-          ".jpeg"
-        ],
-        "image/png": [
-          ".png"
-        ],
-        "image/webp": [
-          ".webp"
-        ]
+        "image/jpeg": [".jpg", ".jpeg"],
+        "image/png": [".png"],
+        "image/webp": [".webp"]
       }
     }
-  ]
+  ],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  }
 }
