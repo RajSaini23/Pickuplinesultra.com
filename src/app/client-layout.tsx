@@ -77,10 +77,11 @@ export function ClientLayout({
           const permission = await Notification.requestPermission();
           if (permission === 'granted') {
             console.log('Notification permission granted.');
+            // Get the token
             const currentToken = await getToken(messaging, { vapidKey: 'BM0G3ZqfP8d_0g5q3H_1rJ_tL4iRjQ4P6QG-8mJ_n5YF_wO-j_1nF_pZqC_kH_mZ_z_y_Y_k' });
             if (currentToken) {
               console.log('FCM Token:', currentToken);
-              // Send this token to your server to send notifications
+              // In a real app, you would send this token to your server.
             } else {
               console.log('No registration token available. Request permission to generate one.');
             }
@@ -88,10 +89,10 @@ export function ClientLayout({
             console.log('Unable to get permission to notify.');
           }
         } catch (err) {
-          console.log('An error occurred while retrieving token. ', err);
+          console.error('An error occurred while retrieving token. ', err);
         }
       }
-    }
+    };
 
     // Delay the request slightly to not overwhelm the user on first load
     const timer = setTimeout(() => {

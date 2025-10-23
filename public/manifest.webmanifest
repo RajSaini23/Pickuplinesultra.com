@@ -2,60 +2,45 @@
   "name": "Pickup Lines Ultra",
   "short_name": "Pickup Lines",
   "description": "Your Emotion. Our Expression. A curated collection of pickup lines in Hinglish for every mood and occasion.",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#2A2A3A",
-  "theme_color": "#2A2A3A",
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "/icons/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "/icons/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/icons/icon-maskable-192x192.png",
-      "sizes": "192x192",
+      "src": "/icons/apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-maskable-512x512.png",
+      "src": "/icons/maskable_icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
   ],
+  "theme_color": "#2A2A3A",
+  "background_color": "#2A2A3A",
+  "start_url": "/",
   "display_override": [
-    "window-controls-overlay",
-    "tabbed"
+    "tabbed",
+    "window-controls-overlay"
   ],
-  "launch_handler": {
-    "client_mode": "focus-existing"
-  },
-  "protocol_handlers": [
-    {
-      "protocol": "web+pickuplines",
-      "url": "/%s"
-    }
-  ],
-  "share_target": {
-    "action": "/share-target/",
-    "method": "GET",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  },
+  "display": "standalone",
+  "orientation": "portrait",
+  "gcm_sender_id": "103953800507",
   "widgets": [
     {
-      "name": "Quote of the Day",
-      "description": "Get a fresh pickup line every day!",
+      "name": "Pickup Lines - Quote of the Day",
+      "short_name": "Quote of the Day",
+      "description": "Get a fresh pickup line delivered to your dashboard every day!",
       "template": "ms-card",
       "data": "/widgets/quote-of-the-day.json",
       "screenshots": [
@@ -65,7 +50,12 @@
           "label": "Quote of the Day Widget"
         }
       ],
-      "tag": "quote-of-the-day"
+      "icons": [
+        {
+          "src": "/icons/android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ],
   "edge_side_panel": {

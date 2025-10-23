@@ -1,7 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
-import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { getMessaging } from "firebase/messaging";
 
 // Your web app's Firebase configuration
@@ -26,19 +25,3 @@ export const analytics = isSupported().then(yes => yes ? getAnalytics(app) : nul
 
 // Initialize Messaging and export it
 export const messaging = (typeof window !== 'undefined' && typeof Notification !== 'undefined') ? getMessaging(app) : null;
-
-/*
-// Initialize App Check
-try {
-  if (typeof window !== 'undefined') {
-    // Ensure you have a valid reCAPTCHA v3 site key from the Firebase console.
-    const appCheck = initializeAppCheck(app, {
-      provider: new ReCaptchaV3Provider('YOUR_RECAPTCHA_V3_SITE_KEY'), // Replace with your actual key
-      isTokenAutoRefreshEnabled: true
-    });
-    console.log("Firebase App Check initialized successfully");
-  }
-} catch (error) {
-  console.error("Error initializing Firebase App Check:", error);
-}
-*/
