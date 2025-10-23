@@ -1,5 +1,5 @@
-
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     namespace "com.indgrowsive.pickuplines.app"
@@ -29,15 +29,18 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "androidx.appcompat:appcompat:$rootProject.ext.androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$rootProject.ext.androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$rootProject.ext.androidxCoreSplashScreenVersion"
+    implementation "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
+    implementation "androidx.webkit:webkit:$rootProject.ext.androidxWebkitVersion"
     implementation project(':capacitor-android')
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.androidxJunitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$root_Project.ext.androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.androidxEspressoCoreVersion"
-    implementation "androidx.coordinatorlayout:coordinatorlayout:$rootProject.ext.androidxCoordinatorLayoutVersion"
-    implementation "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
-    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation project(':capacitor-cordova-android-plugins')
+    implementation platform("com.google.firebase:firebase-bom:$rootProject.ext.firebaseBomVersion")
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
 }
 
 apply from: 'capacitor.build.gradle'
-
-apply plugin: 'com.google.gms.google-services'
