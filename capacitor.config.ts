@@ -7,6 +7,7 @@ const config: CapacitorConfig = {
   webDir: 'out',
   server: {
     androidScheme: 'https',
+    hostname: 'localhost'
   },
   plugins: {
     SplashScreen: {
