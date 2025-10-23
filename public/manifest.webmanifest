@@ -8,60 +8,39 @@
   "theme_color": "#2A2A3A",
   "icons": [
     {
-      "src": "/icons/android-chrome-192x192.png",
+      "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icons/android-chrome-512x512.png",
+      "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/icons/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png"
+      "src": "/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "src'": "/favicon.ico",
-      "sizes": "48x48",
-      "type": "image/x-icon"
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "shortcuts": [
-    {
-      "name": "View Bookmarks",
-      "short_name": "Bookmarks",
-      "description": "Access your saved pickup lines",
-      "url": "/bookmarks",
-      "icons": [{ "src": "/icons/bookmarks.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Settings",
-      "short_name": "Settings",
-      "description": "Change app settings",
-      "url": "/settings",
-      "icons": [{ "src": "/icons/settings.png", "sizes": "192x192" }]
-    }
+  "display_override": [
+    "window-controls-overlay",
+    "tabbed"
   ],
-  "screenshots": [
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "protocol_handlers": [
     {
-      "src": "/screenshots/screenshot1.png",
-      "type": "image/png",
-      "sizes": "1080x2340",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "/screenshots/screenshot2.png",
-      "type": "image/png",
-      "sizes": "1080x2340",
-      "form_factor": "narrow"
-    },
-     {
-      "src": "/screenshots/screenshot-wide.png",
-      "type": "image/png",
-      "sizes": "1920x1080",
-      "form_factor": "wide"
+      "protocol": "web+pickuplines",
+      "url": "/%s"
     }
   ],
   "share_target": {
@@ -73,41 +52,25 @@
       "url": "url"
     }
   },
-  "protocol_handlers": [
-    {
-      "protocol": "web+pickuplines",
-      "url": "/%s"
-    }
-  ],
-  "launch_handler": {
-    "client_mode": "focus-existing"
-  },
-  "file_handlers": [
-    {
-      "action": "/handle-file",
-      "accept": {
-        "image/jpeg": [".jpg", ".jpeg"],
-        "image/png": [".png"],
-        "image/webp": [".webp"]
-      }
-    }
-  ],
   "widgets": [
     {
       "name": "Quote of the Day",
-      "description": "Get a fresh pickup line every day",
-      "tag": "quote-of-the-day",
+      "description": "Get a fresh pickup line every day!",
       "template": "ms-card",
-      "data": "/widgets/quote-of-the-day.json"
+      "data": "/widgets/quote-of-the-day.json",
+      "screenshots": [
+        {
+          "src": "/widgets/screenshot-qotd.png",
+          "sizes": "600x400",
+          "label": "Quote of the Day Widget"
+        }
+      ],
+      "tag": "quote-of-the-day"
     }
   ],
   "edge_side_panel": {
-    "preferred_width": 480
+    "preferred_width": 400
   },
-  "display_override": [
-    "tabbed",
-    "window-controls-overlay"
-  ],
   "note_taking": {
     "new_note_url": "/new-note"
   }
