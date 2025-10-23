@@ -1,50 +1,40 @@
 {
-  "theme_color": "#2A2A3A",
-  "background_color": "#E0E0E0",
-  "display": "standalone",
-  "scope": "/",
-  "start_url": "/",
   "name": "Pickup Lines Ultra",
-  "short_name": "Ecstatic",
+  "short_name": "Pickup Lines Ultra",
   "description": "Your Emotion. Our Expression.",
+  "start_url": "/",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone"
+  ],
+  "background_color": "#2A2A3A",
+  "theme_color": "#2A2A3A",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-256x256.png",
-      "sizes": "256x256",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/maskable_icon.png",
-      "sizes": "196x196",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ],
   "shortcuts": [
     {
       "name": "Home",
       "short_name": "Home",
-      "description": "Go to the Home Screen",
+      "description": "Go to the home screen",
       "url": "/",
       "icons": [
         {
-          "src": "/icons/icon-96x96.png",
-          "sizes": "96x96"
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192"
         }
       ]
     },
@@ -55,8 +45,8 @@
       "url": "/bookmarks",
       "icons": [
         {
-          "src": "/icons/icon-96x96.png",
-          "sizes": "96x96"
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192"
         }
       ]
     },
@@ -67,14 +57,14 @@
       "url": "/settings",
       "icons": [
         {
-          "src": "/icons/icon-96x96.png",
-          "sizes": "96x96"
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192"
         }
       ]
     }
   ],
   "share_target": {
-    "action": "/?shared=true",
+    "action": "/_share-target",
     "method": "GET",
     "params": {
       "title": "title",
@@ -82,8 +72,12 @@
       "url": "url"
     }
   },
-  "display_override": [
-    "window-controls-overlay",
-    "standalone"
-  ]
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.indgrowsive.pickuplines.app",
+      "id": "com.indgrowsive.pickuplines.app"
+    }
+  ],
+  "prefer_related_applications": true
 }
