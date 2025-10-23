@@ -32,13 +32,10 @@ const withPWA = withPWAInit({
     },
     {
       urlPattern: /\/api\//i,
-      handler: 'StaleWhileRevalidate',
+      handler: 'NetworkFirst',
+      method: 'POST',
       options: {
-        cacheName: 'api-data',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
-        },
+        cacheName: 'api-data-post',
         backgroundSync: {
           name: 'api-sync-queue',
           options: {
