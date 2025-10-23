@@ -101,6 +101,35 @@ export function ClientLayout({
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    // This effect handles registering for Periodic Background Sync
+    const registerPeriodicSync = async () => {
+      if ('serviceWorker' in navigator && 'PeriodicSyncManager' in window) {
+        try {
+          const swRegistration = await navigator.serviceWorker.ready;
+          // @ts-ignore
+          const status = await navigator.permissions.query({ name: 'periodic-background-sync' });
+
+          if (status.state === 'granted') {
+            // @ts-ignore
+            await swRegistration.periodicSync.register('content-sync', {
+              minInterval: 24 * 60 * 60 * 1000, // 24 hours
+            });
+            console.log('Periodic Sync registered');
+          } else {
+            console.log('Periodic Sync permission not granted.');
+          }
+        } catch (error) {
+          console.error('Periodic Sync registration failed:', error);
+        }
+      } else {
+        console.log('Periodic Background Sync not supported.');
+      }
+    };
+
+    registerPeriodicSync();
+  }, []);
+
   return (
     <ThemeProvider>
       <NetworkProvider>

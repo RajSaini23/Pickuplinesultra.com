@@ -7,6 +7,7 @@ const withPWA = withPWAInit({
   disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
+  sw: 'sw.js', // Point to our custom service worker
   runtimeCaching: [
     {
       urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css|svg|png|jpg|jpeg|gif)$/i,
