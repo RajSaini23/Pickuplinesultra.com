@@ -54,8 +54,6 @@ export function ClientLayout({
         try {
           const theme = document.body.classList.contains('dark') ? Style.Dark : Style.Light;
           await StatusBar.setStyle({ style: theme });
-          // The color is set from globals.css which themes the status bar
-          // so we don't need to set it here.
         } catch (e) {
             console.error('Failed to set status bar style', e);
         }

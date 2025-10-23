@@ -32,14 +32,19 @@ const withPWA = withPWAInit({
     },
     {
       urlPattern: /\/api\//i,
-      handler: "NetworkFirst",
+      handler: 'StaleWhileRevalidate',
       options: {
-        cacheName: "api-data",
+        cacheName: 'api-data',
         expiration: {
-          maxEntries: 16,
+          maxEntries: 32,
           maxAgeSeconds: 24 * 60 * 60, // 24 hours
         },
-        networkTimeoutSeconds: 10,
+        backgroundSync: {
+          name: 'api-sync-queue',
+          options: {
+            maxRetentionTime: 24 * 60,
+          },
+        },
       },
     },
     {
@@ -87,4 +92,3 @@ const nextConfig: NextConfig = {
 };
 
 export default withPWA(nextConfig);
-
