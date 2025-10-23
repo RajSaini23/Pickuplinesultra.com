@@ -1,22 +1,54 @@
 {
   "name": "Pickup Lines Ultra",
-  "short_name": "Pickup Lines Ultra",
-  "description": "Your Emotion. Our Expression.",
+  "short_name": "Pickup Lines",
+  "description": "Your Emotion. Our Expression. A curated collection of pickup lines in Hinglish for every mood and occasion.",
   "start_url": "/",
   "display": "standalone",
   "display_override": [
     "window-controls-overlay",
-    "standalone"
+    "standalone",
+    "minimal-ui"
   ],
   "background_color": "#2A2A3A",
-  "theme_color": "#2A2A3A",
-  "orientation": "portrait",
+  "theme_color": "#2196F3",
+  "orientation": "portrait-primary",
+  "scope": "/",
   "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
     {
       "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
     },
     {
       "src": "/icons/icon-512x512.png",
@@ -27,44 +59,29 @@
   ],
   "shortcuts": [
     {
-      "name": "Home",
-      "short_name": "Home",
-      "description": "Go to the home screen",
-      "url": "/",
-      "icons": [
-        {
-          "src": "/icons/icon-192x192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "name": "View Bookmarks",
+      "short_name": "Bookmarks",
+      "description": "View your saved pickup lines",
+      "url": "/bookmarks",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     },
     {
-      "name": "Bookmarks",
-      "short_name": "Bookmarks",
-      "description": "View your bookmarked quotes",
-      "url": "/bookmarks",
-      "icons": [
-        {
-          "src": "/icons/icon-192x192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "name": "Explore Categories",
+      "short_name": "Categories",
+      "description": "Browse all pickup line categories",
+      "url": "/",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     },
     {
       "name": "Settings",
       "short_name": "Settings",
-      "description": "Change app settings",
+      "description": "Change app settings and theme",
       "url": "/settings",
-      "icons": [
-        {
-          "src": "/icons/icon-192x192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     }
   ],
   "share_target": {
-    "action": "/_share-target",
+    "action": "/share-target/",
     "method": "GET",
     "params": {
       "title": "title",
@@ -72,12 +89,15 @@
       "url": "url"
     }
   },
+  "categories": [
+    "entertainment",
+    "lifestyle",
+    "social"
+  ],
   "related_applications": [
     {
       "platform": "play",
-      "url": "https://play.google.com/store/apps/details?id=com.indgrowsive.pickuplines.app",
       "id": "com.indgrowsive.pickuplines.app"
     }
-  ],
-  "prefer_related_applications": true
+  ]
 }
