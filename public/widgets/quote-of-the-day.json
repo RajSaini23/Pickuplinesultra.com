@@ -1,0 +1,51 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Windows-XAML/AdaptiveCards/main/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.5",
+    "speak": "<s>The Quote of the Day is: {quote_of_the_day.text}</s>",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Quote of the Day",
+                    "weight": "Bolder",
+                    "size": "Medium"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "{quote_of_the_day.text}",
+                    "wrap": true,
+                    "spacing": "Small"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "spacing": "Large",
+            "separator": true,
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Quote of the Hour",
+                    "weight": "Bolder",
+                    "size": "Medium"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "{quote_of_the_hour.text}",
+                    "wrap": true,
+                    "spacing": "Small"
+                }
+            ]
+        }
+    ],
+    "refresh": {
+        "action": {
+            "type": "Action.Execute",
+            "verb": "refresh"
+        },
+        "userIds": []
+    }
+}
