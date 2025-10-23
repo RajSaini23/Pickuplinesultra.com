@@ -3,11 +3,11 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     namespace "com.indgrowsive.pickuplines.app"
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdk 34
     defaultConfig {
         applicationId "com.indgrowsive.pickuplines.app"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 22
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -28,19 +28,23 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "androidx.appcompat:appcompat:$rootProject.ext.androidxAppCompatVersion"
-    implementation "androidx.coordinatorlayout:coordinatorlayout:$rootProject.ext.androidxCoordinatorLayoutVersion"
-    implementation "androidx.core:core-splashscreen:$rootProject.ext.androidxCoreSplashScreenVersion"
-    implementation "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
-    implementation "androidx.webkit:webkit:$rootProject.ext.androidxWebkitVersion"
+    implementation "androidx.appcompat:appcompat:1.6.1"
     implementation project(':capacitor-android')
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$root_Project.ext.androidxJunitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.androidxEspressoCoreVersion"
-    implementation project(':capacitor-cordova-android-plugins')
-    implementation platform("com.google.firebase:firebase-bom:$rootProject.ext.firebaseBomVersion")
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-messaging'
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    implementation project(':capacitor-push-notifications')
+    implementation project(':capacitor-splash-screen')
+    implementation project(':capacitor-status-bar')
 }
 
-apply from: 'capacitor.build.gradle'
+apply from: "capacitor.build.gradle"
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.exists()) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.warn("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}
