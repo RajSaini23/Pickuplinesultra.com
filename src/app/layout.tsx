@@ -5,7 +5,7 @@ import './globals.css';
 
 const APP_NAME = "Pickup Lines Ultra";
 const APP_DESCRIPTION = "Your Emotion. Our Expression. A curated collection of pickup lines in Hinglish for every mood and occasion.";
-const APP_URL = "https://pickuplines-ultra.web.app"; // Replace with your actual domain
+const APP_URL = "https://pickuplines-ultra.web.app";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     url: APP_URL,
     images: [
       {
-        url: "/og-image.png", // Assuming you'll add an og-image.png in public folder
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Pickup Lines Ultra App",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
       template: `%s | ${APP_NAME}`,
     },
     description: APP_DESCRIPTION,
-    creator: "@INDGROWSIVE", // Replace with your Twitter handle
+    creator: "@INDGROWSIVE",
     images: ["/og-image.png"],
   },
   robots: {
@@ -99,6 +99,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
        <head>
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -110,4 +111,3 @@ export default function RootLayout({
     </html>
   );
 }
-

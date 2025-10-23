@@ -9,32 +9,21 @@ const withPWA = withPWAInit({
   skipWaiting: true,
   runtimeCaching: [
     {
-      urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,
+      urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css|svg|png|jpg|jpeg|gif)$/i,
       handler: "CacheFirst",
       options: {
-        cacheName: "static-font-assets",
-        expiration: {
-          maxEntries: 4,
-          maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
-        },
-      },
-    },
-    {
-      urlPattern: /\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,
-      handler: "StaleWhileRevalidate",
-      options: {
-        cacheName: "static-image-assets",
+        cacheName: "static-assets",
         expiration: {
           maxEntries: 64,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
         },
       },
     },
     {
-      urlPattern: /\.(?:js)$/i,
+      urlPattern: /\.(?:js|css)$/i,
       handler: "StaleWhileRevalidate",
       options: {
-        cacheName: "static-js-assets",
+        cacheName: "static-code-assets",
         expiration: {
           maxEntries: 32,
           maxAgeSeconds: 24 * 60 * 60, // 24 hours
@@ -42,25 +31,15 @@ const withPWA = withPWAInit({
       },
     },
     {
-      urlPattern: /\.(?:css|less)$/i,
-      handler: "StaleWhileRevalidate",
-      options: {
-        cacheName: "static-style-assets",
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
-        },
-      },
-    },
-    {
-      urlPattern: /\.(?:json|xml|csv)$/i,
+      urlPattern: /\/api\//i,
       handler: "NetworkFirst",
       options: {
-        cacheName: "static-data-assets",
+        cacheName: "api-data",
         expiration: {
-          maxEntries: 32,
+          maxEntries: 16,
           maxAgeSeconds: 24 * 60 * 60, // 24 hours
         },
+        networkTimeoutSeconds: 10,
       },
     },
     {

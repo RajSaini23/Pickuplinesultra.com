@@ -6,13 +6,10 @@
   "display": "standalone",
   "display_override": [
     "window-controls-overlay",
-    "standalone",
-    "minimal-ui"
+    "standalone"
   ],
   "background_color": "#2A2A3A",
-  "theme_color": "#2196F3",
-  "orientation": "portrait-primary",
-  "scope": "/",
+  "theme_color": "#2A2A3A",
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
@@ -43,7 +40,13 @@
       "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192x192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/icons/icon-384x384.png",
@@ -54,30 +57,13 @@
       "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "View Bookmarks",
-      "short_name": "Bookmarks",
-      "description": "View your saved pickup lines",
-      "url": "/bookmarks",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+      "purpose": "any"
     },
     {
-      "name": "Explore Categories",
-      "short_name": "Categories",
-      "description": "Browse all pickup line categories",
-      "url": "/",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "Settings",
-      "short_name": "Settings",
-      "description": "Change app settings and theme",
-      "url": "/settings",
-      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+      "src": "/icons/icon-512x512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "share_target": {
@@ -94,6 +80,45 @@
     "lifestyle",
     "social"
   ],
+  "shortcuts": [
+    {
+      "name": "Home",
+      "short_name": "Home",
+      "description": "Go to the home screen",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Bookmarks",
+      "short_name": "Bookmarks",
+      "description": "View your saved quotes",
+      "url": "/bookmarks",
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "short_name": "Settings",
+      "description": "Open app settings",
+      "url": "/settings",
+      "icons": [
+        {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "scope": "/",
   "related_applications": [
     {
       "platform": "play",
