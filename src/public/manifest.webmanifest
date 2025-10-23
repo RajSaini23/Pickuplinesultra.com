@@ -2,74 +2,89 @@
   "name": "Pickup Lines Ultra",
   "short_name": "Pickup Lines",
   "description": "Your Emotion. Our Expression. A curated collection of pickup lines in Hinglish for every mood and occasion.",
-  "gcm_sender_id": "103953800507",
-  "icons": [
-    {
-      "src": "/icons/android-chrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "/logo.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "monochrome any"
-    }
-  ],
-  "theme_color": "#2A2A3A",
-  "background_color": "#2A2A3A",
   "start_url": "/",
+  "display": "standalone",
   "display_override": [
     "window-controls-overlay",
     "tabbed",
     "standalone"
   ],
-  "display": "standalone",
+  "background_color": "#2A2A3A",
+  "theme_color": "#2A2A3A",
   "orientation": "portrait",
-  "scope": "/",
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-  "note_taking": {
-    "new_note_url": "/new"
-  },
-  "shortcuts": [
+  "gcm_sender_id": "103953800507",
+  "icons": [
     {
-      "name": "Bookmarks",
-      "short_name": "Bookmarks",
-      "description": "View your saved quotes",
-      "url": "/bookmarks",
-      "icons": [
-        {
-          "src": "/icons/bookmark-shortcut.png",
-          "sizes": "192x192"
-        }
-      ]
+      "src": "/icons/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "name": "Settings",
-      "short_name": "Settings",
-      "description": "Change app settings",
-      "url": "/settings",
-      "icons": [
-        {
-          "src": "/icons/settings-shortcut.png",
-          "sizes": "192x192"
-        }
-      ]
-    }
-  ],
-  "related_applications": [
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
-      "platform": "play",
-      "url": "https://play.google.com/store/apps/details?id=com.indgrowsive.pickuplines.app",
-      "id": "com.indgrowsive.pickuplines.app"
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
-  "prefer_related_applications": true
+  "screenshots": [
+    {
+      "src": "/screenshots/screenshot-1.png",
+      "sizes": "1080x2340",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home Screen"
+    },
+    {
+      "src": "/screenshots/screenshot-2.png",
+      "sizes": "1080x2340",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Quote Category"
+    }
+  ],
+  "share_target": {
+    "action": "/share-target",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "widgets": [
+    {
+      "name": "Quote of the Day",
+      "description": "Get a fresh pickup line every day.",
+      "tag": "quote",
+      "template": "quote-widget",
+      "ms_ac_template": "/widgets/quote-widget.json",
+      "data": "/widgets/quote-data.json"
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 360
+  },
+  "note_taking": {
+    "new_note_url": "/new",
+    "prevent_sharing_prohibited": true
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+pickuplines",
+      "url": "/?url=%s"
+    }
+  ]
 }
