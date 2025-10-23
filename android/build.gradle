@@ -5,22 +5,17 @@ buildscript {
         minSdkVersion = 22
         compileSdkVersion = 34
         targetSdkVersion = 34
-        kotlinVersion = "1.9.10" // Recommended for AGP 8.3+
-
-        // AndroidX Libraries
+        ndkVersion = "25.1.8937393"
+        kotlinVersion = "1.9.10"
         androidxAppCompatVersion = '1.6.1'
         androidxCoreVersion = '1.12.0'
-        androidxMaterialVersion = '1.10.0'
+        materialVersion = '1.10.0'
         androidxConstraintLayoutVersion = '2.1.4'
         androidxCoordinatorLayoutVersion = '1.2.0'
-
-        // Testing Libraries
         junitVersion = '4.13.2'
         androidxJunitVersion = '1.1.5'
         androidxEspressoCoreVersion = '3.5.1'
-
-        // Capacitor
-        capacitorVersion = '6.1.0'
+        cordovaAndroidVersion = '10.1.1'
     }
     repositories {
         google()
@@ -29,13 +24,24 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:8.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath 'com.google.gms:google-services:4.4.2' // Stable version
+        classpath 'com.google.gms:google-services:4.4.1'
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
 
+// Try to resolve the SDK path.
+def sdkPath = new File(project.projectDir, '../android/local.properties').exists() ?
+              new Properties().with { p -> new File(project.projectDir, '../android/local.properties').withInputStream { p.load(it) }; p.getProperty('sdk.dir') } :
+              System.getenv('ANDROID_SDK_ROOT') ?: System.getenv('ANDROID_HOME') ?: "/home/user/Android/Sdk"
+
 allprojects {
+    if (sdkPath) {
+        android {
+            sdkDirectory = file(sdkPath)
+        }
+    }
     repositories {
         google()
         mavenCentral()
