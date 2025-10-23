@@ -1,6 +1,11 @@
+
 include ':app'
 include ':capacitor-android'
 project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')
-
-// Include any other plugins here
-apply from: 'capacitor.settings.gradle'
+include ':capacitor-push-notifications'
+project(':capacitor-push-notifications').projectDir = new File('../node_modules/@capacitor/push-notifications/android')
+include ':capacitor-splash-screen'
+project(':capacitor-splash-screen').projectDir = new File('../node_modules/@capacitor/splash-screen/android')
+include ':capacitor-status-bar'
+project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacitor/status-bar/android')
+    
