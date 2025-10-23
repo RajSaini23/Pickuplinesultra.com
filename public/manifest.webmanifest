@@ -14,29 +14,17 @@
       "type": "image/png"
     },
     {
-      "src": "/icons/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
       "src": "/logo.svg",
-      "sizes": "48x48 72x72 96x96 128x128 256x256 512x512",
+      "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ],
   "theme_color": "#2A2A3A",
   "background_color": "#2A2A3A",
   "start_url": "/",
-  "display_override": [
-    "tabbed",
-    "standalone"
-  ],
+  "display_override": ["window-controls-overlay", "standalone"],
   "display": "standalone",
   "orientation": "portrait",
-  "gcm_sender_id": "103953800507",
-  "note_taking": {
-    "new_note_url": "/new"
-  }
+  "gcm_sender_id": "103953800507"
 }
