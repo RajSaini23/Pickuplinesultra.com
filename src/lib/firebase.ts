@@ -27,11 +27,13 @@ export const analytics = isSupported().then(yes => yes ? getAnalytics(app) : nul
 // Initialize Messaging and export it
 export const messaging = (typeof window !== 'undefined' && typeof Notification !== 'undefined') ? getMessaging(app) : null;
 
+/*
 // Initialize App Check
 try {
   if (typeof window !== 'undefined') {
+    // Ensure you have a valid reCAPTCHA v3 site key from the Firebase console.
     const appCheck = initializeAppCheck(app, {
-      provider: new ReCaptchaV3Provider('6Ld-pP0pAAAAAAN-c8c7gJG1-2J2S_yZ-m_xY-9E'),
+      provider: new ReCaptchaV3Provider('YOUR_RECAPTCHA_V3_SITE_KEY'), // Replace with your actual key
       isTokenAutoRefreshEnabled: true
     });
     console.log("Firebase App Check initialized successfully");
@@ -39,3 +41,4 @@ try {
 } catch (error) {
   console.error("Error initializing Firebase App Check:", error);
 }
+*/
