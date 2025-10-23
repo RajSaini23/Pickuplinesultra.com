@@ -14,45 +14,29 @@
       "type": "image/png"
     },
     {
-      "src": "/icons/maskable_icon.png",
-      "sizes": "512x512",
+      "src": "/icons/apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.svg",
+      "sizes": "48x48 72x72 96x96 128x128 256x256 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ],
   "theme_color": "#2A2A3A",
   "background_color": "#2A2A3A",
   "start_url": "/",
+  "display_override": [
+    "tabbed",
+    "standalone"
+  ],
   "display": "standalone",
   "orientation": "portrait",
   "gcm_sender_id": "103953800507",
   "note_taking": {
     "new_note_url": "/new"
-  },
-  "shortcuts": [
-    {
-      "name": "Bookmarks",
-      "short_name": "Saved",
-      "description": "View your bookmarked pickup lines",
-      "url": "/bookmarks",
-      "icons": [
-        {
-          "src": "/icons/shortcut-bookmark.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Settings",
-      "short_name": "Settings",
-      "description": "Change app settings and preferences",
-      "url": "/settings",
-      "icons": [
-        {
-          "src": "/icons/shortcut-settings.png",
-          "sizes": "192x192"
-        }
-      ]
-    }
-  ]
+  }
 }
