@@ -1,0 +1,45 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.5",
+    "template": {
+        "data": "${quoteoftheday}",
+        "when": "${quoteoftheday != null}"
+    },
+    "body": [
+        {
+            "type": "Container",
+            "style": "emphasis",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "${emoji} Quote of the Day",
+                    "weight": "Bolder",
+                    "size": "Medium"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "${hinglish}",
+                    "wrap": true,
+                    "size": "Large",
+                    "spacing": "Medium"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "- Pickup Lines Ultra",
+                    "isSubtle": true,
+                    "spacing": "Small",
+                    "horizontalAlignment": "Right"
+                }
+            ],
+            "bleed": true
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Execute",
+            "title": "Open App",
+            "verb": "openApp"
+        }
+    ]
+}
