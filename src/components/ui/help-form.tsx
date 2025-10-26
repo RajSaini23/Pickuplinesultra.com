@@ -1,9 +1,8 @@
-
 "use client";
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -17,64 +16,69 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { useState } from 'react';
+import { Loader } from '@/components/ui/loader';
 import { Send } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import * as React from 'react';
+import { Card } from "@/components/ui/card";
 
 const helpFormSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  type: z.enum(["general", "bug", "feature", "feedback", "account"], {
-    required_error: "You need to select a query type.",
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
   }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters." }).max(1000),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+  queryType: z.enum(["bug_report", "feature_request", "general_feedback", "other"]),
+  message: z.string().min(10, {
+    message: "Message must be at least 10 characters.",
+  }).max(500, {
+    message: "Message must not be longer than 500 characters.",
+  }),
 });
 
 export function HelpForm() {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const form = useForm<z.infer<typeof helpFormSchema>>({
     resolver: zodResolver(helpFormSchema),
     defaultValues: {
       name: "",
       email: "",
+      queryType: "general_feedback",
       message: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof helpFormSchema>) {
+  async function onSubmit(values: z.infer<typeof helpFormSchema>) {
     setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('/api/help', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
 
-    const subject = `Help Request: ${data.type} - from ${data.name}`;
-    const body = `
-      A new help request has been submitted from the Pickup Lines Ultra app.
-      
-      ---
-      Name: ${data.name}
-      Email: ${data.email}
-      Query Type: ${data.type}
-      ---
-      
-      Message:
-      ${data.message}
-    `;
+      if (!response.ok) {
+        throw new Error('Something went wrong. Please try again.');
+      }
 
-    const mailtoLink = `mailto:indgrowsivestudio@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for your feedback. We'll get back to you soon.",
+      });
+      form.reset();
 
-    // Open the user's default email client
-    window.location.href = mailtoLink;
-
-    toast({
-      title: "Opening Email App",
-      description: "Please send the email from your mail client.",
-    });
-
-    // Reset the form and submission state after a short delay
-    setTimeout(() => {
-        form.reset();
+    } catch (error: any) {
+       toast({
+        variant: "destructive",
+        title: "Submission Failed",
+        description: error.message || "Could not send your message. Please try again later.",
+      });
+    } finally {
         setIsSubmitting(false);
-    }, 1500);
+    }
   }
 
   return (
@@ -89,7 +93,7 @@ export function HelpForm() {
                     <FormItem>
                     <FormLabel>Your Name</FormLabel>
                     <FormControl>
-                        <Input placeholder="Enter your name" {...field} />
+                        <Input placeholder="John Doe" {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -102,57 +106,60 @@ export function HelpForm() {
                     <FormItem>
                     <FormLabel>Your Email</FormLabel>
                     <FormControl>
-                        <Input placeholder="Enter your email" {...field} />
+                        <Input placeholder="john.doe@example.com" {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
                 )}
                 />
             </div>
+
             <FormField
                 control={form.control}
-                name="type"
+                name="queryType"
                 render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Query Type</FormLabel>
+                    <FormLabel>Reason for Contact</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                         <SelectTrigger>
-                        <SelectValue placeholder="Select the type of your query" />
-                        </Trigger>
+                        <SelectValue placeholder="Select a reason" />
+                        </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                        <SelectItem value="general">General Inquiry</SelectItem>
-                        <SelectItem value="bug">Bug Report</SelectItem>
-                        <SelectItem value="feature">Feature Request</SelectItem>
-                        <SelectItem value="feedback">Feedback</SelectItem>
-                        <SelectItem value="account">Account Issue</SelectItem>
+                        <SelectItem value="general_feedback">General Feedback</SelectItem>
+                        <SelectItem value="bug_report">Report a Bug</SelectItem>
+                        <SelectItem value="feature_request">Feature Request</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                     </Select>
                     <FormMessage />
                 </FormItem>
                 )}
             />
+
             <FormField
-            control={form.control}
-            name="message"
-            render={({ field }) => (
+                control={form.control}
+                name="message"
+                render={({ field }) => (
                 <FormItem>
-                <FormLabel>Message</FormLabel>
-                <FormControl>
+                    <FormLabel>Your Message</FormLabel>
+                    <FormControl>
                     <Textarea
-                    placeholder="Tell us how we can help you"
-                    className="resize-none min-h-[150px]"
-                    {...field}
+                        placeholder="Tell us a little more about your query..."
+                        className="resize-none"
+                        rows={6}
+                        {...field}
                     />
-                </FormControl>
-                <FormMessage />
+                    </FormControl>
+                    <FormMessage />
                 </FormItem>
-            )}
+                )}
             />
-            <Button type="submit" className="w-full h-12" disabled={isSubmitting}>
-            <Send className="mr-2 h-4 w-4" />
-            {isSubmitting ? "Preparing Email..." : "Send Message"}
+
+            <Button type="submit" disabled={isSubmitting} className="w-full h-12 text-lg">
+                {isSubmitting ? <Loader /> : <Send className="mr-2 h-5 w-5" />}
+                Send Message
             </Button>
         </form>
         </Form>
