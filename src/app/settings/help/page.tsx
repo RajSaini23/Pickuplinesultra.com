@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Mail, Copy } from 'lucide-react';
+import { ArrowLeft, Mail, Copy, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 export default function HelpPage() {
   const { toast } = useToast();
   const supportEmail = "indgrowsivestudio@gmail.com";
+  const emailSubject = "Help & Support: Pickup Lines Ultra";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(supportEmail);
@@ -17,6 +18,10 @@ export default function HelpPage() {
       title: "Email Copied!",
       description: "Support email address copied to clipboard.",
     });
+  };
+
+  const handleSendEmail = () => {
+    window.location.href = `mailto:${supportEmail}?subject=${encodeURIComponent(emailSubject)}`;
   };
 
   return (
@@ -54,13 +59,19 @@ export default function HelpPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center gap-4">
-              <p className="text-lg font-semibold text-foreground bg-muted p-3 rounded-lg border w-full">
+              <div className="text-lg font-semibold text-foreground bg-muted p-3 rounded-lg border w-full break-words">
                 {supportEmail}
-              </p>
-              <Button onClick={handleCopy} className="w-full h-12">
-                <Copy className="mr-2 h-5 w-5" />
-                Copy Email Address
-              </Button>
+              </div>
+              <div className="grid grid-cols-2 gap-3 w-full">
+                <Button onClick={handleCopy} variant="outline" className="w-full h-12">
+                  <Copy className="mr-2 h-5 w-5" />
+                  Copy Email
+                </Button>
+                <Button onClick={handleSendEmail} className="w-full h-12">
+                    <Send className="mr-2 h-5 w-5" />
+                    Send Email
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </motion.div>
