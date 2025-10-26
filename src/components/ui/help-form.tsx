@@ -19,7 +19,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { Send } from 'lucide-react';
-import { Card } from './card';
+import { Card } from '@/components/ui/card';
 
 const helpFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
