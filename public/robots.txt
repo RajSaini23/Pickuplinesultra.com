@@ -1,7 +1,13 @@
+# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
 
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow: /download/
-Disallow: /share-target/
+Allow: /
 
+# Disallow specific paths that are not useful for search engines
+Disallow: /_next/
+Disallow: /api/
+Disallow: /download/
+Disallow: /_offline/
+
+# Sitemap
 Sitemap: https://pickuplines-ultra.web.app/sitemap.xml
