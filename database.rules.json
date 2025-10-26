@@ -2,11 +2,11 @@
 {
   "rules": {
     "categories": {
-      ".read": true,
+      ".read": false,
       ".write": false
     },
     "quotes": {
-      ".read": true,
+      ".read": false,
       ".write": false
     }
   }
