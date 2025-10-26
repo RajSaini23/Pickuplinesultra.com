@@ -93,22 +93,7 @@ const QuoteCard = ({
       <div className="mt-auto bg-card">
         <Separator />
         <div className="flex items-center justify-around p-2">
-            <motion.div
-                animate={{ scale: isDownloading ? [1, 1.1, 1] : 1 }}
-                transition={{ duration: 0.3 }}
-                className="relative"
-            >
-                <ActionButton icon={DownloadCloud} label="Download" onClick={handleDownloadClick} />
-                {isDownloading && (
-                    <motion.div
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 2.5, opacity: [0.5, 0] }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="absolute inset-0 rounded-full bg-primary/50"
-                        style={{ pointerEvents: 'none' }}
-                    />
-                )}
-            </motion.div>
+            <ActionButton icon={DownloadCloud} label="Download" onClick={handleDownloadClick} />
             <ActionButton label={isBookmarked ? 'Saved' : 'Save'} onClick={onBookmarkToggle}>
               <motion.div
                 key={isBookmarked ? 'bookmarked' : 'unbookmarked'}
@@ -301,5 +286,3 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     </div>
   );
 }
-
-    
