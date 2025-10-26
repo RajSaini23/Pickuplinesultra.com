@@ -72,13 +72,14 @@ export function ClientLayout({
 
   useEffect(() => {
     const requestPermission = async () => {
-      if(messaging && typeof Notification !== 'undefined') {
+      if (messaging && typeof Notification !== 'undefined' && 'serviceWorker' in navigator) {
         try {
           const permission = await Notification.requestPermission();
           if (permission === 'granted') {
             console.log('Notification permission granted.');
             // Get the token
-            const currentToken = await getToken(messaging, { vapidKey: 'BM0G3ZqfP8d_0g5q3H_1rJ_tL4iRjQ4P6QG-8mJ_n5YF_wO-j_1nF_pZqC_kH_mZ_z_y_Y_k' });
+            const swRegistration = await navigator.serviceWorker.ready;
+            const currentToken = await getToken(messaging, { vapidKey: 'BM0G3ZqfP8d_0g5q3H_1rJ_tL4iRjQ4P6QG-8mJ_n5YF_wO-j_1nF_pZqC_kH_mZ_z_y_Y_k', serviceWorkerRegistration: swRegistration });
             if (currentToken) {
               console.log('FCM Token:', currentToken);
               // In a real app, you would send this token to your server.
