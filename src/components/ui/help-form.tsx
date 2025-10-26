@@ -18,7 +18,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
-import { Loader } from './loader';
 import { Send } from 'lucide-react';
 import { Card } from './card';
 
@@ -44,33 +43,38 @@ export function HelpForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof helpFormSchema>) {
+  function onSubmit(data: z.infer<typeof helpFormSchema>) {
     setIsSubmitting(true);
-    try {
-      const response = await fetch('/api/help', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
 
-      if (!response.ok) {
-        throw new Error('Something went wrong. Please try again.');
-      }
+    const subject = `Help Request: ${data.type} - from ${data.name}`;
+    const body = `
+      A new help request has been submitted from the Pickup Lines Ultra app.
+      
+      ---
+      Name: ${data.name}
+      Email: ${data.email}
+      Query Type: ${data.type}
+      ---
+      
+      Message:
+      ${data.message}
+    `;
 
-      toast({
-        title: "Message Sent!",
-        description: "We've received your message and will get back to you shortly.",
-      });
-      form.reset();
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Submission Failed",
-        description: error.message,
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    const mailtoLink = `mailto:indgrowsivestudio@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    // Open the user's default email client
+    window.location.href = mailtoLink;
+
+    toast({
+      title: "Opening Email App",
+      description: "Please send the email from your mail client.",
+    });
+
+    // Reset the form and submission state after a short delay
+    setTimeout(() => {
+        form.reset();
+        setIsSubmitting(false);
+    }, 1500);
   }
 
   return (
@@ -115,7 +119,7 @@ export function HelpForm() {
                     <FormControl>
                         <SelectTrigger>
                         <SelectValue placeholder="Select the type of your query" />
-                        </SelectTrigger>
+                        </Trigger>
                     </FormControl>
                     <SelectContent>
                         <SelectItem value="general">General Inquiry</SelectItem>
@@ -147,8 +151,8 @@ export function HelpForm() {
             )}
             />
             <Button type="submit" className="w-full h-12" disabled={isSubmitting}>
-            {isSubmitting ? <Loader /> : <Send className="mr-2 h-4 w-4" />}
-            Send Message
+            <Send className="mr-2 h-4 w-4" />
+            {isSubmitting ? "Preparing Email..." : "Send Message"}
             </Button>
         </form>
         </Form>
