@@ -1,19 +1,21 @@
+// src/lib/firebase.ts
+"use client";
 
-// This file is no longer used for core data fetching.
-// It can be repurposed for other Firebase services like Auth or Analytics if needed.
-
-// Example Firebase Initialization (if you add other services)
-/*
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
+import { getMessaging } from "firebase/messaging";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCS873qmtjxYQTJoAe11ATENGSZteLgRtI",
+  authDomain: "ecstatic-mhefl.firebaseapp.com",
+  projectId: "ecstatic-mhefl",
+  storageBucket: "ecstatic-mhefl.appspot.com",
+  messagingSenderId: "698831772358",
+  appId: "1:698831772358:web:7d4d42858b105269fcd5c7",
+  measurementId: "G-11E029L91N"
 };
 
-export const app = initializeApp(firebaseConfig);
-*/
+// Initialize Firebase
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+
+// Initialize Firebase Cloud Messaging and get a reference to the service
+export const messaging = (typeof window !== 'undefined') ? getMessaging(app) : undefined;
