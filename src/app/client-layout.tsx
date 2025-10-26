@@ -17,6 +17,7 @@ import { BottomNav } from '@/components/ui/bottom-nav';
 import { InstallPromptProvider } from '@/context/install-prompt-context';
 import { messaging } from '@/lib/firebase';
 import { getToken } from 'firebase/messaging';
+import { Device } from '@capacitor/device';
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { isOnline, justReconnected } = useNetwork();
@@ -130,6 +131,38 @@ export function ClientLayout({
     };
 
     registerPeriodicSync();
+  }, []);
+
+  useEffect(() => {
+    const detectPlatform = async () => {
+      try {
+        const info = await Device.getInfo();
+        console.log('Platform Info:', info);
+
+        switch (info.platform) {
+          case 'android':
+            console.log('Running on Android');
+            // Android-specific logic can go here
+            break;
+          case 'ios':
+            console.log('Running on iOS');
+            // iOS-specific logic can go here
+            break;
+          case 'web':
+            console.log('Running on Web / PWA');
+            // Web-specific logic can go here
+            break;
+          default:
+            console.log('Running on an unknown platform');
+            // Fallback logic
+            break;
+        }
+      } catch (e) {
+        console.error('Error getting device info', e);
+      }
+    };
+
+    detectPlatform();
   }, []);
 
   return (
