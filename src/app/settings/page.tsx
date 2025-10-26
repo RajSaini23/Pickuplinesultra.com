@@ -225,7 +225,7 @@ export default function SettingsPage() {
     };
 
     const content = (
-       <div className="flex items-center justify-between py-3.5 group cursor-pointer w-full">
+       <div onClick={onClick} className="flex items-center justify-between py-3.5 group cursor-pointer w-full">
           <div className="flex flex-col gap-1">
             <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
             {description && <p className="text-sm text-muted-foreground">{description}</p>}
@@ -360,18 +360,15 @@ export default function SettingsPage() {
 
           <Section title="Rate Us" icon={Star} onClick={() => openRatingDialog(true)} />
           
-          <Section title="Help & Support" icon={LifeBuoy}>
-             <div className="flex flex-col gap-2 -mt-2 pb-4">
-              <SettingsRow 
-                title="Contact Email"
-                description="For any queries, please reach out to us"
-                isLink={true}
-                href="mailto:indgrowsivestudio@gmail.com"
-              >
-                  <span className="text-sm font-medium text-primary hover:underline">indgrowsivestudio@gmail.com</span>
-              </SettingsRow>
-            </div>
-          </Section>
+           <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
+                <Link href="/settings/help" onClick={(e) => handleLinkClick('/settings/help', e)} className="w-full flex items-center justify-between p-5 text-left group">
+                    <div className="flex items-center gap-4">
+                        <GlowIcon icon={LifeBuoy} />
+                        <span className="text-lg font-semibold group-hover:text-primary transition-colors">Help & Support</span>
+                    </div>
+                    <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                </Link>
+            </MotionCard>
 
 
           <Section title="Share the App" icon={Share2}>
