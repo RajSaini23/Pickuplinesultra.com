@@ -19,6 +19,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: `${category.name} Pickup Lines`,
+    description: category.description,
+    keywords: `${category.name}, pickup lines, hinglish quotes, dating lines`,
+    author: {
+      '@type': 'Organization',
+      name: 'Pickup Lines Ultra',
+    },
+  };
+
   return {
     title: `${category.name} Lines | Pickup Lines Ultra`,
     description: `Browse a collection of ${category.name.toLowerCase()} pickup lines. ${category.description}`,
@@ -27,6 +39,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${category.name} Lines | Pickup Lines Ultra`,
       description: `Find the perfect ${category.name.toLowerCase()} pickup line.`,
     },
+    other: {
+      'script[type="application/ld+json"]': JSON.stringify(jsonLd),
+    }
   };
 }
 
@@ -47,5 +62,25 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
   // We are creating a new object without the `icon` property to pass to the client component.
   const { icon, ...category } = categoryData;
 
-  return <CategoryClientPage category={category} quotes={categoryQuotes} />;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: `${category.name} Pickup Lines`,
+    description: category.description,
+    keywords: `${category.name}, pickup lines, hinglish quotes, dating lines`,
+    author: {
+      '@type': 'Organization',
+      name: 'Pickup Lines Ultra',
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <CategoryClientPage category={category} quotes={categoryQuotes} />
+    </>
+  );
 }
