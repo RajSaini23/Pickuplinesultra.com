@@ -46,8 +46,8 @@ const feedbackFlow = ai.defineFlow(
   },
   async (input) => {
     // In a real-world scenario, this is where you would integrate
-    // with a service to send an email or store the feedback in a database.
-    // For example, using Firestore, or an email service like SendGrid.
+    // with a service to send an email to 'indgrowsivestudio@gmail.com' 
+    // or store the feedback in a database like Firestore.
     
     console.log('Processing feedback in Genkit flow...');
     console.log(`Rating: ${input.rating}`);
@@ -55,24 +55,9 @@ const feedbackFlow = ai.defineFlow(
     console.log(`Email: ${input.email || 'Not provided'}`);
 
     // Here we would add the logic to send an email.
-    // As we don't have an email service integrated, we'll just simulate a success response.
-    // Example (pseudo-code):
-    //
-    // const emailClient = new EmailService(process.env.EMAIL_API_KEY);
-    // await emailClient.send({
-    //   to: 'feedback@pickuplines-ultra.com',
-    //   from: 'noreply@pickuplines-ultra.com',
-    //   subject: `New Feedback Received: ${input.rating} stars`,
-    //   body: `
-    //     A new piece of feedback has been submitted.
-    //
-    //     Rating: ${input.rating}/5
-    //     Review: ${input.review}
-    //     User Email: ${input.email || 'Not provided'}
-    //   `
-    // });
+    // For now, we'll just log it to the console and simulate a success response.
+    // In a future step, we could use a service like Nodemailer or Resend here.
     
-    // Simulate a successful operation.
     return {
       success: true,
       message: 'Feedback processed successfully by the flow.'

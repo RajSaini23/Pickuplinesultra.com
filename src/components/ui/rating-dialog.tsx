@@ -13,7 +13,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { submitFeedback } from '@/ai/flows/feedback-flow';
 import { Loader } from './loader';
 import { useNetwork } from '@/context/network-context';
 
