@@ -19,7 +19,6 @@ import { BottomNav } from '@/components/ui/bottom-nav';
 import { InstallPromptProvider } from '@/context/install-prompt-context';
 import { messaging } from '@/lib/firebase';
 import { getToken } from 'firebase/messaging';
-import { Device } from '@capacitor/device';
 import LegacyDeviceWarning from '@/components/ui/legacy-device-warning';
 
 function AppContent({ children }: { children: React.ReactNode }) {
@@ -163,19 +162,6 @@ export function ClientLayout({
     };
 
     registerPeriodicSync();
-  }, []);
-
-  useEffect(() => {
-    const detectPlatform = async () => {
-      try {
-        const info = await Device.getInfo();
-        console.log('Platform Info:', info);
-      } catch (e) {
-        console.error('Error getting device info', e);
-      }
-    };
-
-    detectPlatform();
   }, []);
 
   return (

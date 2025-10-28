@@ -1,5 +1,5 @@
 
-import type { Category, Quote, CategoryData } from './types';
+import type { Category, Quote } from './types';
 import { data as romanticData } from './categories/romantic';
 import { data as cuteData } from './categories/cute';
 import { data as crushData } from './categories/crush';
@@ -98,7 +98,7 @@ import { data as engineersDayData } from './categories/engineers-day';
 import { data as armedForcesDayData } from './categories/armed-forces-day';
 
 
-const allRawData: CategoryData[] = [
+const allData = [
   // Existing Categories
   romanticData,
   cuteData,
@@ -182,24 +182,19 @@ const allRawData: CategoryData[] = [
   hindiDiwasData,
   engineersDayData,
   armedForcesDayData,
-].filter(d => d.quotes.length > 0); // Filter out categories with no quotes
-
-// Re-index all quotes to ensure global uniqueness
-let globalId = 1;
-const allData: CategoryData[] = allRawData.map(categoryData => ({
-  ...categoryData,
-  quotes: categoryData.quotes.map(quote => ({
-    ...quote,
-    id: globalId++,
-  })),
-}));
-
+].filter(d => d.quotes.length > 0);
 
 export const categories: Category[] = allData.map(d => d.category);
 
 export const quotes: (Quote & { category: string })[] = allData.flatMap(d => 
-  d.quotes.map(q => ({ ...q, category: d.category.slug }))
-);
+  d.quotes.map((q, index) => ({ 
+    ...q,
+    // This creates a globally unique ID based on category and index
+    id: `${d.category.slug}-${index}`,
+    category: d.category.slug 
+  }))
+).map((q, globalIndex) => ({...q, id: globalIndex + 1}));
+
 
 export const getCategory = (slug: string): Category | undefined => {
     return categories.find(c => c.slug === slug);
@@ -207,5 +202,8 @@ export const getCategory = (slug: string): Category | undefined => {
 
 export const getQuotesForCategory = (slug: string): Quote[] => {
     const data = allData.find(d => d.category.slug === slug);
-    return data ? data.quotes : [];
+    return data ? data.quotes.map((q, index) => ({ 
+      ...q,
+      id: quotes.find(quote => quote.hinglish === q.hinglish && quote.category === slug)?.id || 0
+    })) : [];
 }

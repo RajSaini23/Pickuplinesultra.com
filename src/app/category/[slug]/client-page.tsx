@@ -52,18 +52,8 @@ const QuoteCard = ({
 }) => {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const { getTranslation, language } = useLanguage();
-  const [currentText, setCurrentText] = React.useState(quote.hinglish);
-  const [isLoading, setIsLoading] = React.useState(false);
 
-  React.useEffect(() => {
-    const translate = async () => {
-      setIsLoading(true);
-      const translated = await getTranslation(quote);
-      setCurrentText(translated);
-      setIsLoading(false);
-    };
-    translate();
-  }, [quote, language, getTranslation]);
+  const currentText = getTranslation(quote);
 
   return (
     <Card className="shadow-lg h-[74vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-xl">
@@ -81,13 +71,9 @@ const QuoteCard = ({
                       className="flex flex-col items-center justify-center gap-6 w-full"
                   >
                     <div className="text-6xl">{quote.emoji}</div>
-                    {isLoading ? (
-                      <Loader />
-                    ) : (
-                      <p className="font-headline text-2xl md:text-3xl font-semibold leading-snug text-foreground/90">
-                          {currentText}
-                      </p>
-                    )}
+                    <p className="font-headline text-2xl md:text-3xl font-semibold leading-snug text-foreground/90">
+                        {currentText}
+                    </p>
                   </motion.div>
                 </AnimatePresence>
             </div>

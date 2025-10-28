@@ -4,14 +4,12 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { languages } from '@/lib/languages';
 import type { Quote } from '@/data/types';
-import { useNetwork } from './network-context';
-import { useToast } from '@/hooks/use-toast';
 
 interface LanguageContextType {
   language: string | null;
   setLanguage: (langCode: string) => void;
   isLanguageLoading: boolean;
-  getTranslation: (quote: Quote) => Promise<string>;
+  getTranslation: (quote: Quote) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -46,17 +44,14 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const getTranslation = useCallback(async (quote: Quote): Promise<string> => {
-    if (!language) return quote.hinglish; // Default case
+  const getTranslation = useCallback((quote: Quote): string => {
+    if (!language || language === 'hin-eng') return quote.hinglish;
 
-    const quoteWithAllLanguages = quote as Quote & { [key: string]: string };
-
-    if (quoteWithAllLanguages[language]) {
-        return quoteWithAllLanguages[language];
-    }
+    const quoteWithAllLanguages = quote as Quote & { [key: string]: string | undefined };
     
-    // Fallback to English if a specific language translation doesn't exist for some reason
-    return quote.english;
+    // Return the specific language translation if it exists, otherwise fall back to English.
+    return quoteWithAllLanguages[language] || quote.english;
+    
   }, [language]);
 
 

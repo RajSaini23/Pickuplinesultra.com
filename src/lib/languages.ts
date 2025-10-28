@@ -6,7 +6,7 @@ export interface Language {
 }
 
 export const languages: Language[] = [
-  { code: 'hin-eng', name: 'Hinglish', nativeName: 'हिंग्लिश' },
+  { code: 'hin-eng', name: 'Hinglish', nativeName: 'Hinglish' },
   { code: 'en', name: 'English', nativeName: 'English' },
   { code: 'hi', name: 'Hindi', nativeName: 'हिंदी' },
   { code: 'zh', name: 'Mandarin Chinese', nativeName: '中文' },

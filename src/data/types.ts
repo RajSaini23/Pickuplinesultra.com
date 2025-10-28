@@ -15,13 +15,6 @@ export type Quote = {
   hinglish: string;
   english: string;
   hindi: string;
-  spanish: string;
-  chinese: string;
-  arabic: string;
-  bengali: string;
-  marathi: string;
-  telugu: string;
-  tamil: string;
   emoji: string;
 };
 
