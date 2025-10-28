@@ -1,3 +1,4 @@
+
 # Pickup Lines Ultra
 
 Welcome to **Pickup Lines Ultra**, a modern, cross-platform application designed to provide users with a curated collection of pickup lines in Hinglish. The app is built with a powerful tech stack, ensuring a high-quality user experience, offline capabilities, and a dynamic backend.
@@ -65,7 +66,7 @@ This project is built using a modern and robust technology stack:
 -   **High-Quality UI/UX**: A professional design with smooth animations, a custom splash screen, and a themeable interface (light/dark modes).
 -   **Progressive Web App (PWA)**: Fully installable on user devices with offline access to cached content.
 -   **Interactive Quote Cards**: Users can swipe through quotes, copy them, bookmark favorites, and share them as clean, branded images.
---   **Cross-Platform**: A single codebase that runs on the web, as a desktop PWA, and as a native app on iOS and Android.
+-   **Cross-Platform**: A single codebase that runs on the web, as a desktop PWA, and as a native app on iOS and Android.
 
 ---
 
@@ -77,23 +78,19 @@ Publishing your app to the Google Play Store is a straightforward process. Here 
 
 Your app files are **automatically built by GitHub** every time you push new code. You just need to download them.
 
-1.  **Push Code to GitHub**: Make sure all your latest changes are pushed to the `main` branch. This happens automatically when we make changes, or you can do it manually via the terminal.
-
+1.  **Push Code to GitHub**: This happens automatically when you click "Apply Changes" in Firebase Studio.
 2.  **Go to the "Actions" Tab on GitHub**:
     *   In your GitHub repository, click on the **"Actions"** tab at the top. If you are unsure where your repository is, you can find the link in the "Source" tab of your Firebase Studio environment.
-
 3.  **Find Your Completed Workflow**:
     *   You will see a list of workflows. Look for the latest one named **"Build Android App Bundle & APK"**.
     *   Wait for it to finish. It will show a **green checkmark (✅)** when it's done. This can take 5-10 minutes.
     *   Click on the name of the completed workflow (e.g., "Final cleanup and prep for release").
-
 4.  **Download the Artifacts**:
     *   On the new page, scroll down to the bottom. You will see a section called **"Artifacts"**.
-    *   You will find two files:
+    *   You will find two files available for download:
         *   **`app-release-bundle`**: This contains your `.aab` file for the Play Store.
         *   **`app-release-apk`**: This contains a universal `.apk` file for direct testing on phones.
     *   Click on each one to download it.
-
 5.  **Unzip and Find Your Files**:
     *   The downloaded files will be in `.zip` format. Unzip them.
     *   Inside `app-release-bundle`, you will find your **`app-release-unsigned.aab`** file. This is the file you will upload to the Play Store.
@@ -118,7 +115,7 @@ This is a **crucial** step. If you miss this, Google Sign-In or other Firebase s
 
 1.  **Login to Play Console** and select your app.
 2.  **Create New Release**: Go to the **Production** track and click **"Create new release"**.
-3.  **Upload App Bundle**: Upload the `app-release-unsigned.aab` file you downloaded from GitHub. Google will handle the signing.
+3.  **Upload App Bundle**: Upload the `app-release-unsigned.aab` file you downloaded from GitHub. Google will handle the signing for you.
 4.  **Enter Release Details**: Fill in the "Release name" (e.g., `1.1.0`) and write release notes describing the changes.
 5.  **Review and Rollout**: Click **"Review release"**, and if everything looks good, click **"Start rollout to Production"**.
 
