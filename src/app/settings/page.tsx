@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Palette, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Star, AppWindow, Bell, Shield, Download
+  ArrowLeft, Palette, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Star, AppWindow, Bell, Shield, Download, Languages
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -19,6 +19,15 @@ import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { useRouter } from 'next/navigation';
 import AppUpdateDialog from '@/components/ui/app-update-dialog';
 import packageJson from '../../../package.json';
+import { languages } from '@/lib/languages';
+import { useLanguage } from '@/context/language-context';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 
 const MotionCard = motion(Card);
@@ -55,6 +64,7 @@ export default function SettingsPage() {
   const { setTheme: setNextTheme } = useTheme();
   const { toast } = useToast();
   const { setIsOpen: openRatingDialog } = useRatingDialog();
+  const { language, setLanguage, isLanguageLoading } = useLanguage();
   
   const LATEST_APP_VERSION = '1.1.0';
   const [currentAppVersion, setCurrentAppVersion] = React.useState(packageJson.version);
@@ -306,6 +316,21 @@ export default function SettingsPage() {
                     );
                   })}
                 </div>
+              </SettingsRow>
+              <Separator />
+               <SettingsRow title="Language" description="Change the app's display language.">
+                <Select value={language ?? ''} onValueChange={(value) => setLanguage(value)}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select Language" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {languages.map(lang => (
+                      <SelectItem key={lang.code} value={lang.code}>
+                        {lang.name} ({lang.nativeName})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </SettingsRow>
             </div>
           </Section>

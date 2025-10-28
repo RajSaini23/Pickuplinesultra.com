@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Bookmark, Copy, Share2, BookmarkCheck, DownloadCloud } from 'lucide-react';
+import { ArrowLeft, Bookmark, Copy, Share2, BookmarkCheck, DownloadCloud, Languages } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,6 +14,7 @@ import { useBookmarks } from '@/context/bookmark-context';
 import { useToast } from '@/hooks/use-toast';
 import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
+import { useLanguage } from '@/context/language-context';
 
 const AdCard = () => (
     <Card className="flex h-[74vh] min-h-[500px] w-full max-w-xl mx-auto items-center justify-center bg-muted/50 border-2 border-dashed border-border/50 rounded-2xl">
@@ -46,22 +47,14 @@ const QuoteCard = ({
   quote: Quote;
   isBookmarked: boolean;
   onBookmarkToggle: () => void;
-  onCopy: () => void;
+  onCopy: (text: string) => void;
   onShare: (cardRef: React.RefObject<HTMLDivElement>) => void;
   onDownload: () => void;
 }) => {
   const cardRef = React.useRef<HTMLDivElement>(null);
-  const [isDownloading, setIsDownloading] = React.useState(false);
+  const { language, toggleLanguage, getTranslation } = useLanguage();
 
-  const handleDownloadClick = () => {
-    setIsDownloading(true);
-    // Add a pulse effect
-    setTimeout(() => {
-        onDownload();
-        setIsDownloading(false);
-    }, 300);
-  };
-
+  const currentText = getTranslation(quote);
 
   return (
     <Card className="shadow-lg h-[74vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-xl">
@@ -69,10 +62,21 @@ const QuoteCard = ({
         <div ref={cardRef}>
           <div className="bg-card border-2 border-accent rounded-2xl">
             <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[calc(74vh-100px)]">
-                <div className="text-6xl">{quote.emoji}</div>
-                <p className="font-headline text-2xl md:text-3xl font-semibold leading-snug text-foreground/90">
-                    {quote.hinglish}
-                </p>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                      key={quote.id + language}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex flex-col items-center justify-center gap-6"
+                  >
+                    <div className="text-6xl">{quote.emoji}</div>
+                    <p className="font-headline text-2xl md:text-3xl font-semibold leading-snug text-foreground/90">
+                        {currentText}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
             </div>
             <div className="relative px-6 pb-2 text-end">
               <a 
@@ -93,7 +97,7 @@ const QuoteCard = ({
       <div className="mt-auto bg-card">
         <Separator />
         <div className="flex items-center justify-around p-2">
-            <ActionButton icon={DownloadCloud} label="Download" onClick={handleDownloadClick} />
+            <ActionButton icon={DownloadCloud} label="Download" onClick={onDownload} />
             <ActionButton label={isBookmarked ? 'Saved' : 'Save'} onClick={onBookmarkToggle}>
               <motion.div
                 key={isBookmarked ? 'bookmarked' : 'unbookmarked'}
@@ -114,7 +118,7 @@ const QuoteCard = ({
                 )}
               </motion.div>
             </ActionButton>
-            <ActionButton icon={Copy} label="Copy" onClick={onCopy} />
+            <ActionButton icon={Languages} label="Translate" onClick={toggleLanguage} />
             <ActionButton icon={Share2} label="Share" onClick={() => onShare(cardRef)} />
         </div>
       </div>
@@ -275,7 +279,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                   quote={quote}
                   isBookmarked={bookmarkedIds.includes(quote.id)}
                   onBookmarkToggle={() => handleBookmarkToggle(quote)}
-                  onCopy={() => handleCopy(quote.hinglish)}
+                  onCopy={(text) => handleCopy(text)}
                   onShare={(cardRef) => handleShare(quote, cardRef)}
                   onDownload={() => handleDownload(quote.id)}
                 />

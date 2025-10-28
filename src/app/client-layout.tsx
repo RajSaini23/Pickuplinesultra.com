@@ -1,10 +1,12 @@
 
 'use client';
 import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { SplashScreen as CustomSplashScreen } from '@/components/splash-screen';
 import { BookmarkProvider } from '@/context/bookmark-context';
+import { LanguageProvider, useLanguage } from '@/context/language-context';
 import { NetworkProvider, useNetwork } from '@/context/network-context';
 import { OfflinePage } from '@/components/ui/offline-page';
 import { StatusBar, Style } from '@capacitor/status-bar';
@@ -45,6 +47,27 @@ function AppContent({ children }: { children: React.ReactNode }) {
   );
 }
 
+function LanguageGate({ children }: { children: React.ReactNode }) {
+  const { language, isLanguageLoading } = useLanguage();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (!isLanguageLoading) {
+      if (!language && pathname !== '/select-language') {
+        router.replace('/select-language');
+      }
+    }
+  }, [language, isLanguageLoading, router, pathname]);
+
+  if (isLanguageLoading || (!language && pathname !== '/select-language')) {
+    // You can show a global loader here if you want
+    return null;
+  }
+
+  return <>{children}</>;
+}
+
 
 export function ClientLayout({
   children,
@@ -54,7 +77,6 @@ export function ClientLayout({
   const [isLegacyDevice, setIsLegacyDevice] = useState(false);
 
   useEffect(() => {
-    // Legacy Browser/Feature Detection
     const isLegacy =
       !('serviceWorker' in navigator) ||
       !window.Promise ||
@@ -78,7 +100,6 @@ export function ClientLayout({
       };
       setStatusBarStyle();
 
-      // Listen for theme changes to update status bar
       const observer = new MutationObserver(setStatusBarStyle);
       observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
@@ -93,12 +114,10 @@ export function ClientLayout({
           const permission = await Notification.requestPermission();
           if (permission === 'granted') {
             console.log('Notification permission granted.');
-            // Get the token
             const swRegistration = await navigator.serviceWorker.ready;
             const currentToken = await getToken(messaging, { vapidKey: 'BM0G3ZqfP8d_0g5q3H_1rJ_tL4iRjQ4P6QG-8mJ_n5YF_wO-j_1nF_pZqC_kH_mZ_z_y_Y_k', serviceWorkerRegistration: swRegistration });
             if (currentToken) {
               console.log('FCM Token:', currentToken);
-              // In a real app, you would send this token to your server.
             } else {
               console.log('No registration token available. Request permission to generate one.');
             }
@@ -111,16 +130,14 @@ export function ClientLayout({
       }
     };
 
-    // Delay the request slightly to not overwhelm the user on first load
     const timer = setTimeout(() => {
       requestPermission();
-    }, 5000); // 5 seconds delay
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    // This effect handles registering for Periodic Background Sync
     const registerPeriodicSync = async () => {
       if ('serviceWorker' in navigator && 'PeriodicSyncManager' in window) {
         try {
@@ -131,7 +148,7 @@ export function ClientLayout({
           if (status.state === 'granted') {
             // @ts-ignore
             await swRegistration.periodicSync.register('content-sync', {
-              minInterval: 24 * 60 * 60 * 1000, // 24 hours
+              minInterval: 24 * 60 * 60 * 1000,
             });
             console.log('Periodic Sync registered');
           } else {
@@ -153,25 +170,6 @@ export function ClientLayout({
       try {
         const info = await Device.getInfo();
         console.log('Platform Info:', info);
-
-        switch (info.platform) {
-          case 'android':
-            console.log('Running on Android');
-            // Android-specific logic can go here
-            break;
-          case 'ios':
-            console.log('Running on iOS');
-            // iOS-specific logic can go here
-            break;
-          case 'web':
-            console.log('Running on Web / PWA');
-            // Web-specific logic can go here
-            break;
-          default:
-            console.log('Running on an unknown platform');
-            // Fallback logic
-            break;
-        }
       } catch (e) {
         console.error('Error getting device info', e);
       }
@@ -186,18 +184,22 @@ export function ClientLayout({
         <BookmarkProvider>
           <RatingDialogProvider>
              <InstallPromptProvider>
-                <AnimatePresence>
-                  {isLegacyDevice && <LegacyDeviceWarning />}
-                </AnimatePresence>
-                <CustomSplashScreen>
-                  <AppContent>
-                    <div className="relative flex flex-col min-h-dvh">
-                      <main className="flex-1 pb-24">{children}</main>
-                      <BottomNav />
-                    </div>
-                  </AppContent>
-                  <Toaster />
-                </CustomSplashScreen>
+                <LanguageProvider>
+                  <AnimatePresence>
+                    {isLegacyDevice && <LegacyDeviceWarning />}
+                  </AnimatePresence>
+                  <CustomSplashScreen>
+                    <LanguageGate>
+                      <AppContent>
+                        <div className="relative flex flex-col min-h-dvh">
+                          <main className="flex-1 pb-24">{children}</main>
+                          <BottomNav />
+                        </div>
+                      </AppContent>
+                    </LanguageGate>
+                    <Toaster />
+                  </CustomSplashScreen>
+                </LanguageProvider>
              </InstallPromptProvider>
           </RatingDialogProvider>
         </BookmarkProvider>
