@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Bookmark, Copy, Share2, BookmarkCheck, DownloadCloud, Languages } from 'lucide-react';
+import { ArrowLeft, Bookmark, Copy, Share2, BookmarkCheck, DownloadCloud } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -52,7 +52,7 @@ const QuoteCard = ({
   onDownload: () => void;
 }) => {
   const cardRef = React.useRef<HTMLDivElement>(null);
-  const { language, toggleLanguage, getTranslation } = useLanguage();
+  const { getTranslation, language } = useLanguage();
 
   const currentText = getTranslation(quote);
 
@@ -118,7 +118,7 @@ const QuoteCard = ({
                 )}
               </motion.div>
             </ActionButton>
-            <ActionButton icon={Languages} label="Translate" onClick={toggleLanguage} />
+            <ActionButton icon={Copy} label="Copy" onClick={() => onCopy(currentText)} />
             <ActionButton icon={Share2} label="Share" onClick={() => onShare(cardRef)} />
         </div>
       </div>
@@ -132,6 +132,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
   const { bookmarkedIds, addBookmark, removeBookmark } = useBookmarks();
   const [sharingQuoteId, setSharingQuoteId] = React.useState<number | null>(null);
   const router = useRouter();
+  const { getTranslation } = useLanguage();
 
   const allItems = React.useMemo(() => {
     const items: (Quote | { ad: boolean })[] = [];
@@ -171,6 +172,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     }
     
     setSharingQuoteId(quote.id);
+    const textToShare = getTranslation(quote);
 
     try {
         const blob = await htmlToImage.toBlob(cardRef.current, {
@@ -188,7 +190,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             await navigator.share({
                 files,
                 title: 'Pickup Lines Quote',
-                text: `${quote.hinglish}\n\n- Shared from Pickup Lines Ultra`,
+                text: `${textToShare}\n\n- Shared from Pickup Lines Ultra`,
             });
         } else {
             throw new Error('Web Share API does not support sharing files in this browser.');
@@ -202,7 +204,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
             if (navigator.share) {
                 await navigator.share({
                     title: 'Pickup Lines Quote',
-                    text: `${quote.hinglish}\n\n- Shared from Pickup Lines Ultra`,
+                    text: `${textToShare}\n\n- Shared from Pickup Lines Ultra`,
                     url: window.location.origin,
                 });
             } else {
@@ -212,7 +214,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                     await navigator.clipboard.write([item]);
                     toast({ title: "Image Copied!", description: "Quote card image copied to clipboard." });
                 } else {
-                    await navigator.clipboard.writeText(`${quote.hinglish}\n\n- Shared from Pickup Lines Ultra`);
+                    await navigator.clipboard.writeText(`${textToShare}\n\n- Shared from Pickup Lines Ultra`);
                     toast({ title: "Text Copied!", description: "Sharing not supported, quote text copied." });
                 }
             }
