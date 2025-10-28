@@ -10,9 +10,9 @@ Welcome to **Pickup Lines Ultra**, a modern, cross-platform application designed
 2.  [Tech Stack](#tech-stack)
 3.  [Core Features](#core-features)
 4.  [Android Publishing Guide](#android-publishing-guide)
-    *   [Step 1: Set Up Firebase for Android](#step-1-set-up-firebase-for-android)
+    *   [Step 1: Add Release Keys to Firebase](#step-1-add-release-keys-to-firebase)
     *   [Step 2: Update App Version](#step-2-update-app-version)
-    *   [Step 3: Get Your App Bundle (.aab) File](#step-3-get-your-app-bundle-aab-file)
+    *   [Step 3: Get Your App Bundle (.aab) File from GitHub](#step-3-get-your-app-bundle-aab-file-from-github)
     *   [Step 4: Publish to Google Play Store](#step-4-publish-to-google-play-store)
 
 ---
@@ -66,8 +66,7 @@ This project is built using a modern and robust technology stack:
 -   **High-Quality UI/UX**: A professional design with smooth animations, a custom splash screen, and a themeable interface (light/dark modes).
 -   **Progressive Web App (PWA)**: Fully installable on user devices with offline access to cached content.
 -   **Interactive Quote Cards**: Users can swipe through quotes, copy them, bookmark favorites, and share them as clean, branded images.
---   **Cross-Platform**: A single codebase that runs on the web, as a desktop PWA, and as a native app on iOS and Android.
-+   **Cross-Platform**: A single codebase that runs on the web, as a desktop PWA, and as a native app on iOS and Android.
+-   **Cross-Platform**: A single codebase that runs on the web, as a desktop PWA, and as a native app on iOS and Android.
 
 ---
 
@@ -75,34 +74,25 @@ This project is built using a modern and robust technology stack:
 
 Publishing your app to the Google Play Store is a straightforward process. Here is a step-by-step guide.
 
-### Step 1: Set Up Firebase for Android
+### Step 1: Add Release Keys to Firebase
 
-To use Firebase services like Google Sign-In, App Check, or Push Notifications, you must add your app's SHA-1 and SHA-256 fingerprints to your Firebase project.
+This is a **crucial** step. If you miss this, Google Sign-In, App Check, or Push Notifications will **not** work in your published app.
 
-**1. Get Your SHA Keys:**
-   - This project includes a simple command to get your debug keys.
-   - Run the following command in your terminal:
-     ```bash
-     npm run android:signingreport
-     ```
-   - This command will output the **SHA-1** and **SHA-256** fingerprints for your `debug` build.
-
-**2. Find Your Release Keys in Google Play Console:**
+**1. Get Your Release Keys from Google Play Console:**
    - When you upload your app to the Google Play Console for the first time, Google manages your release key using a feature called **Play App Signing**.
-   - You can find these keys in the Play Console under **Your App > Setup > App integrity**.
-   - Look for the "App signing key certificate" section to find the SHA-1 and SHA-256 fingerprints.
+   - Login to your [Google Play Console](https://play.google.com/console).
+   - Select your app.
+   - In the left menu, go to **Setup > App integrity**.
+   - Under the "App signing key certificate" section, you will find your **SHA-1** and **SHA-256** fingerprints. Copy them.
 
-**3. Add All Four Keys to Firebase:**
-   - Go to your **Firebase Console** > **Project settings** (click the ⚙️ icon).
-   - Select your Android app.
+**2. Add Keys to Firebase:**
+   - Go to your [Firebase Console](https://console.firebase.google.com/) and open your project.
+   - Go to **Project settings** (click the ⚙️ icon).
+   - Select your Android app (`com.indgrowsive.pickuplines.app`).
    - Scroll down to the **"SHA certificate fingerprints"** section.
-   - Click **"Add fingerprint"** and paste the **debug SHA-1** key from the terminal output.
-   - Repeat this process to add all four fingerprints:
-     - Debug SHA-1 (from terminal)
-     - Debug SHA-256 (from terminal)
-     - Release SHA-1 (from Play Console)
-     - Release SHA-256 (from Play Console)
-   - It is crucial to add all four fingerprints to ensure Firebase services work correctly in all scenarios.
+   - Click **"Add fingerprint"** and paste the **SHA-1** key from the Play Console.
+   - Click **"Add fingerprint"** again and paste the **SHA-256** key.
+   - Make sure you have added both keys.
 
 ### Step 2: Update App Version
 
@@ -120,25 +110,33 @@ Before creating a new release, you must increase the version number of your app.
         ...
         defaultConfig {
             ...
-            versionCode 2
-            versionName "1.1"
+            versionCode 2 // Change this to a new number
+            versionName "1.1" // Change this to a new version name
             ...
         }
     }
     ```
 
-### Step 3: Get Your App Bundle (.aab) File
+### Step 3: Get Your App Bundle (.aab) File from GitHub
 
-This project is configured with **GitHub Actions** to automatically build an **unsigned** Android App Bundle (`.aab`) every time you push code to the `main` branch.
+Your app file is **automatically built by GitHub** every time you push code. You just need to download it.
 
-1.  **Push to `main`**: Ensure your latest code is on the `main` branch on GitHub.
-2.  **Go to GitHub Actions**: Open your repository on GitHub and click the **"Actions"** tab.
-3.  **Download the Artifact**:
-    *   Wait for the "Build Android App Bundle" workflow to complete (it will show a ✅).
-    *   Click on the completed workflow run.
-    *   Scroll down to the **"Artifacts"** section and download the **`app-release-unsigned`** artifact.
-4.  **Unzip and Find File**:
-    *   Unzip the downloaded file. Inside, you will find your `app-release-unsigned.aab` file. This is the file you will upload to Google Play.
+1.  **Push Code to GitHub**: Make sure all your latest changes are pushed to the `main` branch.
+
+2.  **Go to the "Actions" Tab**: In your GitHub repository, click on the **"Actions"** tab at the top.
+
+3.  **Find Your Completed Workflow**:
+    *   You will see a list of workflows. Look for the latest one named "Build Android App Bundle".
+    *   Wait for it to finish. It will show a **green checkmark (✅)** when it's done.
+    *   Click on the name of the completed workflow.
+
+4.  **Download the Artifact**:
+    *   On the new page, scroll down to the bottom. You will see a section called **"Artifacts"**.
+    *   Inside this section, you will find a file named **`app-release-unsigned`**. Click on it to download it.
+
+5.  **Unzip and Find Your File**:
+    *   The downloaded file will be a `.zip` file. Unzip it.
+    *   Inside, you will find your **`app-release-unsigned.aab`** file. This is the final app file you need.
 
 ### Step 4: Publish to Google Play Store
 
