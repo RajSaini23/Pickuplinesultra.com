@@ -19,7 +19,7 @@ import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { useRouter } from 'next/navigation';
 import AppUpdateDialog from '@/components/ui/app-update-dialog';
 import packageJson from '../../../package.json';
-import { languages } from '@/lib/languages';
+import { languages, Language } from '@/lib/languages';
 import { useLanguage } from '@/context/language-context';
 import {
   Select,
@@ -27,7 +27,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
+import { LanguageConfirmationDialog } from '@/components/ui/language-confirmation-dialog';
 
 
 const MotionCard = motion(Card);
@@ -64,7 +65,7 @@ export default function SettingsPage() {
   const { setTheme: setNextTheme } = useTheme();
   const { toast } = useToast();
   const { setIsOpen: openRatingDialog } = useRatingDialog();
-  const { language, setLanguage, isLanguageLoading } = useLanguage();
+  const { language: currentLanguageCode, setLanguage } = useLanguage();
   
   const LATEST_APP_VERSION = '1.1.0';
   const [currentAppVersion, setCurrentAppVersion] = React.useState(packageJson.version);
@@ -76,6 +77,8 @@ export default function SettingsPage() {
   const [newQuotes, setNewQuotes] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isUpdateDialogOpen, setUpdateDialogOpen] = React.useState(false);
+  const [isLangConfirmOpen, setLangConfirmOpen] = React.useState(false);
+  const [newLang, setNewLang] = React.useState<Language | null>(null);
 
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme-preference') || 'auto';
@@ -155,6 +158,29 @@ export default function SettingsPage() {
         router.push(href);
     }, 300);
   };
+
+  const handleLanguageChange = (langCode: string) => {
+    const selected = languages.find(l => l.code === langCode);
+    if (selected && selected.code !== currentLanguageCode) {
+      setNewLang(selected);
+      setLangConfirmOpen(true);
+    }
+  };
+
+  const applyLanguageChange = () => {
+    if (newLang) {
+      setLanguage(newLang.code);
+      toast({
+        title: "Language Updated",
+        description: `Language changed to ${newLang.name}.`,
+      });
+    }
+    setLangConfirmOpen(false);
+    setNewLang(null);
+  };
+
+  const currentLanguage = languages.find(l => l.code === currentLanguageCode);
+
 
   const Section = ({ title, icon, children, isLink, href, onClick }: { title: string, icon: React.ElementType, children?: React.ReactNode, isLink?: boolean, href?: string, onClick?: () => void }) => {
     const isOpen = openSection === title;
@@ -271,6 +297,15 @@ export default function SettingsPage() {
             latestVersion={LATEST_APP_VERSION}
           />
         )}
+         {isLangConfirmOpen && newLang && currentLanguage && (
+          <LanguageConfirmationDialog
+            isOpen={isLangConfirmOpen}
+            onClose={() => setLangConfirmOpen(false)}
+            onConfirm={applyLanguageChange}
+            currentLanguage={currentLanguage}
+            newLanguage={newLang}
+          />
+        )}
       </AnimatePresence>
       <motion.header
         initial={{ y: -100, opacity: 0 }}
@@ -319,14 +354,14 @@ export default function SettingsPage() {
               </SettingsRow>
               <Separator />
                <SettingsRow title="Language" description="Change the app's display language.">
-                <Select value={language ?? ''} onValueChange={(value) => setLanguage(value)}>
+                <Select value={currentLanguageCode ?? ''} onValueChange={handleLanguageChange}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Select Language" />
                   </SelectTrigger>
                   <SelectContent>
                     {languages.map(lang => (
                       <SelectItem key={lang.code} value={lang.code}>
-                        {lang.name} ({lang.nativeName})
+                        {lang.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -413,3 +448,5 @@ export default function SettingsPage() {
     </div>
   );
 }
+
+    
