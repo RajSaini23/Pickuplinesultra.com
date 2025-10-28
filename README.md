@@ -11,9 +11,8 @@ Welcome to **Pickup Lines Ultra**, a modern, cross-platform application designed
 3.  [Core Features](#core-features)
 4.  [Android Publishing Guide](#android-publishing-guide)
     *   [Step 1: Add Release Keys to Firebase](#step-1-add-release-keys-to-firebase)
-    *   [Step 2: Update App Version](#step-2-update-app-version)
-    *   [Step 3: Get Your App Bundle (.aab) File from GitHub](#step-3-get-your-app-bundle-aab-file-from-github)
-    *   [Step 4: Publish to Google Play Store](#step-4-publish-to-google-play-store)
+    *   [Step 2: Get Your App Bundle (.aab) File from GitHub](#step-2-get-your-app-bundle-aab-file-from-github)
+    *   [Step 3: Publish to Google Play Store](#step-3-publish-to-google-play-store)
 
 ---
 
@@ -94,40 +93,17 @@ This is a **crucial** step. If you miss this, Google Sign-In, App Check, or Push
    - Click **"Add fingerprint"** again and paste the **SHA-256** key.
    - Make sure you have added both keys.
 
-### Step 2: Update App Version
-
-Before creating a new release, you must increase the version number of your app.
-
--   **File to Edit**: `android/app/build.gradle`
--   **What to do**:
-    1.  Find the `android` block.
-    2.  Increase the `versionCode` by 1 (e.g., if it's `1`, change it to `2`).
-    3.  Update the `versionName` to reflect your new version (e.g., from `"1.0"` to `"1.1"`).
-
-    ```groovy
-    // Example from android/app/build.gradle
-    android {
-        ...
-        defaultConfig {
-            ...
-            versionCode 2 // Change this to a new number
-            versionName "1.1" // Change this to a new version name
-            ...
-        }
-    }
-    ```
-
-### Step 3: Get Your App Bundle (.aab) File from GitHub
+### Step 2: Get Your App Bundle (.aab) File from GitHub
 
 Your app file is **automatically built by GitHub** every time you push code. You just need to download it.
 
-1.  **Push Code to GitHub**: Make sure all your latest changes are pushed to the `main` branch.
+1.  **Push Code to GitHub**: Make sure all your latest changes are pushed to the `main` branch. This happens automatically when we make changes, or you can do it manually via the terminal.
 
 2.  **Go to the "Actions" Tab**: In your GitHub repository, click on the **"Actions"** tab at the top.
 
 3.  **Find Your Completed Workflow**:
     *   You will see a list of workflows. Look for the latest one named "Build Android App Bundle".
-    *   Wait for it to finish. It will show a **green checkmark (✅)** when it's done.
+    *   Wait for it to finish. It will show a **green checkmark (✅)** when it's done. This can take 5-10 minutes.
     *   Click on the name of the completed workflow.
 
 4.  **Download the Artifact**:
@@ -138,7 +114,7 @@ Your app file is **automatically built by GitHub** every time you push code. You
     *   The downloaded file will be a `.zip` file. Unzip it.
     *   Inside, you will find your **`app-release-unsigned.aab`** file. This is the final app file you need.
 
-### Step 4: Publish to Google Play Store
+### Step 3: Publish to Google Play Store
 
 1.  **Login to Play Console**: Go to your [Google Play Console](https://play.google.com/console) account.
 2.  **Select Your App**: Click on your app, "Pickup Lines Ultra".
@@ -149,8 +125,8 @@ Your app file is **automatically built by GitHub** every time you push code. You
     *   In the "App bundles" section, upload the `app-release-unsigned.aab` file you downloaded from GitHub.
     *   **Play App Signing**: Google will automatically use its secure signing key to sign your app. This is the standard and recommended practice.
 5.  **Enter Release Details**:
-    *   **Release name**: This will likely auto-fill with the `versionName` you set (e.g., `1.1`).
-    *   **Release notes**: In the "What's new in this release?" box, write down the changes you made (e.g., "Bug fixes and performance improvements.").
+    *   **Release name**: This will likely auto-fill with the `versionName` you set (e.g., `1.1.0`).
+    *   **Release notes**: In the "What's new in this release?" box, write down the changes you made (e.g., "First official release with over 1000+ pickup lines and offline support.").
 6.  **Review and Rollout**:
     *   Click **"Review release"**.
     *   The Play Console will show a summary. If there are no errors, click **"Start rollout to Production"**.
