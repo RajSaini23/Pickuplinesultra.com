@@ -10,7 +10,8 @@ Welcome to **Pickup Lines Ultra**, a modern, cross-platform application designed
 1.  [Getting Started](#getting-started)
 2.  [Tech Stack](#tech-stack)
 3.  [Core Features](#core-features)
-4.  [Android Publishing Guide](#android-publishing-guide)
+4.  [Compatibility](#compatibility)
+5.  [Android Publishing Guide](#android-publishing-guide)
     *   [Step 1: Get Your App Files (.aab & .apk) from GitHub](#step-1-get-your-app-files-aab--apk-from-github)
     *   [Step 2: Add Release Keys to Firebase](#step-2-add-release-keys-to-firebase)
     *   [Step 3: Publish to Google Play Store](#step-3-publish-to-google-play-store)
@@ -23,7 +24,7 @@ To get the project up and running on your local machine, follow these simple ste
 
 ### Prerequisites
 
--   Node.js (v18 or later)
+-   Node.js (v20 or later)
 -   npm or yarn
 -   Android Studio (for Android SDK)
 
@@ -45,7 +46,7 @@ To get the project up and running on your local machine, follow these simple ste
     npm run dev
     ```
 
-The application will now be running on `http://localhost:9002`.
+The application will now be running on `http://localhost:3000`.
 
 ## Tech Stack
 
@@ -67,6 +68,18 @@ This project is built using a modern and robust technology stack:
 -   **Progressive Web App (PWA)**: Fully installable on user devices with offline access to cached content.
 -   **Interactive Quote Cards**: Users can swipe through quotes, copy them, bookmark favorites, and share them as clean, branded images.
 -   **Cross-Platform**: A single codebase that runs on the web, as a desktop PWA, and as a native app on iOS and Android.
+
+---
+
+## Compatibility
+
+This application is designed for modern devices and browsers to ensure the best user experience.
+
+-   **Android:** Version 6.0 (Marshmallow) and above.
+-   **iOS:** Version 12.0 and above.
+-   **Web Browsers:** Latest versions of Google Chrome, Mozilla Firefox, and Safari.
+
+Users on older devices or unsupported browsers may see a warning and experience limited functionality.
 
 ---
 

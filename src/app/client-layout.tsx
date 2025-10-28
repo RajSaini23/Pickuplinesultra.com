@@ -18,6 +18,7 @@ import { InstallPromptProvider } from '@/context/install-prompt-context';
 import { messaging } from '@/lib/firebase';
 import { getToken } from 'firebase/messaging';
 import { Device } from '@capacitor/device';
+import LegacyDeviceWarning from '@/components/ui/legacy-device-warning';
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { isOnline, justReconnected } = useNetwork();
@@ -50,7 +51,21 @@ export function ClientLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [isLegacyDevice, setIsLegacyDevice] = useState(false);
+
   useEffect(() => {
+    // Legacy Browser/Feature Detection
+    const isLegacy =
+      !('serviceWorker' in navigator) ||
+      !window.Promise ||
+      !window.fetch ||
+      !Object.assign ||
+      !Array.prototype.includes;
+
+    if (isLegacy) {
+      setIsLegacyDevice(true);
+    }
+
     if (Capacitor.isNativePlatform()) {
       SplashScreen.hide();
       const setStatusBarStyle = async () => {
@@ -171,6 +186,9 @@ export function ClientLayout({
         <BookmarkProvider>
           <RatingDialogProvider>
              <InstallPromptProvider>
+                <AnimatePresence>
+                  {isLegacyDevice && <LegacyDeviceWarning />}
+                </AnimatePresence>
                 <CustomSplashScreen>
                   <AppContent>
                     <div className="relative flex flex-col min-h-dvh">

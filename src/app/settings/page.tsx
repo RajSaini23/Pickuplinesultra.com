@@ -323,7 +323,7 @@ export default function SettingsPage() {
                   />
                 </SettingsRow>
                 <Separator />
-                <SettingsRow 
+                <SettingsRow _
                   title="Scheduled digest"
                   description="Get all your notifications as a daily digest at 7:00 PM. Tap to customize delivery time"
                 >
@@ -383,6 +383,7 @@ export default function SettingsPage() {
       </main>
       <footer className="text-center py-4 px-4 text-muted-foreground/80 text-sm">
         <p>Version {currentAppVersion} | Developed by INDGROWSIVE</p>
+        <p className="text-xs mt-1">Supports Android 6.0+, iOS 12+, and modern browsers.</p>
       </footer>
     </div>
   );
