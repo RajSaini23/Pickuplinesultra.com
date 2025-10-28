@@ -1,4 +1,5 @@
-name: Build Android App Bundle
+
+name: Build Android App Bundle & APK
 
 on:
   push:
@@ -15,13 +16,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
 
       - name: Build web assets
-        run: npm run build:mobile
+        run: npm run build
 
       - name: Install Capacitor CLI
         run: npm install -g @capacitor/cli
@@ -48,14 +49,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build Unsigned App Bundle
+      - name: Build Unsigned App Bundle and APK
         run: |
           cd android
           ./gradlew bundleRelease
+          ./gradlew assembleRelease
 
-      - name: Upload App Bundle
+      - name: Upload App Bundle (.aab)
         uses: actions/upload-artifact@v3
         with:
-          name: app-release-unsigned
+          name: app-release-bundle
           path: android/app/build/outputs/bundle/release/app-release-unsigned.aab
+          retention-days: 7
+
+      - name: Upload Universal APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release-apk
+          path: android/app/build/outputs/apk/release/app-release-unsigned.apk
           retention-days: 7
