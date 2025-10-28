@@ -35,7 +35,6 @@ const ActionButton = ({ icon: Icon, label, onClick, children }: { icon?: React.E
     </Button>
 );
 
-
 const QuoteCard = ({
   quote,
   isBookmarked,
@@ -48,13 +47,23 @@ const QuoteCard = ({
   isBookmarked: boolean;
   onBookmarkToggle: () => void;
   onCopy: (text: string) => void;
-  onShare: (cardRef: React.RefObject<HTMLDivElement>) => void;
+  onShare: (cardRef: React.RefObject<HTMLDivElement>, textToShare: string) => void;
   onDownload: () => void;
 }) => {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const { getTranslation, language } = useLanguage();
+  const [currentText, setCurrentText] = React.useState(quote.hinglish);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const currentText = getTranslation(quote);
+  React.useEffect(() => {
+    const translate = async () => {
+      setIsLoading(true);
+      const translated = await getTranslation(quote);
+      setCurrentText(translated);
+      setIsLoading(false);
+    };
+    translate();
+  }, [quote, language, getTranslation]);
 
   return (
     <Card className="shadow-lg h-[74vh] min-h-[500px] flex flex-col border-border/40 hover:border-primary/30 transition-colors duration-300 rounded-2xl overflow-hidden bg-card w-full max-w-xl">
@@ -69,12 +78,16 @@ const QuoteCard = ({
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.3 }}
-                      className="flex flex-col items-center justify-center gap-6"
+                      className="flex flex-col items-center justify-center gap-6 w-full"
                   >
                     <div className="text-6xl">{quote.emoji}</div>
-                    <p className="font-headline text-2xl md:text-3xl font-semibold leading-snug text-foreground/90">
-                        {currentText}
-                    </p>
+                    {isLoading ? (
+                      <Loader />
+                    ) : (
+                      <p className="font-headline text-2xl md:text-3xl font-semibold leading-snug text-foreground/90">
+                          {currentText}
+                      </p>
+                    )}
                   </motion.div>
                 </AnimatePresence>
             </div>
@@ -92,7 +105,6 @@ const QuoteCard = ({
           </div>
         </div>
       </div>
-
 
       <div className="mt-auto bg-card">
         <Separator />
@@ -119,7 +131,7 @@ const QuoteCard = ({
               </motion.div>
             </ActionButton>
             <ActionButton icon={Copy} label="Copy" onClick={() => onCopy(currentText)} />
-            <ActionButton icon={Share2} label="Share" onClick={() => onShare(cardRef)} />
+            <ActionButton icon={Share2} label="Share" onClick={() => onShare(cardRef, currentText)} />
         </div>
       </div>
     </Card>
@@ -132,7 +144,6 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
   const { bookmarkedIds, addBookmark, removeBookmark } = useBookmarks();
   const [sharingQuoteId, setSharingQuoteId] = React.useState<number | null>(null);
   const router = useRouter();
-  const { getTranslation } = useLanguage();
 
   const allItems = React.useMemo(() => {
     const items: (Quote | { ad: boolean })[] = [];
@@ -165,14 +176,13 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     router.push(`/download/${quoteId}`);
   };
 
-  const handleShare = async (quote: Quote, cardRef: React.RefObject<HTMLDivElement>) => {
+  const handleShare = async (quote: Quote, cardRef: React.RefObject<HTMLDivElement>, textToShare: string) => {
     if (!cardRef.current) {
         toast({ variant: 'destructive', title: "Error", description: "Could not share the quote card." });
         return;
     }
     
     setSharingQuoteId(quote.id);
-    const textToShare = getTranslation(quote);
 
     try {
         const blob = await htmlToImage.toBlob(cardRef.current, {
@@ -282,7 +292,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
                   isBookmarked={bookmarkedIds.includes(quote.id)}
                   onBookmarkToggle={() => handleBookmarkToggle(quote)}
                   onCopy={(text) => handleCopy(text)}
-                  onShare={(cardRef) => handleShare(quote, cardRef)}
+                  onShare={(cardRef, textToShare) => handleShare(quote, cardRef, textToShare)}
                   onDownload={() => handleDownload(quote.id)}
                 />
               </div>
