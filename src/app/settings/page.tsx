@@ -17,7 +17,6 @@ import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { useRouter } from 'next/navigation';
-import AppUpdateDialog from '@/components/ui/app-update-dialog';
 import packageJson from '../../../package.json';
 import { languages, Language } from '@/lib/languages';
 import { useLanguage } from '@/context/language-context';
@@ -28,7 +27,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { LanguageConfirmationDialog } from '@/components/ui/language-confirmation-dialog';
+import dynamic from 'next/dynamic';
+
+const AppUpdateDialog = dynamic(() => import('@/components/ui/app-update-dialog'), { ssr: false });
+const LanguageConfirmationDialog = dynamic(() => import('@/components/ui/language-confirmation-dialog').then(mod => mod.LanguageConfirmationDialog), { ssr: false });
 
 
 const MotionCard = motion(Card);
@@ -448,5 +450,3 @@ export default function SettingsPage() {
     </div>
   );
 }
-
-    

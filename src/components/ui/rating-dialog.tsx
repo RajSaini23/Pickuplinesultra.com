@@ -15,26 +15,27 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Loader } from './loader';
 import { useNetwork } from '@/context/network-context';
+import dynamic from 'next/dynamic';
+
+// Dynamically import the dialog to prevent it from being in the main bundle
+const Dialog = dynamic(() => Promise.resolve(RatingDialogComponent), { ssr: false });
 
 
 interface RatingDialogContextType {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  showThankYou: boolean;
-  setShowThankYou: (show: boolean) => void;
 }
 
 const RatingDialogContext = createContext<RatingDialogContextType | undefined>(undefined);
 
 export const RatingDialogProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showThankYou, setShowThankYou] = useState(false);
 
   return (
-    <RatingDialogContext.Provider value={{ isOpen, setIsOpen, showThankYou, setShowThankYou }}>
+    <RatingDialogContext.Provider value={{ isOpen, setIsOpen }}>
       {children}
       <AnimatePresence>
-        {isOpen && <RatingDialog />}
+        {isOpen && <Dialog />}
       </AnimatePresence>
     </RatingDialogContext.Provider>
   );
@@ -54,8 +55,8 @@ const feedbackSchema = z.object({
 });
 
 
-const RatingDialog = () => {
-  const { setIsOpen, showThankYou, setShowThankYou } = useRatingDialog();
+const RatingDialogComponent = () => {
+  const { setIsOpen } = useRatingDialog();
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [view, setView] = useState<'rating' | 'feedback' | 'thank_you'>('rating');
@@ -78,7 +79,6 @@ const RatingDialog = () => {
     setTimeout(() => {
         setRating(0);
         setView('rating');
-        setShowThankYou(false);
         form.reset();
     }, 300);
   };

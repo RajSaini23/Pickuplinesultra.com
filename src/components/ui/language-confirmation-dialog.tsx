@@ -36,7 +36,7 @@ export function LanguageConfirmationDialog({
             Use {newLanguage.name} ({newLanguage.nativeName}) as a primary language
           </AlertDialogTitle>
           <AlertDialogDescription className="pt-2">
-            Replace {currentLanguage.name} ({currentLanguage.nativeName}) as the primary language
+            This will change the app's display language from {currentLanguage.name} to {newLanguage.name}.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -47,5 +47,3 @@ export function LanguageConfirmationDialog({
     </AlertDialog>
   );
 }
-
-    
