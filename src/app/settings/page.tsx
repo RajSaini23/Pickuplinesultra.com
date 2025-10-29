@@ -18,20 +18,9 @@ import { Switch } from '@/components/ui/switch';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { useRouter } from 'next/navigation';
 import packageJson from '../../../package.json';
-import { languages, Language } from '@/lib/languages';
-import { useLanguage } from '@/context/language-context';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import dynamic from 'next/dynamic';
 
 const AppUpdateDialog = dynamic(() => import('@/components/ui/app-update-dialog'), { ssr: false });
-const LanguageConfirmationDialog = dynamic(() => import('@/components/ui/language-confirmation-dialog').then(mod => mod.LanguageConfirmationDialog), { ssr: false });
-
 
 const MotionCard = motion(Card);
 const MotionButton = motion(Button);
@@ -67,7 +56,6 @@ export default function SettingsPage() {
   const { setTheme: setNextTheme } = useTheme();
   const { toast } = useToast();
   const { setIsOpen: openRatingDialog } = useRatingDialog();
-  const { language: currentLanguageCode, setLanguage } = useLanguage();
   
   const LATEST_APP_VERSION = '1.1.0';
   const [currentAppVersion, setCurrentAppVersion] = React.useState(packageJson.version);
@@ -79,8 +67,6 @@ export default function SettingsPage() {
   const [newQuotes, setNewQuotes] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isUpdateDialogOpen, setUpdateDialogOpen] = React.useState(false);
-  const [isLangConfirmOpen, setLangConfirmOpen] = React.useState(false);
-  const [newLang, setNewLang] = React.useState<Language | null>(null);
 
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme-preference') || 'auto';
@@ -153,36 +139,13 @@ export default function SettingsPage() {
     }
   };
 
-  const handleLinkClick = (href: string, e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLinkClick = (href: string, e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setTimeout(() => {
         router.push(href);
     }, 300);
   };
-
-  const handleLanguageChange = (langCode: string) => {
-    const selected = languages.find(l => l.code === langCode);
-    if (selected && selected.code !== currentLanguageCode) {
-      setNewLang(selected);
-      setLangConfirmOpen(true);
-    }
-  };
-
-  const applyLanguageChange = () => {
-    if (newLang) {
-      setLanguage(newLang.code);
-      toast({
-        title: "Language Updated",
-        description: `Language changed to ${newLang.name}.`,
-      });
-    }
-    setLangConfirmOpen(false);
-    setNewLang(null);
-  };
-
-  const currentLanguage = languages.find(l => l.code === currentLanguageCode);
-
 
   const Section = ({ title, icon, children, isLink, href, onClick }: { title: string, icon: React.ElementType, children?: React.ReactNode, isLink?: boolean, href?: string, onClick?: () => void }) => {
     const isOpen = openSection === title;
@@ -198,7 +161,7 @@ export default function SettingsPage() {
              <ChevronRight className="h-6 w-6 text-muted-foreground" />
             </motion.div>
         )}
-         {!children && !isLink && (
+         {!children && isLink && (
             <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
         )}
       </>
@@ -213,7 +176,7 @@ export default function SettingsPage() {
     };
 
     const buttonOrLink = isLink && href ? (
-       <Link href={href} onClick={(e) => handleLinkClick(href, e)} className="w-full flex items-center justify-between p-5 text-left">
+       <Link href={href} onClick={(e) => handleLinkClick(href, e)} className="w-full flex items-center justify-between p-5 text-left group">
         {content}
       </Link>
     ) : (
@@ -248,44 +211,6 @@ export default function SettingsPage() {
       </MotionCard>
     );
   };
-  
-  const SettingsRow = ({ title, description, children, onClick, isLink = false, href }: { title: string, description?: string, children: React.ReactNode, onClick?: () => void, isLink?: boolean, href?: string }) => {
-    
-    const handleLocalLinkClick = (e: React.MouseEvent<HTMLElement>) => {
-        if (href) {
-            e.preventDefault();
-            setIsLoading(true);
-            setTimeout(() => {
-                window.open(href, '_blank', 'noopener,noreferrer');
-                setIsLoading(false);
-            }, 300);
-        }
-    };
-
-    const content = (
-       <div onClick={onClick} className="flex items-center justify-between py-3.5 group cursor-pointer w-full">
-          <div className="flex flex-col gap-1">
-            <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">{title}</p>
-            {description && <p className="text-sm text-muted-foreground">{description}</p>}
-          </div>
-          {children}
-       </div>
-    );
-
-    if (isLink && href) {
-        return (
-            <a href={href} onClick={handleLocalLinkClick} className="w-full">
-                {content}
-            </a>
-        );
-    }
-    
-    return (
-       <div onClick={onClick} className="w-full">
-         {content}
-       </div>
-    );
-  };
 
   return (
     <div className="flex flex-col min-h-dvh bg-background">
@@ -297,15 +222,6 @@ export default function SettingsPage() {
             onRelaunch={handleRelaunch}
             currentVersion={currentAppVersion}
             latestVersion={LATEST_APP_VERSION}
-          />
-        )}
-         {isLangConfirmOpen && newLang && currentLanguage && (
-          <LanguageConfirmationDialog
-            isOpen={isLangConfirmOpen}
-            onClose={() => setLangConfirmOpen(false)}
-            onConfirm={applyLanguageChange}
-            currentLanguage={currentLanguage}
-            newLanguage={newLang}
           />
         )}
       </AnimatePresence>
@@ -331,74 +247,72 @@ export default function SettingsPage() {
           initial="hidden"
           animate="visible"
         >
-          <Section title="Personalization" icon={Palette}>
-            <div className="flex flex-col gap-2 -mt-2 pb-4">
-              <SettingsRow title="Theme">
-                <div className="flex items-center gap-2">
-                  {(['light', 'dark', 'auto'] as const).map((theme) => {
-                    const Icon = theme === 'light' ? Sun : theme === 'dark' ? Moon : Laptop;
-                    return (
-                      <MotionButton
-                        key={theme}
-                        variant={preferredTheme === theme ? 'default' : 'outline'}
-                        size="icon"
-                        onClick={() => changeTheme(theme)}
-                        aria-label={`${theme} theme`}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="rounded-full"
-                      >
-                        <Icon className="h-5 w-5" />
-                      </MotionButton>
-                    );
-                  })}
-                </div>
-              </SettingsRow>
-              <Separator />
-               <SettingsRow title="Language" description="Change the app's display language.">
-                <Select value={currentLanguageCode ?? ''} onValueChange={handleLanguageChange}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select Language" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {languages.map(lang => (
-                      <SelectItem key={lang.code} value={lang.code}>
-                        {lang.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </SettingsRow>
+          <Section title="Theme" icon={Palette}>
+            <div className="flex justify-center items-center gap-2 pb-4">
+              {(['light', 'dark', 'auto'] as const).map((theme) => {
+                const Icon = theme === 'light' ? Sun : theme === 'dark' ? Moon : Laptop;
+                return (
+                  <MotionButton
+                    key={theme}
+                    variant={preferredTheme === theme ? 'default' : 'outline'}
+                    size="icon"
+                    onClick={() => changeTheme(theme)}
+                    aria-label={`${theme} theme`}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="rounded-full"
+                  >
+                    <Icon className="h-5 w-5" />
+                  </MotionButton>
+                );
+              })}
             </div>
           </Section>
 
+          <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
+              <Link href="/settings/personalization" onClick={(e) => handleLinkClick('/settings/personalization', e)} className="w-full flex items-center justify-between p-5 text-left group">
+                  <div className="flex items-center gap-4">
+                      <GlowIcon icon={Languages} />
+                      <div className="flex flex-col">
+                        <span className="text-lg font-semibold group-hover:text-primary transition-colors">Language</span>
+                        <span className="text-sm text-muted-foreground">Change the app's display language.</span>
+                      </div>
+                  </div>
+                  <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+              </Link>
+          </MotionCard>
+          
           <Section title="Notification Center" icon={Bell}>
              <div className="flex flex-col gap-2 -mt-2 pb-4">
-                <SettingsRow 
-                  title="New Quotes"
-                  description="Notify me when I receive a new Quote"
-                >
+                <div onClick={() => handleToggle(setNewQuotes)} className="flex items-center justify-between py-3.5 group cursor-pointer w-full">
+                  <div className="flex flex-col gap-1">
+                    <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">New Quotes</p>
+                    <p className="text-sm text-muted-foreground">Notify me when I receive a new Quote</p>
+                  </div>
                   <Switch
                     id="toggle-new-quotes"
                     checked={newQuotes}
-                    onCheckedChange={() => handleToggle(setNewQuotes)}
+                    onCheckedChange={() => {}}
+                    aria-readonly
                   />
-                </SettingsRow>
+                </div>
                 <Separator />
-                <SettingsRow _
-                  title="Scheduled digest"
-                  description="Get all your notifications as a daily digest at 7:00 PM. Tap to customize delivery time"
-                >
+                <div onClick={() => handleToggle(setScheduledDigest)} className="flex items-center justify-between py-3.5 group cursor-pointer w-full">
+                  <div className="flex flex-col gap-1">
+                    <p className="font-medium text-foreground/80 group-hover:text-primary transition-colors">Scheduled digest</p>
+                    <p className="text-sm text-muted-foreground">Get all your notifications as a daily digest at 7:00 PM</p>
+                  </div>
                   <Switch
                     id="toggle-scheduled-digest"
                     checked={scheduledDigest}
-                    onCheckedChange={() => handleToggle(setScheduledDigest)}
+                    onCheckedChange={() => {}}
+                    aria-readonly
                   />
-                </SettingsRow>
+                </div>
             </div>
           </Section>
 
-          <Section title="Check for Updates" icon={AppWindow} onClick={handleCheckForUpdate} />
+          <Section title="Check for Updates" icon={AppWindow} onClick={handleCheckForUpdate} isLink />
           
            <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
                 <Link href="/privacy-policy" onClick={(e) => handleLinkClick('/privacy-policy', e)} className="w-full flex items-center justify-between p-5 text-left group">
@@ -420,7 +334,7 @@ export default function SettingsPage() {
                 </Link>
             </MotionCard>
 
-          <Section title="Rate Us" icon={Star} onClick={() => openRatingDialog(true)} />
+          <Section title="Rate Us" icon={Star} onClick={() => openRatingDialog(true)} isLink/>
           
            <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
                 <Link href="/settings/help" onClick={(e) => handleLinkClick('/settings/help', e)} className="w-full flex items-center justify-between p-5 text-left group">

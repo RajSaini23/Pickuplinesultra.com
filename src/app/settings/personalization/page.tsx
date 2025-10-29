@@ -3,22 +3,13 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { useTheme } from 'next-themes';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Sun, Moon, Laptop } from 'lucide-react';
+import { ArrowLeft, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { useToast } from '@/hooks/use-toast';
 import { languages, Language } from '@/lib/languages';
 import { useLanguage } from '@/context/language-context';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { cn } from '@/lib/utils';
 import { LanguageConfirmationDialog } from '@/components/ui/language-confirmation-dialog';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 
@@ -30,7 +21,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.08,
     },
   },
 };
@@ -47,64 +38,33 @@ const itemVariants = {
   },
 };
 
-const SettingsRow = ({ title, description, children }: { title: string, description?: string, children: React.ReactNode }) => (
-    <div className="flex items-center justify-between py-4 group w-full">
-        <div className="flex flex-col gap-1">
-        <p className="font-semibold text-foreground/90 group-hover:text-primary transition-colors text-lg">{title}</p>
-        {description && <p className="text-sm text-muted-foreground">{description}</p>}
-        </div>
-        {children}
-    </div>
-);
-
 
 export default function PersonalizationPage() {
-    const { setTheme: setNextTheme } = useTheme();
-    const { toast } = useToast();
     const { language: currentLanguageCode, setLanguage } = useLanguage();
-
-    const [preferredTheme, setPreferredTheme] = React.useState('auto');
     const [isLoading, setIsLoading] = React.useState(false);
     const [isLangConfirmOpen, setLangConfirmOpen] = React.useState(false);
-    const [newLang, setNewLang] = React.useState<Language | null>(null);
+    const [selectedLang, setSelectedLang] = React.useState<Language | null>(null);
 
-    React.useEffect(() => {
-        const savedTheme = localStorage.getItem('theme-preference') || 'auto';
-        setPreferredTheme(savedTheme);
-    }, []);
-
-    const changeTheme = (t: 'light' | 'dark' | 'auto') => {
-        setIsLoading(true);
-        localStorage.setItem('theme-preference', t);
-        setPreferredTheme(t);
-        if (t === 'auto') {
-            const hour = new Date().getHours();
-            setNextTheme(hour >= 6 && hour < 18 ? 'light' : 'dark');
-        } else {
-            setNextTheme(t);
-        }
-        toast({ title: "Theme Updated", description: `Theme set to ${t.charAt(0).toUpperCase() + t.slice(1)}` });
-        setTimeout(() => setIsLoading(false), 300);
-    };
-
-    const handleLanguageChange = (langCode: string) => {
-        const selected = languages.find(l => l.code === langCode);
-        if (selected && selected.code !== currentLanguageCode) {
-        setNewLang(selected);
-        setLangConfirmOpen(true);
+    const handleLanguageSelect = (lang: Language) => {
+        if (lang.code !== currentLanguageCode) {
+            setSelectedLang(lang);
+            setLangConfirmOpen(true);
         }
     };
 
     const applyLanguageChange = () => {
-        if (newLang) {
-        setLanguage(newLang.code);
-        toast({
-            title: "Language Updated",
-            description: `Language changed to ${newLang.name}.`,
-        });
+        if (selectedLang) {
+            setIsLoading(true);
+            setLanguage(selectedLang.code);
+            // Simulate a brief loading period for the language to apply
+            setTimeout(() => {
+                setIsLoading(false);
+                setLangConfirmOpen(false);
+                setSelectedLang(null);
+            }, 500);
+        } else {
+            setLangConfirmOpen(false);
         }
-        setLangConfirmOpen(false);
-        setNewLang(null);
     };
 
     const currentLanguage = languages.find(l => l.code === currentLanguageCode);
@@ -112,13 +72,13 @@ export default function PersonalizationPage() {
     return (
         <div className="flex flex-col min-h-dvh bg-background">
             <LoadingOverlay isLoading={isLoading} />
-            {isLangConfirmOpen && newLang && currentLanguage && (
+            {isLangConfirmOpen && selectedLang && currentLanguage && (
             <LanguageConfirmationDialog
                 isOpen={isLangConfirmOpen}
                 onClose={() => setLangConfirmOpen(false)}
                 onConfirm={applyLanguageChange}
                 currentLanguage={currentLanguage}
-                newLanguage={newLang}
+                newLanguage={selectedLang}
             />
             )}
             <motion.header
@@ -133,7 +93,7 @@ export default function PersonalizationPage() {
                         <span>Back to Settings</span>
                     </Button>
                 </Link>
-                <h1 className="text-2xl font-bold font-headline ml-4">Personalization</h1>
+                <h1 className="text-2xl font-bold font-headline ml-4">Language</h1>
             </motion.header>
 
             <main className="flex-grow p-4 md:p-6">
@@ -143,46 +103,41 @@ export default function PersonalizationPage() {
                     initial="hidden"
                     animate="visible"
                 >
-                    <motion.div variants={itemVariants}>
-                       <Card className="p-4 md:p-6 rounded-2xl shadow-lg border-border/20">
-                            <SettingsRow title="Theme">
-                                <div className="flex items-center gap-2">
-                                {(['light', 'dark', 'auto'] as const).map((theme) => {
-                                    const Icon = theme === 'light' ? Sun : theme === 'dark' ? Moon : Laptop;
-                                    return (
-                                    <MotionButton
-                                        key={theme}
-                                        variant={preferredTheme === theme ? 'default' : 'outline'}
-                                        size="icon"
-                                        onClick={() => changeTheme(theme)}
-                                        aria-label={`${theme} theme`}
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="rounded-full"
+                    <Card className="p-4 md:p-6 rounded-2xl shadow-lg border-border/20">
+                        <div className="mb-4">
+                            <h2 className="text-xl font-bold">Select a Language</h2>
+                            <p className="text-muted-foreground text-sm">Choose your preferred display language for the app.</p>
+                        </div>
+                        <ul className="space-y-3">
+                            {languages.map((lang, index) => (
+                                <motion.li key={lang.code} variants={itemVariants}>
+                                    <button
+                                        onClick={() => handleLanguageSelect(lang)}
+                                        className={cn(
+                                            "w-full flex items-center justify-between text-left p-4 rounded-xl transition-all duration-300 border-2",
+                                            currentLanguageCode === lang.code
+                                            ? "bg-primary/10 border-primary shadow-md"
+                                            : "bg-muted/50 border-transparent hover:bg-muted hover:border-primary/30"
+                                        )}
                                     >
-                                        <Icon className="h-5 w-5" />
-                                    </MotionButton>
-                                    );
-                                })}
-                                </div>
-                            </SettingsRow>
-                            <Separator className="my-2 bg-border/30"/>
-                            <SettingsRow title="Language" description="Change the app's display language.">
-                                <Select value={currentLanguageCode ?? ''} onValueChange={handleLanguageChange}>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Select Language" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {languages.map(lang => (
-                                    <SelectItem key={lang.code} value={lang.code}>
-                                        {lang.name}
-                                    </SelectItem>
-                                    ))}
-                                </SelectContent>
-                                </Select>
-                            </SettingsRow>
-                        </Card>
-                    </motion.div>
+                                        <div className="flex flex-col">
+                                            <span className="font-semibold text-lg text-foreground">{lang.name}</span>
+                                            <span className="text-sm text-muted-foreground">{lang.nativeName}</span>
+                                        </div>
+                                        {currentLanguageCode === lang.code && (
+                                            <motion.div
+                                                initial={{ scale: 0.5, opacity: 0 }}
+                                                animate={{ scale: 1, opacity: 1 }}
+                                                className="flex items-center justify-center h-8 w-8 rounded-full bg-primary"
+                                            >
+                                                <Check className="h-5 w-5 text-primary-foreground" />
+                                            </motion.div>
+                                        )}
+                                    </button>
+                                </motion.li>
+                            ))}
+                        </ul>
+                    </Card>
                 </motion.div>
             </main>
         </div>
