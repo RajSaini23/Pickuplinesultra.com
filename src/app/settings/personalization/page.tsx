@@ -12,9 +12,7 @@ import { useLanguage } from '@/context/language-context';
 import { cn } from '@/lib/utils';
 import { LanguageConfirmationDialog } from '@/components/ui/language-confirmation-dialog';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
-
-
-const MotionButton = motion(Button);
+import { Separator } from '@/components/ui/separator';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -38,7 +36,6 @@ const itemVariants = {
   },
 };
 
-
 export default function PersonalizationPage() {
     const { language: currentLanguageCode, setLanguage } = useLanguage();
     const [isLoading, setIsLoading] = React.useState(false);
@@ -56,7 +53,6 @@ export default function PersonalizationPage() {
         if (selectedLang) {
             setIsLoading(true);
             setLanguage(selectedLang.code);
-            // Simulate a brief loading period for the language to apply
             setTimeout(() => {
                 setIsLoading(false);
                 setLangConfirmOpen(false);
@@ -108,33 +104,41 @@ export default function PersonalizationPage() {
                             <h2 className="text-xl font-bold">Select a Language</h2>
                             <p className="text-muted-foreground text-sm">Choose your preferred display language for the app.</p>
                         </div>
-                        <ul className="space-y-3">
+                        <ul className="space-y-1">
                             {languages.map((lang, index) => (
-                                <motion.li key={lang.code} variants={itemVariants}>
-                                    <button
-                                        onClick={() => handleLanguageSelect(lang)}
-                                        className={cn(
-                                            "w-full flex items-center justify-between text-left p-4 rounded-xl transition-all duration-300 border-2",
-                                            currentLanguageCode === lang.code
-                                            ? "bg-primary/10 border-primary shadow-md"
-                                            : "bg-muted/50 border-transparent hover:bg-muted hover:border-primary/30"
-                                        )}
-                                    >
-                                        <div className="flex flex-col">
-                                            <span className="font-semibold text-lg text-foreground">{lang.name}</span>
-                                            <span className="text-sm text-muted-foreground">{lang.nativeName}</span>
-                                        </div>
-                                        {currentLanguageCode === lang.code && (
-                                            <motion.div
-                                                initial={{ scale: 0.5, opacity: 0 }}
-                                                animate={{ scale: 1, opacity: 1 }}
-                                                className="flex items-center justify-center h-8 w-8 rounded-full bg-primary"
-                                            >
-                                                <Check className="h-5 w-5 text-primary-foreground" />
-                                            </motion.div>
-                                        )}
-                                    </button>
-                                </motion.li>
+                                <React.Fragment key={lang.code}>
+                                    <motion.li variants={itemVariants}>
+                                        <button
+                                            onClick={() => handleLanguageSelect(lang)}
+                                            className={cn(
+                                                "w-full flex items-center justify-between text-left p-4 rounded-xl transition-all duration-200 relative overflow-hidden",
+                                                currentLanguageCode === lang.code
+                                                ? "bg-primary/10"
+                                                : "bg-transparent hover:bg-muted/50"
+                                            )}
+                                        >
+                                            {currentLanguageCode === lang.code && (
+                                                <motion.div 
+                                                    layoutId="accent-border"
+                                                    className="absolute left-0 top-0 bottom-0 w-1.5 bg-primary rounded-l-xl"
+                                                />
+                                            )}
+                                            <div className="flex flex-col pl-3">
+                                                <span className="font-semibold text-lg text-foreground">{lang.name}</span>
+                                                <span className="text-sm text-muted-foreground">{lang.nativeName}</span>
+                                            </div>
+                                            {currentLanguageCode === lang.code && (
+                                                <motion.div
+                                                    initial={{ scale: 0.5, opacity: 0 }}
+                                                    animate={{ scale: 1, opacity: 1 }}
+                                                >
+                                                    <Check className="h-6 w-6 text-primary" />
+                                                </motion.div>
+                                            )}
+                                        </button>
+                                    </motion.li>
+                                    {index < languages.length - 1 && <Separator className="bg-border/20" />}
+                                </React.Fragment>
                             ))}
                         </ul>
                     </Card>
