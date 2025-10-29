@@ -1,11 +1,10 @@
-
 // src/app/bookmarks/page.tsx
 "use client";
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, BookmarkX, DownloadCloud, Share2, Copy } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useBookmarks } from '@/context/bookmark-context';
 import { quotes as allQuotes } from '@/data';
 import { Button } from '@/components/ui/button';
@@ -14,6 +13,7 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
+import { useLanguage } from '@/context/language-context';
 
 const AdCard = () => (
     <Card className="flex h-full min-h-[420px] w-full items-center justify-center bg-muted/50 border-2 border-dashed border-border/50 rounded-2xl">
@@ -30,6 +30,7 @@ export default function BookmarksPage() {
   const [sharingQuoteId, setSharingQuoteId] = React.useState<number | null>(null);
   const { toast } = useToast();
   const router = useRouter();
+  const { getTranslation, language } = useLanguage();
 
   React.useEffect(() => {
     const savedQuotes = allQuotes.filter(quote => bookmarkedIds.includes(quote.id));
@@ -52,6 +53,7 @@ export default function BookmarksPage() {
     }
 
     setSharingQuoteId(quote.id);
+    const textToShare = getTranslation(quote);
 
     try {
         const blob = await htmlToImage.toBlob(cardRef.current, {
@@ -69,7 +71,7 @@ export default function BookmarksPage() {
             await navigator.share({
                 files,
                 title: 'Pickup Lines Quote',
-                text: `${quote.hinglish}\n\n- Shared from Pickup Lines Ultra`,
+                text: `${textToShare}\n\n- Shared from Pickup Lines Ultra`,
             });
         } else {
             throw new Error('Web Share API does not support sharing files in this browser.');
@@ -83,7 +85,7 @@ export default function BookmarksPage() {
             if (navigator.share) {
                 await navigator.share({
                     title: 'Pickup Lines Quote',
-                    text: `${quote.hinglish}\n\n- Shared from Pickup Lines Ultra`,
+                    text: `${textToShare}\n\n- Shared from Pickup Lines Ultra`,
                     url: window.location.origin,
                 });
             } else {
@@ -93,7 +95,7 @@ export default function BookmarksPage() {
                     await navigator.clipboard.write([item]);
                     toast({ title: "Image Copied!", description: "Quote card image copied to clipboard." });
                 } else {
-                    await navigator.clipboard.writeText(`${quote.hinglish}\n\n- Shared from Pickup Lines Ultra`);
+                    await navigator.clipboard.writeText(`${textToShare}\n\n- Shared from Pickup Lines Ultra`);
                     toast({ title: "Text Copied!", description: "Sharing not supported, quote text copied." });
                 }
             }
@@ -171,6 +173,7 @@ export default function BookmarksPage() {
                 const quote = item;
                 const cardRef = React.createRef<HTMLDivElement>();
                 const isSharing = sharingQuoteId === quote.id;
+                const currentText = getTranslation(quote);
 
                 return (
                   <div key={quote.id} className="relative">
@@ -184,10 +187,21 @@ export default function BookmarksPage() {
                         <div ref={cardRef}>
                            <div className="bg-card border-2 border-accent rounded-2xl">
                             <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6 min-h-[250px]">
-                                <div className="text-6xl">{quote.emoji}</div>
-                                <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
-                                    {quote.hinglish}
-                                </p>
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={quote.id + language}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="flex flex-col items-center justify-center gap-6 w-full"
+                                    >
+                                        <div className="text-6xl">{quote.emoji}</div>
+                                        <p className="font-headline text-2xl font-semibold leading-snug text-foreground/90">
+                                            {currentText}
+                                        </p>
+                                    </motion.div>
+                                </AnimatePresence>
                             </div>
                             <div className="relative px-6 pb-2 text-end">
                               <a 
@@ -210,7 +224,7 @@ export default function BookmarksPage() {
                             <ActionButton label="Remove" onClick={() => removeBookmark(quote.id)}>
                                <BookmarkX className="h-6 w-6 text-muted-foreground" />
                             </ActionButton>
-                            <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(quote.hinglish)} />
+                            <ActionButton icon={Copy} label="Copy" onClick={() => handleCopy(currentText)} />
                             <ActionButton icon={Share2} label="Share" onClick={() => handleShare(quote, cardRef)} />
                         </div>
                       </div>
