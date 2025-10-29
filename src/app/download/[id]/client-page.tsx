@@ -11,6 +11,7 @@ import type { Quote } from '@/data/types';
 import * as htmlToImage from 'html-to-image';
 import { toBlob } from 'html-to-image';
 import { Card, CardContent } from '@/components/ui/card';
+import { useLanguage } from '@/context/language-context';
 
 const AdPlaceholder = () => (
   <div className="w-full h-full rounded-2xl flex items-center justify-center">
@@ -22,14 +23,18 @@ const AdPlaceholder = () => (
   </div>
 );
 
-const QuoteCard = ({ quote }: { quote: Quote }) => (
+const QuoteCard = ({ quote }: { quote: Quote }) => {
+  const { getTranslation } = useLanguage();
+  const currentText = getTranslation(quote);
+
+  return (
     <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
       <div id="download-card" className="w-[450px] h-[700px] bg-card p-0 flex flex-col rounded-2xl">
         <div className="bg-card border-2 border-accent rounded-2xl h-full flex flex-col">
           <div className="flex-grow flex flex-col items-center justify-center text-center gap-6 p-6">
               <div className="text-8xl mb-12">{quote.emoji}</div>
               <p className="font-headline text-5xl font-semibold leading-tight text-foreground/90 px-4">
-                  {quote.hinglish}
+                  {currentText}
               </p>
           </div>
           <div className="relative px-6 pb-2 text-end">
@@ -40,7 +45,8 @@ const QuoteCard = ({ quote }: { quote: Quote }) => (
         </div>
       </div>
     </div>
-);
+  );
+};
 
 
 export function DownloadClientPage({ quote }: { quote: Quote }) {
@@ -179,5 +185,3 @@ export function DownloadClientPage({ quote }: { quote: Quote }) {
     </div>
   );
 }
-
-    
