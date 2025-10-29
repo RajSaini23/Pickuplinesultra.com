@@ -45,11 +45,15 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getTranslation = useCallback((quote: Quote): string => {
-    if (!language || language === 'hin-eng') return quote.hinglish;
-
-    const quoteWithAllLanguages = quote as Quote & { [key: string]: string | undefined };
+    if (!language || language === 'hin-eng') {
+      return quote.hinglish;
+    }
+    if (language === 'hi') {
+      return quote.hindi || quote.english; // Fallback to English if Hindi isn't available
+    }
     
-    // Return the specific language translation if it exists, otherwise fall back to English.
+    // Fallback for other languages or if a specific translation doesn't exist
+    const quoteWithAllLanguages = quote as Quote & { [key: string]: string | undefined };
     return quoteWithAllLanguages[language] || quote.english;
     
   }, [language]);
