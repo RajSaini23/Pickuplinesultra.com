@@ -51,6 +51,9 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     if (language === 'hi') {
       return quote.hindi || quote.english; // Fallback to English if Hindi isn't available
     }
+    if (language === 'zh') {
+      return quote.zh || quote.english; // Fallback to English if Mandarin isn't available
+    }
     
     // Fallback for other languages or if a specific translation doesn't exist
     const quoteWithAllLanguages = quote as Quote & { [key: string]: string | undefined };
