@@ -15,6 +15,7 @@ export type Quote = {
   hinglish: string;
   english: string;
   hindi: string;
+  zh?: string;
   emoji: string;
 };
 
@@ -22,3 +23,4 @@ export type CategoryData = {
   category: Category;
   quotes: Omit<Quote, 'id' | 'category'>[];
 };
+
