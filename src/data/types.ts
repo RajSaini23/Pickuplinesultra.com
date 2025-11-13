@@ -14,7 +14,7 @@ export type Quote = {
   id: number;
   hinglish: string;
   english: string;
-  hindi: string;
+  hindi?: string;
   zh?: string;
   emoji: string;
 };
@@ -23,4 +23,3 @@ export type CategoryData = {
   category: Category;
   quotes: Omit<Quote, 'id' | 'category'>[];
 };
-

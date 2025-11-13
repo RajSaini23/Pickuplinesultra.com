@@ -16,7 +16,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.05,
+      staggerChildren: 0.08,
       delayChildren: 0.3,
     },
   },
@@ -83,26 +83,35 @@ export default function SelectLanguagePage() {
             <motion.li
               key={lang.code}
               variants={itemVariants}
-              onClick={() => setSelectedCode(lang.code)}
-              className={cn(
-                'flex items-center justify-between p-4 mb-3 rounded-xl cursor-pointer transition-all duration-300 border-2',
-                selectedCode === lang.code
-                  ? 'bg-primary/10 border-primary shadow-lg'
-                  : 'bg-muted/50 border-transparent hover:bg-muted'
-              )}
             >
-              <div className="flex flex-col text-left">
-                <span className="font-semibold text-foreground">{lang.name}</span>
-                <span className="text-sm text-muted-foreground">{lang.nativeName}</span>
-              </div>
-              {selectedCode === lang.code && (
-                <motion.div
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                >
-                  <Check className="h-6 w-6 text-primary" />
-                </motion.div>
-              )}
+              <button
+                onClick={() => setSelectedCode(lang.code)}
+                className={cn(
+                  'w-full flex items-center justify-between text-left p-4 mb-3 rounded-xl transition-all duration-300 border-2',
+                  selectedCode === lang.code
+                    ? 'bg-primary/10 border-primary shadow-lg'
+                    : 'bg-muted/50 border-transparent hover:bg-muted'
+                )}
+              >
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-background/50">
+                        <lang.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="font-semibold text-lg text-foreground">{lang.name}</span>
+                        <span className="text-sm text-muted-foreground">{lang.nativeName}</span>
+                    </div>
+                </div>
+                {selectedCode === lang.code && (
+                  <motion.div
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    layoutId="check-icon"
+                  >
+                    <Check className="h-6 w-6 text-primary" />
+                  </motion.div>
+                )}
+              </button>
             </motion.li>
           ))}
         </motion.ul>
