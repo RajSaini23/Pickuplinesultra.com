@@ -1,20 +1,62 @@
 
-# Pickup Lines Ultra
+# Ecstatic
 
-Welcome to **Pickup Lines Ultra**, a modern, cross-platform application designed to provide users with a curated collection of pickup lines in Hinglish. The app is built with a powerful tech stack, ensuring a high-quality user experience, offline capabilities, and a dynamic backend.
+Welcome to **Ecstatic**, a modern, cross-platform application designed to provide users with a curated collection of Hinglish quotes for every mood. Built with a powerful tech stack, Ecstatic ensures a high-quality user experience, 100% offline capabilities, and a dynamic, emotionally engaging interface.
 
 ![App Screenshot](https://firebasestorage.googleapis.com/v0/b/ecstatic-mhefl.appspot.com/o/app-screenshot.png?alt=media&token=81c1c72f-5b87-4221-829d-4394017c603b)
 
 ## Table of Contents
 
-1.  [Getting Started](#getting-started)
-2.  [Tech Stack](#tech-stack)
-3.  [Core Features](#core-features)
-4.  [Compatibility](#compatibility)
-5.  [Android Publishing Guide](#android-publishing-guide)
-    *   [Step 1: Get Your App Files (.aab & .apk) from GitHub](#step-1-get-your-app-files-aab--apk-from-github)
-    *   [Step 2: Add Release Keys to Firebase](#step-2-add-release-keys-to-firebase)
-    *   [Step 3: Publish to Google Play Store](#step-3-publish-to-google-play-store)
+1.  [Why Ecstatic is the Best](#why-ecstatic-is-the-best)
+2.  [Core Features](#core-features)
+3.  [Tech Stack](#tech-stack)
+4.  [Getting Started](#getting-started)
+5.  [Compatibility](#compatibility)
+6.  [Android Publishing Guide](#android-publishing-guide)
+
+---
+
+## Why Ecstatic is the Best
+
+While there are many quote apps available, Ecstatic stands out for several key reasons:
+
+-   **100% Offline Capable**: Unlike most apps that require an internet connection, Ecstatic is designed to work completely offline. All quotes, categories, and core features are available anytime, anywhere, making it the perfect companion for your daily commute, travel, or any situation with limited connectivity.
+
+-   **High-Quality UI/UX**: Ecstatic is not just another list of text. It features a professional, aesthetically pleasing design with smooth animations powered by Framer Motion, a custom animated splash screen, and a beautiful, themeable interface (light/dark modes) that feels premium and responsive.
+
+-   **Progressive Web App (PWA)**: The app is a fully installable PWA. This means you can add it to your home screen on any device (mobile, tablet, or desktop) and use it just like a native app, with the added benefit of offline access.
+
+-   **True Cross-Platform Experience**: Built on a single, modern codebase using Next.js and Capacitor, Ecstatic runs flawlessly on the web, as a desktop PWA, and as a native app on both iOS and Android. This ensures a consistent and high-quality experience no matter which device you use.
+
+-   **Interactive & Shareable Content**: Ecstatic goes beyond simple text display. Users can swipe through beautifully designed quote cards, copy text with one tap, bookmark their favorites, and—most importantly—share quotes as clean, branded images perfect for social media platforms like Instagram, WhatsApp, and Facebook.
+
+---
+
+## Core Features
+
+-   **Hinglish Quote Display**: A curated collection of mood-based quotes in Hinglish, tailored for a casual and emotional user experience.
+-   **Dashboard with Category Cards**: An elegant home screen with a search bar and beautifully styled category cards.
+-   **Category Detail Screen**: Interactive content cards displaying an emoji, a heading, and action buttons (like, save, copy, share).
+-   **Image Generator**: Instantly create and share beautiful, branded images of your favorite quotes.
+-   **Offline PWA Support**: The entire app, including all quotes and categories, works perfectly without an internet connection.
+-   **Theme Management**: Switch between light, dark, and system-default themes.
+-   **Animated Splash Screen**: A smooth, animated splash screen with a progress bar for a professional first impression.
+-   **Settings Page**: A clean, card-based settings page for feedback, support, and app preferences.
+
+---
+
+## Tech Stack
+
+This project is built using a modern and robust technology stack:
+
+-   **Framework**: [Next.js](https://nextjs.org/) (with App Router)
+-   **Language**: [TypeScript](https://www.typescriptlang.org/)
+-   **UI Library**: [React](https://reactjs.org/) with [ShadCN UI](https://ui.shadcn.com/) components
+-   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+-   **Database**: Offline-first using bundled data.
+-   **Animations**: [Framer Motion](https://www.framer.com/motion/)
+-   **Mobile Bridge**: [Capacitor](https://capacitorjs.com/) (for iOS and Android)
+-   **Icons**: [Lucide React](https://lucide.dev/)
 
 ---
 
@@ -32,8 +74,8 @@ To get the project up and running on your local machine, follow these simple ste
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/pickup-lines-ultra.git
-    cd pickup-lines-ultra
+    git clone https://github.com/your-username/ecstatic.git
+    cd ecstatic
     ```
 
 2.  **Install dependencies:**
@@ -47,27 +89,6 @@ To get the project up and running on your local machine, follow these simple ste
     ```
 
 The application will now be running on `http://localhost:3000`.
-
-## Tech Stack
-
-This project is built using a modern and robust technology stack:
-
--   **Framework**: [Next.js](https://nextjs.org/) (with App Router)
--   **Language**: [TypeScript](https://www.typescriptlang.org/)
--   **UI Library**: [React](https://reactjs.org/) with [ShadCN UI](https://ui.shadcn.com/) components
--   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
--   **Database**: Offline-first using bundled data.
--   **Animations**: [Framer Motion](https://www.framer.com/motion/)
--   **Mobile Bridge**: [Capacitor](https://capacitorjs.com/) (for iOS and Android)
--   **Icons**: [Lucide React](https://lucide.dev/)
-
-## Core Features
-
--   **100% Offline Capable**: The entire app, including all quotes and categories, works perfectly without an internet connection.
--   **High-Quality UI/UX**: A professional design with smooth animations, a custom splash screen, and a themeable interface (light/dark modes).
--   **Progressive Web App (PWA)**: Fully installable on user devices with offline access to cached content.
--   **Interactive Quote Cards**: Users can swipe through quotes, copy them, bookmark favorites, and share them as clean, branded images.
--   **Cross-Platform**: A single codebase that runs on the web, as a desktop PWA, and as a native app on iOS and Android.
 
 ---
 
@@ -133,3 +154,5 @@ This is a **crucial** step. If you miss this, Google Sign-In or other Firebase s
 5.  **Review and Rollout**: Click **"Review release"**, and if everything looks good, click **"Start rollout to Production"**.
 
 That's it! Google will review your update, and it will be live on the Play Store within a few hours to a day.
+
+    
