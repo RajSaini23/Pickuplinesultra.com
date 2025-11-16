@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/settings',
     '/privacy-policy',
     '/terms-of-service',
+    '/select-language',
   ].map((route) => ({
     url: `${APP_URL}${route}`,
     lastModified: new Date().toISOString(),
