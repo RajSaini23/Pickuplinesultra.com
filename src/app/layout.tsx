@@ -4,8 +4,8 @@ import { ClientLayout } from './client-layout';
 import './globals.css';
 
 const APP_NAME = "Pickup Lines Ultra";
-const APP_DESCRIPTION = "Your Emotion. Our Expression. A curated collection of pickup lines in Hinglish for every mood and occasion.";
-const APP_URL = "https://pickuplines-ultra.web.app";
+const APP_DESCRIPTION = "Your go-to app for the best Hinglish pickup lines for every mood. From cute and romantic to bold and flirty, find the perfect line to express yourself and win hearts. 100% offline, with a beautiful and easy-to-use interface.";
+const APP_URL = "https://pickuplinesultra.com";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
