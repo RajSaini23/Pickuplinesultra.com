@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const AppLogo = () => (
     <div className="relative w-36 h-36 flex items-center justify-center" style={{ borderRadius: '22%' }}>
@@ -48,6 +49,8 @@ const AppLogo = () => (
 export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const platforms = ['Website', 'iOS App', 'Android App'];
+  const [platformIndex, setPlatformIndex] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -63,12 +66,17 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
         return prev + 2;
       });
     }, 70);
+    
+    const platformTimer = setInterval(() => {
+      setPlatformIndex(prev => (prev + 1) % platforms.length);
+    }, 2000);
 
     return () => {
       clearTimeout(timer);
       clearInterval(progressTimer);
+      clearInterval(platformTimer);
     };
-  }, []);
+  }, [platforms.length]);
 
   if (loading) {
     return (
@@ -90,9 +98,21 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
           <p className="font-semibold tracking-wider">Developed By INDGROWSIVE</p>
           <Link 
             href="/about" 
-            className="mt-2 inline-block text-primary/80 hover:text-primary hover:underline transition-colors text-xs"
+            className="mt-2 inline-flex items-center gap-1.5 text-primary/80 hover:text-primary hover:underline transition-colors text-xs"
           >
-            About This Website
+            <span>About This</span>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={platformIndex}
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -10, opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="font-bold"
+              >
+                {platforms[platformIndex]}
+              </motion.span>
+            </AnimatePresence>
           </Link>
         </footer>
       </div>
