@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 const AppLogo = () => (
     <div className="relative w-36 h-36 flex items-center justify-center" style={{ borderRadius: '22%' }}>
@@ -87,6 +88,14 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
         </div>
         <footer className="text-center text-xs text-muted-foreground/70">
           <p className="font-semibold tracking-wider">Developed By INDGROWSIVE</p>
+          <Link 
+            href="https://pickuplinesultra.com/about" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="mt-2 inline-block text-primary/80 hover:text-primary hover:underline transition-colors text-xs"
+          >
+            About This Website
+          </Link>
         </footer>
       </div>
     );
