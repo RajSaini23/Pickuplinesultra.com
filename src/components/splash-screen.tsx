@@ -69,7 +69,7 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
     
     const platformTimer = setInterval(() => {
       setPlatformIndex(prev => (prev + 1) % platforms.length);
-    }, 2000);
+    }, 1000);
 
     return () => {
       clearTimeout(timer);
