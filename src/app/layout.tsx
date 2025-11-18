@@ -4,7 +4,7 @@ import { ClientLayout } from './client-layout';
 import './globals.css';
 
 const APP_NAME = "Pickup Lines Ultra";
-const APP_DESCRIPTION = "Your go-to app for the best Hinglish pickup lines for every mood. From cute and romantic to bold and flirty, find the perfect line to express yourself and win hearts. 100% offline, with a beautiful and easy-to-use interface.";
+const APP_DESCRIPTION = "Explore a curated collection of pickup lines in Hinglish for every mood and occasion. From cute and romantic to bold and flirty, find the perfect line to express yourself and win hearts. 100% offline, with a beautiful and easy-to-use interface.";
 const APP_URL = "https://pickuplinesultra.com";
 
 export const metadata: Metadata = {
@@ -25,7 +25,8 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    shortcut: "/logo.svg",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
     apple: "/icons/apple-touch-icon.png",
   },
   openGraph: {
@@ -99,6 +100,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
        <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <script
           type="application/ld+json"
