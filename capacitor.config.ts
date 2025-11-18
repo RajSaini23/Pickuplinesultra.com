@@ -3,7 +3,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.indgrowsive.pickuplines.app',
-  appName: 'Ecstatic',
+  appName: 'Pickup Lines Ultra',
   webDir: 'out',
   server: {
     androidScheme: 'https',

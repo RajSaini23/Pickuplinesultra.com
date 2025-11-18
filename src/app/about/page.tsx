@@ -35,7 +35,7 @@ export default function AboutPage() {
             <span>Settings</span>
           </Button>
         </Link>
-        <h1 className="text-2xl font-bold font-headline ml-4">About Ecstatic</h1>
+        <h1 className="text-2xl font-bold font-headline ml-4">About Pickup Lines Ultra</h1>
       </motion.header>
 
       <main className="p-4 md:p-8">
@@ -50,7 +50,7 @@ export default function AboutPage() {
               Your Emotion. Our Expression.
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Welcome to Ecstatic, the world’s largest and most diverse library of Hinglish quotes and conversation starters, designed for every mood, moment, and culture.
+              Welcome to Pickup Lines Ultra, the world’s largest and most diverse library of Hinglish quotes and conversation starters, designed for every mood, moment, and culture.
             </p>
           </motion.section>
 
@@ -63,7 +63,7 @@ export default function AboutPage() {
           <motion.section variants={itemVariants} className="mb-12">
             <h3 className="text-3xl font-bold text-center mb-6">Our Mission</h3>
             <p className="text-center text-lg text-muted-foreground">
-              Our mission is simple: to make romantic, witty, and culturally relevant conversation starters accessible to everyone worldwide. We believe that the right words at the right time can bridge gaps, create smiles, and spark connections. Ecstatic is more than just a quote app—it's a tool for expression.
+              Our mission is simple: to make romantic, witty, and culturally relevant conversation starters accessible to everyone worldwide. We believe that the right words at the right time can bridge gaps, create smiles, and spark connections. This is more than just a quote app—it's a tool for expression.
             </p>
           </motion.section>
 
@@ -72,7 +72,7 @@ export default function AboutPage() {
              <Card className="max-w-lg mx-auto bg-muted/50 border-border/20">
               <CardContent className="p-6 text-center">
                 <p className="text-lg">
-                  Ecstatic is passionately built and maintained by a solo independent developer, <strong>INDGROWSIVE</strong>. Driven by a love for multilingual content and inclusive digital experiences, this app is a personal project aimed at bringing a little more joy and connection to the world.
+                  Pickup Lines Ultra is passionately built and maintained by a solo independent developer, <strong>INDGROWSIVE</strong>. Driven by a love for multilingual content and inclusive digital experiences, this app is a personal project aimed at bringing a little more joy and connection to the world.
                 </p>
               </CardContent>
             </Card>
@@ -81,7 +81,7 @@ export default function AboutPage() {
            <motion.section variants={itemVariants} className="mb-12">
             <h3 className="text-3xl font-bold text-center mb-6">Transparency & Trust</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InfoCard title="How We Operate" description="Ecstatic is a 100% free-to-use application, supported by non-intrusive advertisements to cover development and server costs. Our goal is to keep the core experience free forever." />
+                <InfoCard title="How We Operate" description="This is a 100% free-to-use application, supported by non-intrusive advertisements to cover development and server costs. Our goal is to keep the core experience free forever." />
                 <InfoCard title="Your Privacy Matters" description="We respect your privacy. The app requires no account, login, or personal data collection. Your bookmarks and preferences are stored locally on your device." />
             </div>
            </motion.section>

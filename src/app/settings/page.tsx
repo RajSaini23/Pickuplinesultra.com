@@ -116,8 +116,8 @@ export default function SettingsPage() {
   const handleShare = async () => {
     setIsLoading(true);
     const shareData = {
-      title: 'Ecstatic',
-      text: 'Ecstatic - Your Emotion. Our Expression. Hinglish quotes for every mood.',
+      title: 'Pickup Lines Ultra',
+      text: 'Pickup Lines Ultra - Your Emotion. Our Expression. Hinglish quotes for every mood.',
       url: window.location.origin,
     };
     try {
@@ -304,7 +304,7 @@ export default function SettingsPage() {
             </div>
           </Section>
 
-          <Section title="About Ecstatic" icon={Info} href="/about" description="Learn more about our mission" isLink />
+          <Section title="About App" icon={Info} href="/about" description="Learn more about our mission" isLink />
 
           <Section title="Check for Updates" icon={AppWindow} onClick={handleCheckForUpdate} description={`Current version: ${currentAppVersion}`} isLink />
           
@@ -334,7 +334,7 @@ export default function SettingsPage() {
 
           <Section title="Share with Friends" icon={Share2} description="Help us grow by sharing the app">
             <div className="flex flex-col items-center text-center py-4">
-                <p className="text-muted-foreground mb-4 mt-2 px-4">Enjoying Ecstatic? Share the love with your friends!</p>
+                <p className="text-muted-foreground mb-4 mt-2 px-4">Enjoying the app? Share the love with your friends!</p>
                 <MotionButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleShare}>
                     <Share2 className="mr-2 h-4 w-4" /> Share Now
                 </MotionButton>

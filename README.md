@@ -1,13 +1,13 @@
 
-# Ecstatic
+# Pickup Lines Ultra
 
-Welcome to **Ecstatic**, a modern, cross-platform application designed to provide users with a curated collection of Hinglish quotes for every mood. Built with a powerful tech stack, Ecstatic ensures a high-quality user experience, 100% offline capabilities, and a dynamic, emotionally engaging interface.
+Welcome to **Pickup Lines Ultra**, a modern, cross-platform application designed to provide users with a curated collection of Hinglish quotes for every mood. Built with a powerful tech stack, this app ensures a high-quality user experience, 100% offline capabilities, and a dynamic, emotionally engaging interface.
 
 ![App Screenshot](https://firebasestorage.googleapis.com/v0/b/ecstatic-mhefl.appspot.com/o/app-screenshot.png?alt=media&token=81c1c72f-5b87-4221-829d-4394017c603b)
 
 ## Table of Contents
 
-1.  [Why Ecstatic is the Best](#why-ecstatic-is-the-best)
+1.  [Why This App is the Best](#why-this-app-is-the-best)
 2.  [Core Features](#core-features)
 3.  [Tech Stack](#tech-stack)
 4.  [Getting Started](#getting-started)
@@ -16,19 +16,19 @@ Welcome to **Ecstatic**, a modern, cross-platform application designed to provid
 
 ---
 
-## Why Ecstatic is the Best
+## Why This App is the Best
 
-While there are many quote apps available, Ecstatic stands out for several key reasons:
+While there are many quote apps available, **Pickup Lines Ultra** stands out for several key reasons:
 
--   **100% Offline Capable**: Unlike most apps that require an internet connection, Ecstatic is designed to work completely offline. All quotes, categories, and core features are available anytime, anywhere, making it the perfect companion for your daily commute, travel, or any situation with limited connectivity.
+-   **100% Offline Capable**: Unlike most apps that require an internet connection, this app is designed to work completely offline. All quotes, categories, and core features are available anytime, anywhere, making it the perfect companion for your daily commute, travel, or any situation with limited connectivity.
 
--   **High-Quality UI/UX**: Ecstatic is not just another list of text. It features a professional, aesthetically pleasing design with smooth animations powered by Framer Motion, a custom animated splash screen, and a beautiful, themeable interface (light/dark modes) that feels premium and responsive.
+-   **High-Quality UI/UX**: This is not just another list of text. It features a professional, aesthetically pleasing design with smooth animations powered by Framer Motion, a custom animated splash screen, and a beautiful, themeable interface (light/dark modes) that feels premium and responsive.
 
 -   **Progressive Web App (PWA)**: The app is a fully installable PWA. This means you can add it to your home screen on any device (mobile, tablet, or desktop) and use it just like a native app, with the added benefit of offline access.
 
--   **True Cross-Platform Experience**: Built on a single, modern codebase using Next.js and Capacitor, Ecstatic runs flawlessly on the web, as a desktop PWA, and as a native app on both iOS and Android. This ensures a consistent and high-quality experience no matter which device you use.
+-   **True Cross-Platform Experience**: Built on a single, modern codebase using Next.js and Capacitor, it runs flawlessly on the web, as a desktop PWA, and as a native app on both iOS and Android. This ensures a consistent and high-quality experience no matter which device you use.
 
--   **Interactive & Shareable Content**: Ecstatic goes beyond simple text display. Users can swipe through beautifully designed quote cards, copy text with one tap, bookmark their favorites, and—most importantly—share quotes as clean, branded images perfect for social media platforms like Instagram, WhatsApp, and Facebook.
+-   **Interactive & Shareable Content**: The app goes beyond simple text display. Users can swipe through beautifully designed quote cards, copy text with one tap, bookmark their favorites, and—most importantly—share quotes as clean, branded images perfect for social media platforms like Instagram, WhatsApp, and Facebook.
 
 ---
 
@@ -74,8 +74,8 @@ To get the project up and running on your local machine, follow these simple ste
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/ecstatic.git
-    cd ecstatic
+    git clone https://github.com/your-username/pickup-lines-ultra.git
+    cd pickup-lines-ultra
     ```
 
 2.  **Install dependencies:**
@@ -154,5 +154,3 @@ This is a **crucial** step. If you miss this, Google Sign-In or other Firebase s
 5.  **Review and Rollout**: Click **"Review release"**, and if everything looks good, click **"Start rollout to Production"**.
 
 That's it! Google will review your update, and it will be live on the Play Store within a few hours to a day.
-
-    
