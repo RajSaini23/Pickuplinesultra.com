@@ -29,10 +29,10 @@ export default function AboutPage() {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm"
       >
-        <Link href="/" passHref>
+        <Link href="/settings" passHref>
           <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
             <ArrowLeft className="h-5 w-5" />
-            <span>Home</span>
+            <span>Settings</span>
           </Button>
         </Link>
         <h1 className="text-2xl font-bold font-headline ml-4">About Ecstatic</h1>
@@ -72,7 +72,7 @@ export default function AboutPage() {
              <Card className="max-w-lg mx-auto bg-muted/50 border-border/20">
               <CardContent className="p-6 text-center">
                 <p className="text-lg">
-                  Ecstatic is passionately built and maintained by a solo independent developer, **INDGROWSIVE**. Driven by a love for multilingual content and inclusive digital experiences, this app is a personal project aimed at bringing a little more joy and connection to the world.
+                  Ecstatic is passionately built and maintained by a solo independent developer, <strong>INDGROWSIVE</strong>. Driven by a love for multilingual content and inclusive digital experiences, this app is a personal project aimed at bringing a little more joy and connection to the world.
                 </p>
               </CardContent>
             </Card>
