@@ -1,11 +1,12 @@
 
 "use client";
 
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, CheckCircle, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -49,27 +50,33 @@ export default function AboutPage() {
             <h2 className="text-4xl md:text-5xl font-bold font-headline text-primary mb-4">
               Your Emotion. Our Expression.
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               Welcome to Pickup Lines Ultra, the world’s largest and most diverse library of Hinglish quotes and conversation starters, designed for every mood, moment, and culture.
             </p>
           </motion.section>
 
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             <FeatureCard title="78+ Categories" description="From Romantic to Dark Humor, Bollywood to K-pop, we have a line for every context." />
             <FeatureCard title="7,800+ Lines" description="A massive, hand-curated collection of original quotes that is constantly growing." />
-            <FeatureCard title="100% Offline" description="The entire app works without an internet connection, making it your perfect companion anywhere." />
+            <FeatureCard title="Offline Support" description="Saved quotes and favorites work offline. New content requires a connection." />
           </motion.div>
           
           <motion.section variants={itemVariants} className="mb-12">
-            <h3 className="text-3xl font-bold text-center mb-6">Our Mission</h3>
-            <p className="text-center text-lg text-muted-foreground">
-              Our mission is simple: to make romantic, witty, and culturally relevant conversation starters accessible to everyone worldwide. We believe that the right words at the right time can bridge gaps, create smiles, and spark connections. This is more than just a quote app—it's a tool for expression.
-            </p>
+            <Card className="bg-muted/30 border-border/20">
+              <CardHeader>
+                <CardTitle className="text-3xl font-bold text-center">Our Mission</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-center text-lg text-muted-foreground">
+                  Our mission is simple: to make romantic, witty, and culturally relevant conversation starters accessible to everyone worldwide. We believe that the right words at the right time can bridge gaps, create smiles, and spark connections. This is more than just a quote app—it's a tool for human expression.
+                </p>
+              </CardContent>
+            </Card>
           </motion.section>
 
           <motion.section variants={itemVariants} className="mb-12">
             <h3 className="text-3xl font-bold text-center mb-6">Meet the Developer</h3>
-             <Card className="max-w-lg mx-auto bg-muted/50 border-border/20">
+             <Card className="max-w-lg mx-auto bg-card border-border/20">
               <CardContent className="p-6 text-center">
                 <p className="text-lg">
                   Pickup Lines Ultra is passionately built and maintained by a solo independent developer, <strong>INDGROWSIVE</strong>. Driven by a love for multilingual content and inclusive digital experiences, this app is a personal project aimed at bringing a little more joy and connection to the world.
@@ -81,19 +88,58 @@ export default function AboutPage() {
            <motion.section variants={itemVariants} className="mb-12">
             <h3 className="text-3xl font-bold text-center mb-6">Transparency & Trust</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InfoCard title="How We Operate" description="This is a 100% free-to-use application, supported by non-intrusive advertisements to cover development and server costs. Our goal is to keep the core experience free forever." />
-                <InfoCard title="Your Privacy Matters" description="We respect your privacy. The app requires no account, login, or personal data collection. Your bookmarks and preferences are stored locally on your device." />
+                <InfoCard 
+                    title="How We Operate" 
+                    items={[
+                        "100% Free-to-Use Application.",
+                        "Supported by non-intrusive ads to cover costs.",
+                        "Core experience is free forever, no paywalls."
+                    ]} 
+                />
+                <InfoCard 
+                    title="Your Privacy Matters" 
+                    items={[
+                        "No account or login required.",
+                        "No personal data collection.",
+                        "Bookmarks and preferences are stored on your device only."
+                    ]}
+                />
             </div>
            </motion.section>
 
+          <motion.section variants={itemVariants} className="mb-12">
+            <h3 className="text-3xl font-bold text-center mb-6">Frequently Asked Questions (FAQ)</h3>
+             <Accordion type="single" collapsible className="w-full">
+                <FAQItem 
+                    question="How many quotes are in Pickup Lines Ultra?" 
+                    answer="Over 7,800+ hand-curated original lines across 78+ categories, and we're constantly adding more."
+                />
+                <FAQItem 
+                    question="Which languages are supported?" 
+                    answer="Currently, we support Hinglish, Hindi, English, and Mandarin Chinese, complete with culturally adapted animations."
+                />
+                <FAQItem 
+                    question="Does the app work offline?" 
+                    answer="Yes, but with a small note. Your saved quotes and bookmarked favorites work perfectly offline. However, downloading new content and categories requires an internet connection."
+                />
+                <FAQItem 
+                    question="Is it completely free to use?" 
+                    answer="Absolutely. The app is 100% free. We use non-intrusive advertisements to support development and server costs."
+                />
+                 <FAQItem 
+                    question="Do I need to create an account to use the app?" 
+                    answer="No. We have a strict no-account, no-login policy. We do not collect any personal data, ensuring your privacy is always protected."
+                />
+            </Accordion>
+          </motion.section>
+
             <motion.section variants={itemVariants} className="text-center">
                 <h3 className="text-3xl font-bold mb-4">The Future is Bright</h3>
-                <p className="text-lg text-muted-foreground mb-6">We're just getting started! Our future plans include expanding to 100+ languages, adding voice playback for quotes, community contributions, and much more.</p>
+                <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">We're just getting started! Our roadmap includes expanding to 100+ languages, adding voice playback for quotes, community contributions, and much more.</p>
                 <Link href="/" passHref>
                     <Button size="lg" className="h-14 text-lg rounded-xl">Explore All Categories</Button>
                 </Link>
             </motion.section>
-
         </motion.div>
       </main>
     </div>
@@ -101,7 +147,7 @@ export default function AboutPage() {
 }
 
 const FeatureCard = ({ title, description }: { title: string, description: string }) => (
-  <Card className="text-center border-border/20 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300">
+  <Card className="text-center border-border/20 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 transform hover:-translate-y-1">
     <CardHeader>
       <CardTitle className="text-2xl font-bold text-primary">{title}</CardTitle>
     </CardHeader>
@@ -111,13 +157,31 @@ const FeatureCard = ({ title, description }: { title: string, description: strin
   </Card>
 );
 
-const InfoCard = ({ title, description }: { title: string, description: string }) => (
+const InfoCard = ({ title, items }: { title: string, items: string[] }) => (
      <Card className="bg-card border-border/20">
         <CardHeader>
             <CardTitle>{title}</CardTitle>
         </CardHeader>
-        <CardContent>
-            <p className="text-muted-foreground">{description}</p>
+        <CardContent className="space-y-3">
+            {items.map((item, index) => (
+                <div key={index} className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
+                    <p className="text-muted-foreground">{item}</p>
+                </div>
+            ))}
         </CardContent>
     </Card>
 );
+
+const FAQItem = ({ question, answer }: { question: string, answer: string }) => (
+    <AccordionItem value={question} className="border-b-border/20">
+        <AccordionTrigger className="text-lg text-left hover:no-underline">
+            {question}
+        </AccordionTrigger>
+        <AccordionContent className="text-muted-foreground text-base pt-2">
+            {answer}
+        </AccordionContent>
+    </AccordionItem>
+);
+
+    
