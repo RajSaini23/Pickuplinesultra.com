@@ -89,9 +89,7 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
         <footer className="text-center text-xs text-muted-foreground/70">
           <p className="font-semibold tracking-wider">Developed By INDGROWSIVE</p>
           <Link 
-            href="https://pickuplinesultra.com/about" 
-            target="_blank" 
-            rel="noopener noreferrer" 
+            href="/about" 
             className="mt-2 inline-block text-primary/80 hover:text-primary hover:underline transition-colors text-xs"
           >
             About This Website
