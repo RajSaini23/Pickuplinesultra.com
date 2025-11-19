@@ -4,13 +4,13 @@ import { ClientLayout } from './client-layout';
 import './globals.css';
 
 const APP_NAME = "Pickup Lines Ultra";
-const APP_DESCRIPTION = "Explore a curated collection of pickup lines in Hinglish for every mood and occasion. From cute and romantic to bold and flirty, find the perfect line to express yourself and win hearts. 100% offline, with a beautiful and easy-to-use interface.";
+const APP_DESCRIPTION = "World's largest library of 7,800+ original pickup lines in Hinglish & 78+ languages. Works offline, 100% free. Find witty, romantic, and bold quotes for any mood.";
 const APP_URL = "https://pickuplinesultra.com";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
   title: {
-    default: `${APP_NAME} - Your Emotion. Our Expression.`,
+    default: "Pickup Lines Ultra - Hinglish & Multilingual Quotes",
     template: `%s | ${APP_NAME}`,
   },
   description: APP_DESCRIPTION,
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: APP_NAME,
     title: {
-      default: APP_NAME,
+      default: "Pickup Lines Ultra - Hinglish & Multilingual Quotes",
       template: `%s | ${APP_NAME}`,
     },
     description: APP_DESCRIPTION,
@@ -43,14 +43,14 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Pickup Lines Ultra App",
+        alt: "Pickup Lines Ultra - 7800+ quotes in 78+ languages",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: {
-      default: APP_NAME,
+      default: "Pickup Lines Ultra - Hinglish & Multilingual Quotes",
       template: `%s | ${APP_NAME}`,
     },
     description: APP_DESCRIPTION,
@@ -78,18 +78,24 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: APP_NAME,
-  operatingSystem: 'WEB',
+  operatingSystem: 'WEB, Android, iOS',
   applicationCategory: 'LifestyleApplication',
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: '4.8',
-    ratingCount: '1500',
+    ratingCount: '7800',
   },
   offers: {
     '@type': 'Offer',
     price: '0',
     priceCurrency: 'INR',
   },
+  description: APP_DESCRIPTION,
+  author: {
+    '@type': 'Person',
+    name: 'INDGROWSIVE',
+    url: APP_URL
+  }
 };
 
 export default function RootLayout({
