@@ -1,11 +1,11 @@
 
 "use client";
 
-import { ArrowLeft, CheckCircle, ChevronDown } from 'lucide-react';
+import { ArrowLeft, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const containerVariants = {
@@ -21,9 +21,60 @@ const itemVariants = {
   visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100 } },
 };
 
+const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+        {
+            '@type': 'Question',
+            name: 'How many quotes are in Pickup Lines Ultra?',
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: "Pickup Lines Ultra has over 7,800+ hand-curated original lines across 78+ categories, and we're constantly adding more."
+            }
+        },
+        {
+            '@type': 'Question',
+            name: 'Which languages are supported?',
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Currently, the app supports Hinglish, Hindi, English, and Mandarin Chinese, complete with culturally adapted animations and high-quality typography.'
+            }
+        },
+        {
+            '@type': 'Question',
+            name: 'Does the app work offline?',
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Yes, the app offers partial offline support. Your saved quotes and bookmarked favorites work perfectly offline. However, downloading new content and categories requires an internet connection.'
+            }
+        },
+        {
+            '@type': 'Question',
+            name: 'Is it completely free to use?',
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Absolutely. The app is 100% free to use. We are supported by non-intrusive advertisements to cover development and server costs.'
+            }
+        },
+        {
+            '@type': 'Question',
+            name: 'Do I need to create an account to use the app?',
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'No. Pickup Lines Ultra has a strict no-account, no-login policy. We do not collect any personal data, ensuring your privacy is always protected.'
+            }
+        }
+    ]
+};
+
 export default function AboutPage() {
   return (
     <div className="min-h-dvh bg-background text-foreground">
+       <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -183,5 +234,3 @@ const FAQItem = ({ question, answer }: { question: string, answer: string }) => 
         </AccordionContent>
     </AccordionItem>
 );
-
-    

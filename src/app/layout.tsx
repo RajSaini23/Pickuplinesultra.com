@@ -74,7 +74,20 @@ export const viewport: Viewport = {
   themeColor: '#2A2A3A',
 };
 
-const jsonLd = {
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'INDGROWSIVE',
+  url: APP_URL,
+  logo: `${APP_URL}/icons/icon-512x512.png`,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'indgrowsivestudio@gmail.com',
+    contactType: 'Customer Support',
+  },
+};
+
+const softwareAppSchema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: APP_NAME,
@@ -110,7 +123,11 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+         <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
         />
       </head>
       <body className="font-body antialiased">
