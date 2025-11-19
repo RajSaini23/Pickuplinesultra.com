@@ -1,11 +1,11 @@
 
 "use client";
 
-import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const containerVariants = {
@@ -87,7 +87,7 @@ export default function AboutPage() {
             <span>Settings</span>
           </Button>
         </Link>
-        <h1 className="text-2xl font-bold font-headline ml-4">About Pickup Lines Ultra</h1>
+        <h1 className="text-2xl font-bold font-headline ml-4">About App</h1>
       </motion.header>
 
       <main className="p-4 md:p-8">
@@ -111,26 +111,15 @@ export default function AboutPage() {
             <FeatureCard title="7,800+ Lines" description="A massive, hand-curated collection of original quotes that is constantly growing." />
             <FeatureCard title="Offline Support" description="Saved quotes and favorites work offline. New content requires a connection." />
           </motion.div>
-          
+
           <motion.section variants={itemVariants} className="mb-12">
-            <Card className="bg-muted/30 border-border/20">
+             <Card className="bg-muted/30 border-border/20">
               <CardHeader>
                 <CardTitle className="text-3xl font-bold text-center">Our Mission</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-center text-lg text-muted-foreground">
                   Our mission is simple: to make romantic, witty, and culturally relevant conversation starters accessible to everyone worldwide. We believe that the right words at the right time can bridge gaps, create smiles, and spark connections. This is more than just a quote app—it's a tool for human expression.
-                </p>
-              </CardContent>
-            </Card>
-          </motion.section>
-
-          <motion.section variants={itemVariants} className="mb-12">
-            <h3 className="text-3xl font-bold text-center mb-6">Meet the Developer</h3>
-             <Card className="max-w-lg mx-auto bg-card border-border/20">
-              <CardContent className="p-6 text-center">
-                <p className="text-lg">
-                  Pickup Lines Ultra is passionately built and maintained by a solo independent developer, <strong>INDGROWSIVE</strong>. Driven by a love for multilingual content and inclusive digital experiences, this app is a personal project aimed at bringing a little more joy and connection to the world.
                 </p>
               </CardContent>
             </Card>

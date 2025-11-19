@@ -15,6 +15,7 @@ import SplitText from '@/components/ui/split-text';
 import { useNetwork } from '@/context/network-context';
 import { useRatingPrompt } from '@/hooks/use-rating-prompt';
 import { ScrollIndicator } from '@/components/ui/scroll-indicator';
+import Link from 'next/link';
 
 const AppLogo = ({ className }: { className?: string }) => (
   <motion.div
@@ -184,7 +185,7 @@ export default function Dashboard() {
 
 
   return (
-    <div className="flex flex-col min-h-screen bg-muted/30 text-foreground">
+    <div className="flex flex-col min-h-dvh bg-muted/30 text-foreground">
       <header className="sticky top-0 z-10 flex items-center justify-between p-4 bg-primary text-primary-foreground">
         <div className="flex items-center gap-2">
             <AppLogo className="h-9 w-9" />
@@ -230,7 +231,7 @@ export default function Dashboard() {
         </AnimatePresence>
       </div>
 
-      <main className="flex-grow p-4 md:px-6 md:py-8 -mt-8">
+      <main className="flex-grow p-4 md:px-6 md:py-8 -mt-8 pb-12">
         <div className="flex flex-col gap-y-6">
           {filteredCategories.map((category, index) => (
             <AnimatedCategoryCard key={category.slug} delay={index * 0.05}>
@@ -257,6 +258,16 @@ export default function Dashboard() {
             </AnimatedCategoryCard>
           ))}
         </div>
+         <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="text-center mt-12"
+          >
+            <Link href="/about" passHref>
+                <Button size="lg" className="h-14 text-lg rounded-xl">Explore All Categories</Button>
+            </Link>
+        </motion.div>
       </main>
       <AnimatePresence>
         {showScrollIndicator && <ScrollIndicator />}
@@ -264,4 +275,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
