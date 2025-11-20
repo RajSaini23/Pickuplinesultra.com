@@ -91,14 +91,14 @@ export const SplashScreen = ({ children }: { children: React.ReactNode }) => {
         
           <div className="w-full max-w-xs mt-12">
             <Progress value={progress} className="w-full h-2" />
-            <p className="mt-3 text-sm text-muted-foreground/90">Initializing... {Math.round(progress)}%</p>
+            <p className="mt-3 text-sm text-muted-foreground/90 min-w-[150px]">Initializing... {Math.round(progress)}%</p>
           </div>
         </div>
         <footer className="text-center text-xs text-muted-foreground/70">
           <p className="font-semibold tracking-wider">Developed By INDGROWSIVE</p>
           <Link 
             href="/about" 
-            className="mt-2 inline-flex items-center gap-1.5 text-primary/80 hover:text-primary hover:underline transition-colors text-xs"
+            className="mt-2 inline-flex items-center gap-1.5 text-primary/80 hover:text-primary hover:underline transition-colors text-xs h-6 min-w-[120px] justify-center"
           >
             <span>About This</span>
             <AnimatePresence mode="wait">
