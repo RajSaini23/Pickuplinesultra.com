@@ -82,6 +82,12 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  other: {
+    "google-site-verification": "5xY1j_y-h_Z5l9n_j-O5K-5kY3pG3aP5xY3pG3aP5xY",
+    "msvalidate.01": "5xY1j_y-h_Z5l9n_j-O5K-5kY3pG3aP5xY3pG3aP5xY",
+    'link[rel=preconnect][href="https://fonts.googleapis.com"]': '',
+    'link[rel=preconnect][href="https://fonts.gstatic.com"]': '{"crossOrigin": "anonymous"}'
+  }
 };
 
 export const viewport: Viewport = {
