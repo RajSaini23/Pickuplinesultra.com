@@ -2,7 +2,7 @@
 import { MetadataRoute } from 'next';
 import { categories } from '@/data';
 
-const APP_URL = "https://pickuplinesultra.com";
+const APP_URL = "https://pickuplines-ultra.web.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   
