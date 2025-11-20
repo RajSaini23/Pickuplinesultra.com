@@ -1,11 +1,25 @@
 
 import type { Metadata, Viewport } from 'next';
+import { Urbanist, Noto_Sans_Devanagari } from 'next/font/google';
 import { ClientLayout } from './client-layout';
+import { cn } from '@/lib/utils';
 import './globals.css';
 
 const APP_NAME = "Pickup Lines Ultra";
 const APP_DESCRIPTION = "World's largest library of 7,800+ original pickup lines in Hinglish & 78+ languages. Works offline, 100% free. Find witty, romantic, and bold quotes for any mood.";
 const APP_URL = "https://pickuplinesultra.com";
+
+const urbanist = Urbanist({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+const notoDevanagari = Noto_Sans_Devanagari({
+  subsets: ['devanagari'],
+  variable: '--font-headline',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -130,7 +144,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
         />
       </head>
-      <body className="font-body antialiased">
+      <body className={cn(
+          "font-body antialiased",
+          urbanist.variable,
+          notoDevanagari.variable
+        )}>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
