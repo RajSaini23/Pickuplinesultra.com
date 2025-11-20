@@ -10,9 +10,13 @@ import { Card } from '@/components/ui/card';
 import { languages, Language } from '@/lib/languages';
 import { useLanguage } from '@/context/language-context';
 import { cn } from '@/lib/utils';
-import { LanguageConfirmationDialog } from '@/components/ui/language-confirmation-dialog';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { Separator } from '@/components/ui/separator';
+import dynamic from 'next/dynamic';
+
+const LanguageConfirmationDialog = dynamic(() =>
+  import('@/components/ui/language-confirmation-dialog').then((mod) => mod.LanguageConfirmationDialog)
+, { ssr: false });
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -147,5 +151,3 @@ export default function PersonalizationPage() {
         </div>
     )
 }
-
-    

@@ -7,8 +7,10 @@ import { Home, Bookmark, Settings, AppWindow, Download, Share } from 'lucide-rea
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useInstallPrompt } from '@/context/install-prompt-context';
-import AppInstallDialog from '@/components/ui/app-install-dialog';
 import * as React from 'react';
+import dynamic from 'next/dynamic';
+
+const AppInstallDialog = dynamic(() => import('@/components/ui/app-install-dialog'), { ssr: false });
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
