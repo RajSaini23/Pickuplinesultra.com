@@ -1,92 +1,79 @@
 
-import withPWAInit from '@ducanh2912/next-pwa';
+/** @type {import('next').NextConfig} */
+import withPWA from '@ducanh2912/next-pwa';
 
-const withPWA = withPWAInit({
+const nextConfig = {
+  reactStrictMode: true,
+  // This is the key setting to remove legacy JS
+  experimental: {
+    browsersListForSwc: true,
+    legacyBrowsers: false,
+  },
+};
+
+const pwaConfig = withPWA({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
-  sw: 'sw.js',
-  swSrc: 'public/sw.js', // Point to our custom service worker
+  disable: process.env.NODE_ENV === 'development',
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
   runtimeCaching: [
     {
-      urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css|svg|png|jpg|jpeg|gif)$/i,
-      handler: "CacheFirst",
+      urlPattern: /^https?:\/\/.*\.(?:png|jpg|jpeg|svg|gif|ico|webp|avif)$/i,
+      handler: 'CacheFirst',
       options: {
-        cacheName: "static-assets",
+        cacheName: 'images',
         expiration: {
-          maxEntries: 64,
+          maxEntries: 150,
           maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
         },
       },
     },
     {
-      urlPattern: /\.(?:js|css)$/i,
-      handler: "StaleWhileRevalidate",
+      urlPattern: /^https?:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
+      handler: 'CacheFirst',
       options: {
-        cacheName: "static-code-assets",
+        cacheName: 'google-fonts',
         expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          maxEntries: 10,
+          maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
         },
       },
     },
     {
-      urlPattern: /\/api\//i,
+      urlPattern: /\/_next\/static\/.*/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'next-static',
+        expiration: {
+          maxEntries: 100,
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+        },
+      },
+    },
+    {
       handler: 'NetworkFirst',
-      method: 'POST',
-      options: {
-        cacheName: 'api-data-post',
-        backgroundSync: {
-          name: 'api-sync-queue',
-          options: {
-            maxRetentionTime: 24 * 60,
-          },
-        },
+      urlPattern: ({ request, url, event }) => {
+        if (request.mode === 'navigate') {
+          return true;
+        }
+        return false;
       },
-    },
-    {
-      urlPattern: /.*/i,
-      handler: "NetworkFirst",
       options: {
-        cacheName: "others",
+        cacheName: 'pages',
         expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          maxEntries: 50,
+          maxAgeSeconds: 24 * 60 * 60, // 1 day
         },
-        networkTimeoutSeconds: 10,
+        networkTimeoutSeconds: 3,
       },
     },
   ],
   fallbacks: {
-    document: "/_offline",
-  }
+    document: '/_offline',
+  },
 });
 
 
-const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'placehold.co',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos',
-        port: '',
-        pathname: '/**',
-      },
-    ],
-  },
-};
-
-export default withPWA(nextConfig);
+export default pwaConfig(nextConfig);
