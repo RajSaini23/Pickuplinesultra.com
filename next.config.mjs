@@ -1,15 +1,12 @@
-
 /** @type {import('next').NextConfig} */
-
-import withPWA from "@ducanh2912/next-pwa";
-
-const pwaConfig = withPWA({
-  dest: "public",
-  disable: process.env.NODE_ENV === "development",
+const withPWA = require('@ducanh2912/next-pwa').default({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
+  sw: '/sw.js',
   fallbacks: {
-    document: "/_offline",
+    document: '/_offline',
   },
   workboxOptions: {
     runtimeCaching: [
@@ -20,9 +17,9 @@ const pwaConfig = withPWA({
           cacheName: 'google-fonts-webfonts',
           expiration: {
             maxEntries: 4,
-            maxAgeSeconds: 365 * 24 * 60 * 60 // 1 year
-          }
-        }
+            maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
+          },
+        },
       },
       {
         urlPattern: /^https:\/\/fonts\.(?:googleapis)\.com\/.*/i,
@@ -31,9 +28,9 @@ const pwaConfig = withPWA({
           cacheName: 'google-fonts-stylesheets',
           expiration: {
             maxEntries: 4,
-            maxAgeSeconds: 7 * 24 * 60 * 60 // 1 week
-          }
-        }
+            maxAgeSeconds: 7 * 24 * 60 * 60, // 1 week
+          },
+        },
       },
       {
         urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,
@@ -42,9 +39,9 @@ const pwaConfig = withPWA({
           cacheName: 'static-font-assets',
           expiration: {
             maxEntries: 4,
-            maxAgeSeconds: 7 * 24 * 60 * 60 // 1 week
-          }
-        }
+            maxAgeSeconds: 7 * 24 * 60 * 60, // 1 week
+          },
+        },
       },
       {
         urlPattern: /\.(?:jpg|jpeg|gif|png|svg|ico|webp|avif)$/i,
@@ -53,9 +50,9 @@ const pwaConfig = withPWA({
           cacheName: 'static-image-assets',
           expiration: {
             maxEntries: 64,
-            maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
-          }
-        }
+            maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+          },
+        },
       },
       {
         urlPattern: /\/_next\/image\?url=.+$/i,
@@ -64,9 +61,9 @@ const pwaConfig = withPWA({
           cacheName: 'next-image',
           expiration: {
             maxEntries: 64,
-            maxAgeSeconds: 24 * 60 * 60 // 24 hours
-          }
-        }
+            maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          },
+        },
       },
       {
         urlPattern: /\.(?:mp3|wav|ogg)$/i,
@@ -76,9 +73,9 @@ const pwaConfig = withPWA({
           cacheName: 'static-audio-assets',
           expiration: {
             maxEntries: 32,
-            maxAgeSeconds: 24 * 60 * 60 // 24 hours
-          }
-        }
+            maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          },
+        },
       },
       {
         urlPattern: /\.(?:mp4)$/i,
@@ -88,9 +85,9 @@ const pwaConfig = withPWA({
           cacheName: 'static-video-assets',
           expiration: {
             maxEntries: 32,
-            maxAgeSeconds: 24 * 60 * 60 // 24 hours
-          }
-        }
+            maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          },
+        },
       },
       {
         urlPattern: /\.(?:js)$/i,
@@ -99,9 +96,9 @@ const pwaConfig = withPWA({
           cacheName: 'static-js-assets',
           expiration: {
             maxEntries: 48,
-            maxAgeSeconds: 24 * 60 * 60 // 24 hours
-          }
-        }
+            maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          },
+        },
       },
       {
         urlPattern: /\.(?:css|less)$/i,
@@ -110,9 +107,9 @@ const pwaConfig = withPWA({
           cacheName: 'static-style-assets',
           expiration: {
             maxEntries: 32,
-            maxAgeSeconds: 24 * 60 * 60 // 24 hours
-          }
-        }
+            maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          },
+        },
       },
       {
         urlPattern: /\/_next\/data\/.+\/.+\.json$/i,
@@ -121,9 +118,9 @@ const pwaConfig = withPWA({
           cacheName: 'next-data',
           expiration: {
             maxEntries: 32,
-            maxAgeSeconds: 24 * 60 * 60 // 24 hours
-          }
-        }
+            maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          },
+        },
       },
       {
         urlPattern: /\.(?:json|xml|csv)$/i,
@@ -132,17 +129,17 @@ const pwaConfig = withPWA({
           cacheName: 'static-data-assets',
           expiration: {
             maxEntries: 32,
-            maxAgeSeconds: 24 * 60 * 60 // 24 hours
-          }
-        }
+            maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          },
+        },
       },
       {
         urlPattern: ({ url }) => {
-          const isSameOrigin = self.origin === url.origin
-          if (!isSameOrigin) return false
-          const pathname = url.pathname
-          if (pathname.startsWith('/api/')) return false
-          return true
+          const isSameOrigin = self.origin === url.origin;
+          if (!isSameOrigin) return false;
+          const pathname = url.pathname;
+          if (pathname.startsWith('/api/')) return false;
+          return true;
         },
         handler: 'NetworkFirst',
         method: 'GET',
@@ -150,18 +147,17 @@ const pwaConfig = withPWA({
           cacheName: 'others',
           expiration: {
             maxEntries: 32,
-            maxAgeSeconds: 24 * 60 * 60 // 24 hours
+            maxAgeSeconds: 24 * 60 * 60, // 24 hours
           },
-          networkTimeoutSeconds: 10
-        }
-      }
-    ]
-  }
+          networkTimeoutSeconds: 10,
+        },
+      },
+    ],
+  },
 });
 
 const nextConfig = {
-  // Your other Next.js config goes here
-  reactStrictMode: true,
+  // Your other Next.js config
 };
 
-export default pwaConfig(nextConfig);
+export default withPWA(nextConfig);
