@@ -6,14 +6,14 @@ import { useEffect } from 'react';
 const CapacitorSetup = () => {
   useEffect(() => {
     const initializeCapacitor = async () => {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== 'undefined' && 'Capacitor' in window) {
         try {
-          const { Capacitor } = await import('@capacitor/core');
+          const { Capacitor } = await import(/* webpackIgnore: true */ '@capacitor/core');
           if (Capacitor.isNativePlatform()) {
-            const { SplashScreen } = await import('@capacitor/splash-screen');
+            const { SplashScreen } = await import(/* webpackIgnore: true */ '@capacitor/splash-screen');
             await SplashScreen.hide();
             
-            const { StatusBar, Style } = await import('@capacitor/status-bar');
+            const { StatusBar, Style } = await import(/* webpackIgnore: true */ '@capacitor/status-bar');
             const setStatusBarStyle = async () => {
               try {
                 const theme = document.body.classList.contains('dark') ? Style.Dark : Style.Light;
@@ -40,3 +40,4 @@ const CapacitorSetup = () => {
 };
 
 export default CapacitorSetup;
+
