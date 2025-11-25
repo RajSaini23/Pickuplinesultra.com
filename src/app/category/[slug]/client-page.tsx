@@ -12,7 +12,6 @@ import type { Category, Quote } from '@/data/types';
 import { CategoryIcon } from '@/lib/categories';
 import { useBookmarks } from '@/context/bookmark-context';
 import { useToast } from '@/hooks/use-toast';
-import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
 import { useLanguage } from '@/context/language-context';
 
@@ -169,6 +168,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     }
     
     setSharingQuoteId(quote.id);
+    const htmlToImage = await import('html-to-image');
 
     try {
         const blob = await htmlToImage.toBlob(cardRef.current, {

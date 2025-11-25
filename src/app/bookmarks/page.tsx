@@ -1,3 +1,4 @@
+
 // src/app/bookmarks/page.tsx
 "use client";
 
@@ -11,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
-import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
 import { useLanguage } from '@/context/language-context';
 
@@ -52,6 +52,7 @@ export default function BookmarksPage() {
         return;
     }
 
+    const htmlToImage = await import('html-to-image');
     setSharingQuoteId(quote.id);
     const textToShare = getTranslation(quote);
 
