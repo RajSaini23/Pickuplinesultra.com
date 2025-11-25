@@ -8,7 +8,6 @@ import { SplashScreen as CustomSplashScreen } from '@/components/splash-screen';
 import { BookmarkProvider } from '@/context/bookmark-context';
 import { LanguageProvider, useLanguage } from '@/context/language-context';
 import { NetworkProvider, useNetwork } from '@/context/network-context';
-import OfflinePage from '@/app/_offline/page';
 import { Wifi } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RatingDialogProvider } from '@/components/ui/rating-dialog';
@@ -22,6 +21,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 
 const CapacitorSetup = dynamic(() => import('@/components/ui/capacitor-setup'), { ssr: false });
+const OfflinePage = dynamic(() => import('@/app/_offline/page').then(mod => mod.default), { ssr: false });
+
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { isOnline, justReconnected } = useNetwork();
@@ -43,7 +44,10 @@ function AppContent({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
       
-      {!isOnline ? <OfflinePage /> : <>{children}</>}
+      {!isOnline && <OfflinePage />}
+      <div style={{ display: isOnline ? 'block' : 'none' }}>
+        {children}
+      </div>
     </div>
   );
 }
@@ -92,32 +96,31 @@ export function ClientLayout({
   }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.workbox !== undefined) {
-      const wb = window.workbox;
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      const wb = (window as any).workbox;
+      if (wb) {
+        const promptForUpdate = () => {
+          toast({
+            title: 'Update Available!',
+            description: 'A new version is available. Click to reload and update.',
+            action: (
+              <Button onClick={() => wb.messageSW({ type: 'SKIP_WAITING' })} className="text-white font-bold">
+                Reload
+              </Button>
+            ),
+            duration: Infinity,
+          });
+        };
 
-      const promptForUpdate = () => {
-        toast({
-          title: 'Update Available!',
-          description: 'A new version is available. Click to reload and update.',
-          action: (
-            <Button onClick={() => wb.messageSW({ type: 'SKIP_WAITING' })} className="text-white font-bold">
-              Reload
-            </Button>
-          ),
-          duration: Infinity,
+        wb.addEventListener('waiting', promptForUpdate);
+        wb.addEventListener('controlling', () => {
+          window.location.reload();
         });
-      };
 
-      // Add event listener to show prompt when new service worker is waiting
-      wb.addEventListener('waiting', promptForUpdate);
-
-      // Add event listener to reload the page when the new service worker has taken control
-      wb.addEventListener('controlling', () => {
-        window.location.reload();
-      });
-
-      // Register the service worker
-      wb.register();
+        // A fallback registration that works for next-pwa.
+        // It's safe to call this even if the service worker is already registered.
+        wb.register();
+      }
     }
   }, [toast]);
 
