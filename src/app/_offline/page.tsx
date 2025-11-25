@@ -1,22 +1,23 @@
 
 'use client'
 
+import { Button } from '@/components/ui/button'
+import { WifiOff } from 'lucide-react'
+
 export default function OfflinePage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-pink-900">
-      <div className="text-center text-white p-8">
-        <div className="text-6xl mb-4">📵</div>
-        <h1 className="text-3xl font-bold mb-4">You're Offline</h1>
-        <p className="text-lg mb-6">
-          No worries! You can still browse your saved pickup lines and quotes.
-        </p>
-        <a 
-          href="/favorites" 
-          className="inline-block bg-white text-purple-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition"
-        >
-          View Saved Lines
-        </a>
-      </div>
+    <div className="flex flex-col items-center justify-center h-screen bg-background text-foreground p-8 text-center">
+      <WifiOff className="h-24 w-24 text-destructive/80 mb-6" />
+      <h1 className="text-4xl font-bold font-headline mb-2">You're Offline</h1>
+      <p className="text-lg text-muted-foreground max-w-md mx-auto mb-8">
+        It seems you've lost your connection. Please check your internet and try again.
+      </p>
+      <a 
+        href="/" 
+        className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold hover:bg-primary/90 transition-transform active:scale-95"
+      >
+        Go to Homepage
+      </a>
     </div>
   )
 }

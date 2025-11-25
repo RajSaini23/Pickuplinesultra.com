@@ -8,7 +8,7 @@ import { SplashScreen as CustomSplashScreen } from '@/components/splash-screen';
 import { BookmarkProvider } from '@/context/bookmark-context';
 import { LanguageProvider, useLanguage } from '@/context/language-context';
 import { NetworkProvider, useNetwork } from '@/context/network-context';
-import { OfflinePage } from '@/components/ui/offline-page';
+import OfflinePage from '@/app/_offline/page';
 import { Wifi } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RatingDialogProvider } from '@/components/ui/rating-dialog';
@@ -19,6 +19,7 @@ import { getToken } from 'firebase/messaging';
 import LegacyDeviceWarning from '@/components/ui/legacy-device-warning';
 import dynamic from 'next/dynamic';
 import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
 
 const CapacitorSetup = dynamic(() => import('@/components/ui/capacitor-setup'), { ssr: false });
 
@@ -91,29 +92,26 @@ export function ClientLayout({
   }, []);
 
   useEffect(() => {
-    if (
-      typeof window !== 'undefined' &&
-      'serviceWorker' in navigator &&
-      window.workbox !== undefined
-    ) {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.workbox !== undefined) {
       const wb = window.workbox;
-      
+
       const promptForUpdate = () => {
         toast({
           title: 'Update Available!',
-          description: 'A new version of the app is available. Please relaunch to update.',
+          description: 'A new version is available. Click to reload and update.',
           action: (
-             <button onClick={() => wb.messageSW({ type: 'SKIP_WAITING' })} className="text-white font-bold">
-               Relaunch
-             </button>
+            <Button onClick={() => wb.messageSW({ type: 'SKIP_WAITING' })} className="text-white font-bold">
+              Reload
+            </Button>
           ),
-          duration: Infinity
+          duration: Infinity,
         });
       };
 
+      // Add event listener to show prompt when new service worker is waiting
       wb.addEventListener('waiting', promptForUpdate);
 
-      // Once the new SW is controlling the page, reload
+      // Add event listener to reload the page when the new service worker has taken control
       wb.addEventListener('controlling', () => {
         window.location.reload();
       });
