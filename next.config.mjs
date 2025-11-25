@@ -1,79 +1,167 @@
 
 /** @type {import('next').NextConfig} */
-import withPWA from '@ducanh2912/next-pwa';
+import withPWAInit from '@ducanh2912/next-pwa';
 
-const nextConfig = {
-  reactStrictMode: true,
-  // This is the key setting to remove legacy JS
-  experimental: {
-    browsersListForSwc: true,
-    legacyBrowsers: false,
-  },
-};
-
-const pwaConfig = withPWA({
+const withPWA = withPWAInit({
   dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
-  cacheOnFrontEndNav: true,
-  aggressiveFrontEndNavCaching: true,
-  runtimeCaching: [
-    {
-      urlPattern: /^https?:\/\/.*\.(?:png|jpg|jpeg|svg|gif|ico|webp|avif)$/i,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'images',
-        expiration: {
-          maxEntries: 150,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
-        },
-      },
-    },
-    {
-      urlPattern: /^https?:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'google-fonts',
-        expiration: {
-          maxEntries: 10,
-          maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
-        },
-      },
-    },
-    {
-      urlPattern: /\/_next\/static\/.*/i,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'next-static',
-        expiration: {
-          maxEntries: 100,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
-        },
-      },
-    },
-    {
-      handler: 'NetworkFirst',
-      urlPattern: ({ request, url, event }) => {
-        if (request.mode === 'navigate') {
-          return true;
-        }
-        return false;
-      },
-      options: {
-        cacheName: 'pages',
-        expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 24 * 60 * 60, // 1 day
-        },
-        networkTimeoutSeconds: 3,
-      },
-    },
-  ],
+  sw: 'sw.js',
   fallbacks: {
     document: '/_offline',
   },
+   workboxOptions: {
+    runtimeCaching: [
+      {
+        urlPattern: /^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'google-fonts-webfonts',
+          expiration: {
+            maxEntries: 4,
+            maxAgeSeconds: 365 * 24 * 60 * 60 // 1 year
+          }
+        }
+      },
+      {
+        urlPattern: /^https:\/\/fonts\.(?:googleapis)\.com\/.*/i,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'google-fonts-stylesheets',
+          expiration: {
+            maxEntries: 4,
+            maxAgeSeconds: 7 * 24 * 60 * 60 // 1 week
+          }
+        }
+      },
+      {
+        urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'static-font-assets',
+          expiration: {
+            maxEntries: 4,
+            maxAgeSeconds: 7 * 24 * 60 * 60 // 1 week
+          }
+        }
+      },
+      {
+        urlPattern: /\.(?:jpg|jpeg|gif|png|svg|ico|webp|avif)$/i,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'static-image-assets',
+          expiration: {
+            maxEntries: 64,
+            maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
+          }
+        }
+      },
+      {
+        urlPattern: /\/_next\/image\?url=.+$/i,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'next-image',
+          expiration: {
+            maxEntries: 64,
+            maxAgeSeconds: 24 * 60 * 60 // 24 hours
+          }
+        }
+      },
+      {
+        urlPattern: /\.(?:mp3|wav|ogg)$/i,
+        handler: 'CacheFirst',
+        options: {
+          rangeRequests: true,
+          cacheName: 'static-audio-assets',
+          expiration: {
+            maxEntries: 32,
+            maxAgeSeconds: 24 * 60 * 60 // 24 hours
+          }
+        }
+      },
+      {
+        urlPattern: /\.(?:mp4)$/i,
+        handler: 'CacheFirst',
+        options: {
+          rangeRequests: true,
+          cacheName: 'static-video-assets',
+          expiration: {
+            maxEntries: 32,
+            maxAgeSeconds: 24 * 60 * 60 // 24 hours
+          }
+        }
+      },
+      {
+        urlPattern: /\.(?:js)$/i,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'static-js-assets',
+          expiration: {
+            maxEntries: 48,
+            maxAgeSeconds: 24 * 60 * 60 // 24 hours
+          }
+        }
+      },
+      {
+        urlPattern: /\.(?:css|less)$/i,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'static-style-assets',
+          expiration: {
+            maxEntries: 32,
+            maxAgeSeconds: 24 * 60 * 60 // 24 hours
+          }
+        }
+      },
+      {
+        urlPattern: /\/_next\/data\/.+\/.+\.json$/i,
+        handler: 'StaleWhileRevalidate',
+        options: {
+          cacheName: 'next-data',
+          expiration: {
+            maxEntries: 32,
+            maxAgeSeconds: 24 * 60 * 60 // 24 hours
+          }
+        }
+      },
+      {
+        urlPattern: /\.(?:json|xml|csv)$/i,
+        handler: 'NetworkFirst',
+        options: {
+          cacheName: 'static-data-assets',
+          expiration: {
+            maxEntries: 32,
+            maxAgeSeconds: 24 * 60 * 60 // 24 hours
+          }
+        }
+      },
+      {
+        urlPattern: ({ url }) => {
+          const isSameOrigin = self.origin === url.origin
+          if (!isSameOrigin) return false
+          const pathname = url.pathname
+          if (pathname.startsWith('/api/')) return false
+          return true
+        },
+        handler: 'NetworkFirst',
+        method: 'GET',
+        options: {
+          cacheName: 'others',
+          expiration: {
+            maxEntries: 32,
+            maxAgeSeconds: 24 * 60 * 60 // 24 hours
+          },
+          networkTimeoutSeconds: 10
+        }
+      }
+    ]
+  }
 });
 
+const nextConfig = {
+  // your other nextjs config goes here
+  output: 'export'
+};
 
-export default pwaConfig(nextConfig);
+export default withPWA(nextConfig);
