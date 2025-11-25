@@ -9,7 +9,7 @@
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "pwa-assets": "vite-pwa-assets-generator --preset minimal public/manifest.json",
-    "build": "next build",
+    "build": "npm run pwa-assets && next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
@@ -95,3 +95,4 @@
     "not dead"
   ]
 }
+
