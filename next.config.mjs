@@ -1,5 +1,7 @@
-/** @type {import('next').NextConfig} */
-const withPWA = require('@ducanh2912/next-pwa').default({
+
+import withPWAInit from '@ducanh2912/next-pwa';
+
+const withPWA = withPWAInit({
   dest: 'public',
   disable: process.env.NODE_ENV === 'development',
   register: true,
@@ -33,7 +35,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
         },
       },
       {
-        urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,
+        urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font\.css)$/i,
         handler: 'StaleWhileRevalidate',
         options: {
           cacheName: 'static-font-assets',
@@ -61,30 +63,6 @@ const withPWA = require('@ducanh2912/next-pwa').default({
           cacheName: 'next-image',
           expiration: {
             maxEntries: 64,
-            maxAgeSeconds: 24 * 60 * 60, // 24 hours
-          },
-        },
-      },
-      {
-        urlPattern: /\.(?:mp3|wav|ogg)$/i,
-        handler: 'CacheFirst',
-        options: {
-          rangeRequests: true,
-          cacheName: 'static-audio-assets',
-          expiration: {
-            maxEntries: 32,
-            maxAgeSeconds: 24 * 60 * 60, // 24 hours
-          },
-        },
-      },
-      {
-        urlPattern: /\.(?:mp4)$/i,
-        handler: 'CacheFirst',
-        options: {
-          rangeRequests: true,
-          cacheName: 'static-video-assets',
-          expiration: {
-            maxEntries: 32,
             maxAgeSeconds: 24 * 60 * 60, // 24 hours
           },
         },
@@ -156,8 +134,10 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   },
 });
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Your other Next.js config
+  // Your other Next.js config goes here
+  reactStrictMode: true,
 };
 
 export default withPWA(nextConfig);
