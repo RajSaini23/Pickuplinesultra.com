@@ -4,7 +4,6 @@ import { Urbanist, Noto_Sans_Devanagari } from 'next/font/google';
 import { ClientLayout } from './client-layout';
 import { cn } from '@/lib/utils';
 import './globals.css';
-import InstallPrompt from '@/components/InstallPrompt';
 
 const APP_NAME = "Pickup Lines Ultra";
 
@@ -173,7 +172,6 @@ export default function RootLayout({
           notoDevanagari.variable
         )}>
         <ClientLayout>{children}</ClientLayout>
-        <InstallPrompt />
       </body>
     </html>
   );
