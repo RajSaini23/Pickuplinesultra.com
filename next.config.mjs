@@ -1,22 +1,17 @@
 
 /** @type {import('next').NextConfig} */
-import withPWA from '@ducanh2912/next-pwa';
+import withPWAInit from '@ducanh2912/next-pwa';
 
-const nextConfig = {
-  reactStrictMode: true,
-  // any other next.js config you have
-};
-
-const pwaConfig = withPWA({
+const withPWA = withPWAInit({
   dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
   sw: 'sw.js',
   fallbacks: {
     document: '/_offline',
   },
-   workboxOptions: {
+  workboxOptions: {
     runtimeCaching: [
       {
         urlPattern: /^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,
@@ -41,7 +36,7 @@ const pwaConfig = withPWA({
         }
       },
       {
-        urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,
+        urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font\.css)$/i,
         handler: 'StaleWhileRevalidate',
         options: {
           cacheName: 'static-font-assets',
@@ -164,4 +159,9 @@ const pwaConfig = withPWA({
   }
 });
 
-export default pwaConfig(nextConfig);
+const nextConfig = {
+  reactStrictMode: true,
+  output: 'standalone', // Important for App Hosting
+};
+
+export default withPWA(nextConfig);
