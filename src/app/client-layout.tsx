@@ -18,6 +18,7 @@ import { messaging } from '@/lib/firebase';
 import { getToken } from 'firebase/messaging';
 import LegacyDeviceWarning from '@/components/ui/legacy-device-warning';
 import dynamic from 'next/dynamic';
+import { useToast } from '@/hooks/use-toast';
 
 const CapacitorSetup = dynamic(() => import('@/components/ui/capacitor-setup'), { ssr: false });
 
@@ -74,6 +75,7 @@ export function ClientLayout({
   children: React.ReactNode;
 }>) {
   const [isLegacyDevice, setIsLegacyDevice] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const isLegacy =
@@ -87,6 +89,40 @@ export function ClientLayout({
       setIsLegacyDevice(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (
+      typeof window !== 'undefined' &&
+      'serviceWorker' in navigator &&
+      window.workbox !== undefined
+    ) {
+      const wb = window.workbox;
+      
+      const promptForUpdate = () => {
+        toast({
+          title: 'Update Available!',
+          description: 'A new version of the app is available. Please relaunch to update.',
+          action: (
+             <button onClick={() => wb.messageSW({ type: 'SKIP_WAITING' })} className="text-white font-bold">
+               Relaunch
+             </button>
+          ),
+          duration: Infinity
+        });
+      };
+
+      wb.addEventListener('waiting', promptForUpdate);
+
+      // Once the new SW is controlling the page, reload
+      wb.addEventListener('controlling', () => {
+        window.location.reload();
+      });
+
+      // Register the service worker
+      wb.register();
+    }
+  }, [toast]);
+
 
   useEffect(() => {
     const requestPermission = async () => {

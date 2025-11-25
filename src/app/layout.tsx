@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   applicationName: APP_NAME,
   title: "90000+ Best Pickup Lines, Flirty Messages & Quotes | PickupLinesUltra 2025",
   description: APP_DESCRIPTION,
-  manifest: '/manifest.webmanifest',
+  manifest: '/manifest.json',
   keywords: "best pickup lines, pickup lines for girls, pickup lines for boys, smooth pickup lines, pickup lines with rizz, romantic quotes, motivational quotes, hindi pickup lines, flirty messages, love quotes, friendship quotes, inspirational quotes, daily quotes 2025",
   authors: [{ name: 'PickupLinesUltra Team', url: 'https://www.pickuplinesultra.com/about' }],
   

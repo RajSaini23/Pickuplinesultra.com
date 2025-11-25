@@ -1,35 +1,164 @@
-import type {NextConfig} from 'next';
-import withPWAInit from '@ducanh2912/next-pwa';
 
-const withPWA = withPWAInit({
-  dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
-  cacheOnFrontEndNav: true,
-  aggressiveFrontEndNavCaching: true,
-  cacheStartUrl: true,
-  dynamicOptions: {
-    // you can pass your dynamic options here
-  },
-});
-
-
-const nextConfig: NextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'placehold.co',
-        port: '',
-        pathname: '/**',
-      },
-    ],
-  },
-};
-
-export default withPWA(nextConfig);
+{
+  "name": "PickupLinesUltra - 90000+ Best Pickup Lines & Quotes",
+  "short_name": "PLUltra",
+  "description": "90000+ pickup lines, flirty messages, love quotes & motivation in 12 languages. Works offline. Perfect for dating apps, Tinder, Instagram.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "portrait-primary",
+  "background_color": "#2A2A3A",
+  "theme_color": "#2A2A3A",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["lifestyle", "social", "entertainment"],
+  "prefer_related_applications": false,
+  
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  
+  "screenshots": [
+    {
+      "src": "/screenshots/home-narrow.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Homepage with 90000+ pickup lines"
+    },
+    {
+      "src": "/screenshots/categories-narrow.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Browse by category and language"
+    },
+    {
+      "src": "/screenshots/favorites-narrow.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Save your favorite lines offline"
+    },
+    {
+      "src": "/screenshots/home-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop experience"
+    }
+  ],
+  
+  "shortcuts": [
+    {
+      "name": "Hindi Pickup Lines",
+      "short_name": "Hindi",
+      "description": "Browse Hindi pickup lines and shayari",
+      "url": "/pickup-lines/hindi?source=shortcut",
+      "icons": [
+        {
+          "src": "/icons/shortcut-hindi-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Daily Quotes",
+      "short_name": "Quotes",
+      "description": "Get your daily motivation",
+      "url": "/quotes/daily?source=shortcut",
+      "icons": [
+        {
+          "src": "/icons/shortcut-quotes-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Favorites",
+      "short_name": "Saved",
+      "description": "View saved pickup lines",
+      "url": "/favorites?source=shortcut",
+      "icons": [
+        {
+          "src": "/icons/shortcut-favorites-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}
