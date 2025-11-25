@@ -9,9 +9,6 @@ import { BookmarkProvider } from '@/context/bookmark-context';
 import { LanguageProvider, useLanguage } from '@/context/language-context';
 import { NetworkProvider, useNetwork } from '@/context/network-context';
 import { OfflinePage } from '@/components/ui/offline-page';
-import { StatusBar, Style } from '@capacitor/status-bar';
-import { SplashScreen } from '@capacitor/splash-screen';
-import { Capacitor } from '@capacitor/core';
 import { Wifi } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RatingDialogProvider } from '@/components/ui/rating-dialog';
@@ -20,6 +17,9 @@ import { InstallPromptProvider } from '@/context/install-prompt-context';
 import { messaging } from '@/lib/firebase';
 import { getToken } from 'firebase/messaging';
 import LegacyDeviceWarning from '@/components/ui/legacy-device-warning';
+import dynamic from 'next/dynamic';
+
+const CapacitorSetup = dynamic(() => import('@/components/ui/capacitor-setup'), { ssr: false });
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { isOnline, justReconnected } = useNetwork();
@@ -85,24 +85,6 @@ export function ClientLayout({
 
     if (isLegacy) {
       setIsLegacyDevice(true);
-    }
-
-    if (Capacitor.isNativePlatform()) {
-      SplashScreen.hide();
-      const setStatusBarStyle = async () => {
-        try {
-          const theme = document.body.classList.contains('dark') ? Style.Dark : Style.Light;
-          await StatusBar.setStyle({ style: theme });
-        } catch (e) {
-            console.error('Failed to set status bar style', e);
-        }
-      };
-      setStatusBarStyle();
-
-      const observer = new MutationObserver(setStatusBarStyle);
-      observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-
-      return () => observer.disconnect();
     }
   }, []);
 
@@ -185,6 +167,7 @@ export function ClientLayout({
                     </LanguageGate>
                     <Toaster />
                   </CustomSplashScreen>
+                  <CapacitorSetup />
                 </LanguageProvider>
              </InstallPromptProvider>
           </RatingDialogProvider>
