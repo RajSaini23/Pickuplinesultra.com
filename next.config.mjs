@@ -1,17 +1,17 @@
 
 /** @type {import('next').NextConfig} */
-import withPWAInit from '@ducanh2912/next-pwa';
 
-const withPWA = withPWAInit({
-  dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
+import withPWA from "@ducanh2912/next-pwa";
+
+const pwaConfig = withPWA({
+  dest: "public",
+  disable: process.env.NODE_ENV === "development",
   register: true,
   skipWaiting: true,
-  sw: 'sw.js',
   fallbacks: {
-    document: '/_offline',
+    document: "/_offline",
   },
-   workboxOptions: {
+  workboxOptions: {
     runtimeCaching: [
       {
         urlPattern: /^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,
@@ -160,8 +160,8 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig = {
-  // your other nextjs config goes here
-  output: 'export'
+  // Your other Next.js config goes here
+  reactStrictMode: true,
 };
 
-export default withPWA(nextConfig);
+export default pwaConfig(nextConfig);
