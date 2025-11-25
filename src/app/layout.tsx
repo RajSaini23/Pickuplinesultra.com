@@ -7,8 +7,6 @@ import './globals.css';
 import InstallPrompt from '@/components/InstallPrompt';
 
 const APP_NAME = "Pickup Lines Ultra";
-const APP_DESCRIPTION = "90,000+ Best Pickup Lines, Flirty Texts, Love & Motivational Quotes in Hindi, English, Korean & 12 languages. Find cute, funny, smooth, romantic pickup lines for girls, boys, crush & Tinder. Daily quotes, shayari, birthday wishes.";
-const APP_URL = "https://www.pickuplinesultra.com";
 
 const urbanist = Urbanist({
   subsets: ['latin'],
@@ -23,59 +21,84 @@ const notoDevanagari = Noto_Sans_Devanagari({
 });
 
 export const metadata: Metadata = {
+  title: "90000+ Best Pickup Lines & Quotes 2025 | PickupLinesUltra - Hindi, English, Korean",
+  description: "Discover 90000+ pickup lines, flirty texts, love & motivational quotes in 12+ languages (Hindi, English, Korean, French, Spanish, Tamil, Telugu, Gujarati). Find smooth, funny, romantic lines for girls, boys, crush & Tinder. Daily updated 2025.",
+  keywords: "best pick up lines, pickup lines for girls, pickup lines for boys, pickup lines for crush, pickup lines for flirting, smooth pick up lines, pick up lines with rizz, romantic quotes, motivational quotes, funny quotes, life quotes, friendship quotes, positive quotes, attitude quotes, love messages, flirty texts, inspirational quotes, daily quotes, cute quotes, vibe quotes, short quotes, deep quotes, 2025 quotes, hindi pickup lines, english pickup lines, korean pickup lines, french pickup lines, spanish quotes, telugu quotes, gujarati quotes, tamil quotes, punjabi quotes, marathi quotes, bengali quotes, russian quotes, japanese pickup lines",
+  authors: [{ name: "INDGROWSIVE Studio", url: "https://www.linkedin.com/in/indgrowsive-1b87262a0" }],
+  creator: "INDGROWSIVE Studio",
+  publisher: "PickupLinesUltra",
   applicationName: APP_NAME,
-  title: "90000+ Best Pickup Lines, Flirty Messages & Quotes | PickupLinesUltra 2025",
-  description: APP_DESCRIPTION,
   manifest: '/manifest.json',
-  keywords: "best pickup lines, pickup lines for girls, pickup lines for boys, smooth pickup lines, pickup lines with rizz, romantic quotes, motivational quotes, hindi pickup lines, flirty messages, love quotes, friendship quotes, inspirational quotes, daily quotes 2025",
-  authors: [{ name: 'PickupLinesUltra Team', url: 'https://www.pickuplinesultra.com/about' }],
-  
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "PickupLines",
-  },
-  
+
   openGraph: {
     type: "website",
-    siteName: APP_NAME,
-    title: '90000+ Best Pickup Lines & Quotes in 12 Languages',
-    description: 'Find the perfect pickup line or quote for any moment. Cute, funny, smooth lines for flirting. Daily motivation in Hindi, English, Korean & more.',
-    url: APP_URL,
+    locale: "en_US",
+    alternateLocale: ["hi_IN", "ko_KR", "fr_FR", "es_ES"],
+    url: "https://pickuplinesultra.com/",
+    siteName: "PickupLinesUltra",
+    title: "90000+ Best Pickup Lines & Quotes in 12+ Languages",
+    description: "Your ultimate source for pickup lines, flirty texts & quotes. Hindi, English, Korean & more. Perfect for crush, Tinder, dating.",
     images: [
       {
-        url: "/og-image-1200x630.jpg",
+        url: "https://pickuplinesultra.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "PickupLinesUltra - 90000+ quotes in 12 languages",
-      },
-    ],
-    locale: 'en_US',
-    alternateLocale: ['hi_IN', 'ko_KR'],
+        alt: "PickupLinesUltra - Best Pickup Lines & Quotes"
+      }
+    ]
   },
 
   twitter: {
     card: "summary_large_image",
-    title: '90000+ Best Pickup Lines & Quotes',
-    description: 'Smooth pickup lines, flirty texts, motivational quotes in 12 languages. Perfect for Tinder, Instagram, dating apps.',
-    images: ["/twitter-card-1200x600.jpg"],
-    creator: "@INDGROWSIVE",
+    title: "90000+ Best Pickup Lines & Quotes 2025",
+    description: "Smooth, funny, romantic pickup lines in 12+ languages. Perfect for flirting!",
+    images: ["https://pickuplinesultra.com/twitter-card.jpg"],
+    creator: "@PickupLinesUltra"
   },
-  
+
+  alternates: {
+    canonical: "https://pickuplinesultra.com/",
+    languages: {
+      "en": "https://pickuplinesultra.com/en",
+      "hi": "https://pickuplinesultra.com/hi",
+      "ko": "https://pickuplinesultra.com/ko",
+      "fr": "https://pickuplinesultra.com/fr",
+      "es": "https://pickuplinesultra.com/es"
+    }
+  },
+
+  verification: {
+    google: "your-google-verification-code",
+    yandex: "your-yandex-code",
+    other: {
+      pinterest: "your-pinterest-verification"
+    }
+  },
+
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-snippet': 160,
-      'max-image-preview': 'large',
-    },
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1
+    }
   },
 
-  alternates: {
-    canonical: APP_URL,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "PickupLines",
   },
+  
+  appLinks: {
+    web: {
+      url: "https://pickuplinesultra.com/",
+      should_fallback: true
+    }
+  }
 };
 
 export const viewport: Viewport = {
@@ -89,8 +112,8 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'INDGROWSIVE',
-  url: APP_URL,
-  logo: `${APP_URL}/icons/icon-512x512.png`,
+  url: 'https://pickuplinesultra.com',
+  logo: 'https://pickuplinesultra.com/icons/icon-512x512.png',
   contactPoint: {
     '@type': 'ContactPoint',
     email: 'indgrowsivestudio@gmail.com',
@@ -114,11 +137,11 @@ const softwareAppSchema = {
     price: '0',
     priceCurrency: 'INR',
   },
-  description: APP_DESCRIPTION,
+  description: "90000+ pickup lines, flirty texts, love quotes & motivation in 12+ languages.",
   author: {
     '@type': 'Person',
     name: 'INDGROWSIVE',
-    url: APP_URL
+    url: 'https://pickuplinesultra.com'
   }
 };
 
@@ -130,13 +153,11 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
        <head>
-        <meta name="language" content="en" />
-        <meta httpEquiv="content-language" content="en-US, hi-IN, ko-KR" />
-        <meta name="publisher" content="PickupLinesUltra.com" />
+        <meta name="language" content="Hinglish, English, Hindi, Korean, French, Spanish, Tamil, Telugu, Gujarati, Marathi, Bengali, Punjabi, German, Russian, Portuguese, Vietnamese" />
+        <meta httpEquiv="content-language" content="en-US, hi-IN, ko-KR, fr-FR, es-ES" />
         <meta name="copyright" content="© 2025 PickupLinesUltra" />
-        <link rel="publisher" href="https://www.pickuplinesultra.com/about" />
-        <meta name="mobile-web-app-capable" content="yes" />
-
+        <link rel="alternate" hreflang="x-default" href="https://pickuplinesultra.com/" />
+        
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
