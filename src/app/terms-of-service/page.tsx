@@ -5,38 +5,41 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default function TermsOfServicePage() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
     },
-  };
+  },
+};
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: 'spring',
-        stiffness: 100,
-      },
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
     },
-  };
+  },
+};
 
-  const Section = ({ title, children }: { title: string, children: React.ReactNode }) => (
+const Section = ({ title, children }: { title: string, children: React.ReactNode }) => (
     <motion.section variants={itemVariants} className="mb-8">
       <h2 className="text-2xl font-bold text-primary mb-3 pb-2 border-b-2 border-primary/20">{title}</h2>
-      <div className="space-y-4 text-foreground/80 leading-relaxed">
+      <div className="space-y-4 text-foreground/80 leading-relaxed text-base md:text-lg">
         {children}
       </div>
     </motion.section>
   );
+
+export default function TermsOfServicePage() {
+  const lastUpdated = "August 2, 2024";
 
   return (
     <div className="flex flex-col min-h-dvh bg-background">
@@ -63,63 +66,62 @@ export default function TermsOfServicePage() {
           animate="visible"
         >
           <motion.div variants={itemVariants} className="mb-8">
-            <p className="text-muted-foreground"><strong>Last Updated:</strong> {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            <p className="mt-4 text-lg">Please read these Terms of Service ("Terms", "Terms of Service") carefully before using the Pickup Lines Ultra mobile application (the "Service") operated by INDGROWSIVE ("us", "we", or "our"). Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users, and others who access or use the Service.</p>
+            <p className="text-muted-foreground"><strong>Last Updated:</strong> {lastUpdated}</p>
+            <p className="mt-4 text-lg">These are the rules. Read them. Using our app means you agree.</p>
           </motion.div>
 
-          <Section title="1. Acceptance of Terms">
-            <p>By accessing or using the Service, you agree to be bound by these Terms. If you disagree with any part of the terms, then you may not access the Service. This is a legally binding agreement between you and INDGROWSIVE.</p>
+          <Section title="1. Your Agreement">
+            <p>You use our app. You follow these rules. This is our agreement. If you don't agree, delete the app.</p>
           </Section>
 
-          <Section title="2. Description of Service">
-            <p>The Pickup Lines Ultra App provides users with a curated collection of Hinglish quotes across various categories. Features include viewing, liking, bookmarking (saving locally), copying, and sharing quotes, including generating an image of the quote card for social media.</p>
+          <Section title="2. The Service We Provide">
+            <p>Pickup Lines Ultra gives you quotes. You can read, save, and share them. The app is free. We show ads to pay our bills. That's it.</p>
           </Section>
           
-          <Section title="3. User Eligibility and Age Restriction">
-            <p>The Service is intended for users who are at least 18 years old. By using the App, you represent and warrant that you are 18 years of age or older. If you are under the age of 18, you are not permitted to use this App. We do not knowingly collect information from individuals under this age limit.</p>
+          <Section title="3. Who Can Use This">
+            <p>You must be 18 or older. No exceptions. We don't want data from kids. If you are under 18, you cannot use this app.</p>
           </Section>
           
-          <Section title="4. Intellectual Property Rights">
-            <p>All content provided on the Service, including but not limited to the text, graphics, logos, icons, images, quote compilations, and the software itself, is the property of INDGROWSIVE or its content suppliers and is protected by Indian and international copyright laws. The "Pickup Lines Ultra" name and logo are trademarks of INDGROWSIVE, and may not be used in connection with any product or service without our prior written consent.</p>
-            <p>You are granted a limited, non-exclusive, non-transferable, revocable license to access and use the App for your personal, non-commercial use only.</p>
+          <Section title="4. Who Owns What">
+            <p>We own the app. This includes the code, the design, the logo, and all the quotes we wrote. It's our property. Don't steal it.</p>
+            <p>You can use the app for yourself. You can share the quote cards we help you create. Do not sell our content or copy the app.</p>
           </Section>
 
-          <Section title="5. User Conduct and Responsibilities">
-            <p>You agree not to use the Service for any unlawful purpose or in any way that could damage, disable, overburden, or impair the Service. Prohibited activities include, but are not limited to:</p>
-            <ul className="list-disc pl-6 space-y-2 mt-2">
-              <li>Attempting to reverse engineer, decompile, or disassemble any part of the App's software.</li>
-              <li>Using any automated system, such as "bots" or "spiders," to access the Service in a manner that sends more request messages to our servers than a human can reasonably produce in the same period.</li>
-              <li>Using the sharing feature to create and distribute content that is defamatory, obscene, harassing, or otherwise illegal.</li>
-            </ul>
+          <Section title="5. Your Responsibilities">
+            <p>Use the app like a good person. Don't try to hack it. Don't try to break it. Don't use our content to bully, harass, or do anything illegal. Be smart.</p>
           </Section>
           
-           <Section title="6. Third-Party Services and Advertisements">
-            <p>The App may contain links to third-party websites or services, and may display advertisements that are not owned or controlled by INDGROWSIVE. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites or services. You further acknowledge and agree that INDGROWSIVE shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods, or services available on or through any such web sites or services.</p>
+           <Section title="6. Ads And Other Websites">
+            <p>We show ads. We may link to other sites. We don't control them. If you click them, you are on your own. We are not responsible for what happens there.</p>
           </Section>
 
-          <Section title="7. Disclaimer of Warranties">
-            <p>The Service is provided on an "AS IS" and "AS AVAILABLE" basis. Your use of the Service is at your sole risk. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement, or course of performance. INDGROWSIVE does not warrant that the app will function uninterrupted, secure, or available at any particular time or location.</p>
+          <Section title="7. We Offer No Warranties">
+            <p>The app is provided "AS IS". We don't promise it will always work. We don't promise it will be perfect. Things can break. You use it at your own risk.</p>
           </Section>
           
-          <Section title="8. Limitation of Liability">
-            <p>In no event shall INDGROWSIVE, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service; (iii) any content obtained from the Service; and (iv) unauthorized access, use, or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage.</p>
+          <Section title="8. Our Liability Is Limited">
+            <p>If something bad happens because you used our app, we are not responsible. We are not liable for any damages. This includes data loss, profit loss, or any other problem. Your use of this app is your choice.</p>
           </Section>
           
-          <Section title="9. Indemnification">
-             <p>You agree to defend, indemnify, and hold harmless INDGROWSIVE and its licensee and licensors, and their employees, contractors, agents, officers, and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees), resulting from or arising out of your use and access of the Service.</p>
+          <Section title="9. You Must Defend Us">
+             <p>If you break these rules and it causes a legal problem for us, you must pay for it. This includes our legal fees. Don't put us in that position.</p>
           </Section>
 
-          <Section title="10. Governing Law and Jurisdiction">
-            <p>These Terms shall be governed and construed in accordance with the laws of India, without regard to its conflict of law provisions. Any dispute arising out of or in connection with these Terms, including any question regarding its existence, validity, or termination, shall be subject to the exclusive jurisdiction of the courts of India.</p>
+          <Section title="10. Laws and Disputes">
+            <p>Any disagreement will be handled by the laws of India. All legal disputes will happen in Indian courts.</p>
           </Section>
           
-          <Section title="11. Termination">
-             <p>We may terminate or suspend your access to our Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms. Upon termination, your right to use the Service will immediately cease.</p>
+          <Section title="11. We Can Terminate Your Use">
+             <p>We can stop you from using our app. We don't need to give notice. If you break the rules, we will block you. Your right to use the app will end immediately.</p>
           </Section>
 
-          <Section title="12. Changes to These Terms">
-            <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. We will provide notice of any changes by posting the new Terms of Service on this page and updating the "Last Updated" date. By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms.</p>
+          <Section title="12. We Can Change These Terms">
+            <p>We can change these rules anytime. We will post the new rules here. If you keep using the app after we change the rules, it means you agree to the new ones.</p>
           </Section>
+
+          <motion.div variants={itemVariants} className="mt-12 pt-6 border-t border-border/20 text-center">
+            <p className="text-muted-foreground">Using Pickup Lines Ultra means you accept these terms. Simple.</p>
+          </motion.div>
           
         </motion.div>
       </main>
