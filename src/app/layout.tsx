@@ -154,7 +154,7 @@ export default function RootLayout({
         <meta name="language" content="Hinglish, English, Hindi, Korean, French, Spanish, Tamil, Telugu, Gujarati, Marathi, Bengali, Punjabi, German, Russian, Portuguese, Vietnamese" />
         <meta httpEquiv="content-language" content="en-US, hi-IN, ko-KR, fr-FR, es-ES" />
         <meta name="copyright" content="© 2025 PickupLinesUltra" />
-        <link rel="alternate" hreflang="x-default" href="https://pickuplinesultra.com/" />
+        <link rel="alternate" hrefLang="x-default" href="https://pickuplinesultra.com/" />
         
         <script
           type="application/ld+json"
