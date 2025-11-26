@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from 'next/link';
@@ -13,7 +12,7 @@ import dynamic from 'next/dynamic';
 const AppInstallDialog = dynamic(() => import('@/components/ui/app-install-dialog'), { ssr: false });
 
 const navItems = [
-  { href: '/', label: 'Home', icon: Home },
+  { href: '/app', label: 'Home', icon: Home },
   { href: '/bookmarks', label: 'Saved', icon: Bookmark },
   { href: '/settings', label: 'Settings', icon: Settings },
   { href: '/more-apps', label: 'Apps', icon: AppWindow },
@@ -31,6 +30,11 @@ export const BottomNav = () => {
       setInstallDialogOpen(true);
     }
   };
+
+  // Do not render bottom nav on the landing page
+  if (pathname === '/') {
+    return null;
+  }
 
   return (
     <>

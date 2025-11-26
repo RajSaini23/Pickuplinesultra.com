@@ -1,4 +1,3 @@
-
 import type { Category, Quote } from './types';
 import { data as romanticData } from './categories/romantic';
 import { data as cuteData } from './categories/cute';
@@ -98,7 +97,7 @@ import { data as engineersDayData } from './categories/engineers-day';
 import { data as armedForcesDayData } from './categories/armed-forces-day';
 
 
-const allData = [
+const allCategoryData = [
   // Existing Categories
   romanticData,
   cuteData,
@@ -184,26 +183,22 @@ const allData = [
   armedForcesDayData,
 ].filter(d => d.quotes.length > 0);
 
-export const categories: Category[] = allData.map(d => d.category);
 
-export const quotes: (Quote & { category: string })[] = allData.flatMap(d => 
-  d.quotes.map((q, index) => ({ 
+export const categories: Category[] = allCategoryData.map(d => d.category);
+
+let globalQuoteId = 1;
+export const quotes: Quote[] = allCategoryData.flatMap(d => 
+  d.quotes.map(q => ({ 
     ...q,
-    // This creates a globally unique ID based on category and index
-    id: `${d.category.slug}-${index}`,
+    id: globalQuoteId++,
     category: d.category.slug 
   }))
-).map((q, globalIndex) => ({...q, id: globalIndex + 1}));
-
+);
 
 export const getCategory = (slug: string): Category | undefined => {
     return categories.find(c => c.slug === slug);
 }
 
 export const getQuotesForCategory = (slug: string): Quote[] => {
-    const data = allData.find(d => d.category.slug === slug);
-    return data ? data.quotes.map((q, index) => ({ 
-      ...q,
-      id: quotes.find(quote => quote.hinglish === q.hinglish && quote.category === slug)?.id || 0
-    })) : [];
+    return quotes.filter(q => q.category === slug);
 }
