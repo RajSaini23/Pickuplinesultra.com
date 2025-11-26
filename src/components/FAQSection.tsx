@@ -26,18 +26,18 @@ import {
   
   export function FAQSection() {
     return (
-      <section className="py-20 bg-[#1a1a2e]">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4 max-w-4xl">
-           <h2 className="text-4xl font-bold text-center mb-12 text-white">
+           <h2 className="text-4xl font-bold text-center mb-12 text-foreground">
             Frequently Asked Questions
           </h2>
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-b-white/10">
-                <AccordionTrigger className="text-left text-lg font-semibold text-white hover:no-underline">
+              <AccordionItem key={index} value={`item-${index}`} className="border-border/10">
+                <AccordionTrigger className="text-left text-lg font-semibold text-foreground hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-300 text-base pt-2">
+                <AccordionContent className="text-muted-foreground text-base pt-2">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
