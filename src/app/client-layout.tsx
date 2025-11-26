@@ -58,6 +58,7 @@ function LanguageGate({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
+    if (pathname === '/') return; // Skip language gate for landing page
     if (!isLanguageLoading) {
       if (!language && pathname !== '/select-language') {
         router.replace('/select-language');
@@ -65,7 +66,7 @@ function LanguageGate({ children }: { children: React.ReactNode }) {
     }
   }, [language, isLanguageLoading, router, pathname]);
 
-  if (isLanguageLoading || (!language && pathname !== '/select-language')) {
+  if (isLanguageLoading || (!language && pathname !== '/select-language' && pathname !== '/')) {
     // You can show a global loader here if you want
     return null;
   }
@@ -81,6 +82,9 @@ export function ClientLayout({
 }>) {
   const [isLegacyDevice, setIsLegacyDevice] = useState(false);
   const { toast } = useToast();
+  const pathname = usePathname();
+
+  const showSplash = pathname !== '/';
 
   useEffect(() => {
     const isLegacy =
@@ -183,6 +187,17 @@ export function ClientLayout({
     registerPeriodicSync();
   }, []);
 
+  const content = (
+    <LanguageGate>
+        <AppContent>
+            <div className="relative flex flex-col min-h-dvh">
+            <main className={pathname.startsWith('/app') ? "flex-1 pb-24" : "flex-1"}>{children}</main>
+            <BottomNav />
+            </div>
+        </AppContent>
+    </LanguageGate>
+  )
+
   return (
     <ThemeProvider>
       <NetworkProvider>
@@ -193,17 +208,14 @@ export function ClientLayout({
                   <AnimatePresence>
                     {isLegacyDevice && <LegacyDeviceWarning />}
                   </AnimatePresence>
-                  <CustomSplashScreen>
-                    <LanguageGate>
-                      <AppContent>
-                        <div className="relative flex flex-col min-h-dvh">
-                          <main className="flex-1 pb-24">{children}</main>
-                          <BottomNav />
-                        </div>
-                      </AppContent>
-                    </LanguageGate>
-                    <Toaster />
-                  </CustomSplashScreen>
+                    {showSplash ? (
+                         <CustomSplashScreen>
+                            {content}
+                        </CustomSplashScreen>
+                    ) : (
+                        content
+                    )}
+                  <Toaster />
                   <CapacitorSetup />
                 </LanguageProvider>
              </InstallPromptProvider>

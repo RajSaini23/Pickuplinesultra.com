@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from 'next';
 import { Urbanist, Noto_Sans_Devanagari } from 'next/font/google';
 import { ClientLayout } from './client-layout';

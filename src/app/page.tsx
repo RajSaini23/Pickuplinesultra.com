@@ -287,30 +287,27 @@ export default function HomePage() {
               <h4 className="text-white font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li><Link href="/app" className="hover:text-pink-400 transition-colors">Web App</Link></li>
-                <li><Link href="/categories" className="hover:text-pink-400 transition-colors">Categories</Link></li>
-                <li><Link href="/download" className="hover:text-pink-400 transition-colors">Android App</Link></li>
+                <li><Link href="#categories" className="hover:text-pink-400 transition-colors">Categories</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="text-white font-semibold mb-4">Resources</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li><Link href="/blog" className="hover:text-pink-400 transition-colors">Blog</Link></li>
-                <li><Link href="/guides" className="hover:text-pink-400 transition-colors">Guides</Link></li>
                 <li><Link href="/about" className="hover:text-pink-400 transition-colors">About</Link></li>
+                <li><Link href="/privacy-policy" className="hover:text-pink-400 transition-colors">Privacy Policy</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="text-white font-semibold mb-4">Legal</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li><Link href="/privacy" className="hover:text-pink-400 transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/terms" className="hover:text-pink-400 transition-colors">Terms of Service</Link></li>
-                <li><Link href="/contact" className="hover:text-pink-400 transition-colors">Contact</Link></li>
+                <li><Link href="/terms-of-service" className="hover:text-pink-400 transition-colors">Terms of Service</Link></li>
+                 <li><Link href="/contact" className="hover:text-pink-400 transition-colors">Contact</Link></li>
               </ul>
             </div>
           </div>
           <div className="border-t border-white/10 pt-8 text-center">
             <p className="text-gray-400 text-sm">
-              © 2025 Pickup Lines Ultra. Developed by <span className="text-pink-400 font-semibold">INDGROWSIVE</span>
+              © 2025 Pickup Lines Ultra. Developed by <Link href="https://indgrowsive.com" className="text-pink-400 font-semibold hover:underline">INDGROWSIVE</Link>
             </p>
           </div>
         </div>

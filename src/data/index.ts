@@ -188,17 +188,26 @@ export const categories: Category[] = allCategoryData.map(d => d.category);
 
 let globalQuoteId = 1;
 export const quotes: Quote[] = allCategoryData.flatMap(d => 
-  d.quotes.map(q => ({ 
-    ...q,
-    id: globalQuoteId++,
-    category: d.category.slug 
-  }))
+  d.quotes.map(q => {
+    // The original quote objects from category files don't have a unique ID.
+    // We're adding a globally unique ID here during the flattening process.
+    // This is crucial for React keys and consistent rendering.
+    const quoteWithId = { 
+      ...q,
+      id: globalQuoteId++,
+      category: d.category.slug 
+    };
+    return quoteWithId as Quote;
+  })
 );
+
 
 export const getCategory = (slug: string): Category | undefined => {
     return categories.find(c => c.slug === slug);
 }
 
 export const getQuotesForCategory = (slug: string): Quote[] => {
+    // This function now filters the pre-generated, globally-unique-ID quotes.
+    // This ensures data consistency and prevents re-generating IDs on the fly.
     return quotes.filter(q => q.category === slug);
 }
