@@ -4,7 +4,7 @@
 # The command to build your app
 build:
   # The command to run to build your app
-  run: npm run cap:sync
+  run: npm run build
   # Specifies where to fetch the source code from
   source: /
 
