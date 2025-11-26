@@ -8,10 +8,13 @@
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "pwa-assets": "vite-pwa-assets-generator --preset minimal public/manifest.json",
-    "build": "npm run pwa-assets && next build",
-    "start": "node server.js",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": "20"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.7",
