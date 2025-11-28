@@ -4,6 +4,7 @@ import { Urbanist, Noto_Sans_Devanagari } from 'next/font/google';
 import { ClientLayout } from './client-layout';
 import { cn } from '@/lib/utils';
 import './globals.css';
+import { OrganizationSchema } from '@/components/ui/structured-data';
 
 const APP_NAME = "Pickup Lines Ultra";
 
@@ -79,43 +80,6 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'INDGROWSIVE',
-  url: 'https://pickuplinesultra.com',
-  logo: 'https://pickuplinesultra.com/icons/icon-512x512.png',
-  contactPoint: {
-    '@type': 'ContactPoint',
-    email: 'indgrowsivestudio@gmail.com',
-    contactType: 'Customer Support',
-  },
-};
-
-const softwareAppSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: APP_NAME,
-  operatingSystem: 'WEB, Android, iOS',
-  applicationCategory: 'LifestyleApplication',
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.8',
-    ratingCount: '7800',
-  },
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-  },
-  description: "1000+ pickup lines in Hinglish, Hindi, English & Mandarin.",
-  author: {
-    '@type': 'Person',
-    name: 'INDGROWSIVE',
-    url: 'https://pickuplinesultra.com'
-  }
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -124,14 +88,7 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
        <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
-         <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
-        />
+        <OrganizationSchema />
       </head>
       <body className={cn(
           "font-body antialiased",

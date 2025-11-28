@@ -7,6 +7,7 @@ import { CategoryGrid } from '@/components/CategoryGrid';
 import { FAQSection } from '@/components/FAQSection';
 import { TrustStrip } from '@/components/TrustStrip';
 import { HowItWorks } from '@/components/HowItWorks';
+import { AppSchema } from '@/components/ui/structured-data';
 
 // SEO Metadata - CRITICAL for ranking
 export const metadata: Metadata = {
@@ -52,32 +53,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Structured Data for SEO/AEO/GEO
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Pickup Lines Ultra",
-  "url": "https://pickuplinesultra.com",
-  "description": "Express emotions with romantic, funny & flirty pickup lines in Hinglish, Hindi, English & Mandarin",
-  "applicationCategory": "LifestyleApplication",
-  "operatingSystem": "Web, Android, iOS",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "INDGROWSIVE"
-  },
-  "inLanguage": ["en", "hi", "zh"],
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://pickuplinesultra.com/search?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-};
-
 // Trending lines for SEO content
 const trendingLines = [
   { text: "Tumhare saath har pal khaas lagta hai.", lang: "Hinglish", category: "Romantic" },
@@ -97,11 +72,7 @@ const trendingLines = [
 export default function HomePage() {
   return (
     <>
-      {/* Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      <AppSchema />
 
       {/* HERO SECTION */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-background">

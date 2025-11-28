@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useRouter } from 'next/navigation';
+import { FAQSchema } from '@/components/ui/structured-data';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -22,62 +23,36 @@ const itemVariants = {
   visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100 } },
 };
 
-const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [
-        {
-            '@type': 'Question',
-            name: 'How many quotes are in Pickup Lines Ultra?',
-            acceptedAnswer: {
-                '@type': 'Answer',
-                text: "Pickup Lines Ultra has over 7,800+ hand-curated original lines across 78+ categories, and we're constantly adding more."
-            }
-        },
-        {
-            '@type': 'Question',
-            name: 'Which languages are supported?',
-            acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Currently, the app supports Hinglish, Hindi, English, and Mandarin Chinese, complete with culturally adapted animations and high-quality typography.'
-            }
-        },
-        {
-            '@type': 'Question',
-            name: 'Does the app work offline?',
-            acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Yes, the app offers partial offline support. Your saved quotes and bookmarked favorites work perfectly offline. However, downloading new content and categories requires an internet connection.'
-            }
-        },
-        {
-            '@type': 'Question',
-            name: 'Is it completely free to use?',
-            acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Absolutely. The app is 100% free to use. We are supported by non-intrusive advertisements to cover development and server costs.'
-            }
-        },
-        {
-            '@type': 'Question',
-            name: 'Do I need to create an account to use the app?',
-            acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'No. Pickup Lines Ultra has a strict no-account, no-login policy. We do not collect any personal data, ensuring your privacy is always protected.'
-            }
-        }
-    ]
-};
+const faqs = [
+    {
+        q: 'How many quotes are in Pickup Lines Ultra?',
+        a: "Pickup Lines Ultra has over 7,800+ hand-curated original lines across 78+ categories, and we're constantly adding more."
+    },
+    {
+        q: 'Which languages are supported?',
+        a: 'Currently, the app supports Hinglish, Hindi, English, and Mandarin Chinese, complete with culturally adapted animations and high-quality typography.'
+    },
+    {
+        q: 'Does the app work offline?',
+        a: 'Yes, the app offers partial offline support. Your saved quotes and bookmarked favorites work perfectly offline. However, downloading new content and categories requires an internet connection.'
+    },
+    {
+        q: 'Is it completely free to use?',
+        a: 'Absolutely. The app is 100% free to use. We are supported by non-intrusive advertisements to cover development and server costs.'
+    },
+    {
+        q: 'Do I need to create an account to use the app?',
+        a: 'No. Pickup Lines Ultra has a strict no-account, no-login policy. We do not collect any personal data, ensuring your privacy is always protected.'
+    }
+];
+
 
 export default function AboutPage() {
   const router = useRouter();
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
-       <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+       <FAQSchema faqs={faqs} />
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -151,26 +126,13 @@ export default function AboutPage() {
           <motion.section variants={itemVariants} className="mb-12">
             <h3 className="text-3xl font-bold text-center mb-6">Frequently Asked Questions (FAQ)</h3>
              <Accordion type="single" collapsible className="w-full">
-                <FAQItem 
-                    question="How many quotes are in Pickup Lines Ultra?" 
-                    answer="Over 7,800+ hand-curated original lines across 78+ categories, and we're constantly adding more."
-                />
-                <FAQItem 
-                    question="Which languages are supported?" 
-                    answer="Currently, we support Hinglish, Hindi, English, and Mandarin Chinese, complete with culturally adapted animations."
-                />
-                <FAQItem 
-                    question="Does the app work offline?" 
-                    answer="Yes, but with a small note. Your saved quotes and bookmarked favorites work perfectly offline. However, downloading new content and categories requires an internet connection."
-                />
-                <FAQItem 
-                    question="Is it completely free to use?" 
-                    answer="Absolutely. The app is 100% free. We use non-intrusive advertisements to support development and server costs."
-                />
-                 <FAQItem 
-                    question="Do I need to create an account to use the app?" 
-                    answer="No. We have a strict no-account, no-login policy. We do not collect any personal data, ensuring your privacy is always protected."
-                />
+                {faqs.map((faq, i) => (
+                    <FAQItem 
+                        key={i}
+                        question={faq.q} 
+                        answer={faq.a}
+                    />
+                ))}
             </Accordion>
           </motion.section>
 
