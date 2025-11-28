@@ -308,6 +308,8 @@ export default function SettingsPage() {
 
           <Section title="Check for Updates" icon={AppWindow} onClick={handleCheckForUpdate} description={`Current version: ${currentAppVersion}`} isLink />
           
+          <Section title="Install App" icon={Download} href="/install" description="Get the best experience on your device" isLink />
+
           <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
                 <Link href="/privacy-policy" onClick={(e) => handleLinkClick('/privacy-policy', e)} className="w-full flex items-center justify-between p-5 text-left group">
                     <div className="flex items-center gap-4">
