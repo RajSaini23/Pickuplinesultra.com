@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { useRouter } from 'next/navigation';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -69,6 +70,8 @@ const faqJsonLd = {
 };
 
 export default function AboutPage() {
+  const router = useRouter();
+
   return (
     <div className="min-h-dvh bg-background text-foreground">
        <script
@@ -81,12 +84,10 @@ export default function AboutPage() {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm"
       >
-        <Link href="/settings" passHref>
-          <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
-            <ArrowLeft className="h-5 w-5" />
-            <span>Settings</span>
-          </Button>
-        </Link>
+        <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.back()}>
+          <ArrowLeft className="h-5 w-5" />
+          <span>Back</span>
+        </Button>
         <h1 className="text-2xl font-bold font-headline ml-4">About App</h1>
       </motion.header>
 
@@ -223,3 +224,5 @@ const FAQItem = ({ question, answer }: { question: string, answer: string }) => 
         </AccordionContent>
     </AccordionItem>
 );
+
+    

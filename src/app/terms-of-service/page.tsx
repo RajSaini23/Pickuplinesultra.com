@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -38,6 +39,7 @@ const Section = ({ title, children }: { title: string, children: React.ReactNode
   );
 
 export default function TermsOfServicePage() {
+  const router = useRouter();
   const lastUpdated = "August 2, 2024";
 
   return (
@@ -48,12 +50,10 @@ export default function TermsOfServicePage() {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm"
       >
-        <Link href="/settings" passHref>
-           <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
-            <ArrowLeft className="h-5 w-5" />
-            <span>Back to Settings</span>
-          </Button>
-        </Link>
+        <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.back()}>
+          <ArrowLeft className="h-5 w-5" />
+          <span>Back</span>
+        </Button>
         <h1 className="text-2xl font-bold font-headline ml-4">Terms of Service</h1>
       </motion.header>
 
@@ -127,3 +127,5 @@ export default function TermsOfServicePage() {
     </div>
   );
 }
+
+    

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Check, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useRouter } from 'next/navigation';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -46,7 +47,7 @@ const CheckListItem = ({ children }: { children: React.ReactNode }) => (
 );
 
 export default function PrivacyPolicyPage() {
-  
+  const router = useRouter();
   const policyStartDate = "August 1, 2024";
 
   return (
@@ -57,12 +58,10 @@ export default function PrivacyPolicyPage() {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm"
       >
-        <Link href="/settings" passHref>
-          <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
-            <ArrowLeft className="h-5 w-5" />
-            <span>Back to Settings</span>
-          </Button>
-        </Link>
+        <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.back()}>
+          <ArrowLeft className="h-5 w-5" />
+          <span>Back</span>
+        </Button>
         <h1 className="text-2xl font-bold font-headline ml-4">Privacy Policy</h1>
       </motion.header>
 
@@ -137,3 +136,5 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
+
+    
