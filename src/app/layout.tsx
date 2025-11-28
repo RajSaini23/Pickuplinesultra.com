@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from 'next';
 import { Urbanist, Noto_Sans_Devanagari } from 'next/font/google';
 import { ClientLayout } from './client-layout';
@@ -19,84 +20,56 @@ const notoDevanagari = Noto_Sans_Devanagari({
 });
 
 export const metadata: Metadata = {
-  title: "90000+ Best Pickup Lines & Quotes 2025 | PickupLinesUltra - Hindi, English, Korean",
-  description: "Discover 90000+ pickup lines, flirty texts, love & motivational quotes in 12+ languages (Hindi, English, Korean, French, Spanish, Tamil, Telugu, Gujarati). Find smooth, funny, romantic lines for girls, boys, crush & Tinder. Daily updated 2025.",
-  keywords: "best pick up lines, pickup lines for girls, pickup lines for boys, pickup lines for crush, pickup lines for flirting, smooth pick up lines, pick up lines with rizz, romantic quotes, motivational quotes, funny quotes, life quotes, friendship quotes, positive quotes, attitude quotes, love messages, flirty texts, inspirational quotes, daily quotes, cute quotes, vibe quotes, short quotes, deep quotes, 2025 quotes, hindi pickup lines, english pickup lines, korean pickup lines, french pickup lines, spanish quotes, telugu quotes, gujarati quotes, tamil quotes, punjabi quotes, marathi quotes, bengali quotes, russian quotes, japanese pickup lines",
-  authors: [{ name: "INDGROWSIVE Studio", url: "https://www.linkedin.com/in/indgrowsive-1b87262a0" }],
-  creator: "INDGROWSIVE Studio",
-  publisher: "PickupLinesUltra",
+  title: "Pickup Lines Ultra - 1000+ Romantic, Cute & Flirty Lines in Hinglish, Hindi, English",
+  description: "1000+ best pickup lines in Hinglish, Hindi, English & Mandarin. Romantic, cute, crush, proposal, festival lines for WhatsApp, Instagram, Tinder. Free forever with daily updates.",
+  keywords: "pickup lines, hinglish pickup lines, romantic lines, cute lines, flirty messages, crush lines, proposal quotes, festival greetings, hindi pickup lines, english pickup lines, whatsapp lines, tinder pickup lines, dating app lines",
+  authors: [{ name: "INDGROWSIVE", url: "https://linkedin.com/in/indgrowsive-1b87262a0" }],
+  creator: "INDGROWSIVE",
+  publisher: "Pickup Lines Ultra",
   applicationName: APP_NAME,
   manifest: '/manifest.json',
 
   openGraph: {
     type: "website",
     locale: "en_US",
-    alternateLocale: ["hi_IN", "ko_KR", "fr_FR", "es_ES"],
-    url: "https://pickuplinesultra.com/",
-    siteName: "PickupLinesUltra",
-    title: "90000+ Best Pickup Lines & Quotes in 12+ Languages",
-    description: "Your ultimate source for pickup lines, flirty texts & quotes. Hindi, English, Korean & more. Perfect for crush, Tinder, dating.",
+    url: "https://pickuplinesultra.com",
+    siteName: "Pickup Lines Ultra",
+    title: "Pickup Lines Ultra - Your Hinglish Pickup Line Library",
+    description: "1000+ romantic, cute & flirty pickup lines in 4 languages",
     images: [
       {
-        url: "https://pickuplinesultra.com/og-image.jpg",
+        url: "https://pickuplinesultra.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "PickupLinesUltra - Best Pickup Lines & Quotes"
+        alt: "Pickup Lines Ultra - Your Ultimate Collection"
       }
     ]
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "90000+ Best Pickup Lines & Quotes 2025",
-    description: "Smooth, funny, romantic pickup lines in 12+ languages. Perfect for flirting!",
-    images: ["https://pickuplinesultra.com/twitter-card.jpg"],
-    creator: "@PickupLinesUltra"
+    title: "Pickup Lines Ultra",
+    description: "1000+ pickup lines in Hinglish & 3 more languages",
+    images: ["https://pickuplinesultra.com/twitter-card.png"],
   },
 
   alternates: {
-    canonical: "https://pickuplinesultra.com/",
+    canonical: "https://pickuplinesultra.com",
     languages: {
-      "en": "https://pickuplinesultra.com/en",
+      "en": "https://pickuplinesultra.com",
       "hi": "https://pickuplinesultra.com/hi",
-      "ko": "https://pickuplinesultra.com/ko",
-      "fr": "https://pickuplinesultra.com/fr",
-      "es": "https://pickuplinesultra.com/es"
     }
   },
 
   verification: {
     google: "your-google-verification-code",
-    yandex: "your-yandex-code",
-    other: {
-      pinterest: "your-pinterest-verification"
-    }
   },
-
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1
-    }
-  },
-
+  
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "PickupLines",
+    title: APP_NAME,
   },
-  
-  appLinks: {
-    web: {
-      url: "https://pickuplinesultra.com/",
-      should_fallback: true
-    }
-  }
 };
 
 export const viewport: Viewport = {
@@ -133,9 +106,9 @@ const softwareAppSchema = {
   offers: {
     '@type': 'Offer',
     price: '0',
-    priceCurrency: 'INR',
+    priceCurrency: 'USD',
   },
-  description: "90000+ pickup lines, flirty texts, love quotes & motivation in 12+ languages.",
+  description: "1000+ pickup lines in Hinglish, Hindi, English & Mandarin.",
   author: {
     '@type': 'Person',
     name: 'INDGROWSIVE',
@@ -151,11 +124,6 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
        <head>
-        <meta name="language" content="Hinglish, English, Hindi, Korean, French, Spanish, Tamil, Telugu, Gujarati, Marathi, Bengali, Punjabi, German, Russian, Portuguese, Vietnamese" />
-        <meta httpEquiv="content-language" content="en-US, hi-IN, ko-KR, fr-FR, es-ES" />
-        <meta name="copyright" content="© 2025 PickupLinesUltra" />
-        <link rel="alternate" hrefLang="x-default" href="https://pickuplinesultra.com/" />
-        
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
