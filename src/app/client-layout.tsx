@@ -8,10 +8,6 @@ import { SplashScreen as CustomSplashScreen } from '@/components/splash-screen';
 import { BookmarkProvider } from '@/context/bookmark-context';
 import { LanguageProvider, useLanguage } from '@/context/language-context';
 import { NetworkProvider, useNetwork } from '@/context/network-context';
-import { OfflinePage } from '@/components/ui/offline-page';
-import { StatusBar, Style } from '@capacitor/status-bar';
-import { SplashScreen } from '@capacitor/splash-screen';
-import { Capacitor } from '@capacitor/core';
 import { Wifi } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RatingDialogProvider } from '@/components/ui/rating-dialog';
@@ -20,6 +16,13 @@ import { InstallPromptProvider } from '@/context/install-prompt-context';
 import { messaging } from '@/lib/firebase';
 import { getToken } from 'firebase/messaging';
 import LegacyDeviceWarning from '@/components/ui/legacy-device-warning';
+import dynamic from 'next/dynamic';
+import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
+
+const CapacitorSetup = dynamic(() => import('@/components/ui/capacitor-setup'), { ssr: false });
+const OfflinePage = dynamic(() => import('@/app/_offline/page').then(mod => mod.default), { ssr: false });
+
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const { isOnline, justReconnected } = useNetwork();
@@ -41,7 +44,10 @@ function AppContent({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
       
-      {!isOnline ? <OfflinePage /> : <>{children}</>}
+      {!isOnline && <OfflinePage />}
+      <div style={{ display: isOnline ? 'block' : 'none' }}>
+        {children}
+      </div>
     </div>
   );
 }
@@ -52,6 +58,7 @@ function LanguageGate({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
+    if (pathname === '/') return; // Skip language gate for landing page
     if (!isLanguageLoading) {
       if (!language && pathname !== '/select-language') {
         router.replace('/select-language');
@@ -59,7 +66,7 @@ function LanguageGate({ children }: { children: React.ReactNode }) {
     }
   }, [language, isLanguageLoading, router, pathname]);
 
-  if (isLanguageLoading || (!language && pathname !== '/select-language')) {
+  if (isLanguageLoading || (!language && pathname !== '/select-language' && pathname !== '/')) {
     // You can show a global loader here if you want
     return null;
   }
@@ -74,6 +81,10 @@ export function ClientLayout({
   children: React.ReactNode;
 }>) {
   const [isLegacyDevice, setIsLegacyDevice] = useState(false);
+  const { toast } = useToast();
+  const pathname = usePathname();
+
+  const showSplash = pathname !== '/';
 
   useEffect(() => {
     const isLegacy =
@@ -86,25 +97,37 @@ export function ClientLayout({
     if (isLegacy) {
       setIsLegacyDevice(true);
     }
-
-    if (Capacitor.isNativePlatform()) {
-      SplashScreen.hide();
-      const setStatusBarStyle = async () => {
-        try {
-          const theme = document.body.classList.contains('dark') ? Style.Dark : Style.Light;
-          await StatusBar.setStyle({ style: theme });
-        } catch (e) {
-            console.error('Failed to set status bar style', e);
-        }
-      };
-      setStatusBarStyle();
-
-      const observer = new MutationObserver(setStatusBarStyle);
-      observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-
-      return () => observer.disconnect();
-    }
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      const wb = (window as any).workbox;
+      if (wb) {
+        const promptForUpdate = () => {
+          toast({
+            title: 'Update Available!',
+            description: 'A new version is available. Click to reload and update.',
+            action: (
+              <Button onClick={() => wb.messageSW({ type: 'SKIP_WAITING' })} className="text-white font-bold">
+                Reload
+              </Button>
+            ),
+            duration: Infinity,
+          });
+        };
+
+        wb.addEventListener('waiting', promptForUpdate);
+        wb.addEventListener('controlling', () => {
+          window.location.reload();
+        });
+
+        // A fallback registration that works for next-pwa.
+        // It's safe to call this even if the service worker is already registered.
+        wb.register();
+      }
+    }
+  }, [toast]);
+
 
   useEffect(() => {
     const requestPermission = async () => {
@@ -164,6 +187,17 @@ export function ClientLayout({
     registerPeriodicSync();
   }, []);
 
+  const content = (
+    <LanguageGate>
+        <AppContent>
+            <div className="relative flex flex-col min-h-dvh">
+            <main className={pathname.startsWith('/app') ? "flex-1 pb-24" : "flex-1"}>{children}</main>
+            <BottomNav />
+            </div>
+        </AppContent>
+    </LanguageGate>
+  )
+
   return (
     <ThemeProvider>
       <NetworkProvider>
@@ -174,17 +208,15 @@ export function ClientLayout({
                   <AnimatePresence>
                     {isLegacyDevice && <LegacyDeviceWarning />}
                   </AnimatePresence>
-                  <CustomSplashScreen>
-                    <LanguageGate>
-                      <AppContent>
-                        <div className="relative flex flex-col min-h-dvh">
-                          <main className="flex-1 pb-24">{children}</main>
-                          <BottomNav />
-                        </div>
-                      </AppContent>
-                    </LanguageGate>
-                    <Toaster />
-                  </CustomSplashScreen>
+                    {showSplash ? (
+                         <CustomSplashScreen>
+                            {content}
+                        </CustomSplashScreen>
+                    ) : (
+                        content
+                    )}
+                  <Toaster />
+                  <CapacitorSetup />
                 </LanguageProvider>
              </InstallPromptProvider>
           </RatingDialogProvider>

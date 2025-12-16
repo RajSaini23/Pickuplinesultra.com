@@ -8,8 +8,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import type { Quote } from '@/data/types';
-import * as htmlToImage from 'html-to-image';
-import { toBlob } from 'html-to-image';
 import { Card, CardContent } from '@/components/ui/card';
 import { useLanguage } from '@/context/language-context';
 
@@ -65,6 +63,7 @@ export function DownloadClientPage({ quote }: { quote: Quote }) {
     }
     
     try {
+      const { toBlob } = await import('html-to-image');
       const blob = await toBlob(node, {
         quality: 1,
         pixelRatio: 2,

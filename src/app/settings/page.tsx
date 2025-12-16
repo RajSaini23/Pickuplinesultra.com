@@ -2,11 +2,10 @@
 "use client";
 
 import * as React from 'react';
-import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Palette, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Star, AppWindow, Bell, Shield, Download, Languages
+  ArrowLeft, Palette, FileText, LifeBuoy, Share2, Sun, Moon, Laptop, ChevronRight, Star, AppWindow, Bell, Shield, Languages, Info
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -30,7 +29,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.07,
     },
   },
 };
@@ -117,7 +116,7 @@ export default function SettingsPage() {
     setIsLoading(true);
     const shareData = {
       title: 'Pickup Lines Ultra',
-      text: 'Check out Pickup Lines Ultra - Your Emotion. Our Expression.',
+      text: 'Pickup Lines Ultra - Your Emotion. Our Expression. Hinglish quotes for every mood.',
       url: window.location.origin,
     };
     try {
@@ -146,27 +145,28 @@ export default function SettingsPage() {
         router.push(href);
     }, 300);
   };
+  
+  const SectionLink = ({ title, icon, href, description }: { title: string, icon: React.ElementType, href: string, description?: string }) => {
+    return (
+        <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
+            <a href={href} onClick={(e) => handleLinkClick(href, e)} className="w-full flex items-center justify-between p-5 text-left group">
+                <div className="flex items-center gap-4">
+                    <GlowIcon icon={icon} />
+                    <div className="flex flex-col">
+                        <span className="text-lg font-semibold group-hover:text-primary transition-colors">{title}</span>
+                         {description && <span className="text-sm text-muted-foreground">{description}</span>}
+                    </div>
+                </div>
+                <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+            </a>
+      </MotionCard>
+    );
+  };
 
-  const Section = ({ title, icon, children, isLink, href, onClick }: { title: string, icon: React.ElementType, children?: React.ReactNode, isLink?: boolean, href?: string, onClick?: () => void }) => {
+
+  const Section = ({ title, icon, children, onClick, description }: { title: string, icon: React.ElementType, children?: React.ReactNode, onClick?: () => void, description?: string }) => {
     const isOpen = openSection === title;
     
-    const content = (
-      <>
-        <div className="flex items-center gap-4">
-          <GlowIcon icon={icon} />
-          <span className="text-lg font-semibold">{title}</span>
-        </div>
-        {children && (
-            <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
-             <ChevronRight className="h-6 w-6 text-muted-foreground" />
-            </motion.div>
-        )}
-         {!children && isLink && (
-            <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-        )}
-      </>
-    );
-
     const handleSectionClick = () => {
         if (onClick) {
             onClick();
@@ -175,23 +175,23 @@ export default function SettingsPage() {
         }
     };
 
-    const buttonOrLink = isLink && href ? (
-       <Link href={href} onClick={(e) => handleLinkClick(href, e)} className="w-full flex items-center justify-between p-5 text-left group">
-        {content}
-      </Link>
-    ) : (
-      <button
-        className="w-full flex items-center justify-between p-5 text-left"
-        onClick={handleSectionClick}
-      >
-       {content}
-      </button>
-    );
-
-
     return (
       <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-        {buttonOrLink}
+        <button
+          className="w-full flex items-center justify-between p-5 text-left"
+          onClick={handleSectionClick}
+        >
+          <div className="flex items-center gap-4">
+            <GlowIcon icon={icon} />
+             <div className="flex flex-col">
+              <span className="text-lg font-semibold">{title}</span>
+               {description && <span className="text-sm text-muted-foreground">{description}</span>}
+            </div>
+          </div>
+            <motion.div animate={{ rotate: children && isOpen ? 90 : 0 }}>
+               <ChevronRight className="h-6 w-6 text-muted-foreground" />
+            </motion.div>
+        </button>
         {children && (
           <AnimatePresence>
             {isOpen && (
@@ -231,23 +231,21 @@ export default function SettingsPage() {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm"
       >
-        <Link href="/" passHref>
-           <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
-              <ArrowLeft className="h-5 w-5" />
-              <span>Back</span>
-            </Button>
-        </Link>
+        <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.back()}>
+            <ArrowLeft className="h-5 w-5" />
+            <span>Back</span>
+        </Button>
         <h1 className="text-2xl font-bold font-headline ml-4">Settings</h1>
       </motion.header>
 
       <main className="flex-grow p-4 md:p-6">
         <motion.div
-          className="max-w-2xl mx-auto space-y-6"
+          className="max-w-2xl mx-auto space-y-4"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <Section title="Theme" icon={Palette}>
+          <Section title="Appearance" icon={Palette} description="Customize themes and colors">
             <div className="flex justify-center items-center gap-2 pb-4">
               {(['light', 'dark', 'auto'] as const).map((theme) => {
                 const Icon = theme === 'light' ? Sun : theme === 'dark' ? Moon : Laptop;
@@ -268,21 +266,10 @@ export default function SettingsPage() {
               })}
             </div>
           </Section>
-
-          <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-              <Link href="/settings/personalization" onClick={(e) => handleLinkClick('/settings/personalization', e)} className="w-full flex items-center justify-between p-5 text-left group">
-                  <div className="flex items-center gap-4">
-                      <GlowIcon icon={Languages} />
-                      <div className="flex flex-col">
-                        <span className="text-lg font-semibold group-hover:text-primary transition-colors">Language</span>
-                        <span className="text-sm text-muted-foreground">Change the app's display language.</span>
-                      </div>
-                  </div>
-                  <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-              </Link>
-          </MotionCard>
           
-          <Section title="Notification Center" icon={Bell}>
+          <SectionLink title="Language" icon={Languages} href="/settings/personalization" description="Change the app's display language" />
+
+          <Section title="Notification Center" icon={Bell} description="Manage how you get notified">
              <div className="flex flex-col gap-2 -mt-2 pb-4">
                 <div onClick={() => handleToggle(setNewQuotes)} className="flex items-center justify-between py-3.5 group cursor-pointer w-full">
                   <div className="flex flex-col gap-1">
@@ -312,44 +299,21 @@ export default function SettingsPage() {
             </div>
           </Section>
 
-          <Section title="Check for Updates" icon={AppWindow} onClick={handleCheckForUpdate} isLink />
+          <SectionLink title="About App" icon={Info} href="/about" description="Learn more about our mission" />
+
+          <Section title="Check for Updates" icon={AppWindow} onClick={handleCheckForUpdate} description={`Current version: ${currentAppVersion}`} />
           
-           <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-                <Link href="/privacy-policy" onClick={(e) => handleLinkClick('/privacy-policy', e)} className="w-full flex items-center justify-between p-5 text-left group">
-                    <div className="flex items-center gap-4">
-                        <GlowIcon icon={Shield} />
-                        <span className="text-lg font-semibold group-hover:text-primary transition-colors">Privacy Policy</span>
-                    </div>
-                    <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                </Link>
-            </MotionCard>
+          <SectionLink title="Privacy Policy" icon={Shield} href="/privacy-policy" />
             
-            <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-                <Link href="/terms-of-service" onClick={(e) => handleLinkClick('/terms-of-service', e)} className="w-full flex items-center justify-between p-5 text-left group">
-                    <div className="flex items-center gap-4">
-                        <GlowIcon icon={FileText} />
-                        <span className="text-lg font-semibold group-hover:text-primary transition-colors">Terms of Service</span>
-                    </div>
-                    <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                </Link>
-            </MotionCard>
+          <SectionLink title="Terms of Service" icon={FileText} href="/terms-of-service" />
 
-          <Section title="Rate Us" icon={Star} onClick={() => openRatingDialog(true)} isLink/>
+          <Section title="Rate Us" icon={Star} onClick={() => openRatingDialog(true)} description="Enjoying the app? Let us know!" />
           
-           <MotionCard variants={itemVariants} className="overflow-hidden rounded-2xl shadow-lg border-border/20">
-                <Link href="/settings/help" onClick={(e) => handleLinkClick('/settings/help', e)} className="w-full flex items-center justify-between p-5 text-left group">
-                    <div className="flex items-center gap-4">
-                        <GlowIcon icon={LifeBuoy} />
-                        <span className="text-lg font-semibold group-hover:text-primary transition-colors">Help & Support</span>
-                    </div>
-                    <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                </Link>
-            </MotionCard>
+          <SectionLink title="Help & Support" icon={LifeBuoy} href="/settings/help" description="Contact us for assistance" />
 
-
-          <Section title="Share the App" icon={Share2}>
+          <Section title="Share with Friends" icon={Share2} description="Help us grow by sharing the app">
             <div className="flex flex-col items-center text-center py-4">
-                <p className="text-muted-foreground mb-4 mt-2 px-4">Enjoying Pickup Lines Ultra? Share the love with your friends!</p>
+                <p className="text-muted-foreground mb-4 mt-2 px-4">Enjoying the app? Share the love with your friends!</p>
                 <MotionButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleShare}>
                     <Share2 className="mr-2 h-4 w-4" /> Share Now
                 </MotionButton>
@@ -364,5 +328,3 @@ export default function SettingsPage() {
     </div>
   );
 }
-
-    

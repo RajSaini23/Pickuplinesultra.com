@@ -12,7 +12,6 @@ import type { Category, Quote } from '@/data/types';
 import { CategoryIcon } from '@/lib/categories';
 import { useBookmarks } from '@/context/bookmark-context';
 import { useToast } from '@/hooks/use-toast';
-import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
 import { useLanguage } from '@/context/language-context';
 
@@ -169,6 +168,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     }
     
     setSharingQuoteId(quote.id);
+    const htmlToImage = (await import('html-to-image')).default;
 
     try {
         const blob = await htmlToImage.toBlob(cardRef.current, {
@@ -235,7 +235,7 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     <div className="flex flex-col h-dvh bg-background text-foreground">
       <header className="sticky top-0 z-50 flex items-center justify-between p-4 h-20 border-b bg-card/80 backdrop-blur-sm">
         <div className="flex-1 flex justify-start">
-            <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.push('/')}>
+            <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.back()}>
               <ArrowLeft className="h-5 w-5" />
               <span>Back</span>
             </Button>
@@ -288,3 +288,5 @@ export function CategoryClientPage({ category, quotes }: { category: Omit<Catego
     </div>
   );
 }
+
+    

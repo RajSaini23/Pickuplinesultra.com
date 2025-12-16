@@ -2,7 +2,6 @@
 "use client";
 
 import * as React from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,9 +9,14 @@ import { Card } from '@/components/ui/card';
 import { languages, Language } from '@/lib/languages';
 import { useLanguage } from '@/context/language-context';
 import { cn } from '@/lib/utils';
-import { LanguageConfirmationDialog } from '@/components/ui/language-confirmation-dialog';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { Separator } from '@/components/ui/separator';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+
+const LanguageConfirmationDialog = dynamic(() =>
+  import('@/components/ui/language-confirmation-dialog').then((mod) => mod.LanguageConfirmationDialog)
+, { ssr: false });
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -41,6 +45,7 @@ export default function PersonalizationPage() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [isLangConfirmOpen, setLangConfirmOpen] = React.useState(false);
     const [selectedLang, setSelectedLang] = React.useState<Language | null>(null);
+    const router = useRouter();
 
     const handleLanguageSelect = (lang: Language) => {
         if (lang.code !== currentLanguageCode) {
@@ -83,12 +88,10 @@ export default function PersonalizationPage() {
                 transition={{ duration: 0.5, ease: 'easeOut' }}
                 className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm"
             >
-                <Link href="/settings" passHref>
-                    <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
-                        <ArrowLeft className="h-5 w-5" />
-                        <span>Back to Settings</span>
-                    </Button>
-                </Link>
+                <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.back()}>
+                    <ArrowLeft className="h-5 w-5" />
+                    <span>Back</span>
+                </Button>
                 <h1 className="text-2xl font-bold font-headline ml-4">Language</h1>
             </motion.header>
 
@@ -147,5 +150,3 @@ export default function PersonalizationPage() {
         </div>
     )
 }
-
-    

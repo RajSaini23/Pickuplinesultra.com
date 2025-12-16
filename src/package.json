@@ -1,32 +1,21 @@
 {
   "name": "pickup-lines-ultra",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
+  "homepage": "https://pickuplinesultra.com",
   "scripts": {
-    "dev": "next dev --turbopack -p 9002",
+    "dev": "next dev",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
-    "pwa-assets": "node scripts/generate-pwa-assets.mjs",
-    "build": "npm run pwa-assets && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "build:mobile": "npm run build && next build",
-    "cap:sync": "npm run build:mobile && npx cap sync",
-    "cap:open:android": "npx cap open android",
-    "cap:open:ios": "npx cap open ios",
-    "cap:res": "npx @capacitor/assets generate --icon-only --splash-only",
-    "android:signingreport": "cd android && ./gradlew signingReport"
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": "20"
   },
   "dependencies": {
-    "@capacitor-community/sqlite": "^6.0.0-1",
-    "@capacitor/android": "^6.1.0",
-    "@capacitor/core": "^6.1.0",
-    "@capacitor/ios": "^6.1.0",
-    "@capacitor/push-notifications": "^6.0.1",
-    "@capacitor/splash-screen": "^6.0.1",
-    "@capacitor/status-bar": "^6.0.1",
-    "@ducanh2912/next-pwa": "^10.2.7",
     "@genkit-ai/googleai": "^1.14.1",
     "@genkit-ai/next": "^1.14.1",
     "@hookform/resolvers": "^4.1.3",
@@ -65,9 +54,7 @@
     "lucide-react": "^0.475.0",
     "next": "15.3.3",
     "next-themes": "^0.3.0",
-    "patch-package": "^8.0.0",
     "react": "^18.3.1",
-    "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
     "recharts": "^2.15.1",
@@ -76,15 +63,16 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@capacitor/assets": "^3.0.5",
-    "@capacitor/cli": "^6.1.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "genkit-cli": "^1.14.1",
     "postcss": "^8",
-    "sharp": "^0.33.4",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  }
+  },
+  "browserslist": [
+    "> 0.5%",
+    "not dead"
+  ]
 }

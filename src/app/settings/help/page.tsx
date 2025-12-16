@@ -1,14 +1,16 @@
+
 "use client";
 
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Mail, Copy, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 export default function HelpPage() {
   const { toast } = useToast();
+  const router = useRouter();
   const supportEmail = "indgrowsivestudio@gmail.com";
   const emailSubject = "Help & Support: Pickup Lines Ultra";
 
@@ -32,12 +34,10 @@ export default function HelpPage() {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm"
       >
-        <Link href="/settings">
-           <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted">
-              <ArrowLeft className="h-5 w-5" />
-              <span>Back to Settings</span>
-            </Button>
-        </Link>
+        <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.back()}>
+          <ArrowLeft className="h-5 w-5" />
+          <span>Back</span>
+        </Button>
         <h1 className="text-2xl font-bold font-headline ml-4">Help & Support</h1>
       </motion.header>
 

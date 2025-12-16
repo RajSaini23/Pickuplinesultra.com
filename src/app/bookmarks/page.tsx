@@ -1,3 +1,4 @@
+
 // src/app/bookmarks/page.tsx
 "use client";
 
@@ -11,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
-import * as htmlToImage from 'html-to-image';
 import { Loader } from '@/components/ui/loader';
 import { useLanguage } from '@/context/language-context';
 
@@ -52,6 +52,7 @@ export default function BookmarksPage() {
         return;
     }
 
+    const htmlToImage = (await import('html-to-image')).default;
     setSharingQuoteId(quote.id);
     const textToShare = getTranslation(quote);
 
@@ -143,7 +144,7 @@ export default function BookmarksPage() {
   return (
     <div className="flex flex-col min-h-dvh bg-background text-foreground">
       <header className="sticky top-0 z-50 flex items-center p-4 border-b bg-card/80 backdrop-blur-sm">
-        <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.push('/')}>
+        <Button variant="outline" className="gap-2 rounded-full pl-2 pr-4 active:scale-95 transition-transform bg-muted/50 hover:bg-muted" onClick={() => router.back()}>
             <ArrowLeft className="h-5 w-5" />
             <span>Back</span>
         </Button>
@@ -239,3 +240,5 @@ export default function BookmarksPage() {
     </div>
   );
 }
+
+    

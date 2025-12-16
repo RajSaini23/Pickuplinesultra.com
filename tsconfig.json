@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    <<<<<<< HEAD
+    // aapka local code
+    =======
+    /* GitHub ka code */
+    >>>>>>> origin/main
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
